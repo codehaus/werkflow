@@ -789,7 +789,7 @@ public class WorkflowEngine
     void notifyTransitionTerminated(String processId,
                                     String caseId,
                                     String transitionId,
-                                    Exception error)
+                                    Throwable error)
     {
         TransitionTerminatedEvent event = new TransitionTerminatedEvent( this,
                                                                          processId,
@@ -873,10 +873,10 @@ public class WorkflowEngine
      *  @param transitionId The transition identifier.
      *  @param placeIds The identifiers of the places with affect tokens.
      */
-    public void notifyTokensRolledBackd(String processId,
-                                        String caseId,
-                                        String transitionId,
-                                        String[] placeIds)
+    public void notifyTokensRolledBack(String processId,
+                                       String caseId,
+                                       String transitionId,
+                                       String[] placeIds)
     {
         TokensRolledBackEvent event = new TokensRolledBackEvent( this,
                                                                  processId,

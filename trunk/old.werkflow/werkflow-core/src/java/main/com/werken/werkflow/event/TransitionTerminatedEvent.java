@@ -67,7 +67,7 @@ public class TransitionTerminatedEvent
     // ----------------------------------------------------------------------
 
     /** Error, if erroneous termination. */
-    private Exception error;
+    private Throwable error;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -104,7 +104,7 @@ public class TransitionTerminatedEvent
                                      String processId,
                                      String caseId,
                                      String transitionId,
-                                     Exception error)
+                                     Throwable error)
     {
         super( wfms,
                processId,
@@ -118,11 +118,11 @@ public class TransitionTerminatedEvent
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the error <code>Exception</code> if any.
+    /** Retrieve the error <code>Throwable</code> if any.
      *
      *  @return The exception if erroneously terminated.
      */
-    public Exception getError()
+    public Throwable getError()
     {
         return this.error;
     }

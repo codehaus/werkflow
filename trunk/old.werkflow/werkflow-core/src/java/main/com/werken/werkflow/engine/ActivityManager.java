@@ -360,6 +360,7 @@ public class ActivityManager
     {
         Task task = transition.getTask();
 
+        // Map caseAttrs = new HashMap( processCase.getCaseAttributes() );
         Map caseAttrs = processCase.getCaseAttributes();
 
         WorkflowActivity activity = newActivity( processCase.getProcessInfo().getId(),
@@ -425,7 +426,7 @@ public class ActivityManager
 
             synchronized ( processCase )
             {
-                processCase.setCaseAttributes( activity.getCaseAttributes() );
+                processCase.mergeCaseAttributes( activity.getCaseAttributes() );
 
                 ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
                 
@@ -476,9 +477,9 @@ public class ActivityManager
                                                         activity.getTransitionId() );
 
                 processCase.getState().store();
-
-                getEngine().evaluateCase( processCase );
             }
+
+            getEngine().evaluateCase( processCase );
         }
         catch (NoSuchTransitionException e)
         {
@@ -508,15 +509,33 @@ public class ActivityManager
         try
         {
             WorkflowProcessCase processCase = getEngine().getProcessCase( activity.getCaseId() );
-            
-            this.activities.remove( activity );
-            
-            String[] placeIds = activity.getPlaceIds();
-            
-            
-            for ( int i = 0 ; i < placeIds.length ; ++i )
+
+            synchronized( processCase )
             {
-                processCase.addMark( placeIds[i] );
+                
+                String[] placeIds = activity.getPlaceIds();
+                
+                for ( int i = 0 ; i < placeIds.length ; ++i )
+                {
+                    processCase.addMark( placeIds[i] );
+                }
+                
+                getEngine().evaluateCase( processCase );
+
+                getEngine().notifyTokensRolledBack( activity.getProcessId(),
+                                                    activity.getCaseId(),
+                                                    activity.getTransitionId(),
+                                                    activity.getPlaceIds() );
+                
+
+                this.activities.remove( activity );
+
+                getEngine().notifyTransitionTerminated( activity.getProcessId(),
+                                                        activity.getCaseId(),
+                                                        activity.getTransitionId(),
+                                                        error );
+
+                processCase.getState().store();
             }
 
             getEngine().evaluateCase( processCase );
