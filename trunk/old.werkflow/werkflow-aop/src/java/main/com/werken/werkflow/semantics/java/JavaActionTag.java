@@ -28,14 +28,24 @@ public class JavaActionTag
     public void doTag(XMLOutput output)
         throws Exception
     {
-        // FIXME classloader blues
+        ClassLoader cl = getContext().getClassLoader();
+
+        if ( cl == null )
+        {
+            cl = Thread.currentThread().getContextClassLoader();
+        }
+
+        if ( cl == null )
+        {
+            cl = getClass().getClassLoader();
+        }
 
         if ( this.className == null )
         {
             throw new MissingAttributeException( "class" );
         }
 
-        Class beanClass = Class.forName( getClassName() );
+        Class beanClass = cl.loadClass( getClassName() );
 
         Object bean = beanClass.newInstance();
 
