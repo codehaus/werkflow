@@ -28,9 +28,6 @@ public class FundamentalTagLibrary
         registerTag( "task",
                      TaskTag.class );
 
-        registerTag( "action",
-                     ActionTag.class );
-
         registerTag( "message-types",
                      MessageTypesTag.class );
 
