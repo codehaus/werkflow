@@ -130,4 +130,9 @@ public class SimpleAttributes
     {
         return this.attrs.containsKey( name );
     }
+
+    public String toString()
+    {
+        return "[SimpleAttributes: " + this.attrs + "]";
+    }
 }

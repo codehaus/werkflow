@@ -530,6 +530,7 @@ class ActivityManager
             try
             {
                 Attributes attrs = action.getAttributes( processCase );
+
                 try
                 {
                     getEngine().callChildProcess( activity,
