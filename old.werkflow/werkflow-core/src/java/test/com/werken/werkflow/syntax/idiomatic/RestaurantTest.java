@@ -50,6 +50,9 @@ public class RestaurantTest
         messagingManager.acceptMessage( new SimpleMessage( "reservation",
                                                            "strachan" ) );
 
+        messagingManager.acceptMessage( new SimpleMessage( "reservation",
+                                                           "mcstrachan" ) );
+
         Thread.sleep( 1000 );
 
         messagingManager.acceptMessage( new SimpleMessage( "table.available",
