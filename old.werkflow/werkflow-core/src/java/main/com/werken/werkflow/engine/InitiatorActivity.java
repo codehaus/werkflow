@@ -52,15 +52,43 @@ import com.werken.werkflow.activity.Activity;
 
 import java.util.Map;
 
+/** <code>Activity</code> for process-initiating actions.
+ *
+ *  @see Initiator
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *
+ *  @version $Id$
+ */
 public class InitiatorActivity
     implements Activity
 {
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** Error, possibly null. */
     private Throwable error;
 
+    /** Workflow engine. */
     private WorkflowEngine engine;
+
+    /** Process identifier of process to initiate. */
     private String processId;
+
+    /** Initial attributes backing storage. */
     private Map initialAttrs;
 
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
+     *
+     *  @param engine The workflow engine.
+     *  @param processId The identifier of the process to initiate.
+     *  @param initialAttrs The map backing the initial attributes.
+     */
     public InitiatorActivity(WorkflowEngine engine,
                              String processId,
                              Map initialAttrs)
@@ -70,31 +98,51 @@ public class InitiatorActivity
         this.initialAttrs = initialAttrs;
     }
 
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** Retrieve the <code>WorkflowEngine</code>.
+     *
+     *  @return The engine.
+     */
     private WorkflowEngine getEngine()
     {
         return this.engine;
     }
 
+    /** @see Activity
+     */
     public String getCaseId()
     {
         return null;
     }
 
+    /** @see Activity
+     */
     public String getTransitionId()
     {
         return null;
     }
 
+    /** @see Activity
+     */
     public String getProcessId()
     {
         return this.processId;
     }
 
+    /** Retrieve the initial attributes backing map.
+     *
+     *  @return The initial attributes backing map.
+     */
     private Map getInitialAttributes()
     {
         return this.initialAttrs;
     }
 
+    /** @see Activity
+     */
     public void complete()
     {
         SimpleAttributes initialAttrs = new SimpleAttributes( getInitialAttributes() );
@@ -110,11 +158,15 @@ public class InitiatorActivity
         }
     }
 
+    /** @see Activity
+     */
     public void completeWithError(Throwable error)
     {
         this.error = error;
     }
 
+    /** @see Activity
+     */
     public Throwable getError()
     {
         return this.error;

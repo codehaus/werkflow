@@ -68,6 +68,9 @@ public class WorkflowActivity
     /** Activity-manager. */
     private ActivityManager activityManager;
 
+    /** Process identifier. */
+    private String processId;
+
     /** Case identifier. */
     private String caseId;
 
@@ -87,18 +90,21 @@ public class WorkflowActivity
     /** Construct.
      *
      *  @param activityManager The activity manager.
+     *  @param processId The process identifier.
      *  @param caseId The case identifier.
      *  @param transitionId The transition identifier.
      *  @param placeIds The identifiers of places of consumed marks.
      *  @param caseAttrs Case attributes.
      */
     public WorkflowActivity(ActivityManager activityManager,
+                            String processId,
                             String caseId,
                             String transitionId,
                             String[] placeIds,
                             Map caseAttrs)
     {
         this.activityManager = activityManager;
+        this.processId       = processId;
         this.caseId          = caseId;
         this.transitionId    = transitionId;
         this.placeIds        = placeIds;
@@ -116,6 +122,12 @@ public class WorkflowActivity
     private ActivityManager getActivityManager()
     {
         return this.activityManager;
+    }
+    /** @see Activity
+     */
+    public String getProcessId()
+    {
+        return this.processId;
     }
 
     /** @see Activity
