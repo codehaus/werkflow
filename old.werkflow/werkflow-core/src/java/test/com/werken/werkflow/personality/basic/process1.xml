@@ -1,12 +1,15 @@
 
 <process id="my.proc1"
          initiation="call"
-         xmlns="werkflow:basic">
+         xmlns="werkflow:basic"
+         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
     <parallel>
-        <if condition="foo">
-            <empty/>
+        <jelly:log message="I like cheese"/>
+        <if condition="true">
+            <jelly:log message="I am full of foo"/>
         </if>
+        <jelly:log message="I like cheese, also"/>
         <empty/>
     </parallel>
 

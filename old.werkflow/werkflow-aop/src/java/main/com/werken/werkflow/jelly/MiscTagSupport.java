@@ -53,6 +53,7 @@ import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 
 import java.util.Collection;
+import java.util.Stack;
 
 /** Generally useful Jelly base <code>Tag</code>.
  *
@@ -65,6 +66,7 @@ public abstract class MiscTagSupport
 {
 
     public static final String COLLECTOR_SUFFIX = ".collector";
+    public static final String STACK_SUFFIX = ".stack";
 
     // ----------------------------------------------------------------------
     //     Instance methods
@@ -177,5 +179,76 @@ public abstract class MiscTagSupport
     {
         context.setVariable( getCollectorName( objClass ),
                              collector );
+    }
+
+    public void pushObject(Class objClass,
+                           Object obj)
+    {
+        pushObject( objClass,
+                    obj,
+                    getContext() );
+    }
+
+    public void popObject(Class objClass)
+        throws JellyTagException
+    {
+        popObject( objClass,
+                   getContext() );
+    }
+
+    public Object peekObject(Class objClass)
+        throws JellyTagException
+    {
+        return peekObject( objClass,
+                           getContext() );
+    }
+
+    public static void pushObject(Class objClass,
+                                  Object obj,
+                                  JellyContext context)
+    {
+        Stack stack = (Stack) context.getVariable( objClass.getName() + STACK_SUFFIX );
+        
+        if ( stack == null )
+        {
+            stack = new Stack();
+            
+            context.setVariable( objClass.getName() + STACK_SUFFIX,
+                                 stack );
+        }
+        
+        stack.push( obj );
+    }
+
+    public static void popObject(Class objClass,
+                                 JellyContext context)
+        throws JellyTagException
+    {
+        Stack stack = (Stack) context.getVariable( objClass.getName() + STACK_SUFFIX );
+
+        if ( stack == null
+             ||
+             stack.isEmpty() )
+        {
+            throw new JellyTagException( "empty stack: " + objClass.getName() );
+        }
+
+        stack.pop();
+    }
+
+    public static Object peekObject(Class objClass,
+                                    JellyContext context)
+        throws JellyTagException
+    {
+        Stack stack = (Stack) context.getVariable( objClass.getName() + STACK_SUFFIX );
+
+        if ( stack == null
+             ||
+             stack.isEmpty() )
+        {
+            throw new JellyTagException( "empty stack: " + objClass.getName() );
+        }
+
+        return stack.peek();
     }
 }

@@ -14,12 +14,10 @@
     </syntax:tag>
 
     <syntax:tag name="empty">
-        ##### EMPTY
         <core:empty/>
     </syntax:tag>
 
     <syntax:tag name="if">
-        ##### IF
         <core:if condition="${condition}">
             <syntax:invokeBody/>
         </core:if>

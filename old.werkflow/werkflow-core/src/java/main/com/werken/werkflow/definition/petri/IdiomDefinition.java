@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
 
 import java.util.Map;
@@ -22,8 +23,36 @@ public class IdiomDefinition
     public static final String PARAMETER_PREFIX = "parameter:";
     public static final String STASHED_PREFIX = "stashed:";
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    public static final IdiomDefinition ACTION = new IdiomDefinition( "werkflow.action" );
 
+    static
+    {
+        try
+        {
+            ACTION.addParameter( new IdiomParameter( "action",
+                                                     "action",
+                                                     true ) );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit( 1 );
+        }
+
+        ACTION.addTransition( new TransitionDefinition( "action",
+                                                        "action",
+                                                        PARAMETER_PREFIX + "action" ) );
+
+        ACTION.addArc( ArcDefinition.newArcFromPlaceToTransition( "in",
+                                                                  "action",
+                                                                  null ) );
+
+        ACTION.addArc( ArcDefinition.newArcFromTransitionToPlace( "action",
+                                                                  "out",
+                                                                  null ) );
+    }
+
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
     private String id;
     private Map parameters;
@@ -152,7 +181,6 @@ public class IdiomDefinition
     protected void buildStatic(Idiom idiom)
         throws IdiomException
     {
-        System.err.println( "BUILD_STATIC: " + idiom.getId() );
         idiom.addPlace( IN_PLACE,
                         "in" );
 
@@ -188,7 +216,9 @@ public class IdiomDefinition
             {
                 idiom.addTransition( qualifyId( transitionDefs[i].getId(),
                                                 idiom ),
-                                     transitionDefs[i].getDocumentation() );
+                                     transitionDefs[i].getDocumentation(),
+                                     getAction( idiom,
+                                                transitionDefs[i].getAction() ) );
             }
         }
 
@@ -253,7 +283,9 @@ public class IdiomDefinition
                                       component );
 
                 idiom.addTransition( id,
-                                     transitionDefs[i].getDocumentation() );
+                                     transitionDefs[i].getDocumentation(),
+                                     getAction( idiom,
+                                                transitionDefs[i].getAction() ));
             }
         }
 
@@ -383,7 +415,6 @@ public class IdiomDefinition
         
         if ( exprStr.startsWith( PARAMETER_PREFIX ) )
         {
-            System.err.println( "[[[[[" + idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) ) + "]]]]]" );
             return (Expression) idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) );
         }
 
@@ -395,6 +426,25 @@ public class IdiomDefinition
         if ( exprStr.equals( "FALSE" ) )
         {
             return Expression.FALSE;
+        }
+
+        return null;
+    }
+
+    protected Action getAction(Idiom idiom,
+                               String actionStr)
+        throws NoSuchParameterException
+    {
+        if ( actionStr == null
+             ||
+             actionStr.equals( "" ) )
+        {
+            return null;
+        }
+
+        if ( actionStr.startsWith( PARAMETER_PREFIX ) )
+        {
+            return (Action) idiom.getParameter( actionStr.substring( PARAMETER_PREFIX.length() ) );
         }
 
         return null;

@@ -232,8 +232,6 @@ public class ProcessTag
 
         Net net = (Net) getContext().getVariable( Net.class.getName() );
 
-        System.err.println( "FETCH: " + getContext() );
-
         if ( net == null )
         {
             throw new JellyTagException( "no petri net" );

@@ -60,7 +60,5 @@ public class ExprFactoryTag
 
         getContext().setVariable( ExpressionFactory.class.getName(),
                                   getType() );
-
-        System.err.println( "FACTORY SET: " + getContext() + " --> " + factory + " -- " + getType() );
     }
 }

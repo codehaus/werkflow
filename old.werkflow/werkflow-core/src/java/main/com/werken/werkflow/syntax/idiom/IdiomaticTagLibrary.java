@@ -33,8 +33,6 @@ public class IdiomaticTagLibrary
                          Attributes attributes)
         throws JellyException
     {
-        System.err.println( "idiom taglib -> " + name );
-
         return super.createTag( name,
                                 attributes );
     }
@@ -48,7 +46,6 @@ public class IdiomaticTagLibrary
 
     protected void registerIdiom(IdiomDefinition idiomDef)
     {
-        System.err.println( "register tag: " + idiomDef.getId() );
         registerBeanTag( idiomDef.getId(),
                          new IdiomTagFactory( idiomDef ) );
     }

@@ -1,6 +1,8 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.task.DefaultTask;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -88,25 +90,6 @@ public class Idiom
     {
         IdiomParameter param = getIdiomDefinition().getParameter( name );
 
-        /*
-        if ( ! param.getType().isInstance( value ) )
-        {
-            throw new InvalidParameterTypeException( param,
-                                                     value );
-        }
-        */
-        
-        /*
-        if ( "expr".equals( param.getType() )
-             &&
-             ( ! ( value instanceof org.apache.commons.jelly.expression.Expression ) ) )
-        {
-            System.err.println( "INVLID: " + value );
-            throw new InvalidParameterTypeException( param,
-                                                     value );
-        }
-        */
-        
         this.parameters.put( name,
                              value );
     }
@@ -130,8 +113,6 @@ public class Idiom
     public void build()
         throws IdiomException
     {
-        System.err.println( getId() + " BUILD" );
-
         verify();
 
         getIdiomDefinition().buildStatic( this );
@@ -172,8 +153,6 @@ public class Idiom
 
     public Idiom addComponent(IdiomDefinition idiomDef)
     {
-        System.err.println( getId() + " ADD NEW COMPONENT" + idiomDef.getId() );
-
         Idiom idiom = idiomDef.newIdiom( this,
                                          this.components.size() );
         
@@ -185,8 +164,6 @@ public class Idiom
     private void addComponent(Idiom component)
         throws IdiomException
     {
-        System.err.println( getId() + " ADD COMPONENT" + component.getId() );
-
         getIdiomDefinition().addComponent( this,
                                            component );
     }
@@ -205,7 +182,6 @@ public class Idiom
 
         this.places.put( id,
                          place );
-        // System.err.println( this + " " + getId() + " PLACES ----> " + this.places.values() );
     }
 
     void removePlace(String id)
@@ -255,13 +231,30 @@ public class Idiom
     }
 
     void addTransition(String id,
-                       String documentation)
+                       String documentation,
+                       Action action)
     {
         DefaultTransition transition = new DefaultTransition( id );
 
         transition.setActivationRule( AndInputRule.getInstance() );
 
         transition.setDocumentation( documentation );
+
+        try
+        {
+            if ( action != null )
+            {
+                DefaultTask task = new DefaultTask();
+                
+                task.setAction( action );
+                
+                transition.setTask( task );
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         this.transitions.put( id,
                               transition );
@@ -314,8 +307,6 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
-        // System.err.println( getId() + " connect p/t " + placeId + " -> " + transitionId );
-
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -332,7 +323,6 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
-        // System.err.println( getId() + "connect t/p " + transitionId + " -> " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -350,9 +340,6 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
-        System.err.println( getId() + " GRAFT IN " + component.getId() );
-
-        // System.err.println( this + " " + getId() + " graft input: " + placeId + " / " + component + " // " + component.getInPlace() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();
@@ -385,9 +372,6 @@ public class Idiom
                               String placeId,
                               Expression expression)
     {
-        System.err.println( getId() + " GRAFT OUT " + component.getId() );
-        // System.err.println( this + " " + this + " graph out to " + placeId + " places->" + this.places.values() );
-
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentOut = component.getOutPlace();

@@ -89,7 +89,6 @@ public class LogAction
             
             String msg = this.expr.evaluateAsString( context );
             
-            
             synchronized ( LogAction.class )
             {
                 System.err.println( otherAttrs.get( "caseId" )

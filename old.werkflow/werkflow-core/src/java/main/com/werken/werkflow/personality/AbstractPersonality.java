@@ -41,9 +41,6 @@ public abstract class AbstractPersonality
         {
             context.registerTagLibrary( syntaxes[i].getNamespaceUri(),
                                         syntaxes[i].getTagLibrary() );
-
-            System.err.println( "registered: " + syntaxes[i].getNamespaceUri() );
-            System.err.println( "registered: " + syntaxes[i].getTagLibrary() );
         }
 
         context.registerTagLibrary( FundamentalTagLibrary.NS_URI,

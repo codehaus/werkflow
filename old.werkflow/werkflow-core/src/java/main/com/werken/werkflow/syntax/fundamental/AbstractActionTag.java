@@ -48,7 +48,8 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.action.Action;
 
-import org.apache.commons.jelly.TagSupport;
+import com.werken.werkflow.jelly.MiscTagSupport;
+
 import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>Action</code> tags.
@@ -73,7 +74,7 @@ import org.apache.commons.jelly.JellyTagException;
  *  @version $Id$
  */
 public abstract class AbstractActionTag
-    extends TagSupport
+    extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -101,6 +102,18 @@ public abstract class AbstractActionTag
         throws JellyTagException
     {
         ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
+
+        if ( receptor == null )
+        {
+            try
+            {
+                receptor = (ActionReceptor) peekObject( ActionReceptor.class );
+            }
+            catch (JellyTagException e)
+            {
+                // swallow, possibly no stack, not a problem.
+            }
+        }
 
         if ( receptor == null )
         {
