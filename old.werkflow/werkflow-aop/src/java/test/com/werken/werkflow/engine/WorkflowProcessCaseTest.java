@@ -39,9 +39,6 @@ public class WorkflowProcessCaseTest
         assertEquals( 0,
                       processCase.getAttributeNames().length );
 
-        assertEquals( 0,
-                      processCase.getParameterNames().length );
-
         assertEquals( 1,
                       processCase.getMarks().length );
 
@@ -54,7 +51,7 @@ public class WorkflowProcessCaseTest
         assertNotNull( processCase.getId() );
     }
 
-    public void testAttributesParameters()
+    public void testAttributes()
     {
         MockProcessInfo  info  = new MockProcessInfo( "the process",
                                                       "the docs" );
@@ -74,20 +71,11 @@ public class WorkflowProcessCaseTest
         assertEquals( 1,
                       processCase.getAttributeNames().length );
 
-        assertEquals( 1,
-                      processCase.getParameterNames().length );
-
         assertContains( "foo",
                         processCase.getAttributeNames() );
 
-        assertContains( "foo",
-                        processCase.getParameterNames() );
-
         assertEquals( "fooValue",
                       processCase.getAttribute( "foo" ) );
-
-        assertEquals( "fooValue",
-                      processCase.getParameter( "foo" ) );
 
         processCase.setAttribute( "foo",
                                   "newFooValue" );
@@ -95,20 +83,11 @@ public class WorkflowProcessCaseTest
         assertEquals( 1,
                       processCase.getAttributeNames().length );
 
-        assertEquals( 1,
-                      processCase.getParameterNames().length );
-
         assertContains( "foo",
                         processCase.getAttributeNames() );
 
-        assertContains( "foo",
-                        processCase.getParameterNames() );
-
         assertEquals( "newFooValue",
                       processCase.getAttribute( "foo" ) );
-
-        assertEquals( "newFooValue",
-                      processCase.getParameter( "foo" ) );
 
         processCase.setAttribute( "bar",
                                   null );
@@ -116,38 +95,21 @@ public class WorkflowProcessCaseTest
         assertEquals( 2,
                       processCase.getAttributeNames().length );
 
-        assertEquals( 2,
-                      processCase.getParameterNames().length );
-
         assertContains( "foo",
                         processCase.getAttributeNames() );
 
-        assertContains( "foo",
-                        processCase.getParameterNames() );
-
         assertContains( "bar",
                         processCase.getAttributeNames() );
-
-        assertContains( "bar",
-                        processCase.getParameterNames() );
 
         assertNull( processCase.getAttribute( "bar" ) );
-
-        assertNull( processCase.getParameter( "bar" ) );
 
         processCase.clearAttribute( "bar" );
 
         assertEquals( 1,
                       processCase.getAttributeNames().length );
 
-        assertEquals( 1,
-                      processCase.getParameterNames().length );
-
         assertContains( "foo",
                         processCase.getAttributeNames() );
-
-        assertContains( "foo",
-                        processCase.getParameterNames() );
     }
 
     public void testMarks()

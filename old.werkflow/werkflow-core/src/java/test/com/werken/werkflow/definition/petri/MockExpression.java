@@ -1,26 +1,28 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.Attributes;
+
 public class MockExpression
     implements Expression
 {
     private boolean result;
-    private Parameters parameters;
+    private Attributes attributes;
 
     public MockExpression(boolean result)
     {
         this.result = result;
     }
 
-    public boolean evaluate(Parameters parameters)
+    public boolean evaluate(Attributes attributes)
         throws Exception
     {
-        this.parameters = parameters;
+        this.attributes = attributes;
 
         return this.result;
     }
 
-    public Parameters getParameters()
+    public Attributes getAttributes()
     {
-        return this.parameters;
+        return this.attributes;
     }
 }

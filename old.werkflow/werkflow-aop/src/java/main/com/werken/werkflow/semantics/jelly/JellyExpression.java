@@ -1,6 +1,6 @@
 package com.werken.werkflow.semantics.jelly;
 
-import com.werken.werkflow.definition.petri.Parameters;
+import com.werken.werkflow.Attributes;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.expression.Expression;
@@ -21,19 +21,19 @@ public class JellyExpression
         return this.expr;
     }
 
-    public boolean evaluate(Parameters params)
+    public boolean evaluate(Attributes attrs)
         throws Exception
     {
         boolean result = false;
 
-        String[] paramNames = params.getParameterNames();
+        String[] attrNames = attrs.getAttributeNames();
 
         JellyContext context = new JellyContext();
 
-        for ( int i = 0 ; i < paramNames.length ; ++i )
+        for ( int i = 0 ; i < attrNames.length ; ++i )
         {
-            context.setVariable( paramNames[i],
-                                 params.getParameter( paramNames[i] ) );
+            context.setVariable( attrNames[i],
+                                 attrs.getAttribute( attrNames[i] ) );
         }
 
         return getExpression().evaluateAsBoolean( context );
