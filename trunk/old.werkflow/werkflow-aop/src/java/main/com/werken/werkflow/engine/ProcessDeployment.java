@@ -296,7 +296,7 @@ class ProcessDeployment
         {
             eachTrans = (Transition) transIter.next();
 
-            System.err.println( "TEST: " + eachTrans.getId() );
+            // System.err.println( "TEST: " + eachTrans.getId() );
 
             rule = (EnablingRule) this.rules.get( eachTrans );
 
@@ -377,7 +377,7 @@ class ProcessDeployment
             }
         }
 
-        System.err.println( "ENABLED: " + enabledTrans );
+        // System.err.println( "ENABLED: " + enabledTrans );
 
         processCase.setEnabledTransitions( (Transition[]) enabledTrans.toArray( Transition.EMPTY_ARRAY ) );
 
@@ -412,7 +412,7 @@ class ProcessDeployment
     {
         String[] marks = processCase.getMarks();
 
-        System.err.println( processCase.getId() + " marks: " + Arrays.asList( marks ) );
+        // System.err.println( processCase.getId() + " marks: " + Arrays.asList( marks ) );
 
         List transitions = new ArrayList();
 
@@ -425,11 +425,11 @@ class ProcessDeployment
         {
             if ( processCase.hasMark( places[i].getId() ) )
             {
-                System.err.println( "PLACE: " + places[i].getId() );
+                // System.err.println( "PLACE: " + places[i].getId() );
 
                 arcs = places[i].getArcsToTransitions();
 
-                System.err.println( "ARCS: " + Arrays.asList( arcs ) );
+                // System.err.println( "ARCS: " + Arrays.asList( arcs ) );
                 
                 for ( int j = 0 ; j < arcs.length ; ++j )
                 {

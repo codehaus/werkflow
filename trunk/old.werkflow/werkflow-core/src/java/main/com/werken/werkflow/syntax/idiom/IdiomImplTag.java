@@ -236,13 +236,10 @@ public class IdiomImplTag
             throw new JellyTagException( "action not allowed within this context" );
         }
 
-        System.err.println( "ACTION received by " + getIdiomDefinition().getId() );
-
         if ( getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_ONE_ACTION )
         {
             try
             {
-                System.err.println( "ADD ACTION" );
                 this.idiom.addAction( action );
             }
             catch (IdiomException e)
@@ -252,7 +249,6 @@ public class IdiomImplTag
         }
         else
         {
-            System.err.println( "ADD COMPONENT ACTION" );
             try
             {
                 Idiom actionIdiom = this.idiom.addComponent( IdiomDefinition.ACTION_IDIOM );
