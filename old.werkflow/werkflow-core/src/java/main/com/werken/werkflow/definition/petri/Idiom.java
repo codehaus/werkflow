@@ -34,7 +34,7 @@ public class Idiom
 
     Idiom(IdiomDefinition idiomDef,
           Idiom parent,
-          int counter)
+          int index)
     {
         this.idiomDef   = idiomDef;
         this.parameters = new HashMap();
@@ -46,6 +46,25 @@ public class Idiom
 
         this.parent = parent;
         this.index  = index;
+    }
+
+    public String getId()
+    {
+        String id = "";
+
+        if ( this.parent != null )
+        {
+            id = parent.getId();
+        }
+
+        id = id + "/" + idiomDef.getId();
+
+        if ( this.index >= 0 )
+        {
+            id = id + "[" + this.index + "]";
+        }
+
+        return id;
     }
 
     public IdiomDefinition getIdiomDefinition()
