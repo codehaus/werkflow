@@ -9,4 +9,6 @@ public interface CaseTransfer
     String getCaseId();
 
     Map getAttributes();
+
+    String[] getTokens();
 }

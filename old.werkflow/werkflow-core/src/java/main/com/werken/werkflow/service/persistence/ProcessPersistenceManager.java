@@ -1,11 +1,15 @@
 package com.werken.werkflow.service.persistence;
 
+import com.werken.werkflow.Attributes;
+
 public interface ProcessPersistenceManager
 {
     void persist(ChangeSet changeSet)
         throws PersistenceException;
 
-    CaseTransfer newCase(String caseId)
+    boolean hasCase(String caseId);
+
+    CaseTransfer newCase(Attributes initialiAttrs)
         throws PersistenceException;
 
     CaseTransfer loadCase(String caseId)
