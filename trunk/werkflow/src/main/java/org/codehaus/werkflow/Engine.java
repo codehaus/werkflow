@@ -284,7 +284,7 @@ public class Engine
 
         RobustInstance instance = getInstanceManager().getInstance( instanceId );
 
-        System.err.println( "added pending: " + satisfactionId );
+        //System.err.println( "added pending: " + satisfactionId );
         instance.addPendingSatisfactionId( satisfactionId );
         
         String[] valueNames = values.getNames();
@@ -368,7 +368,7 @@ public class Engine
 
         if ( self instanceof Satisfaction )
         {
-            System.err.println( "remove pending: " + ((Satisfaction)self).getId() );
+            //System.err.println( "remove pending: " + ((Satisfaction)self).getId() );
             instance.removePendingSatisfactionId( ((Satisfaction)self).getId() );
         }
 

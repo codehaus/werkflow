@@ -153,8 +153,8 @@ public class RobustInstance
 
         SatisfactionSpec[] blocked = getBlockedSatisfactions();
 
-        System.err.println( "blocked: " + Arrays.asList( blocked ) );
-        System.err.println( "pending: " + pending );
+       // System.err.println( "blocked: " + Arrays.asList( blocked ) );
+       // System.err.println( "pending: " + pending );
 
         for ( int i = 0 ; i < blocked.length ; ++i )
         {
@@ -164,7 +164,7 @@ public class RobustInstance
             }
         }
 
-        System.err.println( "eligible: " + eligible );
+        //System.err.println( "eligible: " + eligible );
 
         return (SatisfactionSpec[]) eligible.toArray( new SatisfactionSpec[ eligible.size() ] );
     }
