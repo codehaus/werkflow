@@ -47,7 +47,8 @@
     <task>
       <action>
         action 2
-        ${bob}
+        bob == ${bob}
+        myMsg == ${myMsg} 
       </action>
     </task>
   </transition>
