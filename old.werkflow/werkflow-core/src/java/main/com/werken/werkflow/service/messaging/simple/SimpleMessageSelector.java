@@ -89,5 +89,6 @@ public abstract class SimpleMessageSelector
      *  @return <code>true</code> if the message is selected, otherwise
      *          <code>false</code>.
      */
-    public abstract boolean selects(Object message);
+    public abstract boolean selects(Object message)
+        throws Exception;
 }

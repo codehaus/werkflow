@@ -46,12 +46,12 @@ package com.werken.werkflow.semantics.java;
  
  */
 
+import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
 /** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
  *
@@ -72,7 +72,7 @@ public class ClassMessageSelectorTag
     private String className;
 
     /** Filtering expression. */
-    private Expression expression;
+    private String expression;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -107,20 +107,20 @@ public class ClassMessageSelectorTag
         return this.className;
     }
 
-    /** Set the filtering <code>Expression</code>.
+    /** Set the filtering expression.
      *
      *  @param expression The filtering expression.
      */
-    public void setFilter(Expression expression)
+    public void setFilter(String expression)
     {
         this.expression = expression;
     }
 
-    /** Retrieve the filtering <code>Expression</code>.
+    /** Retrieve the filtering expression.
      *
      *  @return The filtering expression, or <code>null</code> if none.
      */
-    public Expression getFilter()
+    public String getFilter()
     {
         return this.expression;
     }
@@ -143,9 +143,11 @@ public class ClassMessageSelectorTag
         try
         {
             Class messageClass = Class.forName( this.className );
+
+            Expression expr = JavaExpressionFactory.getInstance().newExpression( getFilter() );
             
             ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
+                                                                      expr );
             
             
             setMessageSelector( selector );

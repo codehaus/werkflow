@@ -10,6 +10,7 @@ import org.apache.bsf.BSFException;
 public abstract class BsfExpression
     implements Expression
 {
+
     private String language;
     private String text;
 
@@ -24,7 +25,15 @@ public abstract class BsfExpression
         this.text     = text;
 
         this.manager  = new BSFManager();
-        this.engine   = this.manager.loadScriptingEngine( language );
+
+        try
+        {
+            this.engine   = this.manager.loadScriptingEngine( language );
+        }
+        catch (BSFException e)
+        {
+            e.getTargetException().printStackTrace();
+        }
     }
 
     public String getLanguage()

@@ -138,6 +138,7 @@ public class SimpleMessagingManager
      *  @param message The message.
      */
     public void acceptMessage(Object message)
+        throws Exception
     {
         Iterator           regIter = this.registrations.iterator();
         SimpleRegistration eachReg = null;

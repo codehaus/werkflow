@@ -99,14 +99,15 @@
     </dependency>
 
     <dependency>
-      <id>bsh</id>
-      <version>1.2-b3</version>
+      <groupId>bsh</groupId>
+      <artifactId>bsh</artifactId>
+      <version>1.2b7</version>
       <url>http://beanshell.org/</url>
     </dependency>
 
     <dependency>
       <id>bsf</id>
-      <version>2.3.0-rc1</version>
+      <version>2.3.0</version>
       <url>http://jakarta.apache.org/bsf</url>
     </dependency>
 
@@ -226,14 +227,14 @@
         </resource>
       </resources>
 
+<!--
       <includes>
         <include>**/*Test.java</include>
       </includes>
-<!--
+-->
       <excludes>
         <exclude>**/*.java</exclude>
       </excludes>
--->
 
     </unitTest>
 
