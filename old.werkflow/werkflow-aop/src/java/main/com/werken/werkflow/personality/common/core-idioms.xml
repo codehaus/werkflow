@@ -56,7 +56,7 @@
         </template> 
     </idiom>
 
-    <idiom id="choice">
+    <idiom id="expr-choice">
         <parameter id="condition" type="expr"/>
         <template>
             <place id="component:head"/>
@@ -68,6 +68,16 @@
 
             <transition id="component">
                 <input from="component:head"/>
+                <output  to="out"/>
+            </transition>
+
+        </template>
+    </idiom> 
+
+    <idiom id="choice">
+        <template>
+            <transition id="component">
+                <input from="in"/>
                 <output  to="out"/>
             </transition>
 

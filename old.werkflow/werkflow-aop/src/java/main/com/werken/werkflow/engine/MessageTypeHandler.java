@@ -57,6 +57,8 @@ import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorExceptio
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /** Handler for messages of a paritcular <code>MessageType</code>.
@@ -85,6 +87,8 @@ class MessageTypeHandler
     /** Message-waitier correlators, indexed by transition id. */
     private Map msgWaiterCorrelators;
 
+    private List orderedCorrelators;
+
     private MessageInitiator messageInitiator;
 
     /** Message-source registration. */
@@ -112,6 +116,7 @@ class MessageTypeHandler
         this.engine               = engine;
         this.messageType          = messageType;
         this.msgWaiterCorrelators = new HashMap();
+        this.orderedCorrelators   = new ArrayList();
 
         this.registration = getEngine().register( this,
                                                   messageType );
@@ -189,6 +194,8 @@ class MessageTypeHandler
 
         this.msgWaiterCorrelators.put( transitionId,
                                        msgWaiterCorrelator );
+
+        this.orderedCorrelators.add( msgWaiterCorrelator );
     }
 
     void setMessageInitiator(Transition transition,
@@ -229,13 +236,14 @@ class MessageTypeHandler
         }
         else
         {
-            Iterator                correlatorIter = msgWaiterCorrelators.values().iterator();
+            //Iterator                correlatorIter = msgWaiterCorrelators.values().iterator();
+            Iterator                correlatorIter = this.orderedCorrelators.iterator();
             MessageWaiterCorrelator eachCorrelator = null;
             
             while ( correlatorIter.hasNext() )
             {
                 eachCorrelator = (MessageWaiterCorrelator) correlatorIter.next();
-                
+
                 eachCorrelator.acceptMessage( message );
 
                 /*
