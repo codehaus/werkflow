@@ -24,9 +24,9 @@
       <receive type="AddEntity" bind="message">
         <action actionId="action-1"/>
       </receive>
+
       <switch>
-        <!-- The role selector method buyerRole() returns the constant 'buyer' -->
-        <case condition='#roleSelector.buyerRole == "buyer"'>
+        <case condition='#role == "buyer"'>
           <sequence>
             <action actionId="action-2"/>
           </sequence>
