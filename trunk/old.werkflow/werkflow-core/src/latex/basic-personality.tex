@@ -26,6 +26,11 @@ the \verb|werkflow:basic| namespace.
 </process>
 \end{codelisting}
 
+Tags from other namespaces may also be used in order to 
+take advantage of the various semantic modules, such
+as \verb|werkflow:java|, \verb|werkflow:jelly| and 
+\verb|werkflow:python|
+
 % ----------------------------------------------------------------------
 %     Prolog
 % ----------------------------------------------------------------------
@@ -43,14 +48,6 @@ contain a \verb|package| attribute for defining the process within
 the scope of a larger package.  The \verb|initiation| attribute is
 required in order to specify how new cases are initiated.
 
-\begin{tabular}{l|c|c|l}
-\textbf{attribute}   &	\textbf{type}		&	\textbf{default}	& \textbf{description} \\
-\hline
-package		&	optional	&			& Package scope identifier. \\
-id			&	required	&			& Unique identifier for the process. \\
-initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
-\end{tabular}
-
 \begin{codelisting}
 \hired{<process package="my.package"
          id="my.process"
@@ -58,6 +55,12 @@ initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
     \dots
 \hired{</process>}
 \end{codelisting}
+
+\begin{attrDefs}
+package		&	optional	&			& Package scope identifier. \\
+id			&	required	&			& Unique identifier for the process. \\
+initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
+\end{attrDefs}
 
 \subsection{\tag{attributes}}
 
@@ -78,32 +81,195 @@ tag is simple a container tag for \tag{attributes} tags.
 
 \subsection{\tag{attribute}}
 
+Each attribute that is maintained for each process case is defined
+using an \tag{attribute} tag.  It requires an \verb|id| attribute to
+uniquely identify the attribute.  Optional \verb|in| and \verb|out|
+boolean attributes determine if the attribute is use for input 
+and/or output parameter passing.
+
+\begin{codelisting}
+<attributes>
+    \hired{<attribute id="attrOne">}
+        \dots 
+    \hired{</attribute>}
+</attributes>
+\end{codelisting}
+
+\begin{attrDefs}
+id			&	required	&			& Unique identifier for the attributes. \\
+in			&	optional	& false 	& Input parameter flag. \verb|true| or \verb|false| \\
+out			&	optional	& false 	& Output parameter flag. \verb|true| or \verb|false| \\
+\end{attrDefs}
+
+Each \tag{attribute} tag must contain an \emph{attribute type} 
+as the content, such as \tag{java:attr-type}.
+
+
 % ----------------------------------------------------------------------
 %     Flow-Control Structures
 % ----------------------------------------------------------------------
 
 \section{Flow-Control Structures}
 
+The flow of the process affects the order in which activities can be
+executed.  The two main structures are \tag{sequence} and
+\tag{parallel} which denote items that must be executed sequential
+and those that may be executed in parallel.  The \tag{while} looping
+construct allows for repeating a segment until a condition is met,
+while \tag{if}, \tag{swtich} and \tag{pick} allow for condition
+execution of segments.
+
 \subsection{\tag{sequence}}
+
+The \tag{sequence} tag has no attributes and denotes that its
+content should be executed in a sequential mannager.  Each element
+will only execute after the previous element has completed.
+
+\begin{codelisting}
+\hired{<sequence>}
+    \dots
+    \dots
+\hired{</sequence>}
+\end{codelisting}
 
 \subsection{\tag{parallel}}
 
-\subsection{\tag{if}}
+The \tag{parallel} tag has no attributes and denotes that
+its context \emph{may} be executed in parallel.  The actual
+execution order may differ for each case, and the body may
+not actually be executed in a fully concurrent manner.
+
+\begin{codelisting}
+\hired{<parallel>}
+    \dots
+    \dots
+\hired{</parallel>}
+\end{codelisting}
+
 
 \subsection{\tag{while}}
 
-\subsection{\tag{switch}}
+The \tag{while} tag allows for the execution of its content
+repeatedly while a loop condition evaluates to \verb|true|.
+The \verb|condition| attribute is a \emph{Python} expression
+evaluated within the context of the case's attributes.
+
+\begin{codelisting}
+\hired{<while condiiton="status == 'editing'">}
+    \dots
+    \dots
+\hired{</while>}
+\end{codelisting}
+
+\begin{attrDefs}
+condition	&	required	&			& Python loop expression. \\
+\end{attrDefs}
+
+\subsection{\tag{if}}
+
+The \tag{if} tag allows for conditional execution of its
+content if a test condition evaluates to \verb|true|.
+The \verb|condition| attribute is a \emph{Python} expression
+evaluated within the context of the case's attributes.
+
+
+\begin{codelisting}
+\hired{<if condiiton="status == 'rejected'">}
+    \dots
+    \dots
+\hired{</if>}
+\end{codelisting}
+
+\begin{attrDefs}
+condition	&	required	&			& Python loop expression. \\
+\end{attrDefs}
+
+\subsection{\tag{switch}, \tag{case} and \tag{otherwise}}
+
+The \tag{switch} tag allows for the execution of exactly one of
+many branches. It has no attributes and directly contains only
+\tag{case} tags.  Each \tag{case} tag contains a test condition
+to determine if its branch should be executed.  The \tag{case}
+tags are evaluated in order and the first to evaluate to
+\verb|true| is executed, skipping all others.  The \tag{switch}
+may optionally contain, as the last content tag, an \tag{otherwise} tag
+that contains no attributes and is executed if no other branches
+were selected.
+
+\begin{codelisting}
+\hired{<switch>
+    <case condition="status == 'editing'">}
+        \dots
+        \dots
+    \hired{</case>
+    <case condition="status == 'rejected'">}
+        \dots
+        \dots
+    \hired{</case>
+    <otherwise>}
+        \dots
+        \dots
+    \hired{</otherwise>
+</switch>}
+\end{codelisting}
+
+\subsubsection{\tag{case} attributes}
+
+\begin{attrDefs}
+condition	&	required	&			& Python loop expression. \\
+\end{attrDefs}
 
 \subsection{\tag{pick}}
 
+The \tag{pick} tag allows for the execution of exactly one
+of many branches determined by the type of message received,
+or a time-out (note, time-out not implemented yet).  It has
+no attributes and directly contains only \tag{choice} tags.
+Each \tag{choice} tag has no attributes.  The body of each
+\tag{choice} must have, as the first effective action, 
+either a \tag{receive} or a \tag{wait}.
 
-The \tag{if} tag
+\begin{codelisting}
+\hired{<pick>
+    <choice>}
+        <sequence>
+            \hired{<receive type="rejection.message"
+                \dots
+            </receive>}
+            \dots
+            \dots
+        </sequence>
+    \hired{</choice>
+    <choice>}
+        <sequence>
+            \hired{<receive type="acceptance.message"
+                \dots
+            </receive>}
+            \dots
+            \dots
+        </sequence>
+    \hired{</choice>
+    <choice>}
+        <sequence>
+            \hired{<wait \dots/>}
+            \dots
+            \dots
+        </sequence>
+    \hired{</choice>
+</pick>}
+\end{codelisting}
+
 
 % ----------------------------------------------------------------------
 %     Actions
 % ----------------------------------------------------------------------
 
 \section{Actions}
+
+\subsection{\tag{receive}}
+
+\subsection{Actions From Other Semantic Modules}
+
 
 
 
