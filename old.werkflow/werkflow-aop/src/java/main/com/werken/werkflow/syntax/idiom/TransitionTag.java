@@ -2,6 +2,7 @@ package com.werken.werkflow.syntax.idiom;
 
 import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.TransitionDefinition;
+import com.werken.werkflow.definition.petri.WaiterDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -11,7 +12,7 @@ public class TransitionTag
 {
     private String id;
     private String action;
-    private String waiter;
+    private WaiterDefinition waiter;
     private String documentation;
 
     public TransitionTag()
@@ -39,12 +40,12 @@ public class TransitionTag
         return this.action;
     }
 
-    public void setWaiter(String waiter)
+    public void setWaiter(WaiterDefinition waiter)
     {
         this.waiter = waiter;
     }
 
-    public String getWaiter()
+    public WaiterDefinition getWaiter()
     {
         return this.waiter;
     }

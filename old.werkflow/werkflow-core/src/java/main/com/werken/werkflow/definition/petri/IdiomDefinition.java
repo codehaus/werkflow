@@ -3,6 +3,10 @@ package com.werken.werkflow.definition.petri;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.definition.Waiter;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.MessageCorrelator;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -225,9 +229,9 @@ public class IdiomDefinition
                 }
             }
         }
-
+        
         TransitionDefinition[] transitionDefs = getTransitions();
-
+        
         for ( int i = 0 ; i < transitionDefs.length ; ++i )
         {
             if ( ! ( transitionDefs[i].getId().startsWith( COMPONENT_PREFIX )
@@ -236,16 +240,23 @@ public class IdiomDefinition
                      ||
                      transitionDefs[i].getId().startsWith( COMPLETE_PREFIX ) ) )
             {
-                idiom.addTransition( qualifyId( transitionDefs[i].getId(),
-                                                idiom ),
-                                     transitionDefs[i].getDocumentation(),
-                                     getAction( idiom,
-                                                transitionDefs[i].getAction() ),
-                                     getWaiter( idiom,
-                                                transitionDefs[i].getWaiter() ) );
+                try
+                {
+                    idiom.addTransition( qualifyId( transitionDefs[i].getId(),
+                                                    idiom ),
+                                         transitionDefs[i].getDocumentation(),
+                                         getAction( idiom,
+                                                    transitionDefs[i].getAction() ),
+                                         getWaiter( idiom,
+                                                    transitionDefs[i].getWaiter() ) );
+                }
+                catch (NoSuchMessageTypeException e)
+                {
+                    throw new IdiomException( e );
+                }
             }
         }
-
+        
         ArcDefinition[] arcDefs = getArcs();
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
@@ -292,13 +303,20 @@ public class IdiomDefinition
             {
                 String useId = transitionDefs[i].getId().substring( COMPLETE_PREFIX.length() );
 
-                idiom.addTransition( qualifyId( useId,
-                                                idiom ),
-                                     transitionDefs[i].getDocumentation(),
-                                     getAction( idiom,
-                                                transitionDefs[i].getAction() ),
-                                     getWaiter( idiom,
-                                                transitionDefs[i].getWaiter() ) );
+                try
+                {
+                    idiom.addTransition( qualifyId( useId,
+                                                    idiom ),
+                                         transitionDefs[i].getDocumentation(),
+                                         getAction( idiom,
+                                                    transitionDefs[i].getAction() ),
+                                         getWaiter( idiom,
+                                                    transitionDefs[i].getWaiter() ) );
+                }
+                catch (NoSuchMessageTypeException e)
+                {
+                    throw new IdiomException( e );
+                }
             }
         }
 
@@ -378,12 +396,19 @@ public class IdiomDefinition
                 String id = createId( transitionDefs[i].getId(),
                                       component );
 
-                idiom.addTransition( id,
-                                     transitionDefs[i].getDocumentation(),
-                                     getAction( idiom,
-                                                transitionDefs[i].getAction() ),
-                                     getWaiter( idiom,
-                                                transitionDefs[i].getWaiter() ) );
+                try
+                {
+                    idiom.addTransition( id,
+                                         transitionDefs[i].getDocumentation(),
+                                         getAction( idiom,
+                                                    transitionDefs[i].getAction() ),
+                                         getWaiter( idiom,
+                                                    transitionDefs[i].getWaiter() ) );
+                }
+                catch (NoSuchMessageTypeException e)
+                {
+                    throw new IdiomException( e );
+                }
             }
         }
 
@@ -537,21 +562,50 @@ public class IdiomDefinition
     }
 
     protected Waiter getWaiter(Idiom idiom,
-                               String waiterStr)
-        throws NoSuchParameterException
+                               WaiterDefinition waiterDef)
+        throws NoSuchParameterException, NoSuchMessageTypeException
     {
-        if ( waiterStr == null
-             ||
-             waiterStr.equals( "" ) )
+        if ( waiterDef instanceof MessageWaiterDefinition )
         {
-            return null;
-        }
-
-        if ( waiterStr.startsWith( PARAMETER_PREFIX ) )
-        {
-            return (Waiter) idiom.getParameter( waiterStr.substring( PARAMETER_PREFIX.length() ) );
+            return getMessageWaiter( idiom,
+                                     (MessageWaiterDefinition) waiterDef );
         }
 
         return null;
+    }
+
+    protected MessageWaiter getMessageWaiter(Idiom idiom,
+                                             MessageWaiterDefinition waiterDef)
+        throws NoSuchParameterException, NoSuchMessageTypeException
+    {
+        String msgTypeStr = waiterDef.getMessageType();
+
+        if ( msgTypeStr.startsWith( PARAMETER_PREFIX ) )
+        {
+            msgTypeStr = (String) idiom.getParameter( msgTypeStr.substring( PARAMETER_PREFIX.length() ) );
+        }
+
+        MessageType msgType = idiom.getScope().getMessageType( msgTypeStr );
+
+        String corrStr = waiterDef.getCorrelator();
+
+        MessageWaiter waiter = new MessageWaiter( msgType,
+                                                  "DEADBEEF" );
+
+        if ( corrStr != null )
+        {
+            MessageCorrelator correlator = null;
+
+            if ( corrStr.startsWith( PARAMETER_PREFIX ) )
+            {
+                corrStr = corrStr.substring( PARAMETER_PREFIX.length() );
+
+                correlator = (MessageCorrelator) idiom.getParameter( corrStr );
+            }
+
+            waiter.setMessageCorrelator( correlator );
+        }
+
+        return waiter;
     }
 }

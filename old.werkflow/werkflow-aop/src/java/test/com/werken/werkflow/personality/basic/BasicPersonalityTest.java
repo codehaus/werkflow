@@ -10,6 +10,7 @@ import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
+import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
 
 import junit.framework.TestCase;
 
@@ -39,6 +40,10 @@ public class BasicPersonalityTest
 
         services.setCaseRepository( new InMemoryCaseRepository() );
 
+        SimpleMessagingManager msgManager = new SimpleMessagingManager();
+
+        services.setMessagingManager( msgManager );
+
         Wfms wfms = new WorkflowEngine( services );
 
         WfmsAdmin admin = wfms.getAdmin();
@@ -56,5 +61,9 @@ public class BasicPersonalityTest
         
         runtime.newProcessCase( "my.proc1",
                                 attrs );
+
+        Thread.sleep( 2000 );
+
+        msgManager.acceptMessage( "my message" );
     }
 }

@@ -32,5 +32,8 @@ public class IdiomTagLibrary
 
         registerTag( "output",
                      OutputTag.class );
+
+        registerTag( "message",
+                     MessageTag.class );
     }
 }

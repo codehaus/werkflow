@@ -8,4 +8,9 @@ public class IdiomException
     public IdiomException()
     {
     }
+
+    public IdiomException(Throwable rootCause)
+    {
+        super( rootCause );
+    }
 }

@@ -47,6 +47,7 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.action.ActionLibrary;
+import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;

@@ -9,6 +9,7 @@ import com.werken.werkflow.definition.petri.IdiomException;
 import com.werken.werkflow.definition.petri.NoSuchParameterException;
 import com.werken.werkflow.definition.petri.InvalidParameterTypeException;
 import com.werken.werkflow.syntax.fundamental.ActionReceptor;
+import com.werken.werkflow.syntax.fundamental.FundamentalTagSupport;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.jelly.MiscTagSupport;
 
@@ -125,6 +126,8 @@ public class IdiomImplTag
         {
             this.idiom = current.addComponent( getIdiomDefinition() );
         }
+
+        this.idiom.setScope( FundamentalTagSupport.getCurrentScope( getContext() ) );
     }
 
     public void doTag(XMLOutput output)

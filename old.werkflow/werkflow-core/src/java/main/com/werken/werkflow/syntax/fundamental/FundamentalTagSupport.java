@@ -46,6 +46,7 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
+import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
@@ -95,7 +96,12 @@ public abstract class FundamentalTagSupport
 
     protected Scope getCurrentScope()
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
+        return getCurrentScope( getContext() );
+    }
+
+    public static Scope getCurrentScope(JellyContext context)
+    {
+        return (Scope) context.getVariable( Scope.class.getName() );
     }
 
     protected void setCurrentScope(Scope scope)

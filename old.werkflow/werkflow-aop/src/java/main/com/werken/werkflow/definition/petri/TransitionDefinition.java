@@ -1,12 +1,14 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.definition.Waiter;
+
 public class TransitionDefinition
 {
     public static final TransitionDefinition[] EMPTY_ARRAY = new TransitionDefinition[0];
 
     private String id;
     private String documentation;
-    private String waiter;
+    private WaiterDefinition waiter;
     private String action;
 
     public TransitionDefinition(String id,
@@ -46,12 +48,12 @@ public class TransitionDefinition
         return this.action;
     }
 
-    public void setWaiter(String waiter)
+    public void setWaiter(WaiterDefinition waiter)
     {
         this.waiter = waiter;
     }
 
-    public String getWaiter()
+    public WaiterDefinition getWaiter()
     {
         return this.waiter;
     }
