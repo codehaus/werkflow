@@ -6,6 +6,7 @@ import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.NoSuchCaseException;
+import com.werken.werkflow.QueryException;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.resource.Resource;
@@ -76,5 +77,13 @@ public class WorkflowRuntime
         throws NoSuchCaseException, NoSuchProcessException
     {
         return getEngine().getActivitiesForProcessCase( caseId );
+    }
+
+    public ProcessCase[] selectCases(String processId,
+                                     String placeId)
+        throws QueryException
+    {
+        return getEngine().selectCases( processId,
+                                        placeId );
     }
 }

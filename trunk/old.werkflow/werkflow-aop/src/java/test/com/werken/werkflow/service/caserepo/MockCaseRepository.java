@@ -41,4 +41,17 @@ public class MockCaseRepository
     {
         this.retrieved = retrieved;
     }
+
+    public String[] selectCases(String processId,
+                                String placeId)
+    {
+        if ( getStored().getProcessId().equals( processId )
+             &&
+             getStored().hasMark( placeId ) )
+        {
+            return new String[] { getStored().getCaseId() };
+        }
+
+        return new String[0];
+    }
 }

@@ -63,6 +63,9 @@ package com.werken.werkflow.service.caserepo;
  */
 public interface CaseState
 {
+    /** Empty <code>CaseState</code> array. */
+    static final CaseState[] EMPTY_ARRAY = new CaseState[0];
+
     /** Retrieve the identifier of the case.
      *
      *  @return The case identifier.
