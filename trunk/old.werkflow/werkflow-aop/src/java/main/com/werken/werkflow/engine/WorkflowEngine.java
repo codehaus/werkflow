@@ -63,6 +63,10 @@ import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.event.WfmsEventListener;
+import com.werken.werkflow.event.ProcessDeployedEvent;
+import com.werken.werkflow.event.ProcessUndeployedEvent;
+import com.werken.werkflow.event.CaseInitiatedEvent;
+import com.werken.werkflow.event.CaseTerminatedEvent;
 import com.werken.werkflow.log.Log;
 import com.werken.werkflow.log.SimpleLog;
 import com.werken.werkflow.service.WfmsServices;
@@ -73,6 +77,9 @@ import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorExceptio
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /** Core implementation of <code>Wfms</code>.
  *
@@ -120,6 +127,9 @@ public class WorkflowEngine
     /** Currently paged-in cases. */
     private Map cases;
 
+    /** Wfms event listeners. */
+    private List listeners;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -156,6 +166,8 @@ public class WorkflowEngine
 
         this.deployments = new HashMap();
         this.cases       = new HashMap();
+
+        this.listeners   = new ArrayList();
     }
 
     // ----------------------------------------------------------------------
@@ -594,12 +606,79 @@ public class WorkflowEngine
                                           transition );
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    //     event listener
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** Attach a <code>WfmsEventListener</code>.
      *
      *  @param listener The listener
      */
     void addEventListener(WfmsEventListener listener)
     {
+        this.listeners.add( listener );
+    }
 
+    /** Notify listeners of a deployed process.
+     *
+     *  @param processDef The deployed process.
+     */
+    void notifyProcessDeployed(ProcessDefinition processDef)
+    {
+        ProcessDeployedEvent event = new ProcessDeployedEvent( this,
+                                                               processDef );
+
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.processDeployed( event );
+        }
+    }
+
+    /** Notify listeners of an undeployed process.
+     *
+     *  @param processId The undeployed process identifier.
+     */
+    void notifyProcessUndeployed(String processId)
+    {
+        ProcessUndeployedEvent event = new ProcessUndeployedEvent( this,
+                                                                   processId );
+
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.processUndeployed( event );
+        }
+    }
+
+    /** Notify listeners of an initiated process case.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     */
+    void notifyCaseInitiated(String processId,
+                             String caseId)
+    {
+        CaseInitiatedEvent event = new CaseInitiatedEvent( this,
+                                                           processId,
+                                                           caseId );
+
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.caseInitiated( event );
+        }
     }
 }
