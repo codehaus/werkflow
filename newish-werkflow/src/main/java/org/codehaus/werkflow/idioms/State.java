@@ -1,4 +1,7 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.idioms;
+
+import org.codehaus.werkflow.Instance;
+import org.codehaus.werkflow.spi.SyncComponent;
 
 public class State
     implements SyncComponent

@@ -1,4 +1,6 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.Instance;
 
 public interface AsyncComponent
     extends Component

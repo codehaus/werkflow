@@ -1,7 +1,7 @@
 package org.codehaus.werkflow.persistent;
 
-import org.codehaus.werkflow.DefaultInstance;
-import org.codehaus.werkflow.nonpersistent.NonPersistentInstance;
+import org.codehaus.werkflow.spi.*;
+import org.codehaus.werkflow.nonpersistent.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,18 +32,18 @@ public class PersistentInstance
                        file );
     }
 
-    protected File getFile()
+    public File getFile()
     {
         return this.file;
     }
 
-    protected void startTransaction()
+    public void startTransaction()
         throws Exception
     {
         super.startTransaction();
     }
 
-    protected void commitTransaction()
+    public void commitTransaction()
         throws Exception
     {
         writeInstance( (DefaultInstance) getInstance(),
@@ -51,7 +51,7 @@ public class PersistentInstance
         super.commitTransaction();
     }
 
-    protected void abortTransaction()
+    public void abortTransaction()
         throws Exception
     {
         super.abortTransaction();

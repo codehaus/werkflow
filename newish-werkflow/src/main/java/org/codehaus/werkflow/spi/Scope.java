@@ -1,4 +1,6 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.AssumptionViolationError;
 
 import java.util.Set;
 import java.util.HashSet;

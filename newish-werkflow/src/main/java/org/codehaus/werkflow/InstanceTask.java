@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.*;
+
 class InstanceTask
 {
     private RobustInstance instance;

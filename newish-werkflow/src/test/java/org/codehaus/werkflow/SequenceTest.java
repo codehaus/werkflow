@@ -7,7 +7,8 @@ public class SequenceTest
         throws Exception
     {
         DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
-                                                        "ted" );
+                                                        "ted",
+                                                        new InitialContext() );
 
         Sequence sequence = new Sequence();
 

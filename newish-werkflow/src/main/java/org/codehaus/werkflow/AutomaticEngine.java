@@ -1,7 +1,6 @@
 package org.codehaus.werkflow;
 
-//import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
-//import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
+import org.codehaus.werkflow.spi.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -14,15 +13,11 @@ public class AutomaticEngine
     extends Engine
 {
     private Timer timer;
-    //private PooledExecutor pool;
     private ThreadPool pool;
 
     public AutomaticEngine()
     {
         this.timer = new Timer();
-        //this.pool  = new PooledExecutor( new LinkedQueue() );
-        //this.pool.setKeepAliveTime(-1); 
-        //this.pool.createThreads(1);
         this.pool = new ThreadPool( this,
                                     1 );
 

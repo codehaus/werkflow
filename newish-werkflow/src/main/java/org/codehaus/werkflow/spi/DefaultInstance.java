@@ -1,4 +1,10 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.Engine;
+import org.codehaus.werkflow.Workflow;
+import org.codehaus.werkflow.InitialContext;
+import org.codehaus.werkflow.NoSuchWorkflowException;
+import org.codehaus.werkflow.AssumptionViolationError;
 
 import java.io.Serializable;
 import java.io.ByteArrayInputStream;
@@ -27,13 +33,14 @@ public class DefaultInstance
     private boolean complete;
 
     public DefaultInstance(Workflow workflow,
-                           String id)
+                           String id,
+                           InitialContext context)
     {
         this.workflowId = workflow.getId();
         this.workflow = workflow;
         this.id       = id;
-
         this.context  = new HashMap();
+        this.context.putAll( context.getContextMap() );
         this.queue    = new HashSet();
         this.scope    = new Scope( 0 );
     }
@@ -164,6 +171,11 @@ public class DefaultInstance
     {
         this.complete = complete;
         notifyAll();
+    }
+
+    public boolean isComplete()
+    {
+        return this.complete;
     }
 
     public synchronized Scope getScope(Path path)

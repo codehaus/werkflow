@@ -1,4 +1,6 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.Workflow;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -54,6 +56,11 @@ public class RobustInstanceRef
         throws InterruptedException
     {
         getInstance().waitFor();
+    }
+
+    public boolean isComplete()
+    {
+        return getInstance().isComplete();
     }
 
     public void push(Path path)

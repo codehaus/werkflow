@@ -1,5 +1,8 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.Context;
+import org.codehaus.werkflow.spi.Expression;
+
 public class True
     implements Expression
 {

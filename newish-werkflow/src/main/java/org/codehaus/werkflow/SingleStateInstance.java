@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.InstanceRef;
+
 public class SingleStateInstance
     extends InstanceRef
 {

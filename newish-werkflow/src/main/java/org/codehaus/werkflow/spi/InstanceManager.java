@@ -1,10 +1,15 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.InitialContext;
+import org.codehaus.werkflow.Workflow;
+import org.codehaus.werkflow.NoSuchInstanceException;
+import org.codehaus.werkflow.DuplicateInstanceException;
 
 public interface InstanceManager
 {
     RobustInstance newInstance(Workflow workflow,
                                String id,
-                               Context initialContext)
+                               InitialContext initialContext)
         throws DuplicateInstanceException, Exception;
 
     RobustInstance getInstance(String id)

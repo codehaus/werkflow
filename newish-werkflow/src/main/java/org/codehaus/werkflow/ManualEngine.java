@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.*;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
@@ -22,6 +24,13 @@ public class ManualEngine
         this.polls  = new HashSet();
 
         setInstanceManager( instanceManager );
+    }
+
+    public ManualEngine(InstanceManager instanceManager,
+                        SatisfactionManager satisfactionManager)
+    {
+        this( instanceManager );
+        setSatisfactionManager( satisfactionManager );
     }
 
     protected void enqueue(final RobustInstance instance,
