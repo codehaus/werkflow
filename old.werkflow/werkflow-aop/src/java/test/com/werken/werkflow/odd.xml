@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<process id="OddOrEven"
+         xmlns="werkflow:fundamental"
+         xmlns:java="werkflow:java"
+         xmlns:jelly="werkflow:jelly"
+         xmlns:j="jelly:core">
+
+	<message-initiator id="theMsg" type="number.msg">
+          <jelly:action>
+		<j:set var="theNumber" value="${theMsg}"/>
+          </jelly:action>
+	</message-initiator>
+
+	<place id="in"/>
+	<place id="out"/>
+
+	<transition id="is.fortytwo" guard="${theNumber == 42}">
+	    <input from="in"/>
+	    <output to="out"/>
+	    <task>
+		    <jelly:action>
+		      ${theNumber} is 42
+		    </jelly:action>
+	    </task>
+	</transition>
+	
+	<transition id="is.notfortytwo" guard="${theNumber != 42}">
+	    <input from="in"/>
+	    <output to="out"/>
+	    <task>
+		    <jelly:action>
+		      ${theNumber} is not 42
+		    </jelly:action>
+	    </task>
+	</transition>
+
+</process>

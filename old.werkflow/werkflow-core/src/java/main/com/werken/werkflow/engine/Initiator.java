@@ -106,6 +106,9 @@ public class Initiator
 
                 if ( action != null )
                 {
+                    caseAttrs.put( initiator.getBindingVar(),
+                                   message.getMessage() );
+
                     otherAttrs.put( initiator.getBindingVar(),
                                     message.getMessage() );
 
