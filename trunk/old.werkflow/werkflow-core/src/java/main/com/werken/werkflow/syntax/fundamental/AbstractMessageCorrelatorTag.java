@@ -100,14 +100,14 @@ public abstract class AbstractMessageCorrelatorTag
     public void setMessageCorrelator(MessageCorrelator correlator)
         throws JellyTagException
     {
-        MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
+        MessageCorrelatorReceptor receptor = (MessageCorrelatorReceptor) findAncestorWithClass( MessageCorrelatorReceptor.class );
 
-        if ( message == null )
+        if ( receptor == null )
         {
-            throw new JellyTagException( "not within <message>" );
+            throw new JellyTagException( "message correlator not allowed in this context" );
         }
 
-        message.setMessageCorrelator( correlator );
+        receptor.receiveMessageCorrelator( correlator );
     }
 
     /** Retrieve the message identifier.
@@ -120,13 +120,13 @@ public abstract class AbstractMessageCorrelatorTag
     public String getMessageId()
         throws JellyTagException
     {
-        MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
+        MessageCorrelatorReceptor receptor = (MessageCorrelatorReceptor) findAncestorWithClass( MessageCorrelatorReceptor.class );
 
-        if ( message == null )
+        if ( receptor == null )
         {
-            throw new JellyTagException( "not within <message>" );
+            throw new JellyTagException( "message correlator not allowed in this context" );
         }
 
-        return message.getId();
+        return receptor.getMessageId();
     }
 }

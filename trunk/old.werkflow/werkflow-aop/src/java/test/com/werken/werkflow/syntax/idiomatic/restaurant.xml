@@ -1,0 +1,44 @@
+<package id="mypkg"
+         xmlns="werkflow:idiomatic"
+         xmlns:jelly="werkflow:jelly"
+         xmlns:j="jelly:core">
+
+    <import url="message-types.xml"/>
+
+    <process id="fortytwo"
+             initiation="message">
+
+        <sequence>
+            <on-message type="reservation.msg" var="theMsg">
+                <jelly:action>
+                    <j:set var="name" value="${theMsg.payload}"/>
+                    the msg ${theMsg}
+                    reservation for ${name}
+                </jelly:action>
+            </on-message>
+            <jelly:action>
+                Please wait for a table mr ${name}
+            </jelly:action>
+            <on-message type="table.available.msg" var="theMsg">
+                <jelly:correlator test="${theMsg.payload == name}"/>
+                <jelly:action>
+                    table available for ${name}
+                </jelly:action>
+            </on-message>
+            <parallel>
+               <jelly:action>
+                   Please follow me to your table mr ${name}
+                </jelly:action>
+               <jelly:action>
+                   Fetching some rolls
+                </jelly:action>
+               <jelly:action>
+                   Fetching some water glasses
+                </jelly:action>
+            </parallel>
+            <jelly:action>
+                I hope you enjoy your meal.
+            </jelly:action>
+        </sequence>
+    </process>
+</package>

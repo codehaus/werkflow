@@ -122,6 +122,8 @@ public class JellyMessageCorrelator
         context.setVariable( getMessageId(),
                              message );
 
-        return getExpression().evaluateAsBoolean( context );
+        boolean result = getExpression().evaluateAsBoolean( context );
+
+        return result;
     }
 }

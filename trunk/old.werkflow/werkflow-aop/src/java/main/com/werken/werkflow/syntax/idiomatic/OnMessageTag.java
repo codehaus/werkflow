@@ -1,5 +1,6 @@
 package com.werken.werkflow.syntax.idiomatic;
 
+import com.werken.werkflow.action.Action;
 import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
@@ -8,17 +9,21 @@ import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.MessageConditionalSegment;
 import com.werken.werkflow.definition.idiomatic.SequenceSegment;
 import com.werken.werkflow.semantics.jelly.JellyExpression;
+import com.werken.werkflow.syntax.fundamental.ActionReceptor;
+import com.werken.werkflow.syntax.fundamental.MessageCorrelatorReceptor;
 
 import org.apache.commons.jelly.expression.Expression;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
 public class OnMessageTag
-    extends ComplexActionTagSupport
+    extends IdiomaticTagSupport
+    implements MessageCorrelatorReceptor, ActionReceptor
 {
     private String type;
     private String var;
     private MessageCorrelator messageCorrelator;
+    private Action action;
 
     public OnMessageTag()
     {
@@ -45,9 +50,24 @@ public class OnMessageTag
         return this.var;
     }
 
+    public String getMessageId()
+    {
+        return getVar();
+    }
+
     public void receiveMessageCorrelator(MessageCorrelator messageCorrelator)
     {
         this.messageCorrelator = messageCorrelator;
+    }
+
+    public void receiveAction(Action action)
+    {
+        this.action = action;
+    }
+
+    public Action getAction()
+    {
+        return this.action;
     }
 
     public MessageCorrelator getMessageCorrelator()
@@ -71,13 +91,15 @@ public class OnMessageTag
             MessageWaiter msgWaiter = new MessageWaiter( msgType,
                                                          getVar() );
             
-            msgWaiter.setMessageCorrelator( getMessageCorrelator() );
-            
             MessageConditionalSegment msgSegment = new MessageConditionalSegment( msgWaiter );
             
             pushSegment( msgSegment );
             
             invokeBody( output );
+            
+            msgSegment.setAction( getAction() );
+
+            msgWaiter.setMessageCorrelator( getMessageCorrelator() );
             
             popSegment();
         }

@@ -214,9 +214,6 @@ class MessageTypeHandler
                 Map caseAttrs = new HashMap();
                 Map otherAttrs = new HashMap();
                 
-                caseAttrs.put( this.messageInitiator.getBindingVar(),
-                               message.getMessage() );
-                
                 otherAttrs.put( this.messageInitiator.getBindingVar(),
                                 message.getMessage() );
                 

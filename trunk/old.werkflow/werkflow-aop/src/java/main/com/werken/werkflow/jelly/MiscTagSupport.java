@@ -68,8 +68,9 @@ public abstract class MiscTagSupport
      */
     public MiscTagSupport()
     {
-        // intentionally left blank
+        super( true );
     }
+
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
