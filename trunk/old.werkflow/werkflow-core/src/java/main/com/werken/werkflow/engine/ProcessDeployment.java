@@ -36,8 +36,6 @@ public class ProcessDeployment
 
     private Map rules;
 
-    private Map messageTypes;
-
     private Correlator correlator;
 
     private Initiator initiator;
@@ -54,16 +52,6 @@ public class ProcessDeployment
 
         this.initiator    = new Initiator( engine,
                                            this );
-
-        this.messageTypes = new HashMap();
-
-        MessageType[] types = processDef.getMessageTypes();
-
-        for ( int i = 0 ; i < types.length ; ++i )
-        {
-            this.messageTypes.put( types[i].getId(),
-                                   types[i] );
-        }
 
         initializeEnablingRules();
         initializeMessagingRules();
@@ -140,11 +128,6 @@ public class ProcessDeployment
     private Initiator getInitiator()
     {
         return this.initiator;
-    }
-
-    protected MessageType getMessageType(String id)
-    {
-        return (MessageType) this.messageTypes.get( id );
     }
 
     public ProcessDefinition getProcessDefinition()

@@ -14,7 +14,6 @@ public class ProcessDefinitionTest
 
         ProcessDefinition def = new ProcessDefinition( "the process",
                                                        net,
-                                                       MessageType.EMPTY_ARRAY,
                                                        MessageInitiator.EMPTY_ARRAY );
 
         assertEquals( "the process",
@@ -24,8 +23,6 @@ public class ProcessDefinitionTest
                     def.getNet() );
 
         assertNull( def.getDocumentation() );
-
-        assertNotNull( def.getMessageTypes() );
     }
 
     public void testDocumentation()
@@ -34,7 +31,6 @@ public class ProcessDefinitionTest
 
         ProcessDefinition def = new ProcessDefinition( "the process",
                                                        net,
-                                                       MessageType.EMPTY_ARRAY,
                                                        MessageInitiator.EMPTY_ARRAY );
 
         assertNull( def.getDocumentation() );

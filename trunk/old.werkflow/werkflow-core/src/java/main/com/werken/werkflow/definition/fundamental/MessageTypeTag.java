@@ -57,8 +57,6 @@ public class MessageTypeTag
         requireStringAttribute( "id",
                                 getId() );
 
-        ProcessTag process = (ProcessTag) requiredAncestor( "process",
-                                                            ProcessTag.class );
 
         MessageType messageType = new MessageType( getId() );
 
@@ -69,6 +67,6 @@ public class MessageTypeTag
         messageType.setDocumentation( getDocumentation() );
         messageType.setMessageSelector( getMessageSelector() );
 
-        process.addMessageType( messageType );
+        getMessageTypeLibrary().addMessageType( messageType );
     }
 }

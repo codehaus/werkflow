@@ -1,6 +1,7 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageInitiator;
+import com.werken.werkflow.definition.MessageType;
 
 import org.apache.commons.jelly.XMLOutput;
 
@@ -63,7 +64,9 @@ public class MessageInitiatorTag
 
         invokeBody( output );
 
-        MessageInitiator initiator = new MessageInitiator( getType(),
+        MessageType messageType = getMessageTypeLibrary().getMessageType( getType() );
+
+        MessageInitiator initiator = new MessageInitiator( messageType,
                                                            getId() );
 
         initiator.setDocumentation( getDocumentation() );

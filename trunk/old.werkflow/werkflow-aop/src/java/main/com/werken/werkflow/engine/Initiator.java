@@ -62,7 +62,7 @@ public class Initiator
     public void addMessageInitiator(MessageInitiator messageInitiator)
         throws IncompatibleMessageSelectorException
     {
-        MessageType messageType = getProcessDeployment().getMessageType( messageInitiator.getMessageTypeId() );
+        MessageType messageType = messageInitiator.getMessageType();
 
         Registration registration = getEngine().register( this,
                                                           messageType );
