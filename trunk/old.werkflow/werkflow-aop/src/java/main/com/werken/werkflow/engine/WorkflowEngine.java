@@ -21,6 +21,7 @@ import com.werken.werkflow.resource.DuplicateResourceClassException;
 import com.werken.werkflow.resource.NoSuchResourceClassException;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.caserepo.CaseState;
+import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.task.Task;
@@ -152,34 +153,30 @@ public class WorkflowEngine
     }
 
     void deployVerifiedProcess(ProcessDefinition processDef)
+        throws ProcessException
     {
-        ProcessDeployment deployment = new ProcessDeployment( processDef );
-
-        MessageType[] messageTypes = processDef.getMessageTypes();
-
         try
         {
-            for ( int i = 0 ; i < messageTypes.length ; ++i )
-            {
-                Registration reg = getServices().getMessagingManager().register( deployment,
-                                                                                 messageTypes[i] );
-                
-                deployment.addMessagingRegistration( reg );
-            }
-
+            ProcessDeployment deployment = new ProcessDeployment( processDef );
+            
             this.deployments.put( processDef.getId(),
                                   deployment );
         }
-        catch (IncompatibleMessageSelectorException e)
+        catch (ProcessDeploymentException e)
         {
-            Registration[] registrations = deployment.getMessagingRegistrations();
-
-            for ( int i = 0 ; i < registrations.length ; ++i )
-            {
-                registrations[i].unregister();
-            }
+            throw new ProcessException( processDef,
+                                        e );
         }
     }
+
+    Registration register(MessageSink messageSink,
+                          MessageType messageType)
+        throws IncompatibleMessageSelectorException
+    {
+        return getServices().getMessagingManager().register( messageSink,
+                                                             messageType );
+    }
+                          
 
     ProcessDeployment getProcessDeployment(String processId)
         throws NoSuchProcessException

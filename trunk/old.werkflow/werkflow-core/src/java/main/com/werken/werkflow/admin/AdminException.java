@@ -8,4 +8,9 @@ public class AdminException
     public AdminException()
     {
     }
+
+    public AdminException(Throwable rootCause)
+    {
+        super( rootCause );
+    }
 }

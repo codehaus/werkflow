@@ -10,6 +10,11 @@ public class MessageWaiter
         this.messageTypeId = messageTypeId;
     }
 
+    public String getMessageTypeId()
+    {
+        return this.messageTypeId;
+    }
+
     public void setMessageCorrelator(MessageCorrelator messageCorrelator)
     {
         this.messageCorrelator = messageCorrelator;

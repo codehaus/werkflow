@@ -56,6 +56,7 @@ public class ProcessDeploymentTest
     }
     
     public void testConstruct()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -70,6 +71,7 @@ public class ProcessDeploymentTest
     }
 
     public void testGetPotentialTransitions()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -91,6 +93,7 @@ public class ProcessDeploymentTest
     }
 
     public void testEvalaute_None()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -107,9 +110,8 @@ public class ProcessDeploymentTest
     }
 
     public void testEvaluate_And_One()
+        throws Exception
     {
-        System.err.println( "######" );
-
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
@@ -126,11 +128,10 @@ public class ProcessDeploymentTest
 
         assertEquals( 0,
                       processCase.getEnabledTransitions().length );
-
-        System.err.println( "######" );
     }
 
     public void testEvaluate_And_Other()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -151,6 +152,7 @@ public class ProcessDeploymentTest
     }
 
     public void testEvaluate_And_Both()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -175,6 +177,7 @@ public class ProcessDeploymentTest
     }
 
     public void testEvaluate_Or_One()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -198,6 +201,7 @@ public class ProcessDeploymentTest
     }
 
     public void testEvaluate_Or_Other()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 
@@ -221,6 +225,7 @@ public class ProcessDeploymentTest
     }
 
     public void testEvaluate_Or_Both()
+        throws Exception
     {
         ProcessDeployment deployment = new ProcessDeployment( this.def );
 

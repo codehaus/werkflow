@@ -39,4 +39,16 @@ public class MessageType
     {
         return this.selector;
     }
+
+    public boolean equals(Object that)
+    {
+        if ( that instanceof MessageType )
+        {
+            return ( ((MessageType)that).getId().equals( getId() )
+                     &&
+                     ((MessageType)that).getMessageSelector().equals( getMessageSelector() ) );
+        }
+
+        return false;
+    }
 }
