@@ -251,7 +251,18 @@ public class Idiom
 
     public Place getPlace(String id)
     {
-        return (Place) this.places.get( id );
+        Place place = (Place) this.places.get( id );
+        
+        if ( place == null )
+        {
+            Idiom[] components = getComponents();
+
+            for ( int i = 0 ; ( i < components.length ) && ( place == null ) ; ++i )
+            {
+                place = components[i].getPlace( id );
+            }
+        }
+        return place;
     }
 
     public Place[] getPlaces()
