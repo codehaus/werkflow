@@ -46,6 +46,8 @@ package com.werken.werkflow.definition.petri;
  
  */
 
+import com.werken.werkflow.definition.Expression;
+
 /** Default <code>Arc</code> implementation.
  *
  *  @see DefaultNet#connectPlaceToTransition

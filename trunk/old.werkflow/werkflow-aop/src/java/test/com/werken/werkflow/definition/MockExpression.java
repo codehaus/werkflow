@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package com.werken.werkflow.definition;
 
 import com.werken.werkflow.Attributes;
 

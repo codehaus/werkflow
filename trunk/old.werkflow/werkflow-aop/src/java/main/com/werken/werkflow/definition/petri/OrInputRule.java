@@ -47,6 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.engine.WorkflowProcessCase;
+import com.werken.werkflow.definition.Expression;
 
 /** Or-based <code>ActivationRule</code> for a <code>Transition</code>.
  *

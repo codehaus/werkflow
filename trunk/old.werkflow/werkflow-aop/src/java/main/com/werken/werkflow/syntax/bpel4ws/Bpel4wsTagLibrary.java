@@ -7,6 +7,9 @@ public class Bpel4wsTagLibrary
 {
     public Bpel4wsTagLibrary()
     {
+        registerTag( "process",
+                     ProcessTag.class );
+
         registerTag( "sequence",
                      SequenceTag.class );
 

@@ -47,6 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.engine.WorkflowProcessCase;
+import com.werken.werkflow.definition.Expression;
 
 import java.util.List;
 import java.util.ArrayList;

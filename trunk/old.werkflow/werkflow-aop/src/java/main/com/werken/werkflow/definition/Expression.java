@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package com.werken.werkflow.definition;
 
 /*
  $Id$
@@ -49,9 +49,6 @@ package com.werken.werkflow.definition.petri;
 import com.werken.werkflow.Attributes;
 
 /** Arbitrary boolean expression.
- *
- *  @see Transition#getExpression
- *  @see Arc#getExpression
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
