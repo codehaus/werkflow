@@ -20,41 +20,16 @@ public class IfSegment
                segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace build(DefaultPlace in,
+                              NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition[] ends  = super.build( builder );
-
-        DefaultTransition firstTransition = builder.newTransition();
-        DefaultPlace      in              = builder.newPlace();
-
-        builder.connect( firstTransition,
-                         in );
-
-        DefaultPlace      out            = builder.newPlace();
-        DefaultTransition lastTransition = builder.newTransition();
-
-        builder.connect( out,
-                         lastTransition );
+        DefaultPlace out = super.append( in,
+                                         builder );
 
         builder.connect( in,
-                         ends[0] );
-
-        builder.connect( ends[1],
                          out );
 
-        DefaultTransition falseTransition = builder.newTransition();
-
-        builder.connect( in,
-                         falseTransition );
-
-        builder.connect( falseTransition,
-                         out );
-
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        return out;
     }
 }

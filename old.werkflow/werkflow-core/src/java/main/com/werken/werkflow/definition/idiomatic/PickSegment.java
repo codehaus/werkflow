@@ -24,43 +24,26 @@ public class PickSegment
         this.segments.add( segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-
-        DefaultTransition firstTransition = builder.newTransition();
-        DefaultTransition lastTransition  = builder.newTransition();
-
-        DefaultPlace in = builder.newPlace();
-
-        builder.connect( firstTransition,
-                         in );
-
-        DefaultPlace out = builder.newPlace();
-
-        builder.connect( out,
-                         lastTransition );
-
         Iterator segmentIter = this.segments.iterator();
         Segment  eachSegment = null;
+
+        DefaultPlace out = builder.newPlace();
 
         while ( segmentIter.hasNext() )
         {
             eachSegment = (Segment) segmentIter.next();
 
-            DefaultTransition[] branchEnds = eachSegment.build( builder );
+            DefaultPlace tail = eachSegment.append( in,
+                                                    builder );
 
-            builder.connect( in,
-                             branchEnds[0] );
-
-            builder.connect( branchEnds[1],
+            builder.connect( tail,
                              out );
         }
 
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        return out;
     }
 }

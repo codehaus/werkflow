@@ -32,13 +32,10 @@ public class NetBuilder
         this.in = this.net.addPlace( "in" );
         this.out = this.net.addPlace( "out" );
 
-        DefaultTransition[] ends = segment.build( this );
-
-        connect( in,
-                 ends[0] );
-
+        DefaultPlace segOut = segment.append( this.in,
+                                              this );
         
-        connect( ends[1],
+        connect( segOut,
                  out );
 
         this.net = null;
@@ -82,6 +79,32 @@ public class NetBuilder
     {
         return this.net.connectTransitionToPlace( transition.getId(),
                                                   place.getId() );
+    }
+
+    public void connect(DefaultPlace first,
+                        DefaultPlace last)
+        throws PetriException
+    {
+        DefaultTransition transition = newTransition();
+
+        connect( first,
+                 transition );
+        
+        connect( transition,
+                 last );
+    }
+
+    public void connect(DefaultTransition first,
+                        DefaultTransition last)
+        throws PetriException
+    {
+        DefaultPlace place = newPlace();
+
+        connect( first,
+                 place );
+
+        connect( place,
+                 last );
     }
 
     public String getNextTransitionId()

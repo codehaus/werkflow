@@ -21,27 +21,22 @@ public class MessageConditionalSegment
         this.bodySegment = bodySegment;
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition firstTransition = builder.newTransition();
+        DefaultTransition msgTrans = builder.newTransition();
+        msgTrans.setMessageWaiter( this.messageWaiter );
 
-        firstTransition.setMessageWaiter( this.messageWaiter );
+        builder.connect( in,
+                         msgTrans );
 
-        DefaultPlace connectingPlace = builder.newPlace();
+        DefaultPlace msgPlace = builder.newPlace();
 
-        DefaultTransition ends[] = this.bodySegment.build( builder );
+        builder.connect( msgTrans,
+                         msgPlace );
 
-        builder.connect( firstTransition,
-                         connectingPlace );
-
-        builder.connect( connectingPlace,
-                         ends[0] );
-
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                ends[1]
-            };
+        return this.bodySegment.append( msgPlace,
+                                        builder );
     }
 }

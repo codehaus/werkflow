@@ -48,6 +48,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
+import com.werken.werkflow.AttributeDeclaration;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.caserepo.CaseState;
 
@@ -75,7 +76,7 @@ public class WorkflowProcessCase
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Process-info. */
+    /** Process info. */
     private ProcessInfo info;
 
     /** Backing state. */

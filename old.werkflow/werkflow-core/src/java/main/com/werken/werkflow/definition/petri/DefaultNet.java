@@ -140,6 +140,12 @@ public class DefaultNet
         return (Place[]) this.places.values().toArray( Place.EMPTY_ARRAY );
     }
 
+    public Place getPlaceById(String id)
+        throws NoSuchPlaceException
+    {
+        return getPlace( id );
+    }
+
     /** Add a new <code>Transition</code>.
      *
      *  @param id The transition identifier.

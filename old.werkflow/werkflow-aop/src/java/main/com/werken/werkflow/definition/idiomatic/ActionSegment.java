@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.idiomatic;
 
+import com.werken.werkflow.definition.petri.DefaultPlace;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.PetriException;
 
@@ -21,21 +22,26 @@ public class ActionSegment
         return this.action;
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition transition = builder.newTransition();
+        DefaultTransition actionTrans = builder.newTransition();
+
+        builder.connect( in,
+                         actionTrans );
 
         DefaultTask task = new DefaultTask();
 
         task.setAction( getAction() );
 
-        transition.setTask( task );
+        actionTrans.setTask( task );
 
-        return new DefaultTransition[]
-            {
-                transition,
-                transition
-            };
+        DefaultPlace out = builder.newPlace();
+
+        builder.connect( actionTrans,
+                         out );
+
+        return out;
     }
 }

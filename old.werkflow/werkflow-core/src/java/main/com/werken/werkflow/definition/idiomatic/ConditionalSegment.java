@@ -9,43 +9,44 @@ public class ConditionalSegment
     implements Segment
 {
     private Expression condition;
-    private Segment segment;
+    private Segment bodySegment;
 
     public ConditionalSegment(Expression condition,
-                              Segment segment)
+                              Segment bodySegment)
     {
         this.condition = condition;
 
-        this.segment = segment;
+        this.bodySegment = bodySegment;
+    }
+
+    protected Segment getBodySegment()
+    {
+        return this.bodySegment;
     }
 
     public void addSegment(Segment segment)
         throws UnsupportedIdiomException
     {
-        this.segment.addSegment( segment );
+        this.bodySegment.addSegment( segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition ends[] = this.segment.build( builder );
-
         DefaultTransition condTrans = builder.newTransition();
 
         condTrans.setExpression( this.condition );
+
+        builder.connect( in,
+                         condTrans );
 
         DefaultPlace connectingPlace = builder.newPlace();
 
         builder.connect( condTrans,
                          connectingPlace );
-
-        builder.connect( connectingPlace,
-                         ends[0] );
-
-        return new DefaultTransition[]
-            {
-                condTrans,
-                ends[1]
-            };
+        
+        return this.bodySegment.append( connectingPlace,
+                                        builder );
     }
 }
