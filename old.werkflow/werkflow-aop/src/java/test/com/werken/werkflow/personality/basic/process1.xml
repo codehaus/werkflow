@@ -26,36 +26,17 @@
 </message-types>
 
 <sequence>
-<!--
-    <jelly:log message="before receive"/>
--->
-    <pick>
-        <choice>
-            <sequence>
-                <receive type="bool.msg">
-                    <jelly:log message="choice #1 -- ${message}"/>
-                </receive>
-                <jelly:log message="choice #1 stuff"/>
-            </sequence>
-        </choice>
-        <choice>
-            <sequence>
-                <receive type="str.msg">
-                    <jelly:log message="choice #2 -- ${message}"/>
-                </receive>
-                <jelly:log message="choice #2 stuff"/>
-            </sequence>
-        </choice>
-        <choice>
-            <sequence>
-                <receive type="int.msg">
-                    <jelly:log message="choice #3 -- ${message}"/>
-                </receive>
-                <jelly:log message="choice #3 stuff"/>
-            </sequence>
-        </choice>
-    </pick>
-    <jelly:log message="after receive"/>
+    <receive type="str.msg" bind="message">
+        <jelly:action>
+            <j:set var="len" value="${message.length()}"/>
+        </jelly:action>
+    </receive>
+    <jelly:log message="Will now wait for int with value ${len}"/>
+    <receive type="int.msg" bind="message">
+        <jelly:correlator test="${message == len}"/>
+        <jelly:log message="received ${message}"/>
+    </receive>
+    
 </sequence>
 
 <!--

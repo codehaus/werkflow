@@ -47,9 +47,15 @@
     </syntax:tag>
 
     <syntax:tag name="receive">
-        <core:receive type="${type}" correlator="${correlator}">
-            <syntax:invokeBody/>
-        </core:receive>
+        <syntax:action-receptor var="action">
+            <syntax:correlator-receptor var="correlator" bind="${bind}">
+                <syntax:invokeBody/>
+            </syntax:correlator-receptor>
+        </syntax:action-receptor>
+        <core:receive type="${type}" 
+                      correlator="${correlator}"
+                      action="${action}"
+                      bind="${bind}"/>
     </syntax:tag>
 
     <syntax:tag name="otherwise">

@@ -24,5 +24,11 @@ public class SyntaxTagLibrary
 
         registerTag( "expr-factory",
                      ExprFactoryTag.class );
+
+        registerTag( "action-receptor",
+                     ActionReceptorTag.class );
+        
+        registerTag( "correlator-receptor",
+                     CorrelatorReceptorTag.class );
     }
 }

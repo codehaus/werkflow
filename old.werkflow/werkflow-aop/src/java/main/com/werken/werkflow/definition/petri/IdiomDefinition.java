@@ -631,7 +631,9 @@ public class IdiomDefinition
 
         if ( actionStr.startsWith( PARAMETER_PREFIX ) )
         {
-            return (Action) idiom.getParameter( actionStr.substring( PARAMETER_PREFIX.length() ) );
+            Action action = (Action) idiom.getParameter( actionStr.substring( PARAMETER_PREFIX.length() ) );
+
+            return action;
         }
 
         return null;
@@ -663,17 +665,21 @@ public class IdiomDefinition
 
         MessageType msgType = idiom.getScope().getMessageType( msgTypeStr );
 
-        String varName = waiterDef.getVar();
+        String bindName = waiterDef.getBind();
 
-        if ( varName == null
+        if ( bindName == null
              ||
-             varName.equals( "" ) )
+             bindName.equals( "" ) )
         {
-            varName = "message";
+            bindName = "message";
+        }
+        else if ( bindName.startsWith( PARAMETER_PREFIX ) )
+        {
+            bindName = (String) idiom.getParameter( bindName.substring( PARAMETER_PREFIX.length() ) );
         }
 
         MessageWaiter waiter = new MessageWaiter( msgType,
-                                                  varName );
+                                                  bindName );
 
         String corrStr = waiterDef.getCorrelator();
 

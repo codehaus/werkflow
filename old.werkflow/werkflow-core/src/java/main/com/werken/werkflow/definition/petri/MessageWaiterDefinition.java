@@ -5,7 +5,7 @@ public class MessageWaiterDefinition
 {
     private String messageType;
     private String correlator;
-    private String var;
+    private String bind;
 
     public MessageWaiterDefinition(String messageType)
     {
@@ -16,11 +16,11 @@ public class MessageWaiterDefinition
 
     public MessageWaiterDefinition(String messageType,
                                    String correlator,
-                                   String var)
+                                   String bind)
     {
         this.messageType = messageType;
         this.correlator  = correlator;
-        this.var         = var;
+        this.bind         = bind;
     }
 
     public String getMessageType()
@@ -33,8 +33,8 @@ public class MessageWaiterDefinition
         return this.correlator;
     }
 
-    public String getVar()
+    public String getBind()
     {
-        return this.var;
+        return this.bind;
     }
 }
