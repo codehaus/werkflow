@@ -54,7 +54,6 @@ import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.engine.rules.EnablingRule;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
 import java.util.Set;
