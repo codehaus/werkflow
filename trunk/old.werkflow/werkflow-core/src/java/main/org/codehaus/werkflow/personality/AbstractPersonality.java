@@ -125,6 +125,7 @@ public abstract class AbstractPersonality
     protected JellyContext newJellyContext( JellyContext parent, Map beans )
     {
         JellyContext context = newJellyContext( parent );
+
         return context.newJellyContext( beans );
     }
 
