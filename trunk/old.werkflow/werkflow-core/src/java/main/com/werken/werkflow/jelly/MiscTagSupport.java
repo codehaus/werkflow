@@ -51,6 +51,8 @@ import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 
+import java.util.Collection;
+
 /** Generally useful Jelly base <code>Tag</code>.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
@@ -134,5 +136,16 @@ public abstract class MiscTagSupport
         }
         
         return ancestor;
+    }
+
+    public void addToCollector(Class objClass,
+                               Object obj)
+    {
+        Collection collector = (Collection) getContext().getVariable( objClass.getName() + ".colllector" );
+
+        if ( collector != null )
+        {
+            collector.add( obj );
+        }
     }
 }

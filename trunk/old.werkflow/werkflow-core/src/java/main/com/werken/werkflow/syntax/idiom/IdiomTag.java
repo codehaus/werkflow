@@ -38,5 +38,8 @@ public class IdiomTag
         invokeBody( output );
 
         setCurrentIdiomDefinition( null );
+
+        addToCollector( IdiomDefinition.class,
+                        idiomDef );
     }
 }
