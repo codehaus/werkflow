@@ -122,8 +122,8 @@ public class TransitionTag
     /** Documentation. */
     private String documentation;
 
-    /** Readiness test expression. */
-    private Expression expression;
+    /** Readiness guard expression. */
+    private Expression guardExpr;
 
     /** Task, possibly null. */
     private Task task;
@@ -180,22 +180,22 @@ public class TransitionTag
         return this.documentation;
     }
 
-    /** Set the readiness test expression.
+    /** Set the readiness guard expression.
      *
-     *  @param expression The expression.
+     *  @param guardExpr The expression.
      */
-    public void setTest(Expression expression)
+    public void setGuard(Expression guardExpr)
     {
-        this.expression = expression;
+        this.guardExpr = guardExpr;
     }
 
-    /** Retrieve the readiness test expression.
+    /** Retrieve the readiness guard expression.
      *
      *  @return The expression.
      */
-    public Expression getTest()
+    public Expression getGuard()
     {
-        return this.expression;
+        return this.guardExpr;
     }
 
     /** Set the Transition type.
@@ -300,9 +300,9 @@ public class TransitionTag
 
         transition.setDocumentation( getDocumentation() );
 
-        if ( getTest() != null )
+        if ( getGuard() != null )
         {
-            transition.setExpression( new JellyExpression( getTest() ) );
+            transition.setExpression( new JellyExpression( getGuard() ) );
         }
 
         if ( getTask() != null )
@@ -315,7 +315,7 @@ public class TransitionTag
             transition.setMessageWaiter( getMessageWaiter() );
         }
 
-        this.expression = null;
-        this.task       = null;
+        setGuard( null );
+        setTask( null );
     }
 }
