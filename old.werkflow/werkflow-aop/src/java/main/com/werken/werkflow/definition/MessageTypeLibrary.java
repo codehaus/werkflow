@@ -7,17 +7,44 @@ public class MessageTypeLibrary
 {
     public static final String MESSAGE_TYPE_LIBRARY_KEY = "werkflow.msg.type.lib";
 
+    private MessageTypeLibrary parent;
     private Map messageTypes;
 
     public MessageTypeLibrary()
     {
+        this( null );
+    }
+    
+    public MessageTypeLibrary(MessageTypeLibrary parent)
+    {
+        this.parent = parent;
         this.messageTypes = new HashMap();
+    }
+
+    public MessageTypeLibrary getParent()
+    {
+        return this.parent;
+    }
+
+    public boolean containsMessageType(MessageType messageType)
+    {
+        if ( this.messageTypes.containsKey( messageType.getId() ) )
+        {
+            return true;
+        }
+
+        if ( this.parent != null )
+        {
+            return this.parent.containsMessageType( messageType );
+        }
+
+        return false;
     }
 
     public void addMessageType(MessageType messageType)
         throws DuplicateMessageTypeException
     {
-        if ( this.messageTypes.containsKey( messageType.getId() ) )
+        if ( containsMessageType( messageType ) )
         {
             throw new DuplicateMessageTypeException( messageType );
         }
@@ -31,11 +58,14 @@ public class MessageTypeLibrary
     {
         if ( ! this.messageTypes.containsKey( id ) )
         {
-            throw new NoSuchMessageTypeException( id );
-        }
+            if ( this.parent == null )
+            {
+                throw new NoSuchMessageTypeException( id );
+            }
 
+            return this.parent.getMessageType( id );
+        }
+        
         return (MessageType) this.messageTypes.get( id );
     }
-
-        
 }

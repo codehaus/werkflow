@@ -1,5 +1,7 @@
 <message-types xmlns="werkflow:fundamental"
-               xmlns:wfjava="werkflow:java">
+     xmlns:wfjava="werkflow:java">
+
+I like cheese
 
   <message-type id="normal.msg">
     <wfjava:selector type="com.werken.werkflow.SimpleMessage"
