@@ -5,27 +5,19 @@ import com.werken.werkflow.definition.MessageType;
 public class MockMessageSink
     implements MessageSink
 {
-    private MessageType messageType;
-    private Object message;
+    private Message message;
 
     public MockMessageSink()
     {
 
     }
 
-    public void acceptMessage(MessageType messageType,
-                              Object message)
+    public void acceptMessage(Message message)
     {
-        this.messageType = messageType;
         this.message     = message;
     }
 
-    public MessageType getMessageType()
-    {
-        return this.messageType;
-    }
-
-    public Object getMessage()
+    public Message getMessage()
     {
         return this.message;
     }

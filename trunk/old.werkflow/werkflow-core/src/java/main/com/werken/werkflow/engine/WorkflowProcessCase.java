@@ -106,4 +106,15 @@ public class WorkflowProcessCase
     {
         return this.enabledTransitions;
     }
+
+    public boolean isCorrelated(String transitionId)
+    {
+        return false;
+    }
+
+    public void addCorrelation(String transitionId,
+                               String messageId)
+    {
+
+    }
 }

@@ -1,17 +1,26 @@
-package com.werken.werkflow.engine;
+package com.werken.werkflow.service.messaging;
 
 import com.werken.werkflow.definition.MessageType;
 
-public class Message
+public class DefaultMessage
+    implements Message
 {
+    private String id;
     private MessageType messageType;
     private Object message;
 
-    public Message(MessageType messageType,
-                   Object message)
+    public DefaultMessage(String id,
+                          MessageType messageType,
+                          Object message)
     {
+        this.id          = id;
         this.messageType = messageType;
         this.message     = message;
+    }
+
+    public String getId()
+    {
+        return this.id;
     }
 
     public MessageType getMessageType()
@@ -24,3 +33,4 @@ public class Message
         return this.message;
     }
 }
+

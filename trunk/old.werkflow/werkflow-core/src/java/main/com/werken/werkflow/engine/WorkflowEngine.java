@@ -177,7 +177,6 @@ public class WorkflowEngine
         return getServices().getMessagingManager().register( messageSink,
                                                              messageType );
     }
-                          
 
     ProcessDeployment getProcessDeployment(String processId)
         throws NoSuchProcessException

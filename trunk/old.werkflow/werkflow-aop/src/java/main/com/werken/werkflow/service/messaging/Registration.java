@@ -9,4 +9,10 @@ public interface Registration
     MessageType getMessageType();
 
     void unregister();
+
+    Message getMessage(String id)
+        throws NoSuchMessageException;
+
+    void consumeMessage(String id)
+        throws NoSuchMessageException;
 }
