@@ -10,7 +10,7 @@
   <fund:import url="message-types.xml"/>
 
 <!--
-  <message-initiator id="bob" 
+  <message-initiator id="bob"
                      type="init.msg"/>
 -->
 
@@ -34,7 +34,7 @@
 
             <input from="in"/>
             <output to="middle"/>
-    
+
             <task>
                 <jelly:action>
                     <j:set var="bob" value="${message.payload}"/>
@@ -60,10 +60,10 @@
                     case ${caseId}
                     action 2
                     bob == ${bob}
-                    myMsg == ${myMsg.type} : ${myMsg.payload} 
+                    myMsg == ${myMsg.type} : ${myMsg.payload}
                 </jelly:action>
             </task>
-        </transition> 
+        </transition>
     </net>
 
 </fund:process>

@@ -25,7 +25,7 @@
 
             <input from="in"/>
             <output to="middle"/>
-    
+
             <task>
                 <jelly:action>
                     case ${caseId}
@@ -48,7 +48,7 @@
                     bob == ${bob}
                 </jelly:action>
             </task>
-        </transition> 
+        </transition>
     </net>
 
 </fund:process>
