@@ -1,6 +1,6 @@
 package com.werken.werkflow.engine;
 
-import com.werken.werkflow.service.MockWfmsServices;
+import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.caserepo.CaseRepository;
 import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
 
@@ -9,12 +9,12 @@ import junit.framework.TestCase;
 public class WorkflowEngineTest
     extends TestCase
 {
-    private MockWfmsServices services;
+    private SimpleWfmsServices services;
     private CaseRepository caseRepo;
 
     public void setUp()
     {
-        this.services = new MockWfmsServices();
+        this.services = new SimpleWfmsServices();
         this.caseRepo = new InMemoryCaseRepository();
 
         this.services.setCaseRepository( this.caseRepo );

@@ -5,7 +5,7 @@ import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.fundamental.FundamentalDefinitionLoader;
 import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.service.WfmsServices;
-import com.werken.werkflow.service.MockWfmsServices;
+import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
 
 import junit.framework.TestCase;
@@ -18,7 +18,7 @@ public class GeneralTest
     public void testOne()
         throws Exception
     {
-        MockWfmsServices services = new MockWfmsServices();
+        SimpleWfmsServices services = new SimpleWfmsServices();
 
         services.setCaseRepository( new InMemoryCaseRepository() );
 

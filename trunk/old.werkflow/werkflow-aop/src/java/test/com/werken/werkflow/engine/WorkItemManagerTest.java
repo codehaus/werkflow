@@ -2,7 +2,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.resource.ResourceClass;
 import com.werken.werkflow.resource.NoSuchResourceClassException;
-import com.werken.werkflow.service.MockWfmsServices;
+import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.task.MockTask;
 import com.werken.werkflow.task.ResourceSpec;
 
@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class WorkItemManagerTest
     extends TestCase
 {
-    private MockWfmsServices services;
+    private SimpleWfmsServices services;
     private WorkflowEngine engine;
 
     private ResourceClass humanResourceClass;
@@ -24,7 +24,7 @@ public class WorkItemManagerTest
     public void setUp()
         throws Exception
     {
-        this.services = new MockWfmsServices();
+        this.services = new SimpleWfmsServices();
         this.engine   = new WorkflowEngine( this.services );
 
         this.humanResourceClass = new ResourceClass( "human",
