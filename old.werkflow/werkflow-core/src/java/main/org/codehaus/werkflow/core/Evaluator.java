@@ -170,10 +170,8 @@ class Evaluator
                                            Transition transition,
                                            String[] tokens)
     {
-        /*
         getProcessDeployment().addCase( processCase,
                                         transition.getId() );
-        */
 
         Correlation[] correlations = processCase.getCorrelations( transition.getId() );
 

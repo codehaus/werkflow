@@ -140,6 +140,7 @@ class MessageHandler
     boolean addCase(CoreProcessCase processCase,
                     String transitionId)
     {
+        System.err.println( "MessageHandler.addCase( " + processCase.getId() + ", " + transitionId + ")" );
         return getMessageTypeHandler( transitionId ).addCase( processCase,
                                                               transitionId );
     }

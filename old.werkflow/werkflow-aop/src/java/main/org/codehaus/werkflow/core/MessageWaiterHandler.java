@@ -103,7 +103,7 @@ class MessageWaiterHandler
 
     boolean addCase(CoreProcessCase processCase)
     {
-        System.err.println( "MessageWaiterHandler.CASECASECASE( " + processCase.getId() + " )" );
+        System.err.println( "### MessageWaiterHandler.addCase( " + processCase.getId() + " )" );
 
         if ( this.processCases.contains( processCase ) )
         {
@@ -117,6 +117,7 @@ class MessageWaiterHandler
 
     void removeCase(CoreProcessCase processCase)
     {
+        System.err.println( "### MessageWaiterHandler.removeCase( " + processCase.getId() + " )" );
         processCase.removeCorrelationsByTransition( transition.getId() );
         this.processCases.remove( processCase );
     }
@@ -143,6 +144,7 @@ class MessageWaiterHandler
 
     boolean attemptCorrelation(Message message)
     {
+        System.err.println( "attemptCorrelation(" + message.getMessage() + ") @ " + getTransition().getId() );
         boolean result = false;
 
         Iterator        caseIter = this.processCases.iterator();
@@ -164,6 +166,7 @@ class MessageWaiterHandler
     boolean attemptCorrelation(CoreProcessCase processCase,
                                Message message)
     {
+        System.err.println( "attemptCorrelation(" + processCase + ", " + message.getMessage() + ") @ " + getTransition().getId() );
         MessageWaiter waiter = (MessageWaiter) getTransition().getWaiter();
 
         MessageCorrelator correlator = waiter.getMessageCorrelator();
