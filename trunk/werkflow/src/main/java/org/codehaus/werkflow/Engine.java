@@ -330,7 +330,7 @@ public class Engine
              path );
     }
 
-    public void satisfy(RobustTransaction transaction,
+    void satisfy(RobustTransaction transaction,
                         String instanceId,
                         String satisfactionId,
                         SatisfactionValues values)
