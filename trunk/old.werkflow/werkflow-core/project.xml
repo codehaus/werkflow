@@ -179,6 +179,12 @@
       <version>2.5.1</version>
     </dependency>
 
+    <!--
+      oro must preced jython in the classpath because jython contains a
+      subset of the oro classes, causing maven's jxr plugin to fail with
+      a NoSuchMethodError if it uses the jython classes instead of the
+      oro ones.
+    -->
     <dependency>
       <id>oro</id>
       <version>2.0.7</version>
