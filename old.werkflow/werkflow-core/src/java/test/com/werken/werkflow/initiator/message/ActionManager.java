@@ -29,5 +29,9 @@ public class ActionManager
         {
             System.out.println( "ACTION-MANAGER: We have a problem: the actionId is null." );
         }
+        else
+        {
+            System.out.println( "ACTION-MANAGER: actionId = " + actionId );
+        }
     }
 }

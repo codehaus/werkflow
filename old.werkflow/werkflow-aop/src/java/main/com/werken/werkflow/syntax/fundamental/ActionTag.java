@@ -48,8 +48,11 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.work.Action;
 import com.werken.werkflow.work.NoSuchActionException;
-import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyContext;
+import org.apache.commons.jelly.JellyTagException;
+
+import java.util.Map;
 
 public class ActionTag
     extends AbstractActionTag
@@ -60,6 +63,9 @@ public class ActionTag
 
     /** Identifier. */
     private String id;
+
+    /** Vars. */
+    private Map vars;
 
     // ----------------------------------------------------------------------
     //      Constructors
@@ -94,6 +100,17 @@ public class ActionTag
         return this.id;
     }
 
+    public void setVars(Map vars)
+    {
+        this.vars = vars;
+    }
+
+    public Map getVars()
+    {
+        return this.vars;
+    }
+
+
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag( XMLOutput output )
@@ -122,7 +139,18 @@ public class ActionTag
             throw new JellyTagException( e );
         }
 
+
+        /*
+        this.vars.remove( "parentScope" );
+        this.vars.remove( "systemScope" );
+        this.vars.remove( "context" );
+        */
+
+        System.err.println( "VARS: " + this.vars );
+        //System.err.println( "VARS CHEESE: " + this.vars.get( "cheese" ) );
+
         setAction( new ModifiableAction( getBody(),
+                                         this.vars,
                                          action ) );
 
     }

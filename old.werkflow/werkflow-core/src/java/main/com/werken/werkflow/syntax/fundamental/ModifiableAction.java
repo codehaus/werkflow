@@ -46,6 +46,7 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
+import com.werken.werkflow.MutableAttributes;
 import com.werken.werkflow.work.Action;
 import com.werken.werkflow.work.ActionInvocation;
 
@@ -53,6 +54,7 @@ import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 
 import java.util.Map;
+import java.util.Iterator;
 import java.util.Collections;
 
 /** Wrapper around any <code>Action</code> to allow modifications
@@ -74,6 +76,8 @@ public class ModifiableAction
     /** Modification script. */
     private Script script;
 
+    private Map vars;
+
     /** Wrapped action. */
     private Action action;
 
@@ -87,9 +91,11 @@ public class ModifiableAction
      *  @param action The wrapped action.
      */
     public ModifiableAction(Script script,
+                            Map vars,
                             Action action)
     {
         this.script = script;
+        this.vars   = vars;
         this.action = action;
     }
 
@@ -141,10 +147,38 @@ public class ModifiableAction
     public void modifyAttributes(ActionInvocation invocation)
         throws Exception
     {
+
+        MutableAttributes otherAttrs = invocation.getOtherAttributes();
+
+        for ( Iterator keyIter = this.vars.keySet().iterator();
+              keyIter.hasNext(); )
+        {
+            String key = (String) keyIter.next();
+
+            if ( key.endsWith( "Attr" ) )
+            {
+                Object value = this.vars.get( key );
+
+                key = key.substring( 0,
+                                     key.length()-4 );
+
+                otherAttrs.setAttribute( key,
+                                         value );
+
+                System.err.println( key + "--->" + value );
+            }
+        }
+        
+        System.err.println( "!!! modifying attributes" );
         OverlayJellyContext context = new OverlayJellyContext( invocation );
         
         script.run( context,
-                    XMLOutput.createDummyXMLOutput() );
+                    XMLOutput.createXMLOutput( System.err ) );
+
+        System.err.println( "script: " + script );
+
+        // XMLOutput.createDummyXMLOutput() );
+
     }
 
     public String toString()

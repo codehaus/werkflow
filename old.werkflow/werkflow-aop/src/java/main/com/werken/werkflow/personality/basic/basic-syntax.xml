@@ -143,9 +143,7 @@
     </syntax:tag>
 
     <syntax:tag name="action">
-        <fund:action id="${id}">
-            <syntax:invokeBody/>
-        </fund:action>
+        <fund:action id="${id}" vars="${attrs}"/>
     </syntax:tag>
 
     <syntax:tag name="import">

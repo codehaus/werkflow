@@ -22,9 +22,7 @@
   <process initiation="message" id="entity" package="test">
     <sequence>
       <receive type="AddEntity" bind="message">
-        <action id="default" actionId="AddEntityToModel">
-          <j:set var="actionId" value="AddEntityToModel"/>
-        </action>
+        <action id="default" actionId="AddEntityToModel"/>
       </receive>
     </sequence>
   </process>
