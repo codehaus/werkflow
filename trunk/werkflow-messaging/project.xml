@@ -56,9 +56,35 @@
             <version>2.0.5</version>
         </dependency>
         <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>werkflow</groupId>
+            <artifactId>werkflow-tagalog</artifactId>
+            <version>2.0-alpha-1</version>
+        </dependency>
+        <dependency>
+            <groupId>tagalog</groupId>
+            <artifactId>tagalog</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>tagalog</groupId>
+            <artifactId>tagalog-el-ognl</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <version>2.6.5</version>
         </dependency>
     </dependencies>
 
