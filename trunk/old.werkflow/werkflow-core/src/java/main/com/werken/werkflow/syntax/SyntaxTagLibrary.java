@@ -30,5 +30,8 @@ public class SyntaxTagLibrary
         
         registerTag( "correlator-receptor",
                      CorrelatorReceptorTag.class );
+
+        registerTag( "scope",
+                     ScopeTag.class );
     }
 }

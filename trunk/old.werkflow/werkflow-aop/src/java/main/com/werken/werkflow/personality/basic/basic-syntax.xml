@@ -7,7 +7,9 @@
     <syntax:import url="../common/core-idioms.xml"/>
 
     <syntax:tag name="processes">
-        <syntax:invokeBody/>
+        <syntax:scope>
+            <syntax:invokeBody/>
+        </syntax:scope>
     </syntax:tag>
 
     <syntax:tag name="import">
@@ -22,7 +24,9 @@
         <fund:process package="${package}"
                       id="${id}"
                       initiation="${initiation}">
-            <syntax:invokeBody/>
+            <syntax:scope>
+                <syntax:invokeBody/>
+            </syntax:scope>
         </fund:process> 
     </syntax:tag>
 
