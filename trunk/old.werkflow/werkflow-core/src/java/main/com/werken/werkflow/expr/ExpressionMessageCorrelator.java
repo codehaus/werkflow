@@ -110,19 +110,11 @@ public class ExpressionMessageCorrelator
                               ProcessCase processCase)
         throws Exception
     {
-        SimpleAttributes attrs = new SimpleAttributes();
+        AttributesExpressionContext exprContext = new AttributesExpressionContext( processCase );
 
-        String[] attrNames = processCase.getAttributeNames();
+        exprContext.setValue( getMessageId(),
+                              message );
 
-        for ( int i = 0 ; i < attrNames.length ; ++i )
-        {
-            attrs.setAttribute( attrNames[i],
-                                processCase.getAttribute( attrNames[i] ) );
-        }
-        
-        attrs.setAttribute( getMessageId(),
-                            message );
-
-        return getExpression().evaluateAsBoolean( attrs );
+        return getExpression().evaluateAsBoolean( exprContext );
     }
 }

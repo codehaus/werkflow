@@ -1,9 +1,13 @@
 package com.werken.werkflow.semantics.jexl;
 
-import com.werken.werkflow.Attributes;
+import com.werken.werkflow.expr.ExpressionContext;
 
 import org.apache.commons.jexl.Expression;
 import org.apache.commons.jexl.JexlContext;
+import org.apache.commons.jexl.JexlHelper;
+
+import java.util.Map;
+import java.util.HashMap;
 
 public class JexlExpression
     implements com.werken.werkflow.expr.Expression
@@ -15,10 +19,22 @@ public class JexlExpression
         this.expr = expr;
     }
 
-    public boolean evaluateAsBoolean(Attributes attrs)
+    public boolean evaluateAsBoolean(ExpressionContext exprContext)
         throws Exception
     {
-        JexlContext context = new AttributesJexlContext( attrs );
+        JexlContext context = JexlHelper.createContext();
+
+        Map varsMap = new HashMap();
+
+        String[] names = exprContext.getNames();
+
+        for ( int i = 0 ; i < names.length ; ++i )
+        {
+            varsMap.put( names[i],
+                         exprContext.getValue( names[i] ) );
+        }
+
+        context.setVars( varsMap );
 
         Object value = this.expr.evaluate( context );
 

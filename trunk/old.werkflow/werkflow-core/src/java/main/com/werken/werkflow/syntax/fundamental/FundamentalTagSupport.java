@@ -50,6 +50,8 @@ import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionFactory;
 import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
@@ -160,6 +162,26 @@ public abstract class FundamentalTagSupport
     {
         getContext().setVariable( CURRENT_PROCESS_KEY,
                                   processDef );
+    }
+
+    protected ExpressionFactory getExpressionFactory()
+    {
+        String factoryName = (String) getContext().findVariable( ExpressionFactory.class.getName() );
+
+        if ( factoryName == null )
+        {
+            return null;
+        }
+
+        ExpressionFactory factory = (ExpressionFactory) getContext().findVariable( factoryName );
+        
+        return factory;
+    }
+
+    protected Expression newExpression(String text)
+        throws Exception
+    {
+        return getExpressionFactory().newExpression( text );
     }
 }
 

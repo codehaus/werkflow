@@ -46,14 +46,13 @@ package com.werken.werkflow.syntax.petri;
  
  */
 
+import com.werken.werkflow.expr.ExpressionFactory;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultArc;
 import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.expression.Expression;
 
 /** Create an input arc for a <code>Transition</code>.
  *
@@ -91,7 +90,7 @@ public class InputTag
     private String from;
 
     /** Filter expression. */
-    private Expression filterExpr;
+    private String filterExpr;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -128,20 +127,20 @@ public class InputTag
         return this.from;
     }
 
-    /** Set the input filter <code>Expression</code>.
+    /** Set the input filter expression.
      *
      *  @param filterExpr The filter expression.
      */
-    public void setFilter(Expression filterExpr)
+    public void setFilter(String filterExpr)
     {
         this.filterExpr = filterExpr;
     }
 
-    /** Retrieve the input filter <code>Expression</code>.
+    /** Retrieve the input filter expression.
      *
      *  @return The filter expression.
      */
-    public Expression getFilter()
+    public String getFilter()
     {
         return this.filterExpr;
     }
@@ -168,15 +167,16 @@ public class InputTag
         {
             arc = net.connectPlaceToTransition( getFrom(),
                                                 transition.getId() );
+
+            if ( getFilter() != null )
+            {
+                arc.setExpression( newExpression( getFilter() ) );
+            }
+        
         }
         catch (Exception e)
         {
             throw new JellyTagException( e );
-        }
-        
-        if ( getFilter() != null )
-        {
-            arc.setExpression( new JellyExpression( getFilter() ) );
         }
         
         invokeBody( output );

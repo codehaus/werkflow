@@ -212,10 +212,7 @@ public class IdiomImplTag
     }
 
     protected ExpressionFactory getExpressionFactory()
-        throws Exception
     {
-        // return (ExpressionFactory) getContext().getVariable( ExpressionFactory.class.getName() );
-
         String factoryName = (String) getContext().findVariable( ExpressionFactory.class.getName() );
 
         if ( factoryName == null )

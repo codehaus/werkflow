@@ -46,8 +46,6 @@ package com.werken.werkflow.expr;
  
  */
 
-import com.werken.werkflow.Attributes;
-
 /** Arbitrary boolean expression.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
@@ -58,7 +56,7 @@ public interface Expression
 {
     final static Expression TRUE = new Expression()
         {
-            public boolean evaluateAsBoolean(Attributes attributes)
+            public boolean evaluateAsBoolean(ExpressionContext context)
                 throws Exception
             {
                 return true;
@@ -67,23 +65,22 @@ public interface Expression
 
     final static Expression FALSE = new Expression()
         {
-            public boolean evaluateAsBoolean(Attributes attributes)
+            public boolean evaluateAsBoolean(ExpressionContext context)
                 throws Exception
             {
                 return false;
             }
         };
 
-    /** Evaluate this <code>Expression</code> within the context
-     *  of some <code>Attributes</code>.
+    /** Evaluate this <code>Expression</code> within some context.
      *
-     *  @param attributes The atttributes.
+     *  @param context The context.
      *
      *  @return The result of the evaluation.
      *
      *  @throws Exception If an error occurs while attempting to
      *          perform evaluation.
      */
-    boolean evaluateAsBoolean(Attributes attributes)
+    boolean evaluateAsBoolean(ExpressionContext context)
         throws Exception;
 }

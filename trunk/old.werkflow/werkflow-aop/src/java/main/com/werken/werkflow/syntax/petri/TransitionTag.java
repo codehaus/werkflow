@@ -52,12 +52,10 @@ import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.AndInputRule;
 import com.werken.werkflow.definition.petri.OrInputRule;
 import com.werken.werkflow.definition.petri.DuplicateIdException;
-import com.werken.werkflow.semantics.jelly.JellyExpression;
 import com.werken.werkflow.task.Task;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.expression.Expression;
 
 /** Define a <code>Transition</code> in the Petri net structure.
  *
@@ -123,7 +121,7 @@ public class TransitionTag
     private String documentation;
 
     /** Readiness guard expression. */
-    private Expression guardExpr;
+    private String guardExpr;
 
     /** Task, possibly null. */
     private Task task;
@@ -183,7 +181,7 @@ public class TransitionTag
      *
      *  @param guardExpr The expression.
      */
-    public void setGuard(Expression guardExpr)
+    public void setGuard(String guardExpr)
     {
         this.guardExpr = guardExpr;
     }
@@ -192,7 +190,7 @@ public class TransitionTag
      *
      *  @return The expression.
      */
-    public Expression getGuard()
+    public String getGuard()
     {
         return this.guardExpr;
     }
@@ -303,9 +301,16 @@ public class TransitionTag
 
         transition.setDocumentation( getDocumentation() );
 
-        if ( getGuard() != null )
+        try
         {
-            transition.setExpression( new JellyExpression( getGuard() ) );
+            if ( getGuard() != null )
+            {
+                transition.setExpression( newExpression( getGuard() ) );
+            }
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
         }
 
         if ( getTask() != null )

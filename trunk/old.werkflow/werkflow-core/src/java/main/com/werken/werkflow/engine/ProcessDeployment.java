@@ -59,6 +59,8 @@ import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.PetriException;
+import com.werken.werkflow.expr.ExpressionContext;
+import com.werken.werkflow.expr.AttributesExpressionContext;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
 import java.util.Arrays;
@@ -292,6 +294,8 @@ class ProcessDeployment
         Transition eachTrans = null;
         EnablingRule rule = null;
 
+        ExpressionContext exprContext = new AttributesExpressionContext( processCase );
+
         while ( transIter.hasNext() )
         {
             eachTrans = (Transition) transIter.next();
@@ -313,7 +317,7 @@ class ProcessDeployment
                 {
                     try
                     {
-                        if ( ! eachTrans.getExpression().evaluateAsBoolean( processCase ) )
+                        if ( ! eachTrans.getExpression().evaluateAsBoolean( exprContext ) )
                         {
                             // System.err.println( "expr failed" );
                             continue;
