@@ -14,8 +14,7 @@ public class ProcessDefinitionTest
 
         ProcessDefinition def = new ProcessDefinition( "the process",
                                                        net,
-                                                       MessageInitiator.EMPTY_ARRAY );
-
+                                                       ProcessDefinition.InitiationType.CALL );
         assertEquals( "the process",
                       def.getId() );
 
@@ -31,7 +30,7 @@ public class ProcessDefinitionTest
 
         ProcessDefinition def = new ProcessDefinition( "the process",
                                                        net,
-                                                       MessageInitiator.EMPTY_ARRAY );
+                                                       ProcessDefinition.InitiationType.CALL );
 
         assertNull( def.getDocumentation() );
 

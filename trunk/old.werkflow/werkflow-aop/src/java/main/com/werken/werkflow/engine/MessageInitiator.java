@@ -46,38 +46,52 @@ package com.werken.werkflow.engine;
  
  */
 
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.NoSuchProcessException;
-import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.petri.Transition;
 
-import java.util.Map;
-
-/** <code>Activity</code> for process-initiating actions.
+/** Annotation to a <code>ProcessDefinition</code> specifying
+ *  how a message may initiate a new <code>ProcessCase</code>.
  *
- *  @see Initiator
+ *  <p>
+ *  When a message of the <code>MessageType</code> is received,
+ *  the associated <code>Action</code> is executed with the message
+ *  in <code>otherAttrs</code>.  The purpose of the <code>Action</code>
+ *  is to initate the <code>ProcessCase<code>'s own attributes,
+ *  as the message is <b>not</b> by default saved in the case
+ *  attributes.
+ *  </p>
+ *
+ *  @see ProcessDefinition
+ *  @see MessageType
+ *  @see Action
+ *  @see com.werken.werkflow.ProcessCase
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-class InitiatorActivity
-    implements Activity
+class MessageInitiator
 {
     // ----------------------------------------------------------------------
-    //     Instance methods
+    //     Constants
     // ----------------------------------------------------------------------
 
-    /** Error, possibly null. */
-    private Throwable error;
+    /** Empty <code>MessageInitiator</code> array. */
+    public static final MessageInitiator[] EMPTY_ARRAY = new MessageInitiator[0];
 
-    /** Workflow engine. */
-    private WorkflowEngine engine;
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
 
-    /** Process identifier of process to initiate. */
-    private String processId;
+    /** Transition. */
+    private Transition transition;
 
-    /** Initial attributes backing storage. */
-    private Map initialAttrs;
+    /** Initiating message-type. */
+    private MessageType messageType;
+
+    /** Other-attributes binding variable name. */
+    private String bindingVar;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -85,90 +99,49 @@ class InitiatorActivity
 
     /** Construct.
      *
-     *  @param engine The workflow engine.
-     *  @param processId The identifier of the process to initiate.
-     *  @param initialAttrs The map backing the initial attributes.
+     *  @param transition The transition.
+     *  @param messageType The initiating message-type.
+     *  @param bindingVar The other-attributes binding variable name.
      */
-    public InitiatorActivity(WorkflowEngine engine,
-                             String processId,
-                             Map initialAttrs)
+    public MessageInitiator(Transition transition,
+                            MessageType messageType,
+                            String bindingVar)
     {
-        this.engine       = engine;
-        this.processId    = processId;
-        this.initialAttrs = initialAttrs;
+        this.transition  = transition;
+        this.messageType = messageType;
+        this.bindingVar  = bindingVar;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the <code>WorkflowEngine</code>.
+    public Transition getTransition()
+    {
+        return this.transition;
+    }
+
+    /** Retrieve the initiating <code>MessageType</code>.
      *
-     *  @return The engine.
+     *  @return The messagektype.
      */
-    private WorkflowEngine getEngine()
+    public MessageType getMessageType()
     {
-        return this.engine;
+        return this.messageType;
     }
 
-    /** @see Activity
-     */
-    public String getCaseId()
-    {
-        return null;
-    }
-
-    /** @see Activity
-     */
-    public String getTransitionId()
-    {
-        return null;
-    }
-
-    /** @see Activity
-     */
-    public String getProcessId()
-    {
-        return this.processId;
-    }
-
-    /** Retrieve the initial attributes backing map.
+    /** Retrieve the other-attributes binding variable name.
      *
-     *  @return The initial attributes backing map.
+     *  @return The binding variable name.
      */
-    private Map getInitialAttributes()
+    public String getBindingVar()
     {
-        return this.initialAttrs;
+        return this.bindingVar;
     }
 
-    /** @see Activity
-     */
-    public void complete()
+    public String toString()
     {
-        SimpleAttributes initialAttrs = new SimpleAttributes( getInitialAttributes() );
-
-        try
-        {
-            getEngine().newProcessCase( getProcessId(),
-                                        initialAttrs );
-        }
-        catch (NoSuchProcessException e)
-        {
-            completeWithError( e );
-        }
-    }
-
-    /** @see Activity
-     */
-    public void completeWithError(Throwable error)
-    {
-        this.error = error;
-    }
-
-    /** @see Activity
-     */
-    public Throwable getError()
-    {
-        return this.error;
+        return "[message-initiator transition=" + getTransition() + " type=" + getMessageType() + " var=" + getBindingVar() + "]";
     }
 }
+    

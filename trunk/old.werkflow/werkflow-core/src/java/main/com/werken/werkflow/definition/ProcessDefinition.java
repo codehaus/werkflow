@@ -56,14 +56,6 @@ import java.util.HashMap;
 
 /** Definition of a process.
  *
- *  <p>
- *  A process is defined using a Petri <code>Net</code>.
- *  Additionally, <code>MessageInitiator</code>s may be
- *  attached to allow initiation to occur as the result
- *  of the receipt of a message.
- *  </p>
- *
- *  @see MessageInitiator
  *  @see Net
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
@@ -86,7 +78,7 @@ public class ProcessDefinition
     public static final class InitiationType
     {
         public static final InitiationType MESSAGE = new InitiationType();
-        public static final InitiationType INVOKE  = new InitiationType();
+        public static final InitiationType CALL    = new InitiationType();
 
         private InitiationType()
         {
@@ -107,9 +99,6 @@ public class ProcessDefinition
     /** Petri-net structure. */
     private Net net;
 
-    /** Message initiators, possibly empty. */
-    private MessageInitiator[] messageInitiators;
-
     private Map attrDecls;
 
     private String[] inParameters;
@@ -121,27 +110,6 @@ public class ProcessDefinition
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
-
-    /** Construct.
-     *
-     *  @param id The unique process identifier.
-     *  @param net The Petri net structure.
-     *  @param messageInitiators The message initiators.
-     */
-    public ProcessDefinition(String id,
-                             Net net,
-                             MessageInitiator[] messageInitiators)
-    {
-        this.id  = id;
-        this.net = net;
-
-        this.messageInitiators = messageInitiators;
-
-        this.attrDecls = new HashMap();
-
-        this.inParameters = EMPTY_STRING_ARRAY;
-        this.outParameters = EMPTY_STRING_ARRAY;
-    }
 
     public ProcessDefinition(String id,
                              Net net,
@@ -196,15 +164,6 @@ public class ProcessDefinition
     public Net getNet()
     {
         return this.net;
-    }
-
-    /** Retrieve the <code>MessageInitiator</code>s.
-     *
-     *  @return The possibly empty message-initiator array.
-     */
-    public MessageInitiator[] getMessageInitiators()
-    {
-        return this.messageInitiators;
     }
 
     public void addAttributeDeclaration(AttributeDeclaration attrDecl)

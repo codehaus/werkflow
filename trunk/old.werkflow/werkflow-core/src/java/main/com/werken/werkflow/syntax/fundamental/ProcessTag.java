@@ -46,7 +46,6 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
@@ -90,7 +89,6 @@ import java.util.ArrayList;
  *  @see PlaceTag
  *  @see TransitionTag
  *  @see MessageTypeTag
- *  @see MessageInitiatorTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
@@ -113,8 +111,8 @@ public class ProcessTag
     /** Petri-net structure. */
     private DefaultNet net;
 
-    /** Message-based process initiators. */
-    private List messageInitiators;
+    /** Initiation type. */
+    private String initiation;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -124,7 +122,6 @@ public class ProcessTag
      */
     public ProcessTag()
     {
-        this.messageInitiators = new ArrayList();
     }
 
     // ----------------------------------------------------------------------
@@ -174,22 +171,14 @@ public class ProcessTag
         return this.documentation;
     }
 
-    /** Add a <code>MessageInitiator</code>.
-     *
-     *  @param initiator The message-initiator.
-     */
-    public void addMessageInitiator(MessageInitiator initiator)
+    public void setInitiation(String initiation)
     {
-        this.messageInitiators.add( initiator );
+        this.initiation = initiation;
     }
 
-    /** Retrieve the <code>MessageInitiator</code>s.
-     *
-     *  @return The message-initiators or an empty array if none.
-     */
-    public MessageInitiator[] getMessageInitiators()
+    public String getInitiation()
     {
-        return (MessageInitiator[]) this.messageInitiators.toArray( MessageInitiator.EMPTY_ARRAY );
+        return this.initiation;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -203,6 +192,24 @@ public class ProcessTag
         requireStringAttribute( "id",
                                 getId() );
 
+        requireStringAttribute( "initiation",
+                                getInitiation() );
+
+        ProcessDefinition.InitiationType initiationType = null;
+
+        if ( getInitiation().equals( "message" ) )
+        {
+            initiationType = ProcessDefinition.InitiationType.MESSAGE;
+        }
+        else if ( getInitiation().equals( "call" ) )
+        {
+            initiationType = ProcessDefinition.InitiationType.CALL;
+        }
+        else
+        {
+            throw new JellyTagException( "initiation attribute must be 'message' or 'other'" );
+        } 
+
         this.net = new DefaultNet();
 
         setDocumentation( null );
@@ -211,7 +218,7 @@ public class ProcessTag
 
         ProcessDefinition def = new ProcessDefinition( getId(),
                                                        this.net,
-                                                       getMessageInitiators() );
+                                                       initiationType );
 
         def.setDocumentation( getDocumentation() );
 

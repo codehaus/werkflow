@@ -68,7 +68,7 @@ import java.util.Iterator;
  *  </p>
  *
  *  @see Correlator
- *  @see MessageTypeCorrelator
+ *  @see MessageTypeHandler
  *  @see Message
  *  @see MessageWaiter
  *
@@ -86,7 +86,7 @@ class MessageWaiterCorrelator
     private WorkflowEngine engine;
 
     /** Owning message-type correlator. */
-    private MessageTypeCorrelator msgTypeCorrelator;
+    private MessageTypeHandler msgTypeHandler;
 
     /** Transition identifier. */
     private String transitionId;
@@ -110,17 +110,17 @@ class MessageWaiterCorrelator
     /** Construct.
      *
      *  @param engine The workflow engine.
-     *  @param msgTypeCorrelator The owning message-type correlator.
+     *  @param msgTypeHandler The owning message-type correlator.
      *  @param transitionId The transition identifier.
      *  @param messageWaiter The transition's message-waiter.
      */
     public MessageWaiterCorrelator(WorkflowEngine engine,
-                                   MessageTypeCorrelator msgTypeCorrelator,
+                                   MessageTypeHandler msgTypeHandler,
                                    String transitionId,
                                    MessageWaiter messageWaiter)
     {
         this.engine            = engine;
-        this.msgTypeCorrelator = msgTypeCorrelator;
+        this.msgTypeHandler    = msgTypeHandler;
         this.transitionId      = transitionId;
         this.messageWaiter     = messageWaiter;
 
@@ -142,13 +142,13 @@ class MessageWaiterCorrelator
         return this.engine;
     }
 
-    /** Retrieve the owning <code>MessageTypeCorrelator</code>.
+    /** Retrieve the owning <code>MessageTypeHandler</code>.
      *
      *  @return The message-type correlator.
      */
-    private MessageTypeCorrelator getMessageTypeCorrelator()
+    private MessageTypeHandler getMessageTypeHandler()
     {
-        return this.msgTypeCorrelator;
+        return this.msgTypeHandler;
     }
 
     /** Retrieve the transition identifier.
@@ -181,7 +181,7 @@ class MessageWaiterCorrelator
     Message getMessage(String msgId)
         throws NoSuchMessageException
     {
-        return getMessageTypeCorrelator().getMessage( msgId );
+        return getMessageTypeHandler().getMessage( msgId );
     }
 
     /** Accept a new <code>Message</code>.
@@ -503,7 +503,7 @@ class MessageWaiterCorrelator
                 try
                 {
                     Message message = getMessage( eachCorrelation.getMessageId() );
-                    
+
                     removeMessage( message.getId() );
                     
                     returnMsg = message.getMessage();

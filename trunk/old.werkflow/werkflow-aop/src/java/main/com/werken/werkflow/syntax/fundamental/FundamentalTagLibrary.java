@@ -101,9 +101,6 @@ public class FundamentalTagLibrary
         registerTag( "message",
                      MessageTag.class );
 
-        registerTag( "message-initiator",
-                     MessageInitiatorTag.class );
-
         registerTag( "actions",
                      ActionsTag.class );
 

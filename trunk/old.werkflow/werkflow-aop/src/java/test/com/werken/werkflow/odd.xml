@@ -1,35 +1,47 @@
 <?xml version="1.0"?>
 
 <process id="OddOrEven"
+         initiation="message"
          xmlns="werkflow:fundamental"
          xmlns:java="werkflow:java"
          xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
-	<message-initiator id="theMsg" type="number.msg">
-          <jelly:action>
-		<j:set var="theNumber" value="${theMsg}"/>
-          </jelly:action>
-	</message-initiator>
-
 	<place id="in"/>
+	<place id="toSort"/>
 	<place id="out"/>
 
-	<transition id="is.fortytwo" guard="${theNumber == 42}">
+
+        <transition id="receive">
+	    <message id="theMsg" type="number.msg"/>
 	    <input from="in"/>
+	    <output to="toSort"/>
+            <task>
+                <jelly:action>
+		      <j:set var="theNumber" value="${theMsg}"/>
+                      message: ${theMsg}
+                      caseid: ${caseId}
+                </jelly:action>
+            </task>
+        </transition>
+
+	<transition id="is.fortytwo" guard="${theNumber == 42}">
+	    <input from="toSort"/>
 	    <output to="out"/>
 	    <task>
 		    <jelly:action>
+                      caseid: ${caseId}
 		      ${theNumber} is 42
 		    </jelly:action>
 	    </task>
 	</transition>
 	
 	<transition id="is.notfortytwo" guard="${theNumber != 42}">
-	    <input from="in"/>
+	    <input from="toSort"/>
 	    <output to="out"/>
 	    <task>
 		    <jelly:action>
+                      caseid: ${caseId}
 		      ${theNumber} is not 42
 		    </jelly:action>
 	    </task>

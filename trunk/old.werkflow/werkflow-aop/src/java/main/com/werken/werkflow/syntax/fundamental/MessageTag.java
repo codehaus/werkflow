@@ -195,7 +195,7 @@ public class MessageTag
         MessageWaiter waiter = new MessageWaiter( msgType,
                                                   getId() );
 
-        transition.setMessageWaiter( waiter );
+        transition.setWaiter( waiter );
 
         invokeBody( output );
 

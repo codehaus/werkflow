@@ -26,7 +26,7 @@ public class MessageConditionalSegment
         throws PetriException
     {
         DefaultTransition msgTrans = builder.newTransition();
-        msgTrans.setMessageWaiter( this.messageWaiter );
+        msgTrans.setWaiter( this.messageWaiter );
 
         builder.connect( in,
                          msgTrans );

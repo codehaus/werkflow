@@ -1,12 +1,15 @@
 
 <process id="general"
+         initiation="message"
          xmlns="werkflow:fundamental"
          xmlns:java="werkflow:java"
          xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
+<!--
   <message-initiator id="bob" 
                      type="init.msg"/>
+-->
 
   <place id="in">
     <documentation>the in place</documentation>
@@ -22,15 +25,19 @@
 
   <transition id="transition one" type="or">
     <documentation>the 1st transition</documentation>
+
+    <message id="message" type="init.msg"/>
+
     <input from="in"/>
     <output to="middle"/>
     
     <task>
       <jelly:action>
+        <j:set var="bob" value="${message.payload}"/>
         case ${caseId}
         action 1
         bob = ${bob}
-        <j:set var="bob" value="mcstrachan"/>
+        <j:set var="bob" value="mr ${bob}"/>
       </jelly:action>
     </task>
   </transition>

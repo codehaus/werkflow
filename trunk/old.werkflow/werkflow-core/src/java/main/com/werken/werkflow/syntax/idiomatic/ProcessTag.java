@@ -1,7 +1,6 @@
 package com.werken.werkflow.syntax.idiomatic;
 
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.idiomatic.NetBuilder;
 import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.SequenceSegment;
@@ -54,7 +53,7 @@ public class ProcessTag
 
             ProcessDefinition processDef = new ProcessDefinition( getId(),
                                                                   net,
-                                                                  MessageInitiator.EMPTY_ARRAY );
+                                                                  null );
         }
         catch (PetriException e)
         {

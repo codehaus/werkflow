@@ -47,6 +47,7 @@ package com.werken.werkflow.engine;
  */
 
 import com.werken.werkflow.Attributes;
+import com.werken.werkflow.SimpleAttributes;
 import com.werken.werkflow.Wfms;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
@@ -59,9 +60,14 @@ import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.admin.ProcessException;
 import com.werken.werkflow.admin.DuplicateProcessException;
 import com.werken.werkflow.admin.ProcessVerificationException;
+import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.petri.Net;
+import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
+import com.werken.werkflow.definition.petri.Arc;
+import com.werken.werkflow.definition.petri.PetriException;
 import com.werken.werkflow.event.WfmsEventListener;
 import com.werken.werkflow.event.ProcessDeployedEvent;
 import com.werken.werkflow.event.ProcessUndeployedEvent;
@@ -85,6 +91,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Arrays;
 
 /** Core implementation of <code>Wfms</code>.
  *
@@ -107,6 +114,12 @@ import java.util.Iterator;
 public class WorkflowEngine
     implements Wfms
 {
+    // ----------------------------------------------------------------------
+    //     Constants
+    // ----------------------------------------------------------------------
+
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
@@ -255,6 +268,34 @@ public class WorkflowEngine
                              caseState.getCaseId() );
 
         return assumeCase( caseState );
+    }
+
+    WorkflowProcessCase newMessageInitiatedProcessCase(ProcessDeployment deployment,
+                                                       Transition transition,
+                                                       Map attributes,
+                                                       Map otherAttrs)
+    {
+        CaseState caseState = newCaseState( deployment.getId(),
+                                            new SimpleAttributes( attributes  ) );
+
+        notifyCaseInitiated( deployment.getId(),
+                             caseState.getCaseId() );
+
+        WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
+                                                                   caseState );
+
+        this.cases.put( processCase.getId(),
+                        processCase );
+
+        processCase.removeMark( "in" );
+
+        processCase.getState().store();
+
+        getActivityManager().fireMessageInitiationActivity( processCase,
+                                                            transition,
+                                                            otherAttrs );
+
+        return processCase;
     }
 
     /** Retrieve a <code>ProcessCase</code> by its id.
@@ -531,23 +572,27 @@ public class WorkflowEngine
     void evaluateCase(WorkflowProcessCase processCase)
         throws NoSuchProcessException
     {
-        if ( processCase.hasMark( "out" ) )
+        synchronized ( processCase )
         {
-            notifyCaseTerminated( processCase.getProcessInfo().getId(),
-                                  processCase.getId() );
-
-            this.cases.remove( processCase.getId() );
-
-            processCase.getState().store();
-
-            return;
+            if ( processCase.hasMark( "out" ) )
+            {
+                processCase.setEnabledTransitions( Transition.EMPTY_ARRAY );
+                notifyCaseTerminated( processCase.getProcessInfo().getId(),
+                                      processCase.getId() );
+                
+                this.cases.remove( processCase.getId() );
+                
+                processCase.getState().store();
+                
+                return;
+            }
+            
+            ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
+            
+            deployment.evaluateCase( processCase );
+            
+            getActivityManager().scheduleCase( processCase );
         }
-
-        ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
-
-        deployment.evaluateCase( processCase );
-
-        getActivityManager().scheduleCase( processCase );
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

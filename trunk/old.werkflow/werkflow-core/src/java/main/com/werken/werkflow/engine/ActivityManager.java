@@ -51,12 +51,14 @@ import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.NoSuchTransitionException;
+import com.werken.werkflow.definition.petri.NoSuchPlaceException;
 import com.werken.werkflow.task.Task;
 import com.werken.werkflow.work.WorkItem;
 
@@ -70,6 +72,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Arrays;
 
 /** Manager of <code>Activity</code> execution.
  *
@@ -170,17 +173,20 @@ class ActivityManager
                 {
                     public void run()
                     {
-                        Transition[] enabledTrans = processCase.getEnabledTransitions();
-                        
-                        if ( enabledTrans.length == 0 )
+                        synchronized ( processCase )
                         {
-                            return;
+                            Transition[] enabledTrans = processCase.getEnabledTransitions();
+                            
+                            if ( enabledTrans.length == 0 )
+                            {
+                                return;
+                            }
+                            
+                            Transition nextTrans = enabledTrans[0];
+                            
+                            fire( processCase,
+                                  nextTrans );
                         }
-                        
-                        Transition nextTrans = enabledTrans[0];
-                        
-                        fire( processCase,
-                              nextTrans );
                     }
                 }
                             
@@ -203,7 +209,7 @@ class ActivityManager
      *          is not verified to be acceptable for execution.
      */
     protected Map verify(WorkflowProcessCase processCase,
-                          Transition transition)
+                         Transition transition)
         throws VerificationException
     {
         Map otherAttrs = new HashMap();
@@ -214,32 +220,88 @@ class ActivityManager
         {
             if ( enabledTrans[i] == transition )
             {
-                MessageWaiter waiter = transition.getMessageWaiter();
+                Waiter waiter = transition.getWaiter();
 
                 if ( waiter != null )
                 {
-                    try
+                    if ( waiter instanceof MessageWaiter )
                     {
-                        Object message = getEngine().consumeMessage( processCase,
-                                                                     transition );
+                        MessageWaiter msgWaiter = (MessageWaiter) waiter;
 
-                        otherAttrs.put( waiter.getBindingVar(),
-                                        message );
-                    }
-                    catch (NoSuchCorrelationException e)
-                    {
-                        e.printStackTrace();
-                        throw new VerificationException( processCase );
-                    }
-                    catch (NoSuchProcessException e)
-                    {
-                        e.printStackTrace();
-                        throw new VerificationException( processCase,
-                                                         e );
+                        boolean shouldConsume = true;
+
+                        try
+                        {
+                            ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
+                            
+                            ProcessDefinition processDef = deployment.getProcessDefinition(); 
+                            
+                            
+                            if ( processDef.getInitiationType() == ProcessDefinition.InitiationType.MESSAGE )
+                            {
+                                Place in = processDef.getNet().getPlaceById( "in" );
+                                
+                                Arc[] inboundArcs = transition.getArcsFromPlaces();
+                                
+                                for ( int j = 0 ; j < inboundArcs.length ; ++j )
+                                {
+                                    if ( inboundArcs[j].getPlace().equals( in ) )
+                                    {
+                                        shouldConsume = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        catch (NoSuchProcessException e)
+                        {
+                            throw new VerificationException( processCase,
+                                                             e );
+                        }
+                        catch (NoSuchPlaceException e)
+                        {
+                            throw new VerificationException( processCase,
+                                                             e );
+                        }
+
+                        if ( shouldConsume )
+                        {
+                            try
+                            {
+                                Object message = getEngine().consumeMessage( processCase,
+                                                                             transition );
+
+                                otherAttrs.put( msgWaiter.getBindingVar(),
+                                                message );
+                            }
+                            catch (NoSuchCorrelationException e)
+                            {
+                                e.printStackTrace();
+                                throw new VerificationException( processCase );
+                            }
+                            catch (NoSuchProcessException e)
+                            {
+                                e.printStackTrace();
+                                throw new VerificationException( processCase,
+                                                                 e );
+                            }
+                        }
                     }
                 }
             }
         }
+
+        addStandardOtherAttributes( otherAttrs,
+                                    processCase,
+                                    transition );
+
+        return otherAttrs;
+    }
+
+    void addStandardOtherAttributes(Map otherAttrs,
+                                    WorkflowProcessCase processCase,
+                                    Transition transition)
+    {
 
         otherAttrs.put( "processId",
                         processCase.getProcessInfo().getId() );
@@ -250,7 +312,6 @@ class ActivityManager
         otherAttrs.put( "transitionId",
                         transition.getId() );
 
-        return otherAttrs;
     }
 
     /** Satisfy the execution of a case's transition by
@@ -312,6 +373,29 @@ class ActivityManager
         }
 
         return null;
+    }
+
+    protected Activity fireMessageInitiationActivity(WorkflowProcessCase processCase,
+                                                     Transition transition,
+                                                     Map otherAttrs)
+    {
+        synchronized ( processCase )
+        {
+            getEngine().notifyTransitionInitiated( processCase.getProcessInfo().getId(),
+                                                   processCase.getId(),
+                                                   transition.getId() );
+
+            addStandardOtherAttributes( otherAttrs,
+                                        processCase,
+                                        transition );
+            
+            String[] placeIds = EMPTY_STRING_ARRAY;
+            
+            return fire( processCase,
+                         transition,
+                         placeIds,
+                         otherAttrs );
+        }
     }
 
     /** Fire a <code>WorkItem</code>.
@@ -428,47 +512,19 @@ class ActivityManager
             {
                 processCase.mergeCaseAttributes( activity.getCaseAttributes() );
 
-                ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
-                
+                ProcessDeployment deployment = getEngine().getProcessDeployment( activity.getProcessId() );
                 ProcessDefinition processDef = deployment.getProcessDefinition();
-                
+
                 Transition transition = processDef.getNet().getTransitionById( activity.getTransitionId() );
-                
-                Arc[] arcs = transition.getArcsToPlaces();
 
-                List placeIds = new ArrayList();
-                
-                for ( int i = 0 ; i < arcs.length ; ++i )
-                {
-                    Expression expr = arcs[i].getExpression();
-                    
-                    if ( expr != null )
-                    {
-                        try
-                        {
-                            if ( ! expr.evaluate( processCase ) )
-                            {
-                                continue;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            // FIXME
-                            e.printStackTrace();
-                        }
-                    }
-                    
-                    Place place = arcs[i].getPlace();
-                    
-                    processCase.addMark( place.getId() );
-
-                    placeIds.add( place.getId() );
-                }
+                String[] placeIds = produceTokens( processCase,
+                                                   processDef,
+                                                   transition );
 
                 getEngine().notifyTokensProduced( activity.getProcessId(),
                                                   activity.getCaseId(),
                                                   activity.getTransitionId(),
-                                                  (String[]) placeIds.toArray( EMPTY_STRING_ARRAY ) );
+                                                  placeIds );
                 
                 this.activities.remove( activity );
 
@@ -496,6 +552,45 @@ class ActivityManager
             // FIXME
             e.printStackTrace();
         }
+    }
+
+    String[] produceTokens(WorkflowProcessCase processCase,
+                           ProcessDefinition processDef,
+                           Transition transition)
+    {
+        List placeIds = new ArrayList();
+        
+        Arc[] arcs = transition.getArcsToPlaces();
+        
+        for ( int i = 0 ; i < arcs.length ; ++i )
+        {
+            Expression expr = arcs[i].getExpression();
+            
+            if ( expr != null )
+            {
+                try
+                {
+                    if ( ! expr.evaluate( processCase ) )
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // FIXME
+                    e.printStackTrace();
+                }
+            }
+            
+            Place place = arcs[i].getPlace();
+            
+            processCase.addMark( place.getId() );
+            
+            placeIds.add( place.getId() );
+        }
+
+        return (String[]) placeIds.toArray( EMPTY_STRING_ARRAY );
+
     }
 
     /** Receive completion-with-error notification.

@@ -1,5 +1,6 @@
 
 <process id="process one"
+         initiation="call"
          xmlns="werkflow:fundamental">
 
   <place id="in">

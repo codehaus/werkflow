@@ -47,13 +47,14 @@ package com.werken.werkflow.engine;
  */
 
 import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
+import com.werken.werkflow.definition.petri.PetriException;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
 import java.util.Arrays;
@@ -61,6 +62,8 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /** Actively deployed <code>ProcessDefintiion</code>.
@@ -95,12 +98,9 @@ class ProcessDeployment
     /** Enabling rules. */
     private Map rules;
 
-    /** Message correlator. */
-    private Correlator correlator;
+    /** Message handler. */
+    private MessageHandler msgHandler;
 
-    /** Process initiator. */
-    private Initiator initiator;
-    
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -120,11 +120,8 @@ class ProcessDeployment
         this.engine       = engine;
         this.processDef   = processDef;
 
-        this.correlator   = new Correlator( engine,
-                                            this );
-
-        this.initiator    = new Initiator( engine,
-                                           this );
+        this.msgHandler   = new MessageHandler( engine,
+                                                this );
 
         initializeEnablingRules();
         initializeMessagingRules();
@@ -177,14 +174,15 @@ class ProcessDeployment
     private void initializeMessagingRules()
         throws ProcessDeploymentException
     {
-        /*
+        Set initiationTransitions = new HashSet();
+
         if ( getProcessDefinition().getInitiationType() == ProcessDefinition.InitiationType.MESSAGE )
         {
             try
             {
                 Net net = getProcessDefinition().getNet();
                 
-                Place in = net.getPlaceById();
+                Place in = net.getPlaceById( "in" );
 
                 Arc[] arcs = in.getArcsToTransitions();
 
@@ -196,20 +194,22 @@ class ProcessDeployment
 
                     if ( waiter instanceof MessageWaiter )
                     {
+                        initiationTransitions.add( transition );
 
+                        getMessageHandler().setMessageInitiator( transition,
+                                                                 (MessageWaiter) waiter );
                     }
                 }
             }
             catch (PetriException e)
             {
-
+                e.printStackTrace();
+            }
+            catch(IncompatibleMessageSelectorException e)
+            {
+                throw new ProcessDeploymentException( e );
             }
         }
-        */
-
-        MessageInitiator[] msgInitiators = getProcessDefinition().getMessageInitiators();
-
-        getInitiator().addMessageInitiators( msgInitiators );
 
         try
         {
@@ -219,7 +219,10 @@ class ProcessDeployment
             
             for ( int i = 0 ; i < transitions.length ; ++i )
             {
-                buildMessagingRule( transitions[i] );
+                if ( ! initiationTransitions.contains( transitions[i] ) )
+                {
+                    buildMessagingRule( transitions[i] );
+                }
             }
         }
         catch (IncompatibleMessageSelectorException e)
@@ -239,33 +242,27 @@ class ProcessDeployment
     private void buildMessagingRule(Transition transition)
         throws IncompatibleMessageSelectorException
     {
-        MessageWaiter messageWaiter = transition.getMessageWaiter();
+        Waiter waiter = transition.getWaiter();
 
-        if ( messageWaiter == null )
+        if ( waiter == null )
         {
             return;
         }
 
-        getCorrelator().addMessageWaiter( transition.getId(),
-                                          messageWaiter );
+        if ( waiter instanceof MessageWaiter )
+        {
+            getMessageHandler().addMessageWaiter( transition.getId(),
+                                                  (MessageWaiter) waiter );
+        }
     }
 
-    /** Retrieve the <code>Correlator</code>.
+    /** Retrieve the <code>MessageHandler</code>.
      *
-     *  @return The correlator.
+     *  @return The message handler.
      */
-    private Correlator getCorrelator()
+    private MessageHandler getMessageHandler()
     {
-        return this.correlator;
-    }
-
-    /** Retrieve the <code>Initiator</code>.
-     *
-     *  @return The initiator.
-     */
-    private Initiator getInitiator()
-    {
-        return this.initiator;
+        return this.msgHandler;
     }
 
     /** Retrieve the <code>ProcessDefinition</code>.
@@ -315,29 +312,63 @@ class ProcessDeployment
                     }
                 }
 
-                if ( eachTrans.getMessageWaiter() == null )
+                Waiter waiter = eachTrans.getWaiter();
+
+                if ( waiter == null )
                 {
                     enabledTrans.add( eachTrans );
                 }
-                else
+                else if ( waiter instanceof MessageWaiter )
                 {
-                    if ( getCorrelator().isCorrelated( processCase.getId(),
-                                                       eachTrans ) )
+                    boolean shouldCorrelate = true;
+
+                    if ( getProcessDefinition().getInitiationType() == ProcessDefinition.InitiationType.MESSAGE )
                     {
-                        enabledTrans.add( eachTrans );
+                        try
+                        {
+                            Place in = getProcessDefinition().getNet().getPlaceById( "in" );
+                            
+                            Arc[] inboundArcs = eachTrans.getArcsFromPlaces();
+                            
+                            for ( int i = 0 ; i < inboundArcs.length ; ++i )
+                            {
+                                if ( inboundArcs[i].getPlace().equals( in ) )
+                                {
+                                    shouldCorrelate = false;
+                                    break;
+                                }
+                            }
+                        }
+                        catch (PetriException e)
+                        {
+                            // swallow
+                        }
+                    }
+
+                    if ( shouldCorrelate )
+                    { 
+                        if ( getMessageHandler().isCorrelated( processCase.getId(),
+                                                               eachTrans ) )
+                        {
+                            enabledTrans.add( eachTrans );
+                        }
+                        else
+                        {
+                            msgWaitingTrans.add( eachTrans.getId() );
+                        }
                     }
                     else
                     {
-                        msgWaitingTrans.add( eachTrans.getId() );
+                        enabledTrans.add( eachTrans );
                     }
                 }
             }
         }
-        
+
         processCase.setEnabledTransitions( (Transition[]) enabledTrans.toArray( Transition.EMPTY_ARRAY ) );
 
-        getCorrelator().evaluateCase( processCase,
-                                      (String[]) msgWaitingTrans.toArray( EMPTY_STRING_ARRAY ) );
+        getMessageHandler().evaluateCase( processCase,
+                                          (String[]) msgWaitingTrans.toArray( EMPTY_STRING_ARRAY ) );
     }
 
     /** Consume an activating correlating message.
@@ -353,8 +384,8 @@ class ProcessDeployment
                           Transition transition)
         throws NoSuchCorrelationException
     {
-        return getCorrelator().consumeMessage( processCaseId,
-                                               transition );
+        return getMessageHandler().consumeMessage( processCaseId,
+                                                   transition );
     }
 
     /** Retrieve potentially activatable <code>Transition</code>s.
