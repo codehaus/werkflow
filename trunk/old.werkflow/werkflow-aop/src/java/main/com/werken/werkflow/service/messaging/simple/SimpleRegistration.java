@@ -181,6 +181,7 @@ public class SimpleRegistration
      *  @param message The message.
      */
     public void acceptMessage(Object message)
+        throws Exception
     {
         if ( ((SimpleMessageSelector)getMessageType().getMessageSelector()).selects( message ) )
         {

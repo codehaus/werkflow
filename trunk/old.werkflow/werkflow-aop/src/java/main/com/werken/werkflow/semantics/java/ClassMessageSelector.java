@@ -48,8 +48,9 @@ package com.werken.werkflow.semantics.java;
 
 import  com.werken.werkflow.service.messaging.simple.SimpleMessageSelector;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.expression.Expression;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionContext;
+import com.werken.werkflow.expr.SimpleExpressionContext;
 
 /** Java class-based <code>SimpleMessageSelector</code> implementation.
  *
@@ -133,6 +134,7 @@ public class ClassMessageSelector
     /** @see com.werken.werkflow.service.messaging.simple.SimpleMessageSelector
      */
     public boolean selects(Object message)
+        throws Exception
     {
         boolean selects = getMessageClass().isInstance( message );
 
@@ -146,10 +148,10 @@ public class ClassMessageSelector
             return true;
         }
 
-        JellyContext context = new JellyContext();
+        SimpleExpressionContext context = new SimpleExpressionContext();
 
-        context.setVariable( "message",
-                             message );
+        context.setValue( "message",
+                          message );
 
         return getExpression().evaluateAsBoolean( context );
     }

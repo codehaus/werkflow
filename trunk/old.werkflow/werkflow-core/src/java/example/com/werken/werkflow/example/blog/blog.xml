@@ -13,11 +13,11 @@
         </message-type>
         <message-type id="publish.cmd">
             <java:selector type="com.werken.werkflow.example.blog.Command" 
-                           filter="${message.type == 'publish'}"/>
+                           filter="message.getType().equals(&quot;publish&quot;)"/>
         </message-type>
         <message-type id="reject.cmd">
             <java:selector type="com.werken.werkflow.example.blog.Command" 
-                           filter="${message.type == 'reject'}"/>
+                           filter="message.getType().equals(&quot;reject&quot;)"/>
         </message-type>
     </message-types>
 
