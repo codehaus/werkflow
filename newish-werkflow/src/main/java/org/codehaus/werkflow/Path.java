@@ -101,6 +101,11 @@ public class Path
         return true;
     }
 
+    public int hashCode()
+    {
+        return toString().hashCode();
+    }
+
     public String toString()
     {
         StringBuffer text = new StringBuffer();

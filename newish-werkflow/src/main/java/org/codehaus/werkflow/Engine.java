@@ -58,6 +58,16 @@ public abstract class Engine
     {
         RobustInstance instance = getInstanceManager().getInstance( id );
 
+        if ( ! isActive( instance ) )
+        {
+            Path[] paths = instance.getQueue();
+
+            for ( int i = 0 ; i < paths.length ; ++i )
+            {
+                enqueue( instance,
+                         paths[ i ] );
+            }
+        }
 
         return instance;
     }
@@ -78,6 +88,8 @@ public abstract class Engine
 
         return instance;
     }
+
+    protected abstract boolean isActive(RobustInstance instance);
 
     protected abstract void enqueue(RobustInstance instance,
                                     Path path)
@@ -196,6 +208,7 @@ public abstract class Engine
                 }
                 else
                 {
+                    //System.err.println( "DQ: " + path );
                     instance.dequeue( path );
                     getInstanceManager().commitTransaction( instance );
                 }

@@ -95,4 +95,9 @@ public class RobustInstanceRef
     {
         return getInstance().getQueue();
     }
+
+    public String toString()
+    {
+        return getInstance().toString();
+    }
 }

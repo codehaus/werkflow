@@ -234,4 +234,9 @@ public class DefaultInstance
     {
         return (Path[]) this.queue.toArray( new Path[ this.queue.size() ] );
     }
+
+    public String toString()
+    {
+        return "[" + getId() + "| " + this.queue + "]";
+    }
 }

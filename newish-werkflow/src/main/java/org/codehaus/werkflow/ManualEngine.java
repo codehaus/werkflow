@@ -40,6 +40,11 @@ public class ManualEngine
         list.addLast( path );
     }
 
+    protected boolean isActive(RobustInstance instance)
+    {
+        return ( getEnqueued( instance ).length > 0 );
+    }
+
     Path[] getEnqueued(Instance instance)
     {
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
