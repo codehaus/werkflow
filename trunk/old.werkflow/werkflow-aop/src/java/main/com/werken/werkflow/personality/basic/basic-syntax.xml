@@ -29,6 +29,12 @@
         </core:parallel>
     </syntax:tag>
 
+    <syntax:tag name="sequence">
+        <core:sequence>
+            <syntax:invokeBody/>
+        </core:sequence>
+    </syntax:tag>
+
     <syntax:tag name="message-types">
         <fund:message-types>
             <syntax:invokeBody/>

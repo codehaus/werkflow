@@ -70,4 +70,25 @@
         </template>
     </idiom>
 
+    <!--
+      ||     SEQUENCE
+      -->
+
+    <idiom id="sequence">
+        <template>
+            
+            <place id="component:tail" stash="in"/>
+
+            <transition id="component">
+                <input from="stashed:in"/>
+                <output  to="component:tail"/>
+            </transition>
+
+            <transition id="complete:finish">
+                <input from="stashed:in"/>
+                <output  to="out"/>
+            </transition>
+
+        </template>
+    </idiom>
 </idioms>
