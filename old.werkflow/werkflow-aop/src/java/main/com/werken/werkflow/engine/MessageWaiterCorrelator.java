@@ -19,6 +19,7 @@ public class MessageWaiterCorrelator
 
     private List messageIds;
     private List caseIds;
+    private List correlations;
 
     public MessageWaiterCorrelator(WorkflowEngine engine,
                                    MessageTypeCorrelator msgTypeCorrelator,
@@ -32,6 +33,7 @@ public class MessageWaiterCorrelator
 
         this.messageIds    = new LinkedList();
         this.caseIds       = new LinkedList();
+        this.correlations  = new LinkedList();
     }
 
     public WorkflowEngine getEngine()
@@ -98,6 +100,19 @@ public class MessageWaiterCorrelator
         {
             // intentionally left blank
         }
+
+        Iterator    correlationIter = this.correlations.iterator();
+        Correlation eachCorrelation = null;
+
+        while ( correlationIter.hasNext() )
+        {
+            eachCorrelation = (Correlation) correlationIter.next();
+
+            if ( eachCorrelation.getMessageId().equals( messageId ) )
+            {
+                correlationIter.remove();
+            }
+        }
     }
 
     void addMessage(String messageId)
@@ -144,6 +159,19 @@ public class MessageWaiterCorrelator
         {
             // intentionally left blank
         }
+
+        Iterator    correlationIter = this.correlations.iterator();
+        Correlation eachCorrelation = null;
+
+        while ( correlationIter.hasNext() )
+        {
+            eachCorrelation = (Correlation) correlationIter.next();
+
+            if ( eachCorrelation.getProcessCaseId().equals( processCaseId ) )
+            {
+                correlationIter.remove();
+            }
+        }
     }
 
     void addProcessCase(String processCaseId)
@@ -178,6 +206,8 @@ public class MessageWaiterCorrelator
     void notifyCorrelation(Message message,
                            WorkflowProcessCase processCase)
     {
+        this.correlations.add( new Correlation( message.getId(),
+                                                processCase.getId() ) );
     }
 
     void evaluateCase(WorkflowProcessCase processCase,
@@ -191,10 +221,38 @@ public class MessageWaiterCorrelator
                 return;
             }
         }
+
+        String processCaseId = processCase.getId();
+
+        Iterator    correlationIter = this.correlations.iterator();
+        Correlation eachCorrelation = null;
+        
+        while ( correlationIter.hasNext() )
+        {
+            eachCorrelation = (Correlation) correlationIter.next();
+
+            if ( eachCorrelation.getProcessCaseId().equals( processCaseId ) )
+            {
+                correlationIter.remove();
+            }
+        }
     }
 
     boolean isCorrelated(String processCaseId)
     {
+        Iterator    correlationIter = this.correlations.iterator();
+        Correlation eachCorrelation = null;
+
+        while ( correlationIter.hasNext() )
+        {
+            eachCorrelation = (Correlation) correlationIter.next();
+
+            if ( eachCorrelation.getProcessCaseId().equals( processCaseId ) )
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 }

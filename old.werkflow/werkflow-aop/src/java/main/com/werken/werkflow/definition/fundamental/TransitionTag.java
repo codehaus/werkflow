@@ -1,10 +1,11 @@
 package com.werken.werkflow.definition.fundamental;
 
+import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.AndInputRule;
 import com.werken.werkflow.definition.petri.OrInputRule;
-import com.werken.werkflow.jelly.JellyExpression;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
 import com.werken.werkflow.task.Task;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -24,6 +25,8 @@ public class TransitionTag
     private Expression expression;
 
     private Task task;
+
+    private MessageWaiter messageWaiter;
 
     public TransitionTag()
     {
@@ -80,6 +83,16 @@ public class TransitionTag
         return this.task;
     }
 
+    public void setMessageWaiter(MessageWaiter messageWaiter)
+    {
+        this.messageWaiter = messageWaiter;
+    }
+
+    public MessageWaiter getMessageWaiter()
+    {
+        return this.messageWaiter;
+    }
+
     public void doTag(XMLOutput output)
         throws Exception
     {
@@ -122,6 +135,11 @@ public class TransitionTag
         if ( getTask() != null )
         {
             transition.setTask( getTask() );
+        }
+
+        if ( getMessageWaiter() != null )
+        {
+            transition.setMessageWaiter( getMessageWaiter() );
         }
 
         this.expression = null;
