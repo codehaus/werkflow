@@ -122,6 +122,11 @@ public class OrInputRule
             {
                 return true;
             }
+
+            if ( arcs[i].getExpression() != null )
+            {
+                return arcs[i].getExpression().evaluate( processCase );
+            }
         }
 
         return false;
