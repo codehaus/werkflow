@@ -9,34 +9,28 @@ import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.expr.AttributesExpressionContext;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.expr.ExpressionContext;
-import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.persistence.PersistenceException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 class Executor
     implements ActivityCompleter
 {
-
-    private PooledExecutor threadPool;
+    private PooledExecutor pool;
     private LinkedQueue queue;
 
     Executor()
     {
         this.queue = new LinkedQueue();
 
-        this.threadPool = new PooledExecutor( this.queue );
-        this.threadPool.setMinimumPoolSize( 1 );
-        this.threadPool.setMaximumPoolSize( 5 );
-        this.threadPool.setKeepAliveTime( 5000 );
+        this.pool = new PooledExecutor( this.queue );
+        this.pool.setMinimumPoolSize( 1 );
+        this.pool.setMaximumPoolSize( 5 );
+        this.pool.setKeepAliveTime( 5000 );
 
-        this.threadPool.createThreads( 5 );
+        this.pool.createThreads( 5 );
     }
 
     void initialize()
     {
-
     }
 
     void enqueueActivities( CoreActivity[] activities )
@@ -59,28 +53,7 @@ class Executor
     void enqueue( ExecutionEnqueuement enqueuement )
         throws InterruptedException
     {
-        this.queue.put( enqueuement );
-    }
-
-    void execute( CoreActivity activity )
-    {
-        Map otherAttrs = new HashMap();
-
-        Message message = activity.getMessage();
-
-        if ( message != null )
-        {
-            otherAttrs.put( "message",
-                            message.getMessage() );
-        }
-
-        Completion completion = new CoreCompletion( this,
-                                                    activity );
-
-        CoreActionInvocation invocation = new CoreActionInvocation( activity,
-                                                                    otherAttrs,
-                                                                    completion );
-        activity.perform( invocation );
+        this.pool.execute( enqueuement );
     }
 
     public void complete( CoreActivity activity,
