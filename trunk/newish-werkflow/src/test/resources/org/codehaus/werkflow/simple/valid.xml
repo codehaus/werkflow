@@ -1,0 +1,23 @@
+<workflow xmlns="http://werkflow.codehaus.org/simple"
+          id="ted">
+  <action id="one"/>
+  <action id="two"/>
+  <while test="1+1">
+    <if test="cheese">
+      <then>
+      </then>
+      <else>
+        <parallel>
+          <sequence>
+            <action id="branch one one"/>
+            <action id="branch one two"/>
+          </sequence>
+          <sequence>
+            <action id="branch two one"/>
+            <action id="branch two two"/>
+          </sequence>
+        </parallel>
+      </else>
+    </if>
+  </while>
+</workflow>

@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.LinkedList;
 
 import javax.xml.parsers.SAXParser;
@@ -82,6 +83,7 @@ public class SimpleWorkflowReader
                              Attributes attrs)
         throws SAXException
     {
+        //System.err.println( "startElement(" + localName + ")" );
         if ( ! uri.equals( "http://werkflow.codehaus.org/simple" ) )
         {
             throw new SAXParseException( "unsupported namespace: " + uri,
@@ -400,13 +402,13 @@ public class SimpleWorkflowReader
         }
         else if ( parent instanceof Sequence )
         {
-
+            ((Sequence)parent).addStep( head );
         }
         else if ( parent instanceof Parallel )
         {
-
+            ((Parallel)parent).addBranch( head );
         }
-        if ( parent instanceof IfElse )
+        else if ( parent instanceof IfElse )
         {
             if ( element.equals( "then" ) )
             {
@@ -458,6 +460,16 @@ public class SimpleWorkflowReader
         return read( actionManager,
                      exprFactory,
                      new InputSource( in ) );
+    }
+
+    public static Workflow read(ActionManager actionManager,
+                                ExpressionFactory exprFactory,
+                                URL in)
+        throws IOException, SAXException, ParserConfigurationException
+    {
+        return read( actionManager,
+                     exprFactory,
+                     new InputSource( in.toExternalForm() ) );
     }
 
     public static Workflow read(ActionManager actionManager,
