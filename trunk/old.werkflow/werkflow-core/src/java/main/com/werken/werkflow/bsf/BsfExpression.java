@@ -52,7 +52,7 @@ public abstract class BsfExpression
     public boolean evaluateAsBoolean(ExpressionContext context)
         throws Exception
     {
-        ObjectRegistry registry = new ObjectRegistry();
+        ObjectRegistry registry = new BsfObjectRegistry();
 
         synchronized ( this.manager )
         {

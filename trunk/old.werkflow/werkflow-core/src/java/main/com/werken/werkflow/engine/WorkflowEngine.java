@@ -48,6 +48,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.SimpleAttributes;
+import com.werken.werkflow.AttributeDeclaration;
 import com.werken.werkflow.Wfms;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
@@ -65,6 +66,7 @@ import com.werken.werkflow.admin.ProcessVerificationException;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
+import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
@@ -260,20 +262,6 @@ public class WorkflowEngine
      *  @throws NoSuchProcessException If the process identifier does
      *          not refer to a currently deployed process definition.
      */
-    /*
-    WorkflowProcessCase callProcess(String processId,
-                                    Attributes attributes)
-        throws NoSuchProcessException
-    {
-        CaseState caseState = newCaseState( processId,
-                                            attributes );
-
-        notifyCaseInitiated( processId,
-                             caseState.getCaseId() );
-
-        return assumeCase( caseState );
-    }
-    */
 
     WorkflowProcessCase callProcess(String processId,
                                     Attributes attributes)
@@ -286,10 +274,13 @@ public class WorkflowEngine
             throw new ProcessNotCallableException( processId );
         }
 
-        deployment.verifyCallParameters( attributes );
+        Attributes realAttrs = fleshOutAttributes( deployment,
+                                                   attributes );
+
+        deployment.verifyCallParameters( realAttrs );
 
         CaseState caseState = newCaseState( processId,
-                                            attributes );
+                                            realAttrs );
 
         notifyCaseInitiated( processId,
                              caseState.getCaseId() );
@@ -302,7 +293,6 @@ public class WorkflowEngine
                                          Attributes attributes)
         throws NoSuchProcessException, ProcessException
     {
-
         ProcessDeployment deployment = getProcessDeployment( processId );
 
         if ( ! deployment.isCallable() )
@@ -310,10 +300,13 @@ public class WorkflowEngine
             throw new ProcessNotCallableException( processId );
         }
 
-        deployment.verifyCallParameters( attributes );
+        Attributes realAttrs = fleshOutAttributes( deployment,
+                                                   attributes );
+
+        deployment.verifyCallParameters( realAttrs );
 
         CaseState caseState = newCaseState( processId,
-                                            attributes );
+                                            realAttrs );
 
         notifyCaseInitiated( processId,
                              caseState.getCaseId() );
@@ -328,39 +321,19 @@ public class WorkflowEngine
 
         return childCase;
     }
-
-    /*
-    WorkflowProcessCase newChildProcessCase(WorkflowActivity activity,
-                                            String processId,
-                                            Attributes attributes)
-        throws NoSuchProcessException
-    {
-
-        CaseState caseState = newCaseState( processId,
-                                            attributes );
-
-        notifyCaseInitiated( processId,
-                             caseState.getCaseId() );
-
-        WorkflowProcessCase childCase = assumeCase( caseState,
-                                                    false );
-
-        getActivityManager().newChildProcessCase( activity,
-                                                  childCase );
-
-        evaluateCase( childCase );
-
-        return childCase;
-    }
-    */
 
     WorkflowProcessCase newMessageInitiatedProcessCase(ProcessDeployment deployment,
                                                        Transition transition,
                                                        Map attributes,
                                                        Map otherAttrs)
     {
+        SimpleAttributes tmpAttrs = new SimpleAttributes( attributes );
+
+        Attributes realAttrs = fleshOutAttributes( deployment,
+                                                   tmpAttrs );
+                                                   
         CaseState caseState = newCaseState( deployment.getId(),
-                                            new SimpleAttributes( attributes  ) );
+                                            realAttrs );
 
         notifyCaseInitiated( deployment.getId(),
                              caseState.getCaseId() );
@@ -1062,5 +1035,34 @@ public class WorkflowEngine
 
             eachListener.tokensRolledBack( event );
         }
+    }
+
+    Attributes fleshOutAttributes(ProcessDeployment deployment,
+                                  Attributes attrs)
+    {
+        SimpleAttributes fleshed = new SimpleAttributes();
+
+        String[] attrNames = attrs.getAttributeNames();
+
+        for ( int i = 0 ; i < attrNames.length ; ++i )
+        {
+            fleshed.setAttribute( attrNames[i],
+                                  attrs.getAttribute( attrNames[i] ) );
+        }
+
+        ProcessDefinition processDef = deployment.getProcessDefinition();
+
+        AttributeDeclaration[] attrDecls = processDef.getAttributeDeclarations();
+
+        for ( int i = 0 ; i < attrDecls.length ; ++i )
+        {
+            if ( ! fleshed.hasAttribute( attrDecls[i].getId() ) )
+            {
+                fleshed.setAttribute( attrDecls[i].getId(),
+                                      null );
+            }
+        }
+
+        return fleshed;
     }
 }

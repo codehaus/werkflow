@@ -9,6 +9,7 @@ import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 
 import java.util.Map;
+import java.util.Iterator;
 
 public class BsfAction
     implements Action
@@ -54,7 +55,7 @@ public class BsfAction
                         Map caseAttrs,
                         Map otherAttrs)
     {
-        ObjectRegistry registry = new ObjectRegistry();
+        ObjectRegistry registry = new BsfObjectRegistry();
 
         synchronized ( this.manager )
         {
@@ -80,9 +81,23 @@ public class BsfAction
                 e.getTargetException().printStackTrace();
                 activity.completeWithError( e );
             }
+
+            Iterator nameIter = caseAttrs.keySet().iterator();
+            String   eachName = null;
+            Object   value    = null;
+
+            while ( nameIter.hasNext() )
+            {
+                eachName = (String) nameIter.next();
+
+                value = this.manager.lookupBean( eachName );
+
+                caseAttrs.put( eachName,
+                               this.manager.lookupBean( eachName ) );
+            }
             
             BsfUtil.unpopulate( this.manager,
-                                otherAttrs );
+                                caseAttrs );
             
             BsfUtil.unpopulate( this.manager,
                                 otherAttrs );
