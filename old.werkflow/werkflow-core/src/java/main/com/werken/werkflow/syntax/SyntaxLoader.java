@@ -19,7 +19,8 @@ import java.util.ArrayList;
 
 public class SyntaxLoader
 {
-    public Syntax[] load(URL url)
+    public Syntax[] load(URL url,
+                         JellyContext evalContext)
         throws IOException, Exception
     {
         XMLParser parser = new XMLParser();
@@ -44,7 +45,7 @@ public class SyntaxLoader
 
         XMLOutput output = XMLOutput.createXMLOutput( System.err );
 
-        JellyContext evalContext = new JellyContext();
+        // JellyContext evalContext = new JellyContext();
 
         evalContext.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                         new FundamentalTagLibrary() );

@@ -1,6 +1,10 @@
 package com.werken.werkflow.syntax;
 
+import org.apache.commons.jelly.Tag;
+import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.impl.DynamicTagLibrary;
+
+import org.xml.sax.Attributes;
 
 public class Syntax
 {
@@ -16,13 +20,12 @@ public class Syntax
         this.tagLibrary   = tagLibrary;
     }
 
-    public Syntax(String namespaceUri)
+    public Syntax(final String namespaceUri)
     {
         this( namespaceUri,
               new DynamicTagLibrary() );
     }
                   
-
     public String getNamespaceUri()
     {
         return this.namespaceUri;

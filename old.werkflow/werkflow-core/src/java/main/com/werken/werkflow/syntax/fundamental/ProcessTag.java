@@ -243,6 +243,9 @@ public class ProcessTag
 
         addProcessDefinition( processDef );
 
+        addToCollector( ProcessDefinition.class,
+                        processDef );
+
         this.net = null;
     }
 }
