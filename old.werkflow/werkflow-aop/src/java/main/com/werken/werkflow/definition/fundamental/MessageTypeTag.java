@@ -48,8 +48,6 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.DuplicateMessageTypeException;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultPlace;
 import com.werken.werkflow.service.messaging.MessageSelector;
 
 import org.apache.commons.jelly.XMLOutput;

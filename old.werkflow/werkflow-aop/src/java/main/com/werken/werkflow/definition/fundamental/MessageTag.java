@@ -50,8 +50,6 @@ import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.NoSuchMessageTypeException;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultPlace;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

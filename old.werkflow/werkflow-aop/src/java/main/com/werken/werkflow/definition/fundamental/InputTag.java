@@ -127,11 +127,19 @@ public class InputTag
         return this.from;
     }
 
+    /** Set the input filter <code>Expression</code>.
+     *
+     *  @param filterExpr The filter expression.
+     */
     public void setFilter(Expression filterExpr)
     {
         this.filterExpr = filterExpr;
     }
 
+    /** Retrieve the input filter <code>Expression</code>.
+     *
+     *  @return The filter expression.
+     */
     public Expression getFilter()
     {
         return this.filterExpr;
