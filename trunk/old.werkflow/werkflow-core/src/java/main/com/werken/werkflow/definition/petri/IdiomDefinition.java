@@ -667,15 +667,18 @@ public class IdiomDefinition
 
         String bindName = waiterDef.getBind();
 
+        if ( bindName != null
+             &&
+             bindName.startsWith( PARAMETER_PREFIX ) )
+        {
+            bindName = (String) idiom.getParameter( bindName.substring( PARAMETER_PREFIX.length() ) );
+        }
+
         if ( bindName == null
              ||
              bindName.equals( "" ) )
         {
             bindName = "message";
-        }
-        else if ( bindName.startsWith( PARAMETER_PREFIX ) )
-        {
-            bindName = (String) idiom.getParameter( bindName.substring( PARAMETER_PREFIX.length() ) );
         }
 
         MessageWaiter waiter = new MessageWaiter( msgType,

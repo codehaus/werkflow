@@ -143,8 +143,8 @@
        <j:if test="${empty(outAttr)}">
          <j:set var="outAttr" value="false"/>
        </j:if>
-       <j:if test="${empty(intAttr)}">
-         <j:set var="intAttr" value="false"/>
+       <j:if test="${empty(inAttr)}">
+         <j:set var="inAttr" value="false"/>
        </j:if>
         <fund:attribute id="${idAttr}" in="${inAttr}" out="${outAttr}">
             <syntax:invokeBody/>

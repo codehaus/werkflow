@@ -94,5 +94,15 @@ public class WerkflowException
     {
         return this.rootCause;
     }
+
+    public String getMessage()
+    {
+        if ( getRootCause() != null )
+        {
+            return getRootCause().getMessage();
+        }
+
+        return super.getMessage();
+    }
 }
 

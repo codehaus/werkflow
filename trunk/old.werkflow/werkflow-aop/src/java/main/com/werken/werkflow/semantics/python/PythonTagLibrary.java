@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package com.werken.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,21 +46,23 @@ package com.werken.werkflow;
  
  */
 
-/** Base <code>werkflow</code> exception.
+import org.apache.commons.jelly.TagLibrary;
+
+/** Jelly tag library providing Python semantics.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class WerkflowException
-    extends Exception
+public class PythonTagLibrary
+    extends TagLibrary
 {
     // ----------------------------------------------------------------------
-    //     Instance members
+    //     Constants
     // ----------------------------------------------------------------------
 
-    /** Root cause, possibly null. */
-    private Throwable rootCause;
+    /** Tag library Namespace URI. */
+    public static final String NS_URI = "werkflow:python";
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,41 +70,10 @@ public class WerkflowException
 
     /** Construct.
      */
-    public WerkflowException()
+    public PythonTagLibrary()
     {
-        // intentionally left blank
-    }
-
-    /** Construct with root cause.
-     *
-     *  @param rootCause The root cause.
-     */
-    public WerkflowException(Throwable rootCause)
-    {
-        this.rootCause = rootCause;
-    }
-
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    /** Retrieve the root cause, if any.
-     *
-     *  @return The root cause or <code>null</code> if none.
-     */
-    public Throwable getRootCause()
-    {
-        return this.rootCause;
-    }
-
-    public String getMessage()
-    {
-        if ( getRootCause() != null )
-        {
-            return getRootCause().getMessage();
-        }
-
-        return super.getMessage();
+        registerTag( "correlator",
+                     PythonMessageCorrelatorTag.class );
     }
 }
 

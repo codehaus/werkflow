@@ -97,8 +97,8 @@ and/or output parameter passing.
 
 \begin{attrDefs}
 id			&	required	&			& Unique identifier for the attributes. \\
-in			&	optional	& false 	& Input parameter flag. \verb|true| or \verb|false| \\
-out			&	optional	& false 	& Output parameter flag. \verb|true| or \verb|false| \\
+in			&	optional	& ``false''	& Input parameter flag. \verb|true| or \verb|false| \\
+out			&	optional	& ``false''	& Output parameter flag. \verb|true| or \verb|false| \\
 \end{attrDefs}
 
 Each \tag{attribute} tag must contain an \emph{attribute type} 
@@ -264,13 +264,32 @@ either a \tag{receive} or a \tag{wait}.
 %     Actions
 % ----------------------------------------------------------------------
 
-\section{Actions}
+\section{Atomic Actions}
 
 \subsection{\tag{receive}}
 
+The \tag{receive} tag specifies that the process should wait
+for a correlated message of a particular type.  It has a \verb|type|
+attribute that refers to a previously-defined message type.
+When the \tag{receive} action is an initiating action, it may
+only contain a single atomic action as the body to handle the
+reception and integration of the message.   An optional \verb|bind|
+attribute may specify the name to which the message is bound for
+the context of the action. When used in other
+contexts to cause an already existing process to wait for a message,
+the body may also contain a \emph{correlator} such as 
+\tag{python:correlator}.
+
+\begin{attrDefs}
+type	&	required	&			& Message type identifier \\
+bind	&	optional	& ``message''	& Message binding variable \\
+\end{attrDefs}
+
 \subsection{Actions From Other Semantic Modules}
 
-
-
+For actions beyond \tag{receive}, other semantic modules such
+as \verb|werkflow:jelly| and \verb|werkflow:java| can be used
+to perform the actual work.  Please see their documentation 
+elsewhere.
 
 
