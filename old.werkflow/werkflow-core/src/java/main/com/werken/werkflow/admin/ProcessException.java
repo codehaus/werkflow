@@ -12,6 +12,13 @@ public class ProcessException
         this.processDef = processDef;
     }
 
+    public ProcessException(ProcessDefinition processDef,
+                            Throwable rootCause)
+    {
+        super( rootCause );
+        this.processDef = processDef;
+    }
+
     public ProcessDefinition getProcess()
     {
         return this.processDef;
