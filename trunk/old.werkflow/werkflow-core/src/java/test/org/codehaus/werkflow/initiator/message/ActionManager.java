@@ -47,6 +47,7 @@ package org.codehaus.werkflow.initiator.message;
  */
 
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -57,17 +58,36 @@ import java.util.Map;
  */
 public class ActionManager
 {
+    private static Map executedActions = new HashMap();
+
+    public static void actionExecuted( String actionId )
+    {
+        executedActions.put( actionId, "true" );
+    }
+
+    public static boolean hasActionExecuted( String actionId )
+    {
+        String result = (String) executedActions.get( actionId );
+
+        if ( result != null )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void executeAction( Map caseAttributes, Map otherAttributes )
         throws Exception
     {
-        System.out.println( "ACTION-MANAGER: caseAttributes = " + caseAttributes );
-        System.out.println( "ACTION-MANAGER: otherAttributes = " + otherAttributes );
-
         Entity entity = (Entity) otherAttributes.get( "message" );
 
-        entity.touch();
-
-        System.out.println( "ACTION-MANAGER: entity = " + entity );
+        if ( entity != null )
+        {
+            entity.touch();
+        }
 
         // Now we decide what we want to do with the entity based on
         // the action id.
@@ -75,15 +95,15 @@ public class ActionManager
 
         if ( actionId.equals( "action-1" ) )
         {
-            entity.actionExecuted( "action-1" );
+            actionExecuted( "action-1" );
         }
         else if ( actionId.equals( "action-2" ) )
         {
-            entity.actionExecuted( "action-2" );
+            actionExecuted( "action-2" );
         }
         else if ( actionId.equals( "action-3" ) )
         {
-            entity.actionExecuted( "action-3" );
+            actionExecuted( "action-3" );
         }
     }
 }

@@ -127,6 +127,6 @@ public class ActivityManagerTest
 
         assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
 
-        assertTrue( "action-2 has not been executed.", entity.hasActionExecuted( "action-2" ) );
+        assertTrue( "action-2 has not been executed.", ActionManager.hasActionExecuted( "action-2" ) );
     }
 }
