@@ -91,7 +91,8 @@ public class TokensEvent
                processId,
                caseId );
 
-        this.placeIds  = placeIds;
+        this.transitionId = transitionId;
+        this.placeIds     = placeIds;
     }
 
     // ----------------------------------------------------------------------
