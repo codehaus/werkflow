@@ -1,10 +1,7 @@
 package org.codehaus.werkflow.drools;
 
-import org.codehaus.werkflow.Context;
-
 import org.drools.rule.Rule;
 import org.drools.rule.Declaration;
-import org.drools.spi.ObjectType;
 import org.drools.smf.Configuration;
 import org.drools.smf.RuleFactory;
 import org.drools.smf.FactoryException;
