@@ -42,24 +42,24 @@ public class RestaurantTest
         admin.deployProcessPackage( pkg );
 
         messagingManager.acceptMessage( new SimpleMessage( "reservation",
-                                                           "strachan" ) );
+                                                           "Strachan" ) );
 
         messagingManager.acceptMessage( new SimpleMessage( "reservation",
-                                                           "mcwhirter" ) );
+                                                           "McWhirter" ) );
 
         messagingManager.acceptMessage( new SimpleMessage( "reservation",
-                                                           "strachan" ) );
+                                                           "Strachan" ) );
 
         messagingManager.acceptMessage( new SimpleMessage( "reservation",
-                                                           "mcstrachan" ) );
+                                                           "McStrachan" ) );
 
         Thread.sleep( 1000 );
 
         messagingManager.acceptMessage( new SimpleMessage( "table.available",
-                                                           "mcwhirter" ) );
+                                                           "McWhirter" ) );
 
         messagingManager.acceptMessage( new SimpleMessage( "table.available",
-                                                           "strachan" ) );
+                                                           "Strachan" ) );
 
 
         Thread.sleep( 1000 );

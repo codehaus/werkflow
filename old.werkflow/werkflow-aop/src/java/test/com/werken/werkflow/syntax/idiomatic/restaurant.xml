@@ -8,7 +8,7 @@
     <process id="take to table"
              initiation="call">
       <sequence>
-        <jelly:log message="Our special today is a fish flambe"/>
+        <jelly:log message="Our special today is a fish flambe."/>
         <jelly:log message="If there is anything you need, just epp."/>
       </sequence>
     </process>
@@ -28,7 +28,7 @@
                 </sequence>
             </on-message>
 
-            <if condition="${name == 'mcstrachan'}">
+            <if condition="${name == 'McStrachan'}">
                 <sequence>
                     <jelly:log message="We do not wish to serve you, Mr. ${name}."/>
                     <terminate/>
