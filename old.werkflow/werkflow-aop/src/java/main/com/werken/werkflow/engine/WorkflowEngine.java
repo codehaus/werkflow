@@ -538,6 +538,8 @@ public class WorkflowEngine
 
             this.cases.remove( processCase.getId() );
 
+            processCase.getState().store();
+
             return;
         }
 

@@ -57,6 +57,7 @@ package com.werken.werkflow.definition.petri;
  *  @version $Id$
  */
 public interface Arc
+    extends Element
 {
     // ----------------------------------------------------------------------
     //     Constants
