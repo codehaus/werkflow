@@ -26,4 +26,16 @@ public abstract class AbstractMessageCorrelatorTag
         message.setMessageCorrelator( correlator );
     }
 
+    public String getMessageId()
+        throws JellyException
+    {
+        MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
+
+        if ( message == null )
+        {
+            throw new JellyException( "not within <message>" );
+        }
+
+        return message.getId();
+    }
 }

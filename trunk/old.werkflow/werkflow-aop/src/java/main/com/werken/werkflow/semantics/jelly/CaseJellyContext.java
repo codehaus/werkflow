@@ -1,20 +1,20 @@
 package com.werken.werkflow.semantics.jelly;
 
-import com.werken.werkflow.action.MutableProcessCase;
+import com.werken.werkflow.ProcessCase;
 
 import org.apache.commons.jelly.JellyContext;
 
 public class CaseJellyContext
     extends JellyContext
 {
-    private MutableProcessCase processCase;
+    private ProcessCase processCase;
 
-    public CaseJellyContext(MutableProcessCase processCase)
+    public CaseJellyContext(ProcessCase processCase)
     {
         this.processCase = processCase;
     }
 
-    public MutableProcessCase getProcessCase()
+    public ProcessCase getProcessCase()
     {
         return this.processCase;
     }
@@ -22,22 +22,32 @@ public class CaseJellyContext
     public void setVariable(String key,
                             Object value)
     {
-        getProcessCase().setAttribute( key,
-                                       value );
+        super.setVariable( key,
+                           value );
     }
 
     public Object getVariable(String key)
     {
-        return getProcessCase().getAttribute( key );
+        if ( getProcessCase().hasAttribute( key ) )
+        {
+            return getProcessCase().getAttribute( key );
+        }
+
+        return super.getVariable( key );
     }
 
     public Object findVariable(String key)
     {
-        return getVariable( key );
+        if ( getProcessCase().hasAttribute( key ) )
+        {
+            return getProcessCase().getAttribute( key );
+        }
+
+        return super.findVariable( key );
     }
 
     public void removeVariable(String key)
     {
-        getProcessCase().clearAttribute( key );
+        // intentionally left blank
     }
 }
