@@ -52,7 +52,9 @@ import org.codehaus.werkflow.definition.petri.Transition;
 import org.codehaus.werkflow.service.messaging.Message;
 import org.codehaus.werkflow.service.messaging.Registration;
 import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -118,19 +120,52 @@ class MessageWaiterHandler
 
     boolean attemptCorrelation(CoreProcessCase processCase)
     {
+        List changeSets = new LinkedList();
+
         boolean result = false;
 
-        Iterator messageIter = this.messages.values().iterator();
-        Message  eachMessage = null;
+        Iterator        messageIter = this.messages.values().iterator();
+        Message         eachMessage = null;
+        Correlation     correlation = null;
 
         while ( messageIter.hasNext() )
         {
             eachMessage = (Message) messageIter.next();
 
-            result = ( attemptCorrelation( processCase,
-                                           eachMessage )
-                       ||
-                       result );
+            correlation = attemptCorrelation( processCase,
+                                              eachMessage );
+
+            if ( correlation != null )
+               {
+                ChangeSetSource changeSetSource = processCase.getChangeSetSource();
+
+                CoreChangeSet changeSet = changeSetSource.newChangeSet();
+
+                processCase.addCorrelation( correlation );
+
+                changeSet.addModifiedCase( processCase );
+
+                changeSets.add( changeSet );
+
+                result = true;
+            }
+        }
+
+        try
+        {
+            Iterator      changeSetIter = changeSets.iterator();
+            CoreChangeSet eachChangeSet = null;
+
+            while (changeSetIter.hasNext())
+               {
+                eachChangeSet = (CoreChangeSet) changeSetIter.next();
+
+                eachChangeSet.commit();
+            }
+        }
+        catch ( PersistenceException e )
+        {
+            e.printStackTrace();
         }
 
         return result;
@@ -138,42 +173,77 @@ class MessageWaiterHandler
 
     boolean attemptCorrelation(Message message)
     {
+        List changeSets = new LinkedList();
+
         boolean result = false;
 
         Iterator        caseIter = this.processCases.iterator();
         CoreProcessCase eachCase = null;
+        Correlation     correlation = null;
 
         while ( caseIter.hasNext() )
         {
             eachCase = (CoreProcessCase) caseIter.next();
 
-            result = ( attemptCorrelation( eachCase,
-                                           message )
-                       ||
-                       result );
+            correlation = attemptCorrelation( eachCase,
+                                              message );
+
+            if ( correlation != null )
+            {
+                ChangeSetSource changeSetSource = eachCase.getChangeSetSource();
+
+                CoreChangeSet changeSet = changeSetSource.newChangeSet();
+
+                eachCase.addCorrelation( correlation );
+
+                changeSet.addModifiedCase( eachCase );
+
+                changeSets.add( changeSet );
+
+                result = true;
+            }
+        }
+
+        try
+        {
+            Iterator      changeSetIter = changeSets.iterator();
+            CoreChangeSet eachChangeSet = null;
+
+            while (changeSetIter.hasNext())
+            {
+                eachChangeSet = (CoreChangeSet) changeSetIter.next();
+
+                eachChangeSet.commit();
+            }
+        }
+        catch ( PersistenceException e )
+        {
+            e.printStackTrace();
         }
 
         return result;
     }
 
-    boolean attemptCorrelation(CoreProcessCase processCase,
-                               Message message)
+    Correlation attemptCorrelation(CoreProcessCase processCase,
+                                   Message message)
     {
         MessageWaiter waiter = (MessageWaiter) getTransition().getWaiter();
 
         MessageCorrelator correlator = waiter.getMessageCorrelator();
 
-        if ( correlator == null )
-        {
-            return true;
-        }
+        boolean correlates = false;
 
         try
         {
-            boolean result = correlator.correlates( message.getMessage(),
+            if ( correlator != null )
+            {
+                correlates = correlator.correlates( message.getMessage(),
                                                     processCase );
-
-            return result;
+            }
+            else
+            {
+                correlates = true;
+            }
         }
         catch (Exception e)
         {
@@ -181,7 +251,14 @@ class MessageWaiterHandler
             e.printStackTrace();
         }
 
-        return false;
+        if ( correlates )
+        {
+            return new Correlation( processCase,
+                                    getTransition(),
+                                    message );
+        }
+
+        return null;
     }
 
     Message consumeMessage(CoreChangeSet changeSet,
