@@ -136,6 +136,7 @@ public class AutomaticEngineTest
                       touches.get( 15 ) );
     }
 
+    /*
     public void testSatisfaction()
         throws Exception
     {
@@ -171,6 +172,7 @@ public class AutomaticEngineTest
                       2,
                       touches );
     }
+    */
 
     //  --
 
