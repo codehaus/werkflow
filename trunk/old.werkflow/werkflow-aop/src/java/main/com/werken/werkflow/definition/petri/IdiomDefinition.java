@@ -24,7 +24,8 @@ public class IdiomDefinition
     public static final String STASHED_PREFIX = "stashed:";
     public static final String COMPLETE_PREFIX = "complete:";
 
-    public static final IdiomDefinition ACTION = new IdiomDefinition( "werkflow.action" );
+    public static final IdiomDefinition ACTION = new IdiomDefinition( "werkflow:internal-idioms",
+                                                                      "werkflow.action" );
 
     static
     {
@@ -55,21 +56,26 @@ public class IdiomDefinition
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
+    private String uri;
     private String id;
     private Map parameters;
     private Map places;
     private Map transitions;
     private List arcs;
 
-    public IdiomDefinition(String id)
+    public IdiomDefinition(String uri,
+                           String id)
     {
-        this( id,
+        this( uri,
+              id,
               Collections.EMPTY_MAP );
     }
 
-    public IdiomDefinition(String id,
+    public IdiomDefinition(String uri,
+                           String id,
                            Map parameters)
     {
+        this.uri         = uri;
         this.id          = id;
         this.parameters  = new HashMap( parameters );
         this.places      = new HashMap();
@@ -85,6 +91,11 @@ public class IdiomDefinition
             + "; transitions=" + this.transitions.values()
             + "; arcs=" + this.arcs
             + "]";
+    }
+
+    public String getUri()
+    {
+        return this.uri;
     }
 
     public String getId()

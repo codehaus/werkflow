@@ -31,7 +31,15 @@ public class IdiomTag
         requireStringAttribute( "id",
                                 getId() );
 
-        IdiomDefinition idiomDef = new IdiomDefinition( getId() );
+        IdiomsTag tag = (IdiomsTag) findAncestorWithClass( IdiomsTag.class );
+
+        if ( tag == null )
+        {
+            throw new JellyTagException( "invalid context for <idiom>" );
+        }
+
+        IdiomDefinition idiomDef = new IdiomDefinition( tag.getUri(),
+                                                        getId() );
 
         setCurrentIdiomDefinition( idiomDef );
 

@@ -296,7 +296,13 @@ class ProcessDeployment
         {
             eachTrans = (Transition) transIter.next();
 
+
             rule = (EnablingRule) this.rules.get( eachTrans );
+
+            if ( rule == null )
+            {
+                System.err.println( "NO RULE: " + eachTrans.getId() );
+            }
 
             if ( rule.evaluate( processCase ) )
             {

@@ -16,11 +16,13 @@ import org.apache.commons.jelly.DynaTagSupport;
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.impl.StaticTag;
 
 import java.util.Stack;
 
 public class IdiomImplTag
-    extends DynaTagSupport
+    extends StaticTag
+      // extends DynaTagSupport
     implements ActionReceptor
 {
     public static final String ROOT_IDIOM_KEY = "werkflow.root.idiom";
@@ -146,6 +148,7 @@ public class IdiomImplTag
             popIdiom();
 
             this.idiom.complete();
+            
         }
         catch (IdiomException e)
         {
@@ -229,5 +232,15 @@ public class IdiomImplTag
         {
             throw new JellyTagException( e );
         }
+    }
+
+    public String getUri()
+    {
+        return getIdiomDefinition().getUri();
+    }
+
+    public String getLocalName()
+    {
+        return getIdiomDefinition().getId();
     }
 }
