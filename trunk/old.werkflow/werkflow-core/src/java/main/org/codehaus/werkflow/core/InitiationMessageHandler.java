@@ -108,7 +108,6 @@ class InitiationMessageHandler
 
     public void removeCase(CoreProcessCase processCase,
                            String transitionId)
-
     {
         // intentionally left blank
     }
