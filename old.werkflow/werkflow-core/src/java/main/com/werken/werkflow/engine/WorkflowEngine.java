@@ -260,8 +260,9 @@ public class WorkflowEngine
      *  @throws NoSuchProcessException If the process identifier does
      *          not refer to a currently deployed process definition.
      */
-    WorkflowProcessCase newProcessCase(String processId,
-                                       Attributes attributes)
+    /*
+    WorkflowProcessCase callProcess(String processId,
+                                    Attributes attributes)
         throws NoSuchProcessException
     {
         CaseState caseState = newCaseState( processId,
@@ -272,6 +273,7 @@ public class WorkflowEngine
 
         return assumeCase( caseState );
     }
+    */
 
     WorkflowProcessCase callProcess(String processId,
                                     Attributes attributes)
