@@ -47,6 +47,7 @@ package com.werken.werkflow.service.caserepo;
  */
 
 import com.werken.werkflow.Attributes;
+import com.werken.werkflow.QueryException;
 
 /** Service to provide persistence for process cases.
  *
@@ -94,4 +95,8 @@ public interface CaseRepository
      *          that such state could not be retrieved.
      */
     CaseState getCaseState(String caseId);
+
+    String[] selectCases(String processId,
+                         String placeId)
+        throws QueryException;
 }

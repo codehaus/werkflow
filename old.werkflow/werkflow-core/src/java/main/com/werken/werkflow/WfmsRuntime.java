@@ -130,4 +130,8 @@ public interface WfmsRuntime
 
     Activity[] getActivitiesForProcessCase(String caseId)
         throws NoSuchCaseException, NoSuchProcessException;
+
+    ProcessCase[] selectCases(String processId,
+                              String placeId)
+        throws QueryException;
 }

@@ -54,6 +54,7 @@ import com.werken.werkflow.WfmsRuntime;
 import com.werken.werkflow.SimpleAttributes;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
+import com.werken.werkflow.QueryException;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.admin.WfmsAdmin;
@@ -279,6 +280,34 @@ public class WorkflowEngine
         }
 
         return assumeCase( caseState );
+    }
+
+    ProcessCase[] selectCases(String processId,
+                              String placeId)
+        throws QueryException
+    {
+        try
+        {
+            String[] caseIds = getServices().getCaseRepository().selectCases( processId,
+                                                                              placeId );
+            
+            ProcessCase[] cases = new ProcessCase[ caseIds.length ];
+            
+            for ( int i = 0 ; i < caseIds.length ; ++i )
+            {
+                cases[i] = getProcessCase( caseIds[i] );
+            }
+            
+            return cases;
+        }
+        catch (NoSuchCaseException e)
+        {
+            throw new QueryException( e );
+        }
+        catch (NoSuchProcessException e)
+        {
+            throw new QueryException( e );
+        }
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
