@@ -90,7 +90,6 @@ class MessageTypeHandler
 
     boolean acceptMessage(Message message)
     {
-        System.err.println( "MessageTypeHandler.acceptMessage( " + message.getMessage() + " )" );
         return getTerminalMessageHandler().acceptMessage( message );
     }
 
