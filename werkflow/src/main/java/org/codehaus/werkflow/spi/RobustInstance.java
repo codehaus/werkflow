@@ -329,6 +329,6 @@ public class RobustInstance
 
     public String toString()
     {
-        return "[" + getId() + "| " + Collections.synchronizedSet(this.state.getQueue()) + "]";
+        return "[" + getId() + "| " + this.state.getQueue() + "]";
     }
 }
