@@ -39,5 +39,11 @@ public class FundamentalTagLibrary
 
         registerTag( "message-initiator",
                      MessageInitiatorTag.class );
+
+        registerTag( "actions",
+                     ActionsTag.class );
+
+        registerTag( "action",
+                     ActionTag.class );
     }
 }
