@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.semantics.ognl;
 
 /*
  $Id$
@@ -46,12 +46,13 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
-
-import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.XMLOutput;
+
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.semantics.java.ClassMessageSelector;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
 
 /** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
  *
@@ -144,7 +145,7 @@ public class ClassMessageSelectorTag
         {
             Class messageClass = Class.forName( this.className );
 
-            Expression expr = JavaExpressionFactory.getInstance().newExpression( getFilter() );
+            Expression expr = OgnlExpressionFactory.getInstance().newExpression( getFilter() );
 
             ClassMessageSelector selector = new ClassMessageSelector( messageClass,
                                                                       expr );
