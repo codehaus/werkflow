@@ -2,6 +2,7 @@
 <process id="my.proc1"
          initiation="call"
          xmlns="werkflow:basic"
+         xmlns:j="jelly:core"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
     <parallel>
@@ -21,8 +22,17 @@
             </parallel>
         </parallel>
         <sequence>
+            <jelly:action>
+                <j:set var="name" value="james"/>
+            </jelly:action>
             <jelly:log message="I like cheese #1"/>
-            <jelly:log message="I like cheese #2"/>
+            <jelly:log message="I like cheese #2 ${name}"/>
+            <if condition="name == 'bob'">
+                <jelly:log message="You are bob"/>
+            </if>
+            <if condition="name == 'james'">
+                <jelly:log message="You are james"/>
+            </if>
             <jelly:log message="I like cheese #3"/>
         </sequence>
     </parallel>
