@@ -5,6 +5,7 @@
          xmlns:j="jelly:core"
          xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:ognl="jelly:com.werken.werkflow.semantics.ognl.OgnlTagLibrary"
          xmlns:python="jelly:com.werken.werkflow.semantics.python.PythonTagLibrary">
 
     <message-types>
@@ -46,7 +47,10 @@
             <choice>
                 <sequence>
                     <receive type="publish.cmd" bind="cmd">
+<!--
                         <python:correlator test="cmd.title == title"/>
+-->
+                        <ognl:correlator test="#cmd.title == #title"/>
                         <jelly:action>
                             <j:set var="cmdTitle" value="${cmd.title}"/>
                         </jelly:action>
@@ -57,7 +61,11 @@
             <choice>
                 <sequence>
                     <receive type="reject.cmd" bind="cmd">
+<!--
                         <python:correlator test="cmd.title == title"/>
+-->
+                        <ognl:correlator test="#cmd.title == #title"/>
+
                         <jelly:action>
                             <j:set var="cmdTitle" value="${cmd.title}"/>
                         </jelly:action>

@@ -167,6 +167,11 @@
     </dependency>
 
     <dependency>
+      <id>ognl</id>
+      <version>2.4.1</version>
+    </dependency>
+
+    <dependency>
       <id>oro</id>
       <version>2.0.6</version>
     </dependency>
@@ -227,14 +232,14 @@
         </resource>
       </resources>
 
-<!--
       <includes>
         <include>**/*Test.java</include>
       </includes>
--->
+<!--
       <excludes>
         <exclude>**/*.java</exclude>
       </excludes>
+-->
 
     </unitTest>
 

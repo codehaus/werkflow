@@ -1,6 +1,7 @@
 package com.werken.werkflow.bsf;
 
 import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.AbstractExpression;
 import com.werken.werkflow.expr.ExpressionContext;
 
 import org.apache.bsf.BSFManager;
@@ -9,7 +10,7 @@ import org.apache.bsf.BSFException;
 import org.apache.bsf.util.ObjectRegistry;
 
 public abstract class BsfExpression
-    implements Expression
+    extends AbstractExpression
 {
 
     private String language;
@@ -71,22 +72,6 @@ public abstract class BsfExpression
     }
 
     public abstract boolean asBoolean(Object value);
-
-    public boolean stringAsBoolean(String str)
-    {
-        if ( str.equals( "true" )
-             ||
-             str.equals( "on" )
-             ||
-             str.equals( "1" )
-             ||
-             str.equals( "yes" ) )
-        {
-            return true;
-        }
-
-        return false;
-    }
 
     public String toString()
     {
