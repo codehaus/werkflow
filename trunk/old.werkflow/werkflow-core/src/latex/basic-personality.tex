@@ -285,6 +285,15 @@ type	&	required	&			& Message type identifier \\
 bind	&	optional	& ``message''	& Message binding variable \\
 \end{attrDefs}
 
+\subsection{\tag{terminate}}
+
+The \tag{terminate} tag immediately terminates the process
+case.  It has not attributes.
+
+\begin{codelisting}
+\hired{<terminate/>}
+\end{codelisting}
+
 \subsection{Actions From Other Semantic Modules}
 
 For actions beyond \tag{receive}, other semantic modules such
