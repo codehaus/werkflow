@@ -278,8 +278,6 @@ public class IdiomDefinition
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
         {
-            System.err.println( "STATIC ARC: " + arcDefs[i] );
-
             if ( ! ( arcDefs[i].getPlaceId().startsWith( COMPONENT_PREFIX )
                      ||
                      arcDefs[i].getTransitionId().startsWith( COMPONENT_PREFIX )
@@ -656,8 +654,6 @@ public class IdiomDefinition
                                              MessageWaiterDefinition waiterDef)
         throws NoSuchParameterException, NoSuchMessageTypeException
     {
-        System.err.println( "get waiter: " + idiom.getId() );
-
         String msgTypeStr = waiterDef.getMessageType();
 
         if ( msgTypeStr.startsWith( PARAMETER_PREFIX ) )
@@ -695,7 +691,6 @@ public class IdiomDefinition
             waiter.setMessageCorrelator( correlator );
         }
 
-        System.err.println( " ---> " + waiter );
         return waiter;
     }
 }
