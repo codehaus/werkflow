@@ -60,7 +60,7 @@ public class SyntaxLoader
                                         new SyntaxTagLibrary() );
 
         evalContext.setCurrentURL( new URL( url,
-                                            "." )  );
+                                            "url:." )  );
 
         
         List syntaxes = new ArrayList();
