@@ -64,6 +64,7 @@ public class ActionManager
         System.out.println( "ACTION-MANAGER: otherAttributes = " + otherAttributes );
 
         Entity entity = (Entity) otherAttributes.get( "message" );
+
         entity.touch();
 
         System.out.println( "ACTION-MANAGER: entity = " + entity );
@@ -72,13 +73,17 @@ public class ActionManager
         // the action id.
         String actionId = (String) otherAttributes.get( "actionId" );
 
-        if ( actionId == null )
+        if ( actionId.equals( "action-1" ) )
         {
-            System.out.println( "ACTION-MANAGER: We have a problem: the actionId is null." );
+            entity.actionExecuted( "action-1" );
         }
-        else
+        else if ( actionId.equals( "action-2" ) )
         {
-            System.out.println( "ACTION-MANAGER: actionId = " + actionId );
+            entity.actionExecuted( "action-2" );
+        }
+        else if ( actionId.equals( "action-3" ) )
+        {
+            entity.actionExecuted( "action-3" );
         }
     }
 }

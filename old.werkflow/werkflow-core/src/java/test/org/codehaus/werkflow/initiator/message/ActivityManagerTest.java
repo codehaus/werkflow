@@ -47,6 +47,7 @@ package org.codehaus.werkflow.initiator.message;
  */
 
 import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.admin.WfmsAdmin;
 import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.engine.WorkflowEngine;
@@ -66,10 +67,13 @@ public class ActivityManagerTest
 {
     /** Workflow services. */
     private SimpleWfmsServices services;
+
     /** Workflow Persistence Manager. */
     private PersistenceManager persistenceManager;
+
     /** Workflow messaging manager. */
     private SimpleMessagingManager messagingManager;
+
     /** Workflow engine. */
     private WorkflowEngine engine;
 
@@ -77,10 +81,15 @@ public class ActivityManagerTest
         throws Exception
     {
         services = new SimpleWfmsServices();
+
         messagingManager = new SimpleMessagingManager();
+
         persistenceManager = new FleetingPersistenceManager();
+
         services.setMessagingManager( messagingManager );
+
         services.setPersistenceManager( persistenceManager );
+
         engine = new WorkflowEngine( services );
     }
 
@@ -91,25 +100,33 @@ public class ActivityManagerTest
         URL url = getClass().getResource( "workflow.xml" );
 
         Map beans = new HashMap();
+
         beans.put( "actionManager", new ActionManager() );
+
+        beans.put( "roleSelector", new RoleSelector() );
 
         Personality bp = BasicPersonality.getInstance();
 
         ProcessDefinition[] processDefs = bp.load( url, beans );
+
         WfmsAdmin admin = engine.getAdmin();
 
         for ( int i = 0 ; i < processDefs.length ; ++i )
         {
             admin.deployProcess( processDefs[i] );
+
             System.out.println( "processDefs = " + processDefs[i] );
         }
 
         Entity entity = new Entity();
+
         messagingManager.acceptMessage( entity );
 
         // We need to sleep to let the message processing occur.
         Thread.sleep( 5000 );
 
         assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
+
+        assertTrue( "action-2 has not been executed.", entity.hasActionExecuted( "action-2" ) );
     }
 }

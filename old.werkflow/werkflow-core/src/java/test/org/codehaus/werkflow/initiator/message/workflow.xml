@@ -22,8 +22,16 @@
   <process initiation="message" id="entity" package="test">
     <sequence>
       <receive type="AddEntity" bind="message">
-        <action actionId="AddEntityToModel"/>
+        <action actionId="action-1"/>
       </receive>
+      <switch>
+        <!-- The role selector method buyerRole() returns the constant 'buyer' -->
+        <case condition='#roleSelector.buyerRole == "buyer"'>
+          <sequence>
+            <action actionId="action-2"/>
+          </sequence>
+        </case>
+      </switch>
     </sequence>
   </process>
 
