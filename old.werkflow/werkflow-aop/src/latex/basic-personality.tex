@@ -1,4 +1,12 @@
+% ----------------------------------------------------------------------
+%     The Basic Personality
+% ----------------------------------------------------------------------
+
 \chapter{The Basic Personality}
+
+% ----------------------------------------------------------------------
+%     Introduction
+% ----------------------------------------------------------------------
 
 \section{Introduction}
 
@@ -6,7 +14,7 @@ The \emph{basic personality} mimics many of the structures
 of other \emph{block-based} syntaxes, such as BPML and BPEL4WS
 but does not enforce the same semantic constraints.  The syntax of
 the basic personality is fairly procedural and contains many common
-control-flow structures.
+flow-control structures.
 
 The basic personality's syntax is accessed through XML tags from
 the \verb|werkflow:basic| namespace.
@@ -17,6 +25,85 @@ the \verb|werkflow:basic| namespace.
          id="my.process">
 </process>
 \end{codelisting}
+
+% ----------------------------------------------------------------------
+%     Prolog
+% ----------------------------------------------------------------------
+
+\section{Prolog}
+
+Each process definition begins with a common prolog that includes
+the \tag{process} tag and attribute definitions for the process.
+
+\subsection{\tag{process}}
+
+The \tag{process} tag begins a process definition. It requires an
+\verb|id| attribute to uniquely identify the process.  It may also
+contain a \verb|package| attribute for defining the process within
+the scope of a larger package.  The \verb|initiation| attribute is
+required in order to specify how new cases are initiated.
+
+\begin{tabular}{l|c|c|l}
+\textbf{attribute}   &	\textbf{type}		&	\textbf{default}	& \textbf{description} \\
+\hline
+package		&	optional	&			& Package scope identifier. \\
+id			&	required	&			& Unique identifier for the process. \\
+initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
+\end{tabular}
+
+\begin{codelisting}
+\hired{<process package="my.package"
+         id="my.process"
+         initiation="message">}
+    \dots
+\hired{</process>}
+\end{codelisting}
+
+\subsection{\tag{attributes}}
+
+Each process contains an enumeration of \emph{case attributes} which
+describe the data carried and used by each case.  The \tag{attributes}
+tag is simple a container tag for \tag{attributes} tags.
+
+\begin{codelisting}
+<process package="my.package"
+         id="my.process"
+         initiation="message">
+
+    \hired{<attributes>}
+         \dots
+    \hired{</attributes>}
+</process>
+\end{codelisting}
+
+\subsection{\tag{attribute}}
+
+% ----------------------------------------------------------------------
+%     Flow-Control Structures
+% ----------------------------------------------------------------------
+
+\section{Flow-Control Structures}
+
+\subsection{\tag{sequence}}
+
+\subsection{\tag{parallel}}
+
+\subsection{\tag{if}}
+
+\subsection{\tag{while}}
+
+\subsection{\tag{switch}}
+
+\subsection{\tag{pick}}
+
+
+The \tag{if} tag
+
+% ----------------------------------------------------------------------
+%     Actions
+% ----------------------------------------------------------------------
+
+\section{Actions}
 
 
 
