@@ -15,6 +15,8 @@ public interface CaseState
 
     String[] getAttributeNames();
 
+    boolean hasAttribute(String key);
+
     void addMark(String placeId);
 
     void removeMark(String placeId);

@@ -26,7 +26,7 @@ public class JellyAction
                         MutableProcessCase processCase)
         throws Exception
     {
-        CaseJellyContext context = new CaseJellyContext( processCase );
+        MutableCaseJellyContext context = new MutableCaseJellyContext( processCase );
 
         getScript().run( context,
                          XMLOutput.createXMLOutput( System.err ) );

@@ -2,6 +2,8 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.DefinitionLoader;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.semantics.java.JavaTagLibrary;
+import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
@@ -15,7 +17,9 @@ import java.util.ArrayList;
 public class FundamentalDefinitionLoader
     implements DefinitionLoader
 {
-    public static final String FUNDAMENTAL_TAGLIB_NS_URI = "http://werkflow.werken.com/fundamental/1.0/";
+    public static final String FUNDAMENTAL_TAGLIB_NS_URI = "werkflow:fundamental";
+    public static final String JAVA_TAGLIB_NS_URI = "werkflow:java";
+    public static final String JELLY_TAGLIB_NS_URI = "werkflow:jelly";
 
     static final String FUNDAMENTAL_DEFINITION_LIST = "werkflow.fundamental.definition-list";
 
@@ -32,6 +36,12 @@ public class FundamentalDefinitionLoader
 
         context.registerTagLibrary( FUNDAMENTAL_TAGLIB_NS_URI,
                                     new FundamentalTagLibrary() );
+
+        context.registerTagLibrary( JAVA_TAGLIB_NS_URI,
+                                    new JavaTagLibrary() );
+
+        context.registerTagLibrary( JELLY_TAGLIB_NS_URI,
+                                    new JellyTagLibrary() );
 
         parser.setContext( context );
 

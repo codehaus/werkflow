@@ -61,7 +61,8 @@ public class MessageTag
         TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
                                                                      TransitionTag.class );
 
-        MessageWaiter waiter = new MessageWaiter( getType() );
+        MessageWaiter waiter = new MessageWaiter( getType(),
+                                                  getId() );
 
         waiter.setMessageCorrelator( getMessageCorrelator() );
 

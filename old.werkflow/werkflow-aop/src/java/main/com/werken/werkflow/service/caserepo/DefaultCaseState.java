@@ -78,6 +78,11 @@ public class DefaultCaseState
         return (String[]) this.attributes.keySet().toArray( EMPTY_STRING_ARRAY );
     }
 
+    public boolean hasAttribute(String key)
+    {
+        return this.attributes.containsKey( key );
+    }
+
     public void clearAttribute(String key)
     {
         this.attributes.remove( key );

@@ -67,6 +67,11 @@ public class WorkflowProcessCase
         return getState().getAttributeNames();
     }
 
+    public boolean hasAttribute(String name)
+    {
+        return getState().hasAttribute( name );
+    }
+
     public boolean hasMark(String placeId)
     {
         return getState().hasMark( placeId );

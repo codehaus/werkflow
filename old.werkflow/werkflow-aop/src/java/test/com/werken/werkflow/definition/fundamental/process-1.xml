@@ -1,6 +1,6 @@
 
 <process id="process one"
-         xmlns="http://werkflow.werken.com/fundamental/1.0/">
+         xmlns="werkflow:fundamental">
 
   <place id="in">
     <documentation>the in place</documentation>

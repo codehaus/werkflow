@@ -9,4 +9,6 @@ public interface ProcessCase
     Object getAttribute(String name);
 
     String[] getAttributeNames();
+
+    boolean hasAttribute(String key);
 }

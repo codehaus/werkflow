@@ -1,6 +1,6 @@
 
 <process id="general"
-         xmlns="http://werkflow.werken.com/fundamental/1.0/"
+         xmlns="werkflow:fundamental"
          xmlns:j="jelly:core">
 
   <place id="in">
