@@ -3,28 +3,15 @@ package com.werken.werkflow.event;
 import com.werken.werkflow.Wfms;
 
 public class CaseInitiatedEvent
-    extends WfmsEvent
+    extends CaseEvent
 {
-    private String processId;
-    private String caseId;
 
     public CaseInitiatedEvent(Wfms wfms,
                               String processId,
                               String caseId)
     {
-        super( wfms );
-
-        this.processId = processId;
-        this.caseId    = caseId;
-    }
-
-    public String getProcessId()
-    {
-        return this.processId;
-    }
-
-    public String getCaseId()
-    {
-        return this.caseId;
+        super( wfms,
+               processId,
+               caseId );
     }
 }
