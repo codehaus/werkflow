@@ -1,7 +1,0 @@
-target
-maven.log
-velocity.log
-cachedir
-.project
-.classpath
-.checkstyle
