@@ -1,6 +1,9 @@
 package org.codehaus.werkflow;
 
+import java.io.Serializable;
+
 public class Path
+    implements Serializable
 {
     private int[] segments;
 

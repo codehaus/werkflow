@@ -7,12 +7,12 @@ public class NonPersistentInstance
 {
     private DefaultInstance backup;
 
-    NonPersistentInstance(DefaultInstance instance)
+    protected NonPersistentInstance(DefaultInstance instance)
     {
         super( instance );
     }
 
-    void startTransaction()
+    protected void startTransaction()
         throws Exception
     {
         if ( this.backup != null )
@@ -24,13 +24,13 @@ public class NonPersistentInstance
         setInstance( this.backup.duplicate() );
     }
 
-    void commitTransaction()
+    protected void commitTransaction()
         throws Exception
     {
         this.backup = null;
     }
 
-    void abortTransaction()
+    protected void abortTransaction()
         throws Exception
     {
         setInstance( this.backup );

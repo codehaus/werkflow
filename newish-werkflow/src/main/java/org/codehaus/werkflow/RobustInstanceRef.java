@@ -80,4 +80,19 @@ public class RobustInstanceRef
     {
         return getInstance().getScope( path );
     }
+
+    public void enqueue(Path path)
+    {
+        getInstance().enqueue( path );
+    }
+
+    public void dequeue(Path path)
+    {
+        getInstance().dequeue( path );
+    }
+
+    public Path[] getQueue()
+    {
+        return getInstance().getQueue();
+    }
 }

@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 public class DefaultInstance
     implements RobustInstance, Serializable
@@ -20,6 +22,8 @@ public class DefaultInstance
 
     private Scope scope;
 
+    private Set queue;
+
     private boolean complete;
 
     public DefaultInstance(Workflow workflow,
@@ -30,6 +34,7 @@ public class DefaultInstance
         this.id       = id;
 
         this.context  = new HashMap();
+        this.queue    = new HashSet();
         this.scope    = new Scope( 0 );
     }
 
@@ -213,5 +218,20 @@ public class DefaultInstance
         {
             e.printStackTrace();
         }
+    }
+
+    public void enqueue(Path path)
+    {
+        this.queue.add( path );
+    }
+
+    public void dequeue(Path path)
+    {
+        this.queue.remove( path );
+    }
+
+    public Path[] getQueue()
+    {
+        return (Path[]) this.queue.toArray( new Path[ this.queue.size() ] );
     }
 }

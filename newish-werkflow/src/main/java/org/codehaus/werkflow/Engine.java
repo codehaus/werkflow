@@ -53,15 +53,18 @@ public abstract class Engine
         throw new NoSuchWorkflowException( id );
     }
 
-    public Instance getInstance(String id)
+    public synchronized Instance getInstance(String id)
         throws NoSuchInstanceException, Exception
     {
-        return getInstanceManager().getInstance( id );
+        RobustInstance instance = getInstanceManager().getInstance( id );
+
+
+        return instance;
     }
 
-    public Instance newInstance(String workflowId,
-                                String id,
-                                InitialContext context)
+    public synchronized Instance newInstance(String workflowId,
+                                             String id,
+                                             InitialContext context)
         throws NoSuchWorkflowException, DuplicateInstanceException, Exception
     {
         Workflow workflow = getWorkflow( workflowId );
@@ -193,6 +196,7 @@ public abstract class Engine
                 }
                 else
                 {
+                    instance.dequeue( path );
                     getInstanceManager().commitTransaction( instance );
                 }
             }
@@ -246,7 +250,7 @@ public abstract class Engine
             
             //System.err.println( parent + " says next path is " + nextPath + " after " + path );
 
-            while ( nextPath == AsyncComponent.NONE )
+            while ( nextPath.equals( AsyncComponent.NONE ) )
             {
                 instance.pop( path );
                 
@@ -277,14 +281,14 @@ public abstract class Engine
                     break;
                 }
             }
-            if ( nextPath == AsyncComponent.SELF )
+            if ( nextPath.equals( AsyncComponent.SELF ) )
             {
                 instance.pop( path );
                 instance.pop( path.parentPath() );
                 start( instance,
                        path.parentPath() );
             }
-            else if ( nextPath == AsyncComponent.DEFER)
+            else if ( nextPath.equals( AsyncComponent.DEFER) )
             {
                 instance.pop( path );
             }
@@ -296,7 +300,7 @@ public abstract class Engine
                 start( instance,
                        nextPath );
             }
-            else if ( nextPath == AsyncComponent.NONE )
+            else if ( nextPath.equals( AsyncComponent.NONE ) )
             {
                 // nothing in particular
             }

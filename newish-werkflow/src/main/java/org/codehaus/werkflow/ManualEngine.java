@@ -27,6 +27,7 @@ public class ManualEngine
     protected void enqueue(final RobustInstance instance,
                            final Path path)
     {
+        instance.enqueue( path );
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
 
         if ( list == null )
