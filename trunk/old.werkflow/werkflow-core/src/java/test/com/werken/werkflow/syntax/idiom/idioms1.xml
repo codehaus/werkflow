@@ -1,4 +1,5 @@
-<idioms xmlns="werkflow:idiom">
+<idioms xmlns="werkflow:idiom"
+        uri="test:idioms">
 
   <idiom id="empty">
     <transition id="empty">

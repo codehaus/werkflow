@@ -21,5 +21,8 @@ public class SyntaxTagLibrary
 
         registerTag( "import",
                      ImportTag.class );
+
+        registerTag( "expr-factory",
+                     ExprFactoryTag.class );
     }
 }
