@@ -66,11 +66,15 @@ class ManagerKey implements Serializable
 
     ManagerKey(String packageId, String processId)
     {
-        if (null == packageId || null == processId
-            || processId.length() == 0 || packageId.length() == 0)
+        if (null == packageId || null == processId)
         {
-            throw new IllegalArgumentException( "The package and process id's can not be null or empty" );
+            throw new IllegalArgumentException( "The package and process id's can not be null" );
         }
+
+	    if (processId.length() == 0 )
+	    {
+		    throw new IllegalArgumentException( "The process id can not be empty" );
+	    }
 
         _package = packageId;
         _process = processId;

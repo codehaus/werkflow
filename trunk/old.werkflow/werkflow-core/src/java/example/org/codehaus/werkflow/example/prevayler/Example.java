@@ -1,4 +1,4 @@
-package org.codehaus.werkflow.service.persistence;
+package org.codehaus.werkflow.example.prevayler;
 
 /*
  $Id$
@@ -46,65 +46,65 @@ package org.codehaus.werkflow.service.persistence;
 
  */
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
+import org.codehaus.werkflow.example.BaseExample;
+import org.codehaus.werkflow.example.blog.BlogEntry;
+import org.codehaus.werkflow.example.blog.Command;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.prevayler.PrevaylerPersistenceManager;
 
-public class DefaultCaseTransfer
-    implements CaseTransfer
+import java.io.File;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: kevin
+ * Date: 8/09/2003
+ * Time: 11:30:51
+ * To change this template use Options | File Templates.
+ */
+public class Example extends BaseExample
 {
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-
-    private String packageId;
-    private String processId;
-	 private String caseId;
-    private Map attributes;
-    private String[] tokens;
-
-    public DefaultCaseTransfer(String packageId, String processId, String caseId)
-    {
-        this( packageId,
-              processId,
-              caseId,
-              Collections.EMPTY_MAP,
-              EMPTY_STRING_ARRAY );
-    }
-
-    public DefaultCaseTransfer(String packageId,
-                               String processId,
-                               String caseId,
-                               Map attributes,
-                               String[] tokens)
-    {
-        this.packageId  = packageId;
-	     this.processId  = processId;
-	     this.caseId     = caseId;
-        this.attributes = new HashMap( attributes );
-        this.tokens     = tokens;
-    }
-
-	public String getCaseId()
-    {
-        return this.caseId;
-    }
-
-    public Map getAttributes()
-    {
-        return this.attributes;
-    }
-
-    public String[] getTokens()
-    {
-        return this.tokens;
-    }
-
-	public String getProcessId()
+	public Example()
 	{
-		return processId;
+
 	}
 
-	public String getPackageId()
+	public void defaultExample() throws Exception
 	{
-		return packageId;
+		deploy("/org/codehaus/werkflow/example/blog/blog.xml");
+
+		BlogEntry entry = new BlogEntry();
+
+		entry.setTitle("A Tale of Two Cheeses");
+		entry.setAuthor("bob@werken.com");
+		entry.setContent("It was a balmy night when Gouda first considered the proposition...");
+
+		getMessagingManager().acceptMessage(entry);
+
+		entry = new BlogEntry();
+
+		entry.setTitle("Bob Considered Harmful");
+		entry.setAuthor("bob@werken.com");
+		entry.setContent("While used by many folks, the practice of Bob has many disadvantages...");
+
+		getMessagingManager().acceptMessage(entry);
+
+		Command command = new Command("publish", "A Tale of Two Cheeses");
+
+		getMessagingManager().acceptMessage(command);
+
+		command = new Command("reject", "Bob Considered Harmful");
+
+		getMessagingManager().acceptMessage(command);
+	}
+
+	protected PersistenceManager createPersistenceManager()
+	{
+		return new PrevaylerPersistenceManager(tempBase(), true);
+	}
+
+	private String tempBase()
+	{
+		return new File(new File(System.getProperty("java.io.tmpdir")), ("werkflow-prevayler-" + System.currentTimeMillis()))
+			.getAbsolutePath();
 	}
 }

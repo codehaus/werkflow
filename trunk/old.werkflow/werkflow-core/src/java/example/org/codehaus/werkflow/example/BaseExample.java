@@ -98,11 +98,16 @@ public class BaseExample
     {
         if ( this.persistenceManager == null )
         {
-            this.persistenceManager = new FleetingPersistenceManager();
+            this.persistenceManager = createPersistenceManager();
         }
 
         return this.persistenceManager;
     }
+
+	protected PersistenceManager createPersistenceManager()
+	{
+		return new FleetingPersistenceManager();
+	}
 
     public void deploy(String name)
         throws Exception

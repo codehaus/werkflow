@@ -74,10 +74,14 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
     public PrevaylerPersistenceManager()
     {
-        _storePath = DEFAULT_REPOSITORY_PATH;
-        _snapOnStop = DEFAULT_SNAP_ON_STOP;
+	    this(DEFAULT_REPOSITORY_PATH, DEFAULT_SNAP_ON_STOP);
     }
 
+	public PrevaylerPersistenceManager(String storePath, boolean snapOnStop)
+	{
+		_storePath = storePath;
+		_snapOnStop = snapOnStop;
+	}
     // -- properties
 
     private String _storePath;
@@ -159,7 +163,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     }
 
     /**
-     * @see PersistenceManager#passivate(ProcessInfo)
+     * @see PersistenceManager#passivate(ProcessPersistenceManager)
      */
     public void passivate(ProcessPersistenceManager manager) throws PersistenceException
     {

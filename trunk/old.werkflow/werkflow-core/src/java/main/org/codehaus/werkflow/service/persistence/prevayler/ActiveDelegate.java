@@ -62,73 +62,80 @@ import org.codehaus.werkflow.service.persistence.PersistenceException;
  */
 class ActiveDelegate implements MethodDelegate
 {
-    public ActiveDelegate(Prevayler prevayler, ProcessState state)
-    {
-        _prevayler = prevayler;
-        _state = state;
-    }
+	public ActiveDelegate(Prevayler prevayler, ProcessState state)
+	{
+		_prevayler = prevayler;
+		_state = state;
+	}
 
-    private ProcessState _state;
-    private Prevayler _prevayler;
+	private ProcessState _state;
+	private Prevayler _prevayler;
 
-    /**
-     * @see MethodDelegate#persist(ChangeSet)
-     */
-    public void persist(ChangeSet changeSet) throws PersistenceException
-    {
-        // @todo - Implement method
-        throw new RuntimeException( "Method not implemented" );
-    }
+	/**
+	 * @see MethodDelegate#persist(ChangeSet)
+	 */
+	public void persist(ChangeSet changeSet) throws PersistenceException
+	{
+		try
+		{
+			PersistChangeSet command = new PersistChangeSet(changeSet);
+			_prevayler.execute(command);
+		}
+		catch (Exception e)
+		{
+			throw new PersistenceException(e);
+		}
+	}
 
-    /**
-     * @see MethodDelegate#hasCase(String)
-     */
-    public boolean hasCase(String caseId)
-    {
-        return _state.hasCase( caseId );
-    }
+	/**
+	 * @see MethodDelegate#hasCase(String)
+	 */
+	public boolean hasCase(String caseId)
+	{
+		return _state.hasCase(caseId);
+	}
 
-    /**
-     * @see MethodDelegate#newCase(Attributes)
-     */
-    public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
-    {
-        try
-        {
-            final ManagerKey key = key();
-            NewCaseCommand command = new NewCaseCommand( key.getPackageId(), key.getProcessId(), initialiAttrs );
-            CaseState caseState = (CaseState) command.executeUsing( _prevayler );
+	/**
+	 * @see MethodDelegate#newCase(Attributes)
+	 */
+	public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
+	{
+		try
+		{
+			final ManagerKey key = key();
+			NewCaseCommand command = new NewCaseCommand(key.getPackageId(), key.getProcessId(), initialiAttrs);
+			CaseState caseState = (CaseState) command.executeUsing(_prevayler);
 
-            return caseState;
-        }
-        catch (Exception e)
-        {
-            throw new PersistenceException( e );
-        }
-    }
+			return caseState;
+		}
+		catch (Exception e)
+		{
+			throw new PersistenceException(e);
+		}
+	}
 
-    /**
-     * @see MethodDelegate#loadCase(String)
-     */
-    public CaseTransfer loadCase(String caseId) throws PersistenceException
-    {
-        return _state.loadCase( caseId );
-    }
+	/**
+	 * @see MethodDelegate#loadCase(String)
+	 */
+	public CaseTransfer loadCase(String caseId) throws PersistenceException
+	{
+		return _state.loadCase(caseId);
+	}
 
-    /**
-     * @see MethodDelegate#getCorrelations()
-     */
-    public CorrelationTransfer[] getCorrelations() throws PersistenceException
-    {
-        // @todo - Implement method
-        throw new RuntimeException( "Method not implemented" );
-    }
+	/**
+	 * @see MethodDelegate#getCorrelations()
+	 */
+	public CorrelationTransfer[] getCorrelations() throws PersistenceException
+	{
+		// @todo - Implement method
+		throw new RuntimeException("Method not implemented");
+	}
 
-    // --  beyond here be dragons
+	// --  beyond here be dragons
 
-    private ManagerKey key()
-    {
-        return _state.key();
-    }
+	private ManagerKey key()
+	{
+		return _state.key();
+	}
 
 }

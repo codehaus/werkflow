@@ -81,8 +81,6 @@ class Scheduler
 
         List activities = new ArrayList();
 
-        synchronized ( changeSetSource )
-        {
             CoreChangeSet changeSet = changeSetSource.newChangeSet();
 
             synchronized ( processCase )
@@ -108,7 +106,6 @@ class Scheduler
             {
                 e.printStackTrace();
             }
-        }
 
         getExecutor().enqueueActivities( (CoreActivity[]) activities.toArray( CoreActivity.EMPTY_ARRAY ) );
     }
