@@ -88,9 +88,6 @@ public interface ProcessInfo
      */
     String getDocumentation();
     
-
-    void addAttributeDeclaration(AttributeDeclaration attrDecl);
-
     AttributeDeclaration[] getAttributeDeclarations();
 
     AttributeDeclaration getAttributeDeclaration(String id);

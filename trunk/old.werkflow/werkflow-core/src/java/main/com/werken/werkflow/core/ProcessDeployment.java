@@ -1,6 +1,7 @@
 package com.werken.werkflow.core;
 
 import com.werken.werkflow.Attributes;
+import com.werken.werkflow.AttributeDeclaration;
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.InvalidAttributesException;
@@ -147,6 +148,16 @@ class ProcessDeployment
     public String getId()
     {
         return getProcessDefinition().getId();
+    }
+
+    public AttributeDeclaration[] getAttributeDeclarations()
+    {
+        return getProcessDefinition().getAttributeDeclarations();
+    }
+
+    public AttributeDeclaration getAttributeDeclaration(String id)
+    {
+        return getProcessDefinition().getAttributeDeclaration( id );
     }
 
     public String getDocumentation()
