@@ -7,13 +7,13 @@ import java.util.Arrays;
 public class MessagingTestBase
     extends TestCase
 {
-    public void setUp()
+    protected void setUp()
         throws Exception
     {
         super.setUp();
     }
 
-    public void tearDown()
+    protected void tearDown()
         throws Exception
     {
         super.tearDown();
