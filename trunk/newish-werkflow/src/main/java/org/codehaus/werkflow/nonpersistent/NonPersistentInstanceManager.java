@@ -18,7 +18,7 @@ public class NonPersistentInstanceManager
     public synchronized RobustInstance newInstance(Workflow workflow,
                                                    String id,
                                                    Context initialContext)
-        throws DuplicateInstanceException
+        throws DuplicateInstanceException, Exception
     {
         RobustInstance instance = (RobustInstance) this.instances.get( id );
 
@@ -27,13 +27,24 @@ public class NonPersistentInstanceManager
             throw new DuplicateInstanceException( instance );
         }
 
-        instance = new NonPersistentInstance( new DefaultInstance( workflow,
-                                                                   id ) );
+        instance = makeInstance( workflow,
+                                 id,
+                                 initialContext );
+
 
         this.instances.put( id,
                             instance );
 
         return instance;
+    }
+
+    protected RobustInstance makeInstance(Workflow workflow,
+                                          String id,
+                                          Context initialCOntext)
+        throws Exception
+    {
+        return new NonPersistentInstance( new DefaultInstance( workflow,
+                                                               id ) );
     }
 
     public RobustInstance getInstance(String id)

@@ -14,6 +14,12 @@ public interface RobustInstance
 
     void pop(Path path);
 
+    void enqueue(Path path);
+
+    void dequeue(Path path);
+
+    Path[] getQueue();
+
     void setComplete(boolean complete);
 
     Scope getScope(Path path);
