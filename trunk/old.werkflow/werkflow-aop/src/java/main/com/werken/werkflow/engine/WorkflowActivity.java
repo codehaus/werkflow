@@ -68,6 +68,9 @@ class WorkflowActivity
     /** Activity-manager. */
     private ActivityManager activityManager;
 
+    /** Package identifier. */
+    private String packageId;
+
     /** Process identifier. */
     private String processId;
 
@@ -92,6 +95,7 @@ class WorkflowActivity
     /** Construct.
      *
      *  @param activityManager The activity manager.
+     *  @param packageId The package identifier.
      *  @param processId The process identifier.
      *  @param caseId The case identifier.
      *  @param transitionId The transition identifier.
@@ -99,6 +103,7 @@ class WorkflowActivity
      *  @param caseAttrs Case attributes.
      */
     public WorkflowActivity(ActivityManager activityManager,
+                            String packageId,
                             String processId,
                             String caseId,
                             String transitionId,
@@ -107,6 +112,7 @@ class WorkflowActivity
                             boolean isCall)
     {
         this.activityManager = activityManager;
+        this.packageId       = packageId;
         this.processId       = processId;
         this.caseId          = caseId;
         this.transitionId    = transitionId;
@@ -127,6 +133,12 @@ class WorkflowActivity
     {
         return this.activityManager;
     }
+
+    public String getPackageId()
+    {
+        return this.packageId;
+    }
+
     /** @see Activity
      */
     public String getProcessId()

@@ -82,6 +82,7 @@ public interface WfmsRuntime
     /** Retrieve the <code>ProcessInfo</code> descriptor for
      *  a specific process.
      *
+     *  @param packageId The package id.
      *  @param processId The process id.
      *
      *  @return The process-info descriptor.
@@ -89,7 +90,8 @@ public interface WfmsRuntime
      *  @throws NoSuchProcessException If the <code>processId</code>
      *          does not refer to a valid deployed process.
      */
-    ProcessInfo getProcess(String processId)
+    ProcessInfo getProcess(String packageId,
+                           String processId)
         throws NoSuchProcessException;
 
     /** Retrieve a <code>ProcessCase</code> by its id.
@@ -109,7 +111,8 @@ public interface WfmsRuntime
     
     /** Create a new <code>ProcessCase</code> for a particular process.
      *
-     *  @param processId The id of the process.
+     *  @param packageId The package id.
+     *  @param processId The process id.
      *  @param attributes The initial attributes for the case.
      *
      *  @return The newly created process case.
@@ -117,7 +120,8 @@ public interface WfmsRuntime
      *  @throws NoSuchProcessException If the process identifier does
      *          not refer to a currently deployed process definition.
      */
-    ProcessCase callProcess(String processId,
+    ProcessCase callProcess(String packageId,
+                            String processId,
                             Attributes attributes)
         throws ProcessException;
     

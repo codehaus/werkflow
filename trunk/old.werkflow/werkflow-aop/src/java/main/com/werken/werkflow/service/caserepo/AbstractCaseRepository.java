@@ -74,12 +74,14 @@ public abstract class AbstractCaseRepository
 
     /** @see CaseRepository
      */
-    public CaseState newCaseState(String processId,
+    public CaseState newCaseState(String packageId,
+                                  String processId,
                                   Attributes attributes)
     {
         String caseId = nextCaseId();
 
         CaseState state = new DefaultCaseState( caseId,
+                                                packageId,
                                                 processId,
                                                 this );
 

@@ -78,6 +78,12 @@ public interface Activity
      */
     String getTransitionId();
 
+    /** Retrieve the package identifier.
+     *
+     *  @return The package identifier.
+     */
+    String getPackageId();
+
     /** Retrieve the process identifier.
      *
      *  @return The process identifier.

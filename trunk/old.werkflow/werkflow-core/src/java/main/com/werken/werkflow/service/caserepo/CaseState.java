@@ -72,6 +72,8 @@ public interface CaseState
      */
     String getCaseId();
 
+    String getPackageId();
+
     /** Retrieve the identifier of the process of which this
      *  state is an instance.
      *

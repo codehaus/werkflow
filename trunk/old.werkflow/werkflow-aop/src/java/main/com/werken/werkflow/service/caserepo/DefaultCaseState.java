@@ -79,6 +79,9 @@ public class DefaultCaseState
     /** Case identifier. */
     private String caseId;
 
+    /** Package identifier. */
+    private String packageId;
+
     /** Process identifier. */
     private String processId;
 
@@ -99,10 +102,12 @@ public class DefaultCaseState
      *  @param repo The owning repository.
      */
     public DefaultCaseState(String caseId,
+                            String packageId,
                             String processId,
                             AbstractCaseRepository repo)
     {
         this.caseId     = caseId;
+        this.packageId  = packageId;
         this.processId  = processId;
         this.repo       = repo;
         this.attributes = new HashMap(); 
@@ -118,6 +123,7 @@ public class DefaultCaseState
                             AbstractCaseRepository repo)
     {
         this( state.getCaseId(),
+              state.getPackageId(),
               state.getProcessId(),
               repo );
 
@@ -146,6 +152,11 @@ public class DefaultCaseState
     public String getCaseId()
     {
         return this.caseId;
+    }
+
+    public String getPackageId()
+    {
+        return this.packageId;
     }
 
     /** @see CaseState
