@@ -1,5 +1,6 @@
 package com.werken.werkflow.service.persistence.fleeting;
 
+import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.admin.DeploymentException;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.service.persistence.PersistenceManager;
@@ -14,7 +15,7 @@ public class FleetingPersistenceManager
 
     }
 
-    public ProcessPersistenceManager deployProcess(ProcessDefinition processDef)
+    public ProcessPersistenceManager deployProcess(ProcessInfo processDef)
         throws DeploymentException
     {
         return new FleetingProcessPersistenceManager( processDef.getPackageId(),
