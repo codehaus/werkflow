@@ -2,14 +2,13 @@ package org.codehaus.werkflow;
 
 public interface InstanceManager
 {
-    RobustInstance newInstance(Engine engine,
-                               Workflow workflow,
+    RobustInstance newInstance(Workflow workflow,
                                String id,
                                Context initialContext)
-        throws DuplicateInstanceException;
+        throws DuplicateInstanceException, Exception;
 
     RobustInstance getInstance(String id)
-        throws Exception;
+        throws NoSuchInstanceException, Exception;
 
     void startTransaction(RobustInstance instance)
         throws Exception;

@@ -21,12 +21,20 @@ public class AutomaticEngine
         this.timer = new Timer();
         this.pool  = new PooledExecutor( new LinkedQueue() );
         this.pool.setKeepAliveTime(-1); 
-        this.pool.createThreads(5);
+        this.pool.createThreads(1);
     }
 
-    public AutomaticEngine(SatisfactionManager satisfactionManager)
+    public AutomaticEngine(InstanceManager instanceManager)
     {
         this();
+        setInstanceManager( instanceManager );
+    }
+
+    public AutomaticEngine(InstanceManager instanceManager,
+                           SatisfactionManager satisfactionManager)
+    {
+        this();
+        setInstanceManager( instanceManager );
         setSatisfactionManager( satisfactionManager );
     }
 
@@ -43,7 +51,7 @@ public class AutomaticEngine
                         AutomaticEngine.this.run( instance,
                                                   path );
                     }
-                    catch (InterruptedException e)
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                     }
@@ -77,7 +85,7 @@ public class AutomaticEngine
                     {
                         cancel();
                     }
-                    catch (NoSuchInstanceException e)
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                         cancel();

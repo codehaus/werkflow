@@ -3,12 +3,10 @@ package org.codehaus.werkflow;
 public class SingleStateInstance
     extends DefaultInstance
 {
-    protected SingleStateInstance(Engine engine,
-                                  Workflow workflow,
+    protected SingleStateInstance(Workflow workflow,
                                   String id)
     {
-        super( engine,
-               workflow,
+        super( workflow,
                id );
     }
 }

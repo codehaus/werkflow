@@ -23,11 +23,6 @@ public class RobustInstanceRef
         return this.instance;
     }
 
-    public Engine getEngine()
-    {
-        return getInstance().getEngine();
-    }
-
     public Workflow getWorkflow()
     {
         return getInstance().getWorkflow();

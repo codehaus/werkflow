@@ -16,10 +16,12 @@ public class ManualEngine
     private Map queues;
     private Set polls;
 
-    public ManualEngine()
+    public ManualEngine(InstanceManager instanceManager)
     {
         this.queues = new HashMap();
         this.polls  = new HashSet();
+
+        setInstanceManager( instanceManager );
     }
 
     protected void enqueue(final RobustInstance instance,
@@ -50,7 +52,7 @@ public class ManualEngine
     }
 
     public boolean step(Instance instance)
-        throws InterruptedException
+        throws Exception
     {
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
 
@@ -101,7 +103,7 @@ public class ManualEngine
                     {
                         cancelSatisfactionPoll( this );
                     }
-                    catch (NoSuchInstanceException e)
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                         cancelSatisfactionPoll( this );

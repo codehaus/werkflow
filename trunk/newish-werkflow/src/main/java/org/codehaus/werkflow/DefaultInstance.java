@@ -1,12 +1,18 @@
 package org.codehaus.werkflow;
 
+import java.io.Serializable;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
 public class DefaultInstance
-    implements RobustInstance 
+    implements RobustInstance, Serializable
 {
-    private transient Engine engine;
+    private String workflowId;
     private transient Workflow workflow;
 
     private String id;
@@ -16,21 +22,15 @@ public class DefaultInstance
 
     private boolean complete;
 
-    protected DefaultInstance(Engine engine,
-                              Workflow workflow,
-                              String id)
+    public DefaultInstance(Workflow workflow,
+                           String id)
     {
-        this.engine   = engine;
+        this.workflowId = workflow.getId();
         this.workflow = workflow;
         this.id       = id;
 
         this.context  = new HashMap();
         this.scope    = new Scope( 0 );
-    }
-
-    public Engine getEngine()
-    {
-        return this.engine;
     }
 
     public Workflow getWorkflow()
@@ -173,5 +173,45 @@ public class DefaultInstance
         }
 
         return cur;
+    }
+
+    public DefaultInstance duplicate()
+        throws IOException, ClassNotFoundException
+    {
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+        ObjectOutputStream objectOut = new ObjectOutputStream( byteOut );
+        
+        objectOut.writeObject( this );
+        objectOut.close();
+        
+        byte[] bytes = byteOut.toByteArray();
+        
+        ByteArrayInputStream byteIn = new ByteArrayInputStream( bytes );
+        ObjectInputStream objectIn = new ObjectInputStream( byteIn );
+        
+        DefaultInstance dupeInstance = (DefaultInstance) objectIn.readObject();
+        objectIn.close();
+
+        return dupeInstance;
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out)
+        throws IOException
+    {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(java.io.ObjectInputStream in)
+        throws IOException, ClassNotFoundException
+    {
+        in.defaultReadObject();
+        try
+        {
+            this.workflow = Engine.getThreadEngine().getWorkflow( this.workflowId );
+        }
+        catch (NoSuchWorkflowException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

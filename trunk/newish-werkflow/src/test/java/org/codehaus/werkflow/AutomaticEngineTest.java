@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.nonpersistent.*;
+
 import java.util.List;
 
 public class AutomaticEngineTest
@@ -54,14 +56,17 @@ public class AutomaticEngineTest
         Workflow workflow = new Workflow( "ted",
                                           root );
 
-        AutomaticEngine engine = new AutomaticEngine();
+        AutomaticEngine engine = new AutomaticEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext()  );
 
-        instance.waitFor();
+        //instance.waitFor();
+
+        Thread.sleep( 2000 );
 
         List touches = (List) instance.get( "touches" );
 
@@ -154,7 +159,8 @@ public class AutomaticEngineTest
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry" ,
+                                                new InitialContext() );
 
         Thread.sleep( 1000 );
 

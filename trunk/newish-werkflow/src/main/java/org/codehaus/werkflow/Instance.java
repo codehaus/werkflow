@@ -6,8 +6,6 @@ import java.util.HashMap;
 public interface Instance
     extends Context 
 {
-    Engine getEngine();
-
     Workflow getWorkflow();
 
     String getId();
