@@ -4,7 +4,17 @@ import org.codehaus.werkflow.Context;
 
 public interface SatisfactionManager
 {
-    public boolean isSatisfied(String satisfactionId,
-                               Context context,
-                               SatisfactionCallback callback);
+    boolean isSatisfied(RobustTransaction transaction,
+                        String satisfactionId,
+                        Context context,
+                        SatisfactionCallback callback);
+
+    SatisfactionValues getSatisfactionValues(String satisfactionId,
+                                             Context context);
+
+    void satisfy(RobustTransaction transaction,
+                 String instanceId,
+                 String satisfactionId,
+                 SatisfactionValues values)
+        throws Exception;
 }
