@@ -3,8 +3,6 @@ package org.codehaus.werkflow;
 import org.codehaus.werkflow.spi.*;
 import org.codehaus.werkflow.helpers.*;
 
-import java.util.Arrays;
-
 public class Engine
 {
     private static final ThreadLocal threadEngine = new ThreadLocal();
@@ -16,7 +14,9 @@ public class Engine
 
     private Locker locker;
 
-    private ThreadPool threadPool;
+    private Scheduler scheduler;
+
+    private boolean started = false;
 
     private int transactionCounter;
 
@@ -26,25 +26,7 @@ public class Engine
         this.instanceManager = new SimpleInstanceManager();
 
         this.locker = new Locker();
-
-        this.threadPool = new ThreadPool( this,
-                                          4 );
     }
-
-    public void start()
-    {
-        System.out.println("Starting engine");
-        this.threadPool.start();
-    }
-
-    public void stop()
-    {
-        System.out.println("Stopping engine");
-        this.threadPool.stop();
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     public void setPersistenceManager(PersistenceManager persistenceManager)
     {
@@ -91,7 +73,48 @@ public class Engine
         return this.locker;
     }
 
+    public void setScheduler(Scheduler scheduler)
+    {
+        if ( isStarted() )
+        {
+            throw new IllegalStateException( "engine started" );
+        }
+
+        this.scheduler = scheduler;
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    public void start()
+    {
+        System.out.println("Starting engine");
+
+        if ( scheduler == null )
+        {
+            scheduler = new ThreadPoolScheduler( 4 );
+        }
+
+        this.scheduler.start( this );
+
+        started = true;
+    }
+
+    public boolean isStarted()
+    {
+        return started;
+    }
+
+    public void stop()
+    {
+        System.out.println("Stopping engine");
+
+        this.scheduler.stop( this );
+
+        started = false;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     void newInstance(RobustTransaction transaction,
@@ -158,8 +181,44 @@ public class Engine
     void enqueue(String instanceId,
                  Path path)
     {
-        this.threadPool.enqueue( new InstanceTask( instanceId,
-                                                   path ) );
+        this.scheduler.enqueue( new InstanceTask( instanceId,
+                                                  path ) );
+    }
+
+    public void run(InstanceTask task)
+        throws NoSuchInstanceException, InterruptedException
+    {
+        initializeThread();
+
+        RobustTransaction transaction = beginInternalTransaction( task.getInstanceId() );
+
+        try
+        {
+            transaction.run( task.getPath() );
+
+            getPersistenceManager().commitTransaction();
+            //getEngine().getPersistenceManager().beginTransaction();
+
+            transaction.commit();
+
+            //getEngine().getPersistenceManager().commitTransaction();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if ( getPersistenceManager().isTransactionActive() )
+            {
+                getPersistenceManager().rollbackTransaction();
+            }
+
+            if ( transaction.isOpen() )
+            {
+                transaction.rollback();
+            }
+        }
     }
 
     void run(RobustTransaction transaction,
@@ -484,7 +543,7 @@ public class Engine
         return transaction;
     }
 
-    synchronized RobustTransaction beginThreadPoolTransaction(String instanceId)
+    synchronized RobustTransaction beginInternalTransaction(String instanceId)
         throws NoSuchInstanceException, InterruptedException
     {
         if ( ! getInstanceManager().hasInstance( instanceId ) )
