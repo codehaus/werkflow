@@ -204,6 +204,12 @@
       <url>http://jakarta.apache.org/log4j/</url>
     </dependency>
 
+    <dependency>
+      <id>prevayler</id>
+      <version>1.02.001</version>
+      <url>http://www.prevayler.org/</url>
+    </dependency>
+
 <!--
     <dependency>
       <id>plexus</id>
