@@ -4,9 +4,10 @@ import com.werken.werkflow.Attributes;
 import com.werken.werkflow.SimpleAttributes;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionContext;
+import com.werken.werkflow.expr.AttributesExpressionContext;
 import com.werken.werkflow.semantics.jelly.CaseJellyContext;
-
-import org.apache.commons.jelly.expression.Expression;
 
 import java.util.Map;
 import java.util.Iterator;
@@ -41,8 +42,9 @@ public class DefaultCallAction
     }
 
     public Attributes getAttributes(ProcessCase parentCase)
+        throws Exception
     {
-        CaseJellyContext context = new CaseJellyContext( parentCase );
+        ExpressionContext context = new AttributesExpressionContext( parentCase );
 
         SimpleAttributes attrs = new SimpleAttributes();
 

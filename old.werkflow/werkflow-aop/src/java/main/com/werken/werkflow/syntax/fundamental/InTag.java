@@ -57,7 +57,7 @@ public class InTag
     extends FundamentalTagSupport
 {
     private String id;
-    private Expression value;
+    private String valueExpr;
 
     public InTag()
     {
@@ -74,14 +74,14 @@ public class InTag
         return this.id;
     }
 
-    public void setValue(Expression value)
+    public void setValue(String valueExpr)
     {
-        this.value = value;
+        this.valueExpr = valueExpr;
     }
 
-    public Expression getValue()
+    public String getValue()
     {
-        return this.value;
+        return this.valueExpr;
     }
 
     /** @see org.apache.commons.jelly.Tag
@@ -92,14 +92,26 @@ public class InTag
         requireStringAttribute( "id",
                                 getId() );
 
-        CallTag tag = (CallTag) findAncestorWithClass( CallTag.class );
+        requireStringAttribute( "value",
+                                getValue() );
+
+        // CallTag tag = (CallTag) findAncestorWithClass( CallTag.class );
+        CallTag tag = (CallTag) getContext().getVariable( CallTag.class.getName() );
 
         if ( tag == null )
         {
             throw new JellyTagException( "invalid context for <in>" );
         }
 
-        tag.setAttribute( getId(),
-                          getValue() );
+        try
+        {
+            tag.setAttribute( getId(),
+                              newExpression( getValue() ) );
+
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

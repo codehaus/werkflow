@@ -50,9 +50,11 @@ public abstract class BsfExpression
         return this.engine;
     }
 
-    public boolean evaluateAsBoolean(ExpressionContext context)
+    public Object evaluate(ExpressionContext context)
         throws Exception
     {
+        Object result = null;
+
         ObjectRegistry registry = new BsfObjectRegistry();
 
         synchronized ( this.manager )
@@ -62,16 +64,15 @@ public abstract class BsfExpression
             BsfUtil.populate( this.manager,
                               context );
 
-            boolean result = asBoolean( this.engine.eval( text, 0, 0, text ) );
-
+            result = this.engine.eval( text, 0, 0, text );
+            
             BsfUtil.unpopulate( this.manager,
                                 context );
-
-            return result;
+            
         }
-    }
 
-    public abstract boolean asBoolean(Object value);
+        return result;
+    }
 
     public String toString()
     {

@@ -28,7 +28,7 @@ public class OgnlExpression
         return this.text;
     }
 
-    public boolean evaluateAsBoolean(ExpressionContext context)
+    public Object evaluate(ExpressionContext context)
         throws Exception
     {
         Map exprContext = new HashMap();
@@ -41,20 +41,8 @@ public class OgnlExpression
                              context.getValue( names[i] ) );
         }
 
-        Object value = Ognl.getValue( this.ast,
-                                      exprContext,
-                                      (Object) null );
-
-        if ( value instanceof Boolean )
-        {
-            return ((Boolean)value).booleanValue();
-        }
-
-        if ( value instanceof String )
-        {
-            return stringAsBoolean( (String) value );
-        }
-                                      
-        return false;
+        return Ognl.getValue( this.ast,
+                              exprContext,
+                              (Object) null );
     }
 }

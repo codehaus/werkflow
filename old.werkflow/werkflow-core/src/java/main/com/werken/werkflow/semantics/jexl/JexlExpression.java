@@ -1,5 +1,6 @@
 package com.werken.werkflow.semantics.jexl;
 
+import com.werken.werkflow.expr.AbstractExpression;
 import com.werken.werkflow.expr.ExpressionContext;
 
 import org.apache.commons.jexl.Expression;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class JexlExpression
-    implements com.werken.werkflow.expr.Expression
+    extends AbstractExpression
 {
     private Expression expr;
 
@@ -19,7 +20,7 @@ public class JexlExpression
         this.expr = expr;
     }
 
-    public boolean evaluateAsBoolean(ExpressionContext exprContext)
+    public Object evaluate(ExpressionContext exprContext)
         throws Exception
     {
         JexlContext context = JexlHelper.createContext();
@@ -36,33 +37,6 @@ public class JexlExpression
 
         context.setVars( varsMap );
 
-        Object value = this.expr.evaluate( context );
-
-        if ( value instanceof Boolean )
-        {
-            return ((Boolean)value).booleanValue();
-        }
-
-        if ( value instanceof String)
-        {
-            String str = (String) value;
-
-            if ( str.equals( "true" )
-                 ||
-                 str.equals( "on" )
-                 ||
-                 str.equals( "1" )
-                 ||
-                 str.equals( "yes" ) )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return false;
+        return this.expr.evaluate( context );
     }
 }
