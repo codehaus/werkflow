@@ -17,7 +17,7 @@
     </syntax:tag>
 
     <syntax:tag name="process">
-        <syntax:expr-factory type="com.werken.werkflow.semantics.python.PythonExpressionFactory"/>
+        <syntax:expr-factory type="com.werken.werkflow.semantics.java.JavaExpressionFactory"/>
        <j:if test="${empty(package)}">
          <j:set var="package" value=""/>
        </j:if>
@@ -144,9 +144,7 @@
 
     <syntax:tag name="action">
         <fund:action id="${id}">
-            <!--
             <syntax:invokeBody/>
-            -->
         </fund:action>
     </syntax:tag>
 
