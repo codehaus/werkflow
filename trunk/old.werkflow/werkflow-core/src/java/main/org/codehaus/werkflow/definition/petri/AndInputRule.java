@@ -53,6 +53,7 @@ import org.codehaus.werkflow.expr.AttributesExpressionContext;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /** And-based <code>ActiviationRule</code> for a <code>Transition</code>.
  *
@@ -118,6 +119,7 @@ public class AndInputRule
                                         String[] availMarks)
         throws Exception
     {
+        System.err.println( "getSatisfyingTokens(" + transition + ")" );
         List placeIds = new ArrayList();
 
         Arc[]  arcs        = transition.getArcsFromPlaces();
@@ -127,27 +129,45 @@ public class AndInputRule
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
+            System.err.println( "  " + arcs[i].getPlace() );
             eachPlaceId = arcs[i].getPlace().getId();
 
             if ( contains( eachPlaceId,
                            availMarks ) )
             {
+                System.err.println( Arrays.asList( availMarks ) + " DOES contain " + eachPlaceId );
                 Expression expr = arcs[i].getExpression();
 
                 if ( expr != null )
                 {
+                    System.err.println( "expr is NOT NULL" );
+
+                    System.err.println( "expr is " + expr + " // " + expr.getClass() );
+                    System.err.println( "expr evals to  " + expr.evaluateAsBoolean( context ) );
+
                     if ( ! expr.evaluateAsBoolean( context ) )
                     {
                         return EMPTY_STRING_ARRAY;
                     }
+                    else
+                    {
+                        if ( ! placeIds.contains( eachPlaceId ) )
+                        {
+                            placeIds.add( eachPlaceId );
+                        }
+                    }
                 }
                 else
                 {
-                    placeIds.add( eachPlaceId );
+                    if ( ! placeIds.contains( eachPlaceId ) )
+                    {
+                        placeIds.add( eachPlaceId );
+                    }
                 }
             }
             else
             {
+                System.err.println( Arrays.asList( availMarks ) + " does not contain " + eachPlaceId );
                 return EMPTY_STRING_ARRAY;
             }
         }

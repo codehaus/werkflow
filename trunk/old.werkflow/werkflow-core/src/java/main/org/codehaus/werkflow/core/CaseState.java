@@ -52,6 +52,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 class CaseState
 {
@@ -86,6 +87,8 @@ class CaseState
 
     void consumeTokens(String[] consumed)
     {
+        System.err.println( "consuming " + Arrays.asList( consumed ) + " from " + this.tokens );
+
         for ( int i = 0 ; i < consumed.length ; ++i )
         {
             if ( ! this.tokens.remove( consumed[i] ) )

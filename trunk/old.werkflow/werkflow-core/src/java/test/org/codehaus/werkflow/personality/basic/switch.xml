@@ -20,13 +20,13 @@
         <jelly:log message="being checked : ${result}"/>
         
         <jelly:action>
-           <j:set var="result" value="1"/>
+           <j:set var="result" value="cheese"/>
         </jelly:action>            
         
         <jelly:log message="result set to : ${result}"/>
                                 
         <switch>                
-            <case condition="result == '1'">
+            <case condition="result.equals(&quot;cheese&quot;)">
                 <sequence>
                     <jelly:action>
                        <j:set var="result" value="3"/>

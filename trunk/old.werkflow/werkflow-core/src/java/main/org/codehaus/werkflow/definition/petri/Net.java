@@ -95,4 +95,6 @@ public interface Net
      */
     Transition getTransition(String id)
         throws NoSuchTransitionException;
+
+    void dump();
 }
