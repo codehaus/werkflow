@@ -9,15 +9,15 @@
 
     <message-types>
         <message-type id="blog.entry">
-            <java:selector type="com.werken.werkflow.example.blog.BlogEntry"/>
+            <python:selector type="com.werken.werkflow.example.blog.BlogEntry"/>
         </message-type>
         <message-type id="publish.cmd">
-            <java:selector type="com.werken.werkflow.example.blog.Command" 
-                           filter="message.getType().equals(&quot;publish&quot;)"/>
+            <python:selector type="com.werken.werkflow.example.blog.Command" 
+                           filter="message.getType() == 'publish'"/>
         </message-type>
         <message-type id="reject.cmd">
-            <java:selector type="com.werken.werkflow.example.blog.Command" 
-                           filter="message.getType().equals(&quot;reject&quot;)"/>
+            <python:selector type="com.werken.werkflow.example.blog.Command" 
+                             filter="message.getType() == 'reject'"/>
         </message-type>
     </message-types>
 

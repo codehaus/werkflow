@@ -72,6 +72,9 @@ public class PythonTagLibrary
      */
     public PythonTagLibrary()
     {
+        registerTag( "selector",
+                     ClassMessageSelectorTag.class );
+
         registerTag( "correlator",
                      PythonMessageCorrelatorTag.class );
     }

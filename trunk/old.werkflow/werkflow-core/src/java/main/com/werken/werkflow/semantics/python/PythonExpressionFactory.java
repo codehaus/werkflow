@@ -19,6 +19,11 @@ public class PythonExpressionFactory
     public Expression newExpression(String exprStr)
         throws Exception
     {
+        if ( exprStr == null )
+        {
+            return null;
+        }
+
         return new PythonExpression( exprStr );
     }
 }

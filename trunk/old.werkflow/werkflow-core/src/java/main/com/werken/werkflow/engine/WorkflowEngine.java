@@ -613,6 +613,7 @@ public class WorkflowEngine
         }
         catch (ProcessDeploymentException e)
         {
+            e.printStackTrace();
             throw new DeploymentException( processDef,
                                            e );
         }
