@@ -108,7 +108,14 @@ public abstract class FundamentalTagSupport
     {
         Scope curScope = getCurrentScope();
 
-        setCurrentScope( new Scope( curScope ) );
+        if ( curScope == null )
+        {
+            setCurrentScope( new Scope() );
+        }
+        else
+        {
+            setCurrentScope( new Scope( curScope ) );
+        }
     }
 
     protected void popScope()

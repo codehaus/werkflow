@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,37 +46,24 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.definition.petri.Net;
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultPlace;
+import com.werken.werkflow.definition.petri.DuplicateIdException;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Support for fundamental syntax tags.
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public abstract class FundamentalTagSupport
-    extends MiscTagSupport
+public class NetTag
+    extends PetriTagSupport
+      // implements DocumentableTag
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    private static final String CURRENT_PROCESS_KEY = "werkflow.current.process";
-
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Current <code>ProcessDefinition</code>.
-     */
-    private ProcessDefinition processDef;
+    /** Documentation, possibly null. */
+    private String documentation;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -84,7 +71,7 @@ public abstract class FundamentalTagSupport
 
     /** Construct.
      */
-    public FundamentalTagSupport()
+    public NetTag()
     {
         // intentionally left blank
     }
@@ -93,67 +80,41 @@ public abstract class FundamentalTagSupport
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    protected Scope getCurrentScope()
+    /** @see DocumentableTag
+     */
+    public void setDocumentation(String documentation)
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
+        this.documentation = documentation;
     }
 
-    protected void setCurrentScope(Scope scope)
+    /** Retrieve the documentation.
+     *
+     *  @return The documentation.
+     */
+    public String getDocumentation()
     {
-        getContext().setVariable( Scope.class.getName(),
-                                  scope );
+        return this.documentation;
     }
 
-    protected void pushScope()
-    {
-        Scope curScope = getCurrentScope();
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-        if ( curScope == null )
-        {
-            setCurrentScope( new Scope() );
-        }
-        else
-        {
-            setCurrentScope( new Scope( curScope ) );
-        }
-    }
-
-    protected void popScope()
-    {
-        Scope curScope = getCurrentScope();
-
-        setCurrentScope( curScope.getParent() );
-    }
-
-    protected void addProcessDefinition(ProcessDefinition processDef)
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+        DefaultNet net = new DefaultNet();
+        
 
-        if ( pkgTag != null )
-        {
-            pkgTag.addProcessDefinition( processDef );
-        }
-        else
-        {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
+        setCurrentNet( net );
 
-            pkg.addProcessDefinition( processDef );
+        getContext().setVariable( Net.class.getName(),
+                                  net );
 
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
-        }
-    }
+        invokeBody( output );
 
-    protected ProcessDefinition getCurrentProcess()
-    {
-        return (ProcessDefinition) getContext().getVariable( CURRENT_PROCESS_KEY );
-    }
-
-    protected void setCurrentProcess(ProcessDefinition processDef)
-    {
-        getContext().setVariable( CURRENT_PROCESS_KEY,
-                                  processDef );
+        setCurrentNet( null );
+        System.err.println( "setting net: " + net + " on " + getContext() );
     }
 }
-

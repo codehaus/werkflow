@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,37 +46,52 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.definition.petri.DefaultTransition;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.expression.Expression;
 
-/** Support for fundamental syntax tags.
+/** Create an input arc for a <code>Transition</code>.
+ *
+ *  <p>
+ *  Used within a &lt;transition&gt; tag, the &lt;input&gt; tag
+ *  is used to specify a &lt;place&gt; from which tokens are
+ *  consumed.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *    &lt;place id="some.place"/&gt;
+ *
+ *    &lt;transition&gt;
+ *      &lt;input from="some.place"/&gt;
+ *    &lt;/transition&gt;
+ *  </pre>
+ *  </p>
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
+ *  @see TransitionTag
+ *  @see OutputTag
+ *
  *  @version $Id$
  */
-public abstract class FundamentalTagSupport
-    extends MiscTagSupport
+public class InputTag
+    extends PetriTagSupport
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    private static final String CURRENT_PROCESS_KEY = "werkflow.current.process";
-
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Current <code>ProcessDefinition</code>.
-     */
-    private ProcessDefinition processDef;
+    /** From place identifier. */
+    private String from;
+
+    /** Filter expression. */
+    private Expression filterExpr;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -84,7 +99,7 @@ public abstract class FundamentalTagSupport
 
     /** Construct.
      */
-    public FundamentalTagSupport()
+    public InputTag()
     {
         // intentionally left blank
     }
@@ -93,67 +108,77 @@ public abstract class FundamentalTagSupport
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    protected Scope getCurrentScope()
+    /** Set the identifier of the <code>Place</code> from which tokens
+     *  should be consumed.
+     *
+     *  @param from The place identifier.
+     */
+    public void setFrom(String from)
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
+        this.from = from;
     }
 
-    protected void setCurrentScope(Scope scope)
+    /** Retrieve the identifier of the <code>Place</code> from which tokens
+     *  should be consumed.
+     *
+     *  @return The place identifier.
+     */
+    public String getFrom()
     {
-        getContext().setVariable( Scope.class.getName(),
-                                  scope );
+        return this.from;
     }
 
-    protected void pushScope()
+    /** Set the input filter <code>Expression</code>.
+     *
+     *  @param filterExpr The filter expression.
+     */
+    public void setFilter(Expression filterExpr)
     {
-        Scope curScope = getCurrentScope();
-
-        if ( curScope == null )
-        {
-            setCurrentScope( new Scope() );
-        }
-        else
-        {
-            setCurrentScope( new Scope( curScope ) );
-        }
+        this.filterExpr = filterExpr;
     }
 
-    protected void popScope()
+    /** Retrieve the input filter <code>Expression</code>.
+     *
+     *  @return The filter expression.
+     */
+    public Expression getFilter()
     {
-        Scope curScope = getCurrentScope();
-
-        setCurrentScope( curScope.getParent() );
+        return this.filterExpr;
     }
 
-    protected void addProcessDefinition(ProcessDefinition processDef)
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+        DefaultNet net = getCurrentNet();
 
-        if ( pkgTag != null )
+        DefaultTransition transition = getCurrentTransition();
+
+
+        requireStringAttribute( "from",
+                                getFrom() );
+            
+        DefaultArc arc = null;
+
+        try
         {
-            pkgTag.addProcessDefinition( processDef );
+            arc = net.connectPlaceToTransition( getFrom(),
+                                                transition.getId() );
         }
-        else
+        catch (Exception e)
         {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
-
-            pkg.addProcessDefinition( processDef );
-
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
+            throw new JellyTagException( e );
         }
-    }
-
-    protected ProcessDefinition getCurrentProcess()
-    {
-        return (ProcessDefinition) getContext().getVariable( CURRENT_PROCESS_KEY );
-    }
-
-    protected void setCurrentProcess(ProcessDefinition processDef)
-    {
-        getContext().setVariable( CURRENT_PROCESS_KEY,
-                                  processDef );
+        
+        if ( getFilter() != null )
+        {
+            arc.setExpression( new JellyExpression( getFilter() ) );
+        }
+        
+        invokeBody( output );
     }
 }
-

@@ -1,0 +1,50 @@
+<jelly:jelly xmlns:jelly="jelly:core">
+
+<syntax:syntax uri="test:syntax"
+              xmlns:syntax="werkflow:syntax"
+              xmlns:fund="werkflow:fundamental"
+              xmlns:petri="werkflow:petri"
+              xmlns:idiom="werkflow:core-idioms">
+
+    <syntax:import url="idioms1.xml"/>
+
+      <syntax:tag name="process">
+          <fund:process id="${namespaceUri}#${name}"
+                        initiation="${initiation}">
+              <syntax:invokeBody/>
+          </fund:process>
+      </syntax:tag>
+     
+      <syntax:tag name="flow">
+          <idiom:parallel>
+              <syntax:invokeBody/>
+          </idiom:parallel>
+      </syntax:tag>
+
+      <syntax:tag name="empty">
+        <idiom:empty>
+            <syntax:invokeBody/>
+        </idiom:empty>
+    </syntax:tag>
+</syntax:syntax>
+    
+
+    <process xmlns="test:syntax" 
+             namespaceUri="http://ns.org/" 
+             name="myProc" 
+             initiation="call">
+
+<!--
+        <petri:net>
+            <petri:place id="foo"/>
+        </petri:net>
+
+-->
+        <flow>
+            <empty/>
+            <empty/>
+        </flow>
+
+    </process>
+
+</jelly:jelly>

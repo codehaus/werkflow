@@ -81,7 +81,7 @@ public interface Net
      */
     Transition[] getTransitions();
 
-    Place getPlaceById(String id)
+    Place getPlace(String id)
         throws NoSuchPlaceException;
 
     /** Retrieve a <code>Transition</code> by id.
@@ -93,6 +93,6 @@ public interface Net
      *  @throws NoSuchTransitionException If no transition is
      *          associated with the id.
      */
-    Transition getTransitionById(String id)
+    Transition getTransition(String id)
         throws NoSuchTransitionException;
 }

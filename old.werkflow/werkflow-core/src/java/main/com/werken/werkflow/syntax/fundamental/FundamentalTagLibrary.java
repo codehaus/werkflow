@@ -77,23 +77,8 @@ public class FundamentalTagLibrary
         registerTag( "process",
                      ProcessTag.class );
 
-        registerTag( "place",
-                     PlaceTag.class );
-
-        registerTag( "transition",
-                     TransitionTag.class );
-
-        registerTag( "input",
-                     InputTag.class );
-
-        registerTag( "output",
-                     OutputTag.class );
-
         registerTag( "documentation",
                      DocumentationTag.class );
-
-        registerTag( "task",
-                     TaskTag.class );
 
         registerTag( "message-types",
                      MessageTypesTag.class );
@@ -101,8 +86,10 @@ public class FundamentalTagLibrary
         registerTag( "message-type",
                      MessageTypeTag.class );
 
+        /*
         registerTag( "message",
                      MessageTag.class );
+        */
 
         registerTag( "actions",
                      ActionsTag.class );

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,75 +46,56 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
-import com.werken.werkflow.definition.petri.Net;
-import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.MessageCorrelator;
+import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.petri.DefaultTransition;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-import java.util.List;
-import java.util.ArrayList;
-
-/** Define a new process.
+/** Create a message-trigger on a <code>Transition</code>.
  *
  *  <p>
- *  The &lt;process&gt; tag is the top-most tag in the fundamental
- *  process definition syntax.  It aggregates the &lt;place&gt,
- *  &lt;transition&gt;, &lt;message-type&gt; and &lt;message-initiator&gt;
- *  tags.
- *  </p>
- *
- *  <p>
- *  An <code>id</code> attribute is required and a &lt;documentation&gt;
- *  element is optional.  It must contain at least 2 &lt;place&gt; tags
- *  with the identifiers of <b>in</b> and <b>out</b>.
+ *  A &lt;message&gt may be nested inside of a &lt;transition&gt;
+ *  to designate the transition as requiring a message in order
+ *  to be fired.  The message specifies a type and may optionally
+ *  contain an arbitrary correlator as the body.
  *  </p>
  *
  *  <p>
  *  <pre>
- *  &lt;process id="my.process"&gt;
- *    &lt;documentation&gt;
- *      My process does stuff.
- *    &lt;/documentation&gt;
- *
- *    &lt;place id="in"/&gt;
- *    &lt;place id="out"/&gt;
- *
- *    &lt;transition id="some.transition"&gt;
- *      ....
- *    &/lt;transition&gt;
+ *  &lt;message type="some.msg.type" id="myMsg"&gt;
+ *    &lt;jelly:correlator test="${myMsg.foo = bar}"/&gt;
+ *  &lt;/message&gt;
  *  </pre>
  *  </p>
  *
- *  @see PlaceTag
  *  @see TransitionTag
  *  @see MessageTypeTag
+ *  @see com.werken.werkflow.semantics.jelly.JellyMessageCorrelatorTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class ProcessTag
-    extends FundamentalTagSupport
-    implements DocumentableTag
+public class MessageTag
+    extends PetriTagSupport
+      // implements MessageCorrelatorReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Process identifier. */
+    /** Message-type identifier. */
+    private String messageTypeId;
+
+    /** Binding attr. */
     private String id;
 
-    /** Documentation, possibly null. */
-    private String documentation;
-
-    /** Petri-net structure. */
-    private DefaultNet net;
-
-    /** Initiation type. */
-    private String initiation;
+    /** Correlator, possibly null. */
+    private MessageCorrelator correlator;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -122,15 +103,34 @@ public class ProcessTag
 
     /** Construct.
      */
-    public ProcessTag()
+    public MessageTag()
     {
+        // intentionally left blank
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the identifier.
+    /** Set the <code>MessageType</code> identifier.
+     *
+     *  @param messageTypeId The identifier.
+     */
+    public void setType(String messageTypeId)
+    {
+        this.messageTypeId = messageTypeId;
+    }
+
+    /** Retrieve the <code>MessageType</code> identifier.
+     *
+     *  @return The identifier.
+     */
+    public String getType()
+    {
+        return this.messageTypeId;
+    }
+
+    /** Set the message identifier.
      *
      *  @param id The identifier.
      */
@@ -139,7 +139,7 @@ public class ProcessTag
         this.id = id;
     }
 
-    /** Retrieve the identifier.
+    /** Retrieve the message identifier.
      *
      *  @return The identifier.
      */
@@ -148,39 +148,27 @@ public class ProcessTag
         return this.id;
     }
 
-    /** Retrieve the Petri-net structure.
+    /** @see MessageCorrelatorReceptor
+     */
+    public String getMessageId()
+    {
+        return getId();
+    }
+
+    /** @see MessageCorrelatorReceptor
+     */
+    public void receiveMessageCorrelator(MessageCorrelator correlator)
+    {
+        this.correlator = correlator;
+    }
+
+    /** Retrieve the <code>MessageCorrelator</code>.
      *
-     *  @return The Petri net.
+     *  @return The message-correlator.
      */
-    public DefaultNet getNet()
+    public MessageCorrelator getMessageCorrelator()
     {
-        return this.net;
-    }
-
-    /** @see DocumentableTag
-     */
-    public void setDocumentation(String documentation)
-    {
-        this.documentation = documentation;
-    }
-
-    /** Retrieve the documentation.
-     *
-     *  @return The documentation.
-     */
-    public String getDocumentation()
-    {
-        return this.documentation;
-    }
-
-    public void setInitiation(String initiation)
-    {
-        this.initiation = initiation;
-    }
-
-    public String getInitiation()
-    {
-        return this.initiation;
+        return this.correlator;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -194,55 +182,32 @@ public class ProcessTag
         requireStringAttribute( "id",
                                 getId() );
 
-        requireStringAttribute( "initiation",
-                                getInitiation() );
+        requireStringAttribute( "type",
+                                getType() );
 
-        ProcessDefinition.InitiationType initiationType = null;
+        DefaultTransition transition = getCurrentTransition();
 
-        if ( getInitiation().equals( "message" ) )
+        MessageType msgType = null;
+
+        try
         {
-            initiationType = ProcessDefinition.InitiationType.MESSAGE;
+            msgType = getCurrentScope().getMessageType( getType() );
         }
-        else if ( getInitiation().equals( "call" ) )
+        catch (NoSuchMessageTypeException e)
         {
-            initiationType = ProcessDefinition.InitiationType.CALL;
+            throw new JellyTagException( e );
         }
-        else
-        {
-            throw new JellyTagException( "initiation attribute must be 'message' or 'other'" );
-        } 
 
-        this.net = new DefaultNet();
+        MessageWaiter waiter = new MessageWaiter( msgType,
+                                                  getId() );
 
-        setDocumentation( null );
-
-        ProcessDefinition processDef = new ProcessDefinition( getId(),
-                                                              // this.net,
-                                                              initiationType );
-
-        setCurrentProcess( processDef );
-
-        pushScope();
+        transition.setWaiter( waiter );
 
         invokeBody( output );
 
-        popScope();
-
-        processDef.setDocumentation( getDocumentation() );
-
-        Net net = (Net) getContext().getVariable( Net.class.getName() );
-
-        System.err.println( "FETCH: " + getContext() );
-
-        if ( net == null )
+        if ( getMessageCorrelator() != null )
         {
-            throw new JellyTagException( "no petri net" );
+            waiter.setMessageCorrelator( getMessageCorrelator() );
         }
-
-        processDef.setNet( net );
-
-        addProcessDefinition( processDef );
-
-        this.net = null;
     }
 }
