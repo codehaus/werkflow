@@ -53,7 +53,6 @@ import org.codehaus.werkflow.expr.AttributesExpressionContext;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /** And-based <code>ActiviationRule</code> for a <code>Transition</code>.
  *

@@ -1,8 +1,5 @@
 package org.codehaus.werkflow.initiator.message;
 
-import java.util.Map;
-import java.util.HashMap;
-
 /*
  $Id$
 
