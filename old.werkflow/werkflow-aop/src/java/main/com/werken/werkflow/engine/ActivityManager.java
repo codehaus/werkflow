@@ -13,7 +13,6 @@ import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.Expression;
 import com.werken.werkflow.definition.petri.NoSuchTransitionException;
 import com.werken.werkflow.task.Task;
-import com.werken.werkflow.task.ResourceSpec;
 import com.werken.werkflow.work.WorkItem;
 
 import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
