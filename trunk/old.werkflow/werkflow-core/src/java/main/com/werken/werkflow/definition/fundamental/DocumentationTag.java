@@ -47,7 +47,6 @@ package com.werken.werkflow.definition.fundamental;
  */
 
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.JellyTagException;
 
 /** Document a portion of a process definition.

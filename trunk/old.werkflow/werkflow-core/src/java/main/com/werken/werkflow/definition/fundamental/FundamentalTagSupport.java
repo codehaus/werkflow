@@ -81,7 +81,7 @@ public abstract class FundamentalTagSupport
      *
      *  @return The message-type library.
      *
-     *  @throws JellyException If the library cannot be located.
+     *  @throws JellyTagException If the library cannot be located.
      */
     public MessageTypeLibrary getMessageTypeLibrary()
         throws JellyTagException
@@ -90,7 +90,8 @@ public abstract class FundamentalTagSupport
         {
             JellyContext context = getContext();
             
-            MessageTypeLibrary msgTypeLib = (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
+            MessageTypeLibrary msgTypeLib =
+                (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
             
             if ( msgTypeLib == null )
             {
