@@ -47,8 +47,8 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.service.messaging.MessageSelector;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
-import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>MessageSelector</code> tags.
@@ -73,7 +73,7 @@ import org.apache.commons.jelly.JellyTagException;
  *  @version $Id$
  */
 public abstract class AbstractMessageSelectorTag
-    extends TagSupport
+    extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -101,6 +101,18 @@ public abstract class AbstractMessageSelectorTag
         throws JellyTagException
     {
         MessageTypeTag messageType = (MessageTypeTag) findAncestorWithClass( MessageTypeTag.class );
+
+        if ( messageType == null )
+        {
+            try
+            {
+                messageType = (MessageTypeTag) peekObject( MessageTypeTag.class );
+            }
+            catch (JellyTagException e)
+            {
+                // swallow
+            }
+        }
 
         if ( messageType == null )
         {

@@ -5,6 +5,10 @@
 
     <syntax:import url="../common/core-idioms.xml"/>
 
+    <syntax:tag name="import">
+        <fund:import url="${url}"/>
+    </syntax:tag>
+
     <syntax:tag name="process">
         <syntax:expr-factory type="com.werken.werkflow.semantics.jexl.JexlExpressionFactory"/>
         <fund:process id="${id}"
@@ -42,6 +46,12 @@
         </core:choice>
     </syntax:tag>
 
+    <syntax:tag name="receive">
+        <core:receive type="${type}" correlator="${correlator}">
+            <syntax:invokeBody/>
+        </core:receive>
+    </syntax:tag>
+
     <syntax:tag name="otherwise">
         <core:choice condition="true">
             <syntax:invokeBody/>
@@ -73,9 +83,9 @@
     </syntax:tag>
 
     <syntax:tag name="message-type">
-        <fund:message-types>
+        <fund:message-type id="${id}">
             <syntax:invokeBody/>
-        </fund:message-types>
+        </fund:message-type>
     </syntax:tag>
 
     <syntax:tag name="actions">

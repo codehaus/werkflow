@@ -169,11 +169,14 @@
       -->
 
     <idiom id="receive">
+        <parameter id="type"       type="string" required="true"/>
+        <parameter id="correlator" type="correlator"/>
+
         <template>
             <transition id="receive">
                 <input from="in"/>
                 <output  to="out"/>
-                <message type="${type}" correlator="${correlator}"/>
+                <message type="parameter:type" correlator="parameter:correlator"/>
             </transition>
         </template>
     </idiom>

@@ -2,6 +2,7 @@ package com.werken.werkflow.syntax.idiom;
 
 import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.TransitionDefinition;
+import com.werken.werkflow.definition.petri.MessageWaiterDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -10,6 +11,7 @@ public class MessageTag
     extends IdiomTagSupport
 {
     private String type;
+    private String correlator;
 
     public MessageTag()
     {
@@ -24,6 +26,16 @@ public class MessageTag
     public String getType()
     {
         return this.type;
+    }
+
+    public void setCorrelator(String correlator)
+    {
+        this.correlator = correlator;
+    }
+
+    public String getCorrelator()
+    {
+        return this.correlator;
     }
 
     public void doTag(XMLOutput output)
@@ -42,5 +54,10 @@ public class MessageTag
         }
 
         invokeBody( output );
+
+        MessageWaiterDefinition msgWaiter = new MessageWaiterDefinition( getType(),
+                                                                         getCorrelator() );
+
+        tag.setWaiter( msgWaiter );
     }
 }

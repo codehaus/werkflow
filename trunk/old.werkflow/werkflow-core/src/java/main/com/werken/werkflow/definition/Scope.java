@@ -1,13 +1,9 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.definition;
 
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.action.ActionLibrary;
 import com.werken.werkflow.action.NoSuchActionException;
 import com.werken.werkflow.action.DuplicateActionException;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.definition.NoSuchMessageTypeException;
-import com.werken.werkflow.definition.DuplicateMessageTypeException;
 
 public class Scope
 {

@@ -3,6 +3,7 @@ package com.werken.werkflow.definition.petri;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.task.DefaultTask;
+import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.Waiter;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ public class Idiom
 
     private Idiom parent;
     private int index;
+    private Scope scope;
 
     private IdiomDefinition idiomDef;
     private Map parameters;
@@ -257,6 +259,8 @@ public class Idiom
         transition.setActivationRule( AndInputRule.getInstance() );
 
         transition.setDocumentation( documentation );
+
+        transition.setWaiter( waiter );
 
         try
         {
@@ -535,6 +539,16 @@ public class Idiom
     String getStashed(String id)
     {
         return (String) this.stashed.get( id );
+    }
+
+    public void setScope(Scope scope)
+    {
+        this.scope = scope;
+    }
+
+    public Scope getScope()
+    {
+        return this.scope;
     }
 
     /*

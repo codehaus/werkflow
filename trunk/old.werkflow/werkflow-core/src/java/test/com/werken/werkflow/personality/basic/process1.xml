@@ -3,9 +3,23 @@
          initiation="call"
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"
+         xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
 
+<message-types>
+    <message-type id="str.msg">
+        <java:selector type="java.lang.String"/> 
+    </message-type>
+</message-types>
+
+<sequence>
+    <jelly:log message="before receive"/>
+    <receive type="str.msg"/>
+    <jelly:log message="after receive"/>
+</sequence>
+
+<!--
 <sequence>
   <jelly:action>
       <j:set var="i" value="23"/>
@@ -30,6 +44,7 @@
   </switch>
   <jelly:log message="after switch"/>
 </sequence>
+-->
 
 
 <!--
