@@ -6,10 +6,10 @@ import com.werken.werkflow.WfmsRuntime;
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
-import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
+import com.werken.werkflow.service.persistence.PersistenceManager;
+import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
 
 import junit.framework.TestCase;
@@ -41,7 +41,7 @@ public class BasicPersonalityTest
 
         SimpleWfmsServices services = new SimpleWfmsServices();
 
-        services.setCaseRepository( new InMemoryCaseRepository() );
+        services.setPersistenceManager( new FleetingPersistenceManager() );
 
         SimpleMessagingManager msgManager = new SimpleMessagingManager();
 
@@ -51,11 +51,7 @@ public class BasicPersonalityTest
 
         WfmsAdmin admin = wfms.getAdmin();
 
-        ProcessPackage pkg = new ProcessPackage( "foo" );
-
-        pkg.addProcessDefinition( procDefs[0] );
-
-        admin.deployProcessPackage( pkg );
+        admin.deployProcess( procDefs[0] );
 
         WfmsRuntime runtime = wfms.getRuntime();
 
