@@ -280,9 +280,9 @@ class ProcessDeployment
      */
     void evaluateCase(WorkflowProcessCase processCase)
     {
-        Set potentialTrans  = getPotentialTransitions( processCase );
-        Set enabledTrans    = new HashSet();
-        Set msgWaitingTrans = new HashSet();
+        List potentialTrans  = getPotentialTransitions( processCase );
+        List enabledTrans    = new ArrayList();
+        Set  msgWaitingTrans = new HashSet();
 
         Iterator   transIter = potentialTrans.iterator();
         Transition eachTrans = null;
@@ -392,13 +392,13 @@ class ProcessDeployment
      *
      *  @param processCase The process-case context.
      *
-     *  @return The set of potentially activatable transitions.
+     *  @return The list of potentially activatable transitions.
      */
-    Set getPotentialTransitions(WorkflowProcessCase processCase)
+    List getPotentialTransitions(WorkflowProcessCase processCase)
     {
         String[] marks = processCase.getMarks();
 
-        Set transitions = new HashSet();
+        List transitions = new ArrayList();
 
         Net   net   = getProcessDefinition().getNet();
         Arc[] arcs  = null;
@@ -413,7 +413,12 @@ class ProcessDeployment
                 
                 for ( int j = 0 ; j < arcs.length ; ++j )
                 {
-                    transitions.add( arcs[j].getTransition() );
+                    Transition transition = arcs[j].getTransition();
+
+                    if ( ! transitions.contains( transition ) )
+                    {
+                        transitions.add( transition );
+                    }
                 }
             }
         }

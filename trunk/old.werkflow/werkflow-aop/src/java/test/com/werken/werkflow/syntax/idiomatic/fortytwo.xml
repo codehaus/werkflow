@@ -11,8 +11,9 @@
         <sequence>
             <on-message type="number.msg" var="theMsg">
                 <jelly:action>
-                    msg ${theMsg}
                     <j:set var="theNumber" value="${theMsg}"/>
+                    theMsg ${theMsg}
+                    theNumber ${theNumber}
                 </jelly:action>
             </on-message>
             <switch>

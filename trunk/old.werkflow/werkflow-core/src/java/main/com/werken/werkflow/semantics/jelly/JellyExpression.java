@@ -104,8 +104,6 @@ public class JellyExpression
     public boolean evaluate(Attributes attrs)
         throws Exception
     {
-        boolean result = false;
-
         String[] attrNames = attrs.getAttributeNames();
 
         JellyContext context = new JellyContext();
@@ -116,6 +114,13 @@ public class JellyExpression
                                  attrs.getAttribute( attrNames[i] ) );
         }
 
-        return getExpression().evaluateAsBoolean( context );
+        boolean result = getExpression().evaluateAsBoolean( context );
+
+        return result;
+    }
+
+    public String toString()
+    {
+        return "[jelly-expression: expr=" + this.expr + "]";
     }
 }
