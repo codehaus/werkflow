@@ -32,9 +32,7 @@ public class WorkflowEngineTest
         assertSame( this.services,
                     engine.getServices() );
 
-        assertNotNull( engine.getResourceManager() );
         assertNotNull( engine.getActivityManager() );
-        assertNotNull( engine.getWorkItemManager() );
 
         assertNotNull( engine.getRuntime() );
         assertNotNull( engine.getAdmin() );

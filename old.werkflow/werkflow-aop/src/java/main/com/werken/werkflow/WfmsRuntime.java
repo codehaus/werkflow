@@ -46,9 +46,7 @@ package com.werken.werkflow;
  
  */
 
-import com.werken.werkflow.resource.Resource;
 import com.werken.werkflow.activity.Activity;
-import com.werken.werkflow.work.WorkItem;
 
 import java.util.Map;
 
@@ -123,13 +121,6 @@ public interface WfmsRuntime
                                Attributes attributes)
         throws NoSuchProcessException;
     
-    Resource[] getResources();
-
-    WorkItem[] getWorkItemsForProcessCase(String caseId)
-        throws NoSuchCaseException, NoSuchProcessException;
-
-    WorkItem[] getWorkItemsForResource(String resourceId);
-
     Activity[] getActivitiesForProcessCase(String caseId)
         throws NoSuchCaseException, NoSuchProcessException;
 

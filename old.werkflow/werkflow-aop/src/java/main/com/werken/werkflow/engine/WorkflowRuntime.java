@@ -55,10 +55,8 @@ import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.QueryException;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.resource.Resource;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.caserepo.CaseState;
-import com.werken.werkflow.work.WorkItem;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -142,28 +140,6 @@ public class WorkflowRuntime
     {
         return getEngine().newProcessCase( processId,
                                            attributes );
-    }
-
-    /** @see WfmsRuntime
-     */
-    public Resource[] getResources()
-    {
-        return null;
-    }
-
-    /** @see WfmsRuntime
-     */
-    public WorkItem[] getWorkItemsForProcessCase(String caseId)
-        throws NoSuchCaseException, NoSuchProcessException
-    {
-        return getEngine().getWorkItemsForProcessCase( caseId );
-    }
-
-    /** @see WfmsRuntime
-     */
-    public WorkItem[] getWorkItemsForResource(String resourceId)
-    {
-        return null;
     }
 
     /** @see WfmsRuntime

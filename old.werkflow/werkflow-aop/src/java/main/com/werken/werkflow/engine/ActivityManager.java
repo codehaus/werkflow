@@ -14,8 +14,6 @@ import com.werken.werkflow.definition.petri.Expression;
 import com.werken.werkflow.definition.petri.NoSuchTransitionException;
 import com.werken.werkflow.task.Task;
 import com.werken.werkflow.task.ResourceSpec;
-import com.werken.werkflow.resource.ResourceClass;
-import com.werken.werkflow.resource.NoSuchResourceClassException;
 import com.werken.werkflow.work.WorkItem;
 
 import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
@@ -70,35 +68,6 @@ public class ActivityManager
         {
             Task task = transitions[i].getTask();
 
-            ResourceSpec[] resourceSpecs = task.getResourceSpecs();
-
-          SPECS_LOOP:
-            for ( int j = 0 ; j < resourceSpecs.length ; ++i )
-            {
-                String[] resourceClassIds = resourceSpecs[i].getResourceClassIds();
-
-              CLASSES_LOOP:
-                for ( int k = 0 ; k < resourceClassIds.length ; ++k )
-                {
-                    try
-                    {
-                        if ( engine.getResourceClass( resourceClassIds[k] ).isOffline() )
-                        {
-                            // requires an offline resource, triggerable
-                            // at some later point via a WorkItem.
-                            continue TASKS_LOOP;
-                        }
-                    }
-                    catch (NoSuchResourceClassException e)
-                    {
-                        // FIXME: log it
-                        continue TASKS_LOOP;
-                    }
-                } 
-            } 
-
-            // requires no offline resources, so may be scheduled
-            // to possibly be executed automatically.
             schedulable = true;
             break;
         } 

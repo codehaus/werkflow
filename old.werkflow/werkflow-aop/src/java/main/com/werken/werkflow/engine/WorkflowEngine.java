@@ -67,16 +67,12 @@ import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.log.Log;
 import com.werken.werkflow.log.SimpleLog;
-import com.werken.werkflow.resource.ResourceClass;
-import com.werken.werkflow.resource.DuplicateResourceClassException;
-import com.werken.werkflow.resource.NoSuchResourceClassException;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.caserepo.CaseState;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.task.Task;
-import com.werken.werkflow.work.WorkItem;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -118,14 +114,8 @@ public class WorkflowEngine
     /** Runtime interface implementation. */
     private WfmsRuntime runtime;
 
-    /** Resource manager. */
-    private ResourceManager resourceManager;
-
     /** Activity-execution manager. */
     private ActivityManager activityManager;
-
-    /** Work-item manager. */
-    private WorkItemManager workItemManager;
 
     /** Deployed processes. */
     private Map deployments;
@@ -162,9 +152,7 @@ public class WorkflowEngine
         this.log      = log;
         this.services = services;
 
-        this.resourceManager = new ResourceManager( this );
         this.activityManager = new ActivityManager( this );
-        this.workItemManager = new WorkItemManager( this );
 
         this.admin   = new WorkflowAdmin( this );
         this.runtime = new WorkflowRuntime( this );
@@ -409,7 +397,6 @@ public class WorkflowEngine
         throws ProcessVerificationException
     {
         //verifyNet( processDef );
-        //verifyResources( processDef );
     }
 
     /** Deploy an verified <code>ProcessDefinition</code>.
@@ -513,46 +500,10 @@ public class WorkflowEngine
         return this.activityManager;
     }
 
-    /** Retrieve the <code>ResourceManager</code>.
-     *
-     *  @return The activity-manager.
-     */
-    protected ResourceManager getResourceManager()
-    {
-        return this.resourceManager;
-    }
-
-    /** Retrieve the <code>WorkItemmanager</code>.
-     *
-     *  @return The activity-manager.
-     */
-    protected WorkItemManager getWorkItemManager()
-    {
-        return this.workItemManager;
-    }
-
-    ResourceClass getResourceClass(String id)
-        throws NoSuchResourceClassException
-    {
-        return getResourceManager().getResourceClass( id );
-    }
-
-    void addResourceClass(ResourceClass resourceClass)
-        throws DuplicateResourceClassException
-    {
-        getResourceManager().addResourceClass( resourceClass );
-    }
-
     Activity[] getActivitiesForProcessCase(String caseId)
         throws NoSuchCaseException, NoSuchProcessException
     {
         return getActivityManager().getActivitiesForProcessCase( caseId );
-    }
-
-    WorkItem[] getWorkItemsForProcessCase(String caseId)
-        throws NoSuchCaseException, NoSuchProcessException
-    {
-        return getWorkItemManager().getWorkItemsForProcessCase( caseId );
     }
 
     CaseState newCaseState(String processId,
