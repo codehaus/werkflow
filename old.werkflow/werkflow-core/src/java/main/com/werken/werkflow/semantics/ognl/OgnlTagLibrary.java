@@ -72,6 +72,9 @@ public class OgnlTagLibrary
      */
     public OgnlTagLibrary()
     {
+        registerTag( "selector",
+                     ClassMessageSelectorTag.class );
+
         registerTag( "correlator",
                      OgnlMessageCorrelatorTag.class );
     }
