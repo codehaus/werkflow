@@ -19,7 +19,9 @@ public class Bpel4wsTagLibrary
         registerTag( "empty",
                      EmptyTag.class );
 
+        /*
         registerTag( "while",
                      WhileTag.class );
+        */
     }
 }

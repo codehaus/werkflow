@@ -109,5 +109,8 @@ public class FundamentalTagLibrary
 
         registerTag( "action",
                      ActionTag.class );
+
+        registerTag( "action-definition",
+                     ActionDefinitionTag.class );
     }
 }

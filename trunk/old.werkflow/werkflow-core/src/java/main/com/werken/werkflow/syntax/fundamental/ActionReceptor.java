@@ -48,6 +48,8 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.action.Action;
 
+import org.apache.commons.jelly.JellyTagException;
+
 /** Receptor for <code>Action</code>s.
  *
  *  @see AbstractActionTag
@@ -62,5 +64,6 @@ public interface ActionReceptor
      *
      *  @param action The action.
      */
-    void setAction(Action action);
+    void receiveAction(Action action)
+        throws JellyTagException;
 }
