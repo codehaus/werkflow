@@ -4,7 +4,8 @@
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"
          xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
-         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
+         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:jexl="jelly:com.werken.werkflow.semantics.jexl.JexlTagLibrary">
 
 
 <!--
@@ -33,7 +34,7 @@
     </receive>
     <jelly:log message="Will now wait for int with value ${len}"/>
     <receive type="int.msg" bind="message">
-        <jelly:correlator test="${message == len}"/>
+        <jexl:correlator test="message == len"/>
         <jelly:log message="received ${message}"/>
     </receive>
     

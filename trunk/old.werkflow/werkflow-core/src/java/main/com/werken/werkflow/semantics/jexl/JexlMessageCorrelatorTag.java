@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.semantics.jexl;
 
 /*
  $Id$
@@ -46,84 +46,72 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.definition.MessageCorrelator;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionMessageCorrelator;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
 
-import org.apache.commons.jelly.expression.Expression;
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly-based <code>MessageCorrelator</code>.
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class JellyMessageCorrelator
-    implements MessageCorrelator
+public class JexlMessageCorrelatorTag
+    extends AbstractMessageCorrelatorTag
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message binding variable. */
-    private String messageId;
-
-    /** Correlation expression. */
-    private Expression expression;
+    /** Correelation test expression. */
+    private String test;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
-     *
-     *  @param messageId The message binding variable identifier.
-     *  @param expression The correlation expression.
      */
-    public JellyMessageCorrelator(String messageId,
-                                  Expression expression)
+    public JexlMessageCorrelatorTag()
     {
-        this.messageId = messageId;
-        this.expression = expression;
+        // intentionally left blank
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the message binding variable identifier.
-     *
-     *  @return The message binding variable identifier.
-     */
-    public String getMessageId()
+    public void setTest(String test)
     {
-        return this.messageId;
+        this.test = test;
     }
 
-    /** Retrieve the correlation expression.
-     *
-     *  @return The correlation expression.
-     */
-    public Expression getExpression()
+    public String getTest()
     {
-        return this.expression;
+        return this.test;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-    /** @see MessageCorrelator
+    /** @see org.apache.commons.jelly.Tag
      */
-    public boolean correlates(Object message,
-                              ProcessCase processCase)
-        throws Exception
+    public void doTag(XMLOutput output)
+        throws JellyTagException
     {
-        CaseJellyContext context = new CaseJellyContext( processCase );
+        requireStringAttribute( "test",
+                                getTest() );
 
-        context.setVariable( getMessageId(),
-                             message );
-
-        boolean result = getExpression().evaluateAsBoolean( context );
-
-        return result;
+        try
+        {
+            Expression expr = JexlExpressionFactory.getInstance().newExpression( getTest() );
+            
+            ExpressionMessageCorrelator correlator = new ExpressionMessageCorrelator( getMessageId(),
+                                                                                      expr );
+            
+            setMessageCorrelator( correlator );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

@@ -75,9 +75,6 @@ public class JellyTagLibrary
      */
     public JellyTagLibrary()
     {
-        registerTag( "correlator",
-                     JellyMessageCorrelatorTag.class );
-
         registerTag( "action",
                      JellyActionTag.class );
 

@@ -7,6 +7,13 @@ import org.apache.commons.jexl.ExpressionFactory;
 public class JexlExpressionFactory
     implements com.werken.werkflow.expr.ExpressionFactory
 {
+    private static final JexlExpressionFactory INSTANCE = new JexlExpressionFactory();
+
+    public static JexlExpressionFactory getInstance()
+    {
+        return INSTANCE;
+    }
+
     public JexlExpressionFactory()
     {
 
