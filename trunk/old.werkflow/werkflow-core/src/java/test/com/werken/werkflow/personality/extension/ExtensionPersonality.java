@@ -1,7 +1,3 @@
-/*
- * $Id$
- */
-
 package com.werken.werkflow.personality.extension;
 
 import org.apache.commons.jelly.JellyContext;
@@ -15,8 +11,7 @@ import com.werken.werkflow.personality.basic.BasicPersonality;
  * Extend <code>BasicPersonality</code> by adding
  * <code>ExtensionTagLibrary</code>.
  *
- * @author Mark H. Wilkinson
- * @version $Revision$
+ * @author Mark Wilkinson
  */
 public class ExtensionPersonality extends BasicPersonality
 {
