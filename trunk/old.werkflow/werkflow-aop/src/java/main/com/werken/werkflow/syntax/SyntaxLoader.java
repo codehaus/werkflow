@@ -1,6 +1,7 @@
 package com.werken.werkflow.syntax;
 
 import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.jelly.JellyUtil;
 import com.werken.werkflow.syntax.fundamental.FundamentalTagLibrary;
 import com.werken.werkflow.syntax.idiom.IdiomTagLibrary;
 import com.werken.werkflow.syntax.petri.PetriTagLibrary;
@@ -25,7 +26,7 @@ public class SyntaxLoader
     {
         XMLParser parser = new XMLParser();
 
-        JellyContext loadContext = new JellyContext();
+        JellyContext loadContext = JellyUtil.newJellyContext();
 
         loadContext.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                         new FundamentalTagLibrary() );
@@ -44,8 +45,6 @@ public class SyntaxLoader
         Script script = parser.parse( url );
 
         XMLOutput output = XMLOutput.createXMLOutput( System.err );
-
-        // JellyContext evalContext = new JellyContext();
 
         evalContext.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                         new FundamentalTagLibrary() );

@@ -1,5 +1,7 @@
 package com.werken.werkflow.syntax;
 
+import com.werken.werkflow.jelly.JellyUtil;
+
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
@@ -25,7 +27,7 @@ public class ProcessLoader
     {
         XMLParser parser = new XMLParser();
 
-        JellyContext loadContext = new JellyContext();
+        JellyContext loadContext = JellyUtil.newJellyContext();
 
         for ( int i = 0 ; i < this.syntaxes.length ; ++i )
         {
@@ -39,7 +41,7 @@ public class ProcessLoader
 
         XMLOutput output = XMLOutput.createXMLOutput( System.err );
 
-        JellyContext evalContext = new JellyContext();
+        JellyContext evalContext = JellyUtil.newJellyContext();
 
         script.run( evalContext,
                     output );

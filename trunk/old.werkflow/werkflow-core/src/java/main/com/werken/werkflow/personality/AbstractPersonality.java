@@ -2,6 +2,7 @@ package com.werken.werkflow.personality;
 
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.jelly.JellyUtil;
 import com.werken.werkflow.syntax.Syntax;
 import com.werken.werkflow.syntax.SyntaxLoader;
 import com.werken.werkflow.syntax.fundamental.FundamentalTagLibrary;
@@ -33,7 +34,7 @@ public abstract class AbstractPersonality
 
     protected JellyContext newJellyContext(JellyContext parent)
     {
-        JellyContext context = new JellyContext( parent );
+        JellyContext context = JellyUtil.newJellyContext( parent );
 
         Syntax[] syntaxes = getSyntaxes();
 
@@ -43,8 +44,10 @@ public abstract class AbstractPersonality
                                         syntaxes[i].getTagLibrary() );
         }
 
+	/*
         context.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                     new FundamentalTagLibrary() );
+	*/
 
         return context;
     }

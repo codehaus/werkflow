@@ -2,6 +2,7 @@ package com.werken.werkflow.personality.basic;
 
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.syntax.Syntax;
+import com.werken.werkflow.jelly.JellyUtil;
 
 import com.werken.werkflow.personality.AbstractPersonality;
 
@@ -27,7 +28,7 @@ public class BasicPersonality
             {
                 URL syntaxUrl = BasicPersonality.class.getResource( SYNTAX_DEF );
 
-                CONTEXT = new JellyContext();
+                CONTEXT = JellyUtil.newJellyContext();
                 
                 Syntax[] syntaxes = loadSyntaxes( BasicPersonality.class.getResource( SYNTAX_DEF ),
                                                   CONTEXT );

@@ -2,6 +2,7 @@ package com.werken.werkflow.personality.bpel4ws;
 
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.syntax.Syntax;
+import com.werken.werkflow.jelly.JellyUtil;
 
 import com.werken.werkflow.personality.AbstractPersonality;
 
@@ -30,7 +31,7 @@ public class Bpel4wsPersonality
                 System.err.println( "DEF: " + syntaxUrl );
 
 
-                CONTEXT = new JellyContext();
+                CONTEXT = JellyUtil.newJellyContext();
                 
                 Syntax[] syntaxes = loadSyntaxes( Bpel4wsPersonality.class.getResource( SYNTAX_DEF ),
                                                   CONTEXT );

@@ -3,10 +3,17 @@
          initiation="message"
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"
+         xmlns:jelly="werkflow:jelly"
+         xmlns:java="werkflow:java"
+         xmlns:python="werkflow:python"
+         xmlns:ognl="werkflow:ognl">
+
+<!--
          xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
          xmlns:ognl="jelly:com.werken.werkflow.semantics.ognl.OgnlTagLibrary"
          xmlns:python="jelly:com.werken.werkflow.semantics.python.PythonTagLibrary">
+-->
 
     <message-types>
         <message-type id="blog.entry">
