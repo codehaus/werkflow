@@ -38,7 +38,7 @@
     <task>
       <action>
         action 1
-        ${bob}
+        bob = ${bob}
         <j:set var="bob" value="mcstrachan"/>
       </action>
     </task>
@@ -57,7 +57,7 @@
       <action>
         action 2
         bob == ${bob}
-        myMsg == ${myMsg} 
+        myMsg == ${myMsg.type} : ${myMsg.payload} 
       </action>
     </task>
   </transition>

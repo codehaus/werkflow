@@ -98,6 +98,8 @@ public class GeneralTest
         messagingManager.acceptMessage( new SimpleMessage( "init",
                                                            "larry" ) );
 
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mcstrachan" ) );
         Thread.sleep( 1000 );
     }
 }
