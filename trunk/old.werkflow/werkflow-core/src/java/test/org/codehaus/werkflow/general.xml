@@ -48,6 +48,12 @@
             <input from="middle"/>
             <output to="out"/>
 
+            <!-- The received message doesn't need to be bound to a
+              || different attribute here because the attribute is local
+              || to the transition. This does provide us with a useful
+              || test that binding to different attributes actually works,
+              || however.
+              -->
             <message id="myMsg" type="normal.msg">
               <java:correlator test="myMsg.payload.equals( bob )"/>
             </message>
