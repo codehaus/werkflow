@@ -88,4 +88,9 @@
   <goal name="getting-started" prereqs="werkflow:example-po"/>
 -->
 
+  <goal name="foo">
+    <echo>---- ${context.getParent().getParent()}</echo>
+    <echo>---- ${context.getParent().getCurrentURL()}</echo>
+  </goal>
+
 </project>

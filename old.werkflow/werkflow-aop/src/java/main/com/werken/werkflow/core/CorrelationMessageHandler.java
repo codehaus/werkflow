@@ -41,6 +41,12 @@ class CorrelationMessageHandler
                                                                 processCase );
     }
 
+    public void removeCase(CoreProcessCase processCase,
+                           String transitionId)
+    {
+        getMessageWaiterHandler( transitionId ).removeCase( processCase );
+    }
+
     public boolean acceptMessage(CoreChangeSet changeSet,
                                  Message message)
     {

@@ -33,4 +33,11 @@ class InitiationMessageHandler
     {
         return false;
     }
+
+    public void removeCase(CoreProcessCase processCase,
+                           String transitionId)
+
+    {
+
+    }
 }
