@@ -11,6 +11,7 @@ import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.ActivationRule;
 import com.werken.werkflow.engine.rules.EnablingRule;
 import com.werken.werkflow.service.messaging.Registration;
+import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.task.Task;
@@ -24,23 +25,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ProcessDeployment
-    implements ProcessInfo, MessageSink
+    implements ProcessInfo
 {
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     private WorkflowEngine engine;
 
     private ProcessDefinition processDef;
 
     private Map rules;
     private Map messageTypes;
-    private Map correlators;
 
+    private Correlator correlator;
+    
     public ProcessDeployment(WorkflowEngine engine,
                              ProcessDefinition processDef)
         throws ProcessDeploymentException
     {
         this.engine       = engine;
         this.processDef   = processDef;
-        this.correlators = new HashMap();
+
+        this.correlator   = new Correlator( engine,
+                                            this );
 
         this.messageTypes = new HashMap();
 
@@ -112,29 +118,13 @@ public class ProcessDeployment
             return;
         }
 
-        MessageType messageType = getMessageType( messageWaiter.getMessageTypeId() );
-
-        Correlator correlator = (Correlator) this.correlators.get( messageType );
-
-        if ( correlator == null )
-        {
-            correlator = new Correlator( getEngine(),
-                                         messageType );
-
-            this.correlators.put( messageType,
-                                  correlator );
-        }
-
-        correlator.addMessageWaiter( transition.getId(),
-                                     messageWaiter );
+        getCorrelator().addMessageWaiter( transition.getId(),
+                                          messageWaiter );
     }
 
-    public void acceptMessage(MessageType messageType,
-                              Object message)
+    private Correlator getCorrelator()
     {
-        Correlator correlator = (Correlator) this.correlators.get( messageType );
-
-        correlator.addMessage( message );
+        return this.correlator;
     }
 
     protected MessageType getMessageType(String id)
@@ -171,32 +161,22 @@ public class ProcessDeployment
                 }
                 else
                 {
-                    msgWaitingTrans.add( eachTrans );
+                    if ( processCase.isCorrelated( eachTrans.getId() ) )
+                    {
+                        enabledTrans.add( eachTrans );
+                    }
+                    else
+                    {
+                        msgWaitingTrans.add( eachTrans.getId() );
+                    }
                 }
             }
         }
-
+        
         processCase.setEnabledTransitions( (Transition[]) enabledTrans.toArray( Transition.EMPTY_ARRAY ) );
 
-        Iterator   waitingTransIter = msgWaitingTrans.iterator();
-        Transition eachWaitingTrans = null;
-
-        while ( waitingTransIter.hasNext() )
-        {
-            eachWaitingTrans = (Transition) waitingTransIter.next();
-
-            MessageWaiter waiter = eachWaitingTrans.getMessageWaiter();
-
-            if ( waiter != null )
-            {
-                MessageType messageType = getMessageType( waiter.getMessageTypeId() );
-
-                Correlator correlator = (Correlator) this.correlators.get( messageType );
-
-                correlator.addBlocker( eachWaitingTrans.getId(),
-                                       processCase );
-            }
-        }
+        getCorrelator().evaluateCase( processCase,
+                                      (String[]) msgWaitingTrans.toArray( EMPTY_STRING_ARRAY ) );
     }
 
     Set getPotentialTransitions(WorkflowProcessCase processCase)
