@@ -57,37 +57,43 @@ import org.codehaus.werkflow.spi.Component;
 public class TaskManagementTest extends TestCase
         implements ActionManager, ExpressionFactory
 {
-    static Engine engine;
+    private Engine engine;
+    private Workflow workflow;
 
-    public void testEngine()
+    protected void setUp() throws Exception
+    {
+        this.engine = createEngine();
+
+        this.workflow = SimpleWorkflowReader.read(this,this,getClass().getResource("workflow.xml"));
+
+        assertNotNull(this.workflow);
+
+        this.engine.getWorkflowManager().addWorkflow(this.workflow);
+    }
+
+    public Engine createEngine()
     {
         PersistenceManager pm = new SimplePersistenceManager();
         WorkflowManager wm = new SimpleWorkflowManager();
         SatisfactionManager sm = new SimpleSatisfactionManager();
         InstanceManager im = new SimpleInstanceManager();
 
-        engine = new Engine();
+        Engine engine = new Engine();
         engine.setPersistenceManager(pm);
         engine.setSatisfactionManager(sm);
         engine.setWorkflowManager(wm);
         engine.setInstanceManager(im);
 
         engine.start();
+
+        return engine;
     }
 
-    public void testCreateWorkflow()
+    public void testCreateWorkflowFromXML()
             throws Exception
     {
-        Workflow workflow = SimpleWorkflowReader.read(this,
-                                                      this,
-                                                      getClass().getResource("workflow.xml"));
-
-        assertNotNull(workflow);
-
-        engine.getWorkflowManager().addWorkflow(workflow);
-
-        Workflow w = engine.getWorkflowManager().getWorkflow("article");
-        assertEquals(w, workflow);
+        Workflow articleWorkflow = this.engine.getWorkflowManager().getWorkflow("article");
+        assertEquals(articleWorkflow, this.workflow);
     }
 
 
@@ -106,57 +112,45 @@ public class TaskManagementTest extends TestCase
 
         assertEquals("request1", i.getId());
         assertEquals("Open source meals", i.get("subject"));
-    }
 
-    public void testContinuation()
-            throws Exception
-    {
-        RobustInstance i = engine.getInstanceManager().getInstance("request1");
+        RobustInstance instance = engine.getInstanceManager().getInstance("request1");
         DefaultSatisfactionValues userInput;
 
-        showWaitingTasks(i);
+        showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
         userInput.setValue("articleId", "32131231");
         userInput.setValue("author", "bart");
-        finishTask(i, "WriteArticle", userInput);
+        finishTask(instance, "WriteArticle", userInput);
 
-        showWaitingTasks(i);
+        showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
         userInput.setValue("advice", "reject");
         userInput.setValue("comment", "need more information");
         userInput.setValue("reviewer", "bob");
-        finishTask(i, "ReviewArticle1", userInput);
+        finishTask(instance, "ReviewArticle1", userInput);
 
-        showWaitingTasks(i);
+        showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
         userInput.setValue("advice", "proceed");
         userInput.setValue("comment", "good piece!");
         userInput.setValue("reviewer", "klaas");
-        finishTask(i, "ReviewArticle2", userInput);
+        finishTask(instance, "ReviewArticle2", userInput);
 
-        showWaitingTasks(i);
+        showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
         userInput.setValue("approved", "false");
         userInput.setValue("approver", "piet");
         finishTask(i, "ApproveArticle", userInput);
 
-        showWaitingTasks(i);
-    }
+        showWaitingTasks(instance);
 
-    public void testWorkflowIsFinished()
-            throws Exception
-    {
-        RobustInstance i = engine.getInstanceManager().getInstance("request1");
-        assertTrue(i.isComplete());
-    }
+        RobustInstance ii = engine.getInstanceManager().getInstance("request1");
+        assertTrue(ii.isComplete());
 
-
-    public void testEngineShutdown()
-    {
         // lets stop the engine
         engine.stop();
 

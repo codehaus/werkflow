@@ -54,64 +54,65 @@ import org.codehaus.werkflow.spi.WorkflowManager;
 public class BlogWorkflowTest extends TestCase
         implements ActionManager, ExpressionFactory
 {
-    static Engine engine;
+    private Engine engine;
+    private Workflow workflow;
 
-    public void testEngine()
+
+    protected void setUp() throws Exception
+    {
+        this.engine = createEngine();
+
+        this.workflow = SimpleWorkflowReader.read(this,this,getClass().getResource("workflow.xml"));
+
+        assertNotNull(this.workflow);
+
+        this.engine.getWorkflowManager().addWorkflow(this.workflow);
+    }
+
+    public Engine createEngine()
     {
         PersistenceManager pm = new SimplePersistenceManager();
         WorkflowManager wm = new SimpleWorkflowManager();
         SatisfactionManager sm = new SimpleSatisfactionManager();
         InstanceManager im = new SimpleInstanceManager();
 
-        engine = new Engine();
+        Engine engine = new Engine();
         engine.setPersistenceManager(pm);
         engine.setSatisfactionManager(sm);
         engine.setWorkflowManager(wm);
         engine.setInstanceManager(im);
 
         engine.start();
+
+        return engine;
     }
 
-    public void testCreateWorkflow()
+    public void testCreateWorkflowFromXML()
             throws Exception
     {
-        Workflow workflow = SimpleWorkflowReader.read(this,
-                                                      this,
-                                                      getClass().getResource("workflow.xml"));
-
-        assertNotNull(workflow);
-
-        engine.getWorkflowManager().addWorkflow(workflow);
-
-        Workflow w = engine.getWorkflowManager().getWorkflow("bloggie");
-        assertEquals(w, workflow);
+        Workflow bloggieWorkflow = this.engine.getWorkflowManager().getWorkflow("bloggie");
+        assertEquals(bloggieWorkflow, this.workflow);
     }
 
 
     public void testStartNewWorkflow()
             throws Exception
     {
-        Workflow w = engine.getWorkflowManager().getWorkflow("bloggie");
-
         InitialContext context = new InitialContext();
         context.set("party", new Boolean(true));
         context.set("animal", "horse");
 
         // new user action creating a new instance
-        Transaction tx = engine.beginTransaction(w.getId(), "een", context);
-        RobustInstance i = engine.getInstanceManager().getInstance(tx.getInstanceId());
-        tx.commit();
+        Transaction transaction = this.engine.beginTransaction(this.workflow.getId(), "een", context);
+        RobustInstance instance = this.engine.getInstanceManager().getInstance(transaction.getInstanceId());
+        transaction.commit();
 
-        assertEquals("een", i.getId());
-        assertEquals("horse", i.get("animal"));
-        assertTrue(((Boolean) i.get("party")).booleanValue());
+        assertEquals("een", instance.getId());
+        assertEquals("horse", instance.get("animal"));
+        assertTrue(((Boolean) instance.get("party")).booleanValue());
 
-        showInstance(i);        
-    }
+        showInstance(instance);
 
-    public void testContinuation()
-            throws Exception
-    {
         RobustInstance i = engine.getInstanceManager().getInstance("een");
 
         // new user action
@@ -135,23 +136,11 @@ public class BlogWorkflowTest extends TestCase
         tx.commit();
 
         showInstance(i);
-    }
 
-    public void testWorkflowIsFinished()
-            throws Exception
-    {
-        RobustInstance i = engine.getInstanceManager().getInstance("een");
-        assertTrue(i.isComplete());
-    }
+        RobustInstance ii = engine.getInstanceManager().getInstance("een");
+        assertTrue(ii.isComplete());
 
-
-    public void testEngineShutdown()
-    {
-        // lets stop the engine
         engine.stop();
-
-        // make sure we cannot use the engine anymore
-        // todo add test to see that engine is really stopped
     }
 
 
