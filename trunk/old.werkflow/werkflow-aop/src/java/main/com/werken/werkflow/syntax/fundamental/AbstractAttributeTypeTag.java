@@ -48,11 +48,12 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.AttributeType;
 
-import org.apache.commons.jelly.TagSupport;
+import com.werken.werkflow.jelly.MiscTagSupport;
+
 import org.apache.commons.jelly.JellyTagException;
 
 public abstract class AbstractAttributeTypeTag
-    extends TagSupport
+    extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -73,6 +74,18 @@ public abstract class AbstractAttributeTypeTag
         throws JellyTagException
     {
         AttributeTypeReceptor receptor = (AttributeTypeReceptor) findAncestorWithClass( AttributeTypeReceptor.class );
+
+        if ( receptor == null )
+        {
+            try
+            {
+                receptor = (AttributeTypeReceptor) peekObject( AttributeTypeReceptor.class );
+            }
+            catch (JellyTagException e)
+            {
+                // swallow
+            }
+        }
 
         if ( receptor == null )
         {

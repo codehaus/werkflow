@@ -106,6 +106,12 @@ class WorkflowAdmin
         getEngine().deployProcessPackage( pkg );
     }
 
+    public void deployProcess(ProcessDefinition processDef)
+        throws DeploymentException
+    {
+        getEngine().deployProcess( processDef );
+    }
+
     /** Attach a <code>WfmsEventListener</code>.
      *
      *  @param listener The listener

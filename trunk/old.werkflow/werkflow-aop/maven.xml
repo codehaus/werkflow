@@ -14,7 +14,11 @@
     <attainGoal name="clover"/>
   </preGoal>
 
+<!--
   <goal name="werkflow:compile-examples" prereqs="java:jar">
+-->
+
+  <goal name="werkflow:compile-examples">
     <echo>compiling examples</echo>
     <mkdir dir="${werkflow.examples.dest.dir}"/>
     <javac srcdir="${werkflow.examples.src.dir}"
@@ -27,13 +31,33 @@
     </javac>
     <copy toDir="${werkflow.examples.dest.dir}">
       <fileset dir="${werkflow.examples.src.dir}">
-        <include name="**/*.werk"/>
         <include name="**/*.xml"/>
         <include name="**/*.properties"/>
       </fileset>
     </copy>
+    <echo>done?</echo>
   </goal>
 
+  <goal name="werkflow:hanoi" prereqs="werkflow:compile-examples">
+    <j:set var="exPkg" value="hanoi"/>
+    <j:set var="exName" value="default"/>
+    <attainGoal name="werkflow:run-example"/>
+  </goal>
+
+  <goal name="werkflow:run-example">
+    <echo>running ${exPkg} ${exName}</echo>
+    <java classname="com.werken.werkflow.example.Example" fork="true">
+      <arg value="${exPkg}"/>
+      <arg value="${exName}"/>
+      <classpath>
+        <path location="${werkflow.examples.dest.dir}"/>
+        <path location="target/${maven.final.name}.jar"/>
+        <path refid="maven.dependency.classpath"/>
+      </classpath>
+    </java>
+  </goal>
+
+<!--
   <goal name="werkflow:example-po"
         prereqs="werkflow:compile-examples">
     <echo>running po example</echo>
@@ -47,5 +71,6 @@
   </goal>
 
   <goal name="getting-started" prereqs="werkflow:example-po"/>
+-->
 
 </project>
