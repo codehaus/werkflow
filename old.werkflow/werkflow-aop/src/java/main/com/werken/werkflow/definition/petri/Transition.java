@@ -60,6 +60,8 @@ import com.werken.werkflow.task.Task;
  *  @see Place
  *  @see Net
  *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *
  *  @version $Id$
  */
 public interface Transition
