@@ -78,6 +78,7 @@ public interface Action
      *  @param activity The activity for which this action
      *         should occur.
      *  @param caseAttrs The mutable case attributes.
+     *  @param otherAttrs Other non-case attributes.
      */
     void perform(Activity activity,
                  Map caseAttrs,
