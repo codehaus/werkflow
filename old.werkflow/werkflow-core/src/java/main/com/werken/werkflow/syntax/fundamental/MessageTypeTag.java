@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,33 +46,56 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.DuplicateMessageTypeException;
+import com.werken.werkflow.service.messaging.MessageSelector;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-/** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
+/** Define a <code>MessageType</code>.
  *
- *  @see ClassMessageSelector
+ *  <p>
+ *  A &lt;message-type&gt; must be defined before being referenced
+ *  in a &lt;message&gt; or &lt;message-initiator&gt;.  It must
+ *  contain an <code>id</code> attribute and the body must contain
+ *  tags to configure a <code>MessageSelector</code>.  It may optionally
+ *  contain a &lt;documentation&gt; element.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *  &lt;message-type id="my.small.msg"&gt;
+ *    &lt;documentation&gt;
+ *      This is my small message.
+ *    &lt;/documentation&gt;
+ *    &lt:java:selector type="com.myco.Message" filter="${messgae.size &lt; 100}"/>
+ *  &lt;/message-type&gt;
+ *
+ *  @see MessageTag
+ *  @see MessageSelector
+ *  @see DocumentationTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class ClassMessageSelectorTag
-    extends AbstractMessageSelectorTag
+public class MessageTypeTag
+    extends FundamentalTagSupport
+    implements DocumentableTag
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message class name. */
-    private String className;
+    /** Identifier. */
+    private String id;
 
-    /** Filtering expression. */
-    private Expression expression;
+    /** Documentation, possibly null. */
+    private String documentation;
+
+    /** Message-selector. */
+    private MessageSelector selector;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -80,49 +103,65 @@ public class ClassMessageSelectorTag
 
     /** Construct.
      */
-    public ClassMessageSelectorTag()
+    public MessageTypeTag()
     {
-        // intentionally left blank
+        // intentionally left blank.
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the message type class.
+    /** Set the identifier.
      *
-     *  @param className The message-type class.
+     *  @param id The identifier.
      */
-    public void setType(String className)
+    public void setId(String id)
     {
-        this.className = className;
+        this.id = id;
     }
 
-    /** Retrieve the message type class.
+    /** Retrieve the identifier.
      *
-     *  @return The message-type class.
+     *  @return The identifier.
      */
-    public String getType()
+    public String getId()
     {
-        return this.className;
+        return this.id;
     }
 
-    /** Set the filtering <code>Expression</code>.
-     *
-     *  @param expression The filtering expression.
+    /** @see DocumentableTag
      */
-    public void setFilter(Expression expression)
+    public void setDocumentation(String documentation)
     {
-        this.expression = expression;
+        this.documentation = documentation;
     }
 
-    /** Retrieve the filtering <code>Expression</code>.
+    /** Retrieve the documentation.
      *
-     *  @return The filtering expression, or <code>null</code> if none.
+     *  @return The documentation.
      */
-    public Expression getFilter()
+    public String getDocumentation()
     {
-        return this.expression;
+        return this.documentation;
+    }
+
+    /** Set the <code>MessageSelector</code>.
+     *
+     *  @param selector The message-selector.
+     */
+    public void setMessageSelector(MessageSelector selector)
+    {
+        this.selector = selector;
+    }
+
+    /** Retrieve the <code>MessageSelector</code>.
+     *
+     *  @return The message-selector.
+     */
+    public MessageSelector getMessageSelector()
+    {
+        return this.selector;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -133,24 +172,24 @@ public class ClassMessageSelectorTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( this.className == null
-             ||
-             "".equals( this.className ) )
-        {
-            throw new MissingAttributeException( "class" );
-        }
+        requireStringAttribute( "id",
+                                getId() );
+
+
+        MessageType messageType = new MessageType( getId() );
+
+        setDocumentation( null );
+
+        invokeBody( output );
+
+        messageType.setDocumentation( getDocumentation() );
+        messageType.setMessageSelector( getMessageSelector() );
 
         try
         {
-            Class messageClass = Class.forName( this.className );
-            
-            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
-            
-            
-            setMessageSelector( selector );
+            getMessageTypeLibrary().addMessageType( messageType );
         }
-        catch (Exception e)
+        catch (DuplicateMessageTypeException e)
         {
             throw new JellyTagException( e );
         }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,44 +46,21 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.action.Action;
 
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Receptor for <code>Action</code>s.
  *
- *  @see JellyAction
+ *  @see AbstractActionTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public interface ActionReceptor
 {
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-
-    /** Construct.
+    /** Receive an action.
+     *
+     *  @param action The action.
      */
-    public JellyActionTag()
-    {
-        // intentionally left blank
-    }
-
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
-    {
-        JellyAction action = new JellyAction( getBody() );
-
-        setAction( action );
-    }
+    void setAction(Action action);
 }

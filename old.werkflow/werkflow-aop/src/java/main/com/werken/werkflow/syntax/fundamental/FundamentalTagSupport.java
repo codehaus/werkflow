@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,21 +46,21 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.definition.MessageTypeLibrary;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
-import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyContext;
+import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
- *
- *  @see JellyAction
+/** Support for fundamental syntax tags.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public abstract class FundamentalTagSupport
+    extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,7 +68,7 @@ public class JellyActionTag
 
     /** Construct.
      */
-    public JellyActionTag()
+    public FundamentalTagSupport()
     {
         // intentionally left blank
     }
@@ -77,13 +77,32 @@ public class JellyActionTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** @see org.apache.commons.jelly.Tag
+    /** Retrieve the <code>MessageTypeLibrary</code>.
+     *
+     *  @return The message-type library.
+     *
+     *  @throws JellyTagException If the library cannot be located.
      */
-    public void doTag(XMLOutput output)
+    public MessageTypeLibrary getMessageTypeLibrary()
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
-
-        setAction( action );
+        try
+        {
+            JellyContext context = getContext();
+            
+            MessageTypeLibrary msgTypeLib =
+                (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
+            
+            if ( msgTypeLib == null )
+            {
+                throw new JellyException( "no message-type library" );
+            }
+            
+            return msgTypeLib;
+        }
+        catch (JellyException e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

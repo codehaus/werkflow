@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,44 +46,19 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
-
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
- *
- *  @see JellyAction
+/** Interface for tags accepting &lt;documentation&gt; children.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
+ *  @see DocumentationTag
+ *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public interface DocumentableTag
 {
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-
-    /** Construct.
+    /** Set the documentation.
+     *
+     *  @param documentation The documentation.
      */
-    public JellyActionTag()
-    {
-        // intentionally left blank
-    }
-
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
-    {
-        JellyAction action = new JellyAction( getBody() );
-
-        setAction( action );
-    }
+    void setDocumentation(String documentation);
 }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,33 +46,42 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.definition.MessageInitiator;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-/** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
+/** Define a <code>MessageInitiator</code>.
  *
- *  @see ClassMessageSelector
+ *  @see MessageInitiator
+ *  @see MessageType
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class ClassMessageSelectorTag
-    extends AbstractMessageSelectorTag
+public class MessageInitiatorTag
+    extends FundamentalTagSupport
+    implements DocumentableTag, ActionReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message class name. */
-    private String className;
+    /** Message binding identifier. */
+    private String id;
 
-    /** Filtering expression. */
-    private Expression expression;
+    /** Message-type identifier. */
+    private String type;
+
+    /** Documentation, possibly null. */
+    private String documentation;
+
+    /** Initialization action, possibly null. */
+    private Action action;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -80,7 +89,7 @@ public class ClassMessageSelectorTag
 
     /** Construct.
      */
-    public ClassMessageSelectorTag()
+    public MessageInitiatorTag()
     {
         // intentionally left blank
     }
@@ -89,40 +98,76 @@ public class ClassMessageSelectorTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the message type class.
+    /** Set the message binding variable identifier.
      *
-     *  @param className The message-type class.
+     *  @param id The binding variable identifier.
      */
-    public void setType(String className)
+    public void setId(String id)
     {
-        this.className = className;
+        this.id = id;
     }
 
-    /** Retrieve the message type class.
+    /** Retrieve the message binding variable identifier.
      *
-     *  @return The message-type class.
+     *  @return The binding variable identifier.
+     */
+    public String getId()
+    {
+        return this.id;
+    }
+
+    /** Set the message-type identifier.
+     *
+     *  @param type The message-type identifier.
+     */
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    /** Retrieve the message-type identifier.
+     *
+     *  @return The message-type identifier.
      */
     public String getType()
     {
-        return this.className;
+        return this.type;
     }
 
-    /** Set the filtering <code>Expression</code>.
+    /** Set the documentation.
      *
-     *  @param expression The filtering expression.
+     *  @param documentation The documentation.
      */
-    public void setFilter(Expression expression)
+    public void setDocumentation(String documentation)
     {
-        this.expression = expression;
+        this.documentation = documentation;
     }
 
-    /** Retrieve the filtering <code>Expression</code>.
+    /** Retrieve the documentation.
      *
-     *  @return The filtering expression, or <code>null</code> if none.
+     *  @return The documentation.
      */
-    public Expression getFilter()
+    public String getDocumentation()
     {
-        return this.expression;
+        return this.documentation;
+    }
+
+    /** Set the initialization action.
+     *
+     *  @param action The initialization action.
+     */
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
+
+    /** Retrieve the initialization action.
+     *
+     *  @return The initialization action.
+     */
+    public Action getAction()
+    {
+        return this.action;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -133,26 +178,40 @@ public class ClassMessageSelectorTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( this.className == null
-             ||
-             "".equals( this.className ) )
-        {
-            throw new MissingAttributeException( "class" );
-        }
+        requireStringAttribute( "id",
+                                getId() );
+
+        requireStringAttribute( "type",
+                                getType() );
+
+        ProcessTag process = (ProcessTag) requiredAncestor( "process",
+                                                            ProcessTag.class );
+
+        setDocumentation( null );
+
+        invokeBody( output );
+
+        MessageType messageType = null;
 
         try
         {
-            Class messageClass = Class.forName( this.className );
-            
-            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
-            
-            
-            setMessageSelector( selector );
+            messageType = getMessageTypeLibrary().getMessageType( getType() );
         }
-        catch (Exception e)
+        catch (NoSuchMessageTypeException e)
         {
             throw new JellyTagException( e );
         }
+
+        MessageInitiator initiator = new MessageInitiator( messageType,
+                                                           getId() );
+
+        initiator.setDocumentation( getDocumentation() );
+
+        if ( this.action != null )
+        {
+            initiator.setAction( this.action );
+        }
+
+        process.addMessageInitiator( initiator );
     }
 }

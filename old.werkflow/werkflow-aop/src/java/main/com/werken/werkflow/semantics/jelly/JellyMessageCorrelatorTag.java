@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.definition.fundamental.AbstractMessageCorrelatorTag;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;

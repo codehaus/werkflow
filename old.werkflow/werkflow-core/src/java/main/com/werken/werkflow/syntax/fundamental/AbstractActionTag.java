@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,21 +46,34 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.action.Action;
 
-import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Base for custom <code>Action</code> tags.
  *
- *  @see JellyAction
+ *  <p>
+ *  Due to the pluggable nature of werkflow semantics, the
+ *  <code>AbstractActionTag</code> assists in weaving custom
+ *  <code>Action</code>s into the fundamental syntax.
+ *  </p>
+ *
+ *  <p>
+ *  The custom tag should perform whatever is required to
+ *  construct an <code>Action</code> in the {@link org.apache.commons.jelly.Tag#doTag}
+ *  method, and finally call {@link #setAction} on this class
+ *  to install the action into the appropriate library or task.
+ *  </p>
+ *
+ *  @see Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public abstract class AbstractActionTag
+    extends TagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,22 +81,32 @@ public class JellyActionTag
 
     /** Construct.
      */
-    public JellyActionTag()
+    public AbstractActionTag()
     {
-        // intentionally left blank
+        // intentionally left blank.
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** @see org.apache.commons.jelly.Tag
+    /** Install an <code>Action</code>.
+     *
+     *  @param action The action.
+     *
+     *  @throws JellyTagException If the tag is not used within the correct
+     *          context.
      */
-    public void doTag(XMLOutput output)
+    public void setAction(Action action)
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
+        ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
 
-        setAction( action );
+        if ( receptor == null )
+        {
+            throw new JellyTagException( "invalid context for <action>" );
+        }
+
+        receptor.setAction( action );
     }
 }

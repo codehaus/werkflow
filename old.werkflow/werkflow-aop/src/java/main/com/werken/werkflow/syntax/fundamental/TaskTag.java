@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,29 +46,49 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.task.DefaultTask;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Define a <code>Task</code> for a <code>Transition</code>.
  *
- *  @see JellyAction
+ *  <p>
+ *  A &lt;task&gt; must contain some addition tag to specify
+ *  the concrete action that represents the task.  A useful
+ *  example is the {@link ActionTag} used to reference actions
+ *  defined in <code>actions.xml</code>.  Alternatively, an
+ *  in-line concrete action using the <code>JellyAction</code>
+ *  or <code>JavaAction</code> is possible.
+ *  </p>
+ *
+ *  @see ActionTag
+ *  @see com.werken.werkflow.semantics.java.JavaActionTag;
+ *  @see com.werken.werkflow.semantics.jelly.JellyActionTag;
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public class TaskTag
+    extends FundamentalTagSupport
+    implements ActionReceptor
 {
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Action. */
+    private Action action;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
      */
-    public JellyActionTag()
+    public TaskTag()
     {
         // intentionally left blank
     }
@@ -77,13 +97,46 @@ public class JellyActionTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
+    /** Set the <code>Action</code>.
+     *
+     *  @param action The action.
+     */
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
+
+    /** Retrieve the <code>Action</code>.
+     *
+     *  @return The action.
+     */
+    public Action getAction()
+    {
+        return this.action;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
+        TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
+                                                                     TransitionTag.class );
 
-        setAction( action );
+        DefaultTask task = new DefaultTask();
+
+        invokeBody( output );
+
+        if ( getAction() != null )
+        {
+            task.setAction( getAction() );
+
+            transition.setTask( task );
+        }
+
+        this.action = null;
     }
 }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,33 +46,54 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.definition.MessageCorrelator;
+import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-/** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
+/** Create a message-trigger on a <code>Transition</code>.
  *
- *  @see ClassMessageSelector
+ *  <p>
+ *  A &lt;message&gt may be nested inside of a &lt;transition&gt;
+ *  to designate the transition as requiring a message in order
+ *  to be fired.  The message specifies a type and may optionally
+ *  contain an arbitrary correlator as the body.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *  &lt;message type="some.msg.type" id="myMsg"&gt;
+ *    &lt;jelly:correlator test="${myMsg.foo = bar}"/&gt;
+ *  &lt;/message&gt;
+ *  </pre>
+ *  </p>
+ *
+ *  @see TransitionTag
+ *  @see MessageTypeTag
+ *  @see com.werken.werkflow.semantics.jelly.JellyMessageCorrelatorTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class ClassMessageSelectorTag
-    extends AbstractMessageSelectorTag
+public class MessageTag
+    extends FundamentalTagSupport
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message class name. */
-    private String className;
+    /** Message-type identifier. */
+    private String messageTypeId;
 
-    /** Filtering expression. */
-    private Expression expression;
+    /** Binding attr. */
+    private String id;
+
+    /** Correlator, possibly null. */
+    private MessageCorrelator correlator;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -80,7 +101,7 @@ public class ClassMessageSelectorTag
 
     /** Construct.
      */
-    public ClassMessageSelectorTag()
+    public MessageTag()
     {
         // intentionally left blank
     }
@@ -89,40 +110,58 @@ public class ClassMessageSelectorTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the message type class.
+    /** Set the <code>MessageType</code> identifier.
      *
-     *  @param className The message-type class.
+     *  @param messageTypeId The identifier.
      */
-    public void setType(String className)
+    public void setType(String messageTypeId)
     {
-        this.className = className;
+        this.messageTypeId = messageTypeId;
     }
 
-    /** Retrieve the message type class.
+    /** Retrieve the <code>MessageType</code> identifier.
      *
-     *  @return The message-type class.
+     *  @return The identifier.
      */
     public String getType()
     {
-        return this.className;
+        return this.messageTypeId;
     }
 
-    /** Set the filtering <code>Expression</code>.
+    /** Set the message identifier.
      *
-     *  @param expression The filtering expression.
+     *  @param id The identifier.
      */
-    public void setFilter(Expression expression)
+    public void setId(String id)
     {
-        this.expression = expression;
+        this.id = id;
     }
 
-    /** Retrieve the filtering <code>Expression</code>.
+    /** Retrieve the message identifier.
      *
-     *  @return The filtering expression, or <code>null</code> if none.
+     *  @return The identifier.
      */
-    public Expression getFilter()
+    public String getId()
     {
-        return this.expression;
+        return this.id;
+    }
+
+    /** Set the <code>MessageCorrelator</code>.
+     *
+     *  @param correlator The message-correlator.
+     */
+    public void setMessageCorrelator(MessageCorrelator correlator)
+    {
+        this.correlator = correlator;
+    }
+
+    /** Retrieve the <code>MessageCorrelator</code>.
+     *
+     *  @return The message-correlator.
+     */
+    public MessageCorrelator getMessageCorrelator()
+    {
+        return this.correlator;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -133,26 +172,36 @@ public class ClassMessageSelectorTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( this.className == null
-             ||
-             "".equals( this.className ) )
-        {
-            throw new MissingAttributeException( "class" );
-        }
+        requireStringAttribute( "id",
+                                getId() );
+
+        requireStringAttribute( "type",
+                                getType() );
+
+        TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
+                                                                     TransitionTag.class );
+
+        MessageType msgType = null;
 
         try
         {
-            Class messageClass = Class.forName( this.className );
-            
-            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
-            
-            
-            setMessageSelector( selector );
+            msgType = getMessageTypeLibrary().getMessageType( getType() );
         }
-        catch (Exception e)
+        catch (NoSuchMessageTypeException e)
         {
             throw new JellyTagException( e );
+        }
+
+        MessageWaiter waiter = new MessageWaiter( msgType,
+                                                  getId() );
+
+        transition.setMessageWaiter( waiter );
+
+        invokeBody( output );
+
+        if ( getMessageCorrelator() != null )
+        {
+            waiter.setMessageCorrelator( getMessageCorrelator() );
         }
     }
 }

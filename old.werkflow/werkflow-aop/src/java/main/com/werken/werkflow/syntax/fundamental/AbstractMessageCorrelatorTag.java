@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,21 +46,34 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.definition.MessageCorrelator;
 
-import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Base for custom <code>MessageCorrelator</code> tags.
  *
- *  @see JellyAction
+ *  <p>
+ *  Due to the pluggable nature of werkflow semantics, the
+ *  <code>AbstractMessageCorrelatorTag</code> assists in weaving custom
+ *  <code>MessageCorrelators</code>s into the fundamental syntax.
+ *  </p>
+ *
+ *  <p>
+ *  The custom tag should perform whatever is required to
+ *  construct an <code>MessageCorrelator</code> in the {@link org.apache.commons.jelly.Tag#doTag}
+ *  method, and finally call {@link #setMessageCorrelator} on this class
+ *  to install the correlator.
+ *  </p>
+ *
+ *  @see MessageCorrelator
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public abstract class AbstractMessageCorrelatorTag
+    extends TagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,7 +81,7 @@ public class JellyActionTag
 
     /** Construct.
      */
-    public JellyActionTag()
+    public AbstractMessageCorrelatorTag()
     {
         // intentionally left blank
     }
@@ -77,13 +90,43 @@ public class JellyActionTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** @see org.apache.commons.jelly.Tag
+    /** Install a <code>MessageCorrelator</code>.
+     *
+     *  @param correlator The message correlator.
+     *
+     *  @throws JellyTagException If the tag is not used within the correct
+     *          context of a &lt;message&gt; tag.
      */
-    public void doTag(XMLOutput output)
+    public void setMessageCorrelator(MessageCorrelator correlator)
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
+        MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
 
-        setAction( action );
+        if ( message == null )
+        {
+            throw new JellyTagException( "not within <message>" );
+        }
+
+        message.setMessageCorrelator( correlator );
+    }
+
+    /** Retrieve the message identifier.
+     *
+     *  @return The message identifier.
+     *
+     *  @throws JellyTagException If the tag is not used within the correct
+     *          context of a &lt;message&gt; tag.
+     */
+    public String getMessageId()
+        throws JellyTagException
+    {
+        MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
+
+        if ( message == null )
+        {
+            throw new JellyTagException( "not within <message>" );
+        }
+
+        return message.getId();
     }
 }
