@@ -11,10 +11,20 @@
             <jelly:log message="I like foo #3"/>
         </parallel>
         <parallel>
+            <jelly:log message="I like taco #1"/>
+            <jelly:log message="I like taco #2"/>
+            <jelly:log message="I like taco #3"/>
+            <parallel>
+                <jelly:log message="I like goober #1"/>
+                <jelly:log message="I like goober #2"/>
+                <jelly:log message="I like goober #3"/>
+            </parallel>
+        </parallel>
+        <sequence>
             <jelly:log message="I like cheese #1"/>
             <jelly:log message="I like cheese #2"/>
             <jelly:log message="I like cheese #3"/>
-        </parallel>
+        </sequence>
     </parallel>
 
 </process>
