@@ -46,21 +46,13 @@ package com.werken.werkflow.engine;
  
  */
 
-import com.werken.werkflow.NoSuchCaseException;
-import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
-import java.util.List;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Iterator;
 
 /** Master message correlator.
@@ -155,7 +147,7 @@ public class Correlator
     /** Retrieve or create a <code>MessageTypeCorrelator</code> for
      *  a <code>MessageType</code>.
      *
-     *  @param messageType
+     *  @param messageType The message type.
      *
      *  @return The message-type correlator.
      *
@@ -179,11 +171,23 @@ public class Correlator
         return correlator;
     }
 
+    /** Retrieve an existing <code>MessageTypeCorrelator</code> for
+     *  a <code>MessageType</code>.
+     *
+     *  @param messageType The message type.
+     *
+     *  @return The message-type correlator or <code>null</code> if none.
+     */
     MessageTypeCorrelator getMessageTypeCorrelator(MessageType messageType)
     {
         return (MessageTypeCorrelator) this.msgTypeCorrelators.get( messageType.getId() );
     }
 
+    /** Evaluate a <code>WorkflowProcessCase</code>.
+     *
+     *  @param processCase The process case.
+     *  @param transitionIds The activated transitions.
+     */
     void evaluateCase(WorkflowProcessCase processCase,
                       String[] transitionIds)
     {
@@ -200,6 +204,14 @@ public class Correlator
         }
     }
 
+    /** Determine if a message is correlated for a cases's transition.
+     *
+     *  @param processCaseId The process case identifier.
+     *  @param transition The transition.
+     *
+     *  @return <code>true</code> if a message is correlated,
+     *          otherwise <code>false</code>.
+     */
     boolean isCorrelated(String processCaseId,
                          Transition transition)
     {
@@ -211,6 +223,15 @@ public class Correlator
                                                transition.getId() );
     }
 
+    /** Consume a correlated message for a cases's transition.
+     *
+     *  @param processCaseId The process case identifier.
+     *  @param transition The transition.
+     *
+     *  @return The message object.
+     *
+     *  @throws NoSuchCorrelationException If no message is correalted.
+     */
     Object consumeMessage(String processCaseId,
                           Transition transition)
         throws NoSuchCorrelationException

@@ -78,6 +78,12 @@ public interface Activity
      */
     String getTransitionId();
 
+    /** Retrieve the process identifier.
+     *
+     *  @return The process identifier.
+     */
+    String getProcessId();
+
     /** Notify of successful completion.
      */
     void complete();

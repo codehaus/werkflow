@@ -221,7 +221,8 @@ public class ActivityManager
 
         Map caseAttrs = processCase.getCaseAttributes();
 
-        WorkflowActivity activity = newActivity( processCase.getId(),
+        WorkflowActivity activity = newActivity( processCase.getProcessInfo().getId(),
+                                                 processCase.getId(),
                                                  transition.getId(),
                                                  placeIds,
                                                  caseAttrs );
@@ -360,12 +361,14 @@ public class ActivityManager
         }
     }
 
-    protected WorkflowActivity newActivity(String caseId,
+    protected WorkflowActivity newActivity(String processId,
+                                           String caseId,
                                            String transitionId,
                                            String[] placeIds,
                                            Map caseAttrs)
     {
         WorkflowActivity activity = new WorkflowActivity( this,
+                                                          processId,
                                                           caseId,
                                                           transitionId,
                                                           placeIds,
