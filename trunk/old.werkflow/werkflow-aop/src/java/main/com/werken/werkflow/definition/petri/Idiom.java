@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Idiom
-    implements NetSegment
+    implements Net
 {
     public static final Idiom[] EMPTY_ARRAY = new Idiom[0];
 

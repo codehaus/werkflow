@@ -121,7 +121,7 @@ public class DefaultNet
      *  @throws NoSuchPlaceException If no place is associated
      *          with the specified identifier.
      */
-    public DefaultPlace getPlace(String id)
+    public DefaultPlace getMutablePlace(String id)
         throws NoSuchPlaceException
     {
         if ( ! this.places.containsKey( id ) )
@@ -140,7 +140,7 @@ public class DefaultNet
         return (Place[]) this.places.values().toArray( Place.EMPTY_ARRAY );
     }
 
-    public Place getPlaceById(String id)
+    public Place getPlace(String id)
         throws NoSuchPlaceException
     {
         return getPlace( id );
@@ -177,7 +177,7 @@ public class DefaultNet
      *  @throws NoSuchTransitionException If no transition is associated
      *          with the specified identifier.
      */
-    public DefaultTransition getTransition(String id)
+    public DefaultTransition getMutableTransition(String id)
         throws NoSuchTransitionException
     {
         if ( ! this.transitions.containsKey( id ) )
@@ -191,7 +191,7 @@ public class DefaultNet
 
     /** @see Net
      */
-    public Transition getTransitionById(String id)
+    public Transition getTransition(String id)
         throws NoSuchTransitionException
     {
         return getTransition( id );
@@ -226,8 +226,8 @@ public class DefaultNet
                                                String transitionId)
         throws NoSuchNodeException
     {
-        DefaultPlace place = getPlace( placeId );
-        DefaultTransition transition = getTransition( transitionId );
+        DefaultPlace place = getMutablePlace( placeId );
+        DefaultTransition transition = getMutableTransition( transitionId );
 
         DefaultArc arc = new DefaultArc( place,
                                          transition );
@@ -255,8 +255,8 @@ public class DefaultNet
                                                String placeId)
         throws NoSuchNodeException
     {
-        DefaultTransition transition = getTransition( transitionId );
-        DefaultPlace place = getPlace( placeId );
+        DefaultTransition transition = getMutableTransition( transitionId );
+        DefaultPlace place = getMutablePlace( placeId );
 
         DefaultArc arc = new DefaultArc( place,
                                          transition );

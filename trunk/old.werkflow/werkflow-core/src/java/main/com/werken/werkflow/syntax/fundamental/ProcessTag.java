@@ -48,6 +48,7 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
+import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -216,7 +217,7 @@ public class ProcessTag
         setDocumentation( null );
 
         ProcessDefinition processDef = new ProcessDefinition( getId(),
-                                                              this.net,
+                                                              // this.net,
                                                               initiationType );
 
         setCurrentProcess( processDef );
@@ -228,6 +229,17 @@ public class ProcessTag
         popScope();
 
         processDef.setDocumentation( getDocumentation() );
+
+        Net net = (Net) getContext().getVariable( Net.class.getName() );
+
+        System.err.println( "FETCH: " + getContext() );
+
+        if ( net == null )
+        {
+            throw new JellyTagException( "no petri net" );
+        }
+
+        processDef.setNet( net );
 
         addProcessDefinition( processDef );
 

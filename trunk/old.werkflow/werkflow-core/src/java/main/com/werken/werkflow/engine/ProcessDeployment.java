@@ -186,7 +186,7 @@ class ProcessDeployment
             {
                 Net net = getProcessDefinition().getNet();
                 
-                Place in = net.getPlaceById( "in" );
+                Place in = net.getPlace( "in" );
 
                 Arc[] arcs = in.getArcsToTransitions();
 
@@ -331,7 +331,7 @@ class ProcessDeployment
                     {
                         try
                         {
-                            Place in = getProcessDefinition().getNet().getPlaceById( "in" );
+                            Place in = getProcessDefinition().getNet().getPlace( "in" );
                             
                             Arc[] inboundArcs = eachTrans.getArcsFromPlaces();
                             

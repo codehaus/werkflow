@@ -246,7 +246,7 @@ class ActivityManager
                             
                             if ( processDef.getInitiationType() == ProcessDefinition.InitiationType.MESSAGE )
                             {
-                                Place in = processDef.getNet().getPlaceById( "in" );
+                                Place in = processDef.getNet().getPlace( "in" );
                                 
                                 Arc[] inboundArcs = transition.getArcsFromPlaces();
                                 
@@ -563,7 +563,7 @@ class ActivityManager
                 ProcessDeployment deployment = getEngine().getProcessDeployment( activity.getProcessId() );
                 ProcessDefinition processDef = deployment.getProcessDefinition();
 
-                Transition transition = processDef.getNet().getTransitionById( activity.getTransitionId() );
+                Transition transition = processDef.getNet().getTransition( activity.getTransitionId() );
 
                 String[] placeIds = produceTokens( processCase,
                                                    processDef,

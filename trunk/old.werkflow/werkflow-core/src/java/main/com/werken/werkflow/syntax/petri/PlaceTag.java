@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,37 +46,54 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultPlace;
+import com.werken.werkflow.definition.petri.DuplicateIdException;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Support for fundamental syntax tags.
+/** Define a <code>Place</code>.
+ *
+ *  <p>
+ *  Within a &lt;process&gt; &lt;place&gt;s can be defined for
+ *  use as input sources and output sinks for transitions.  It
+ *  may contain an optional &lt;documentation&gt; element.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *  &lt;process id="my.process"&gt;
+ *    &lt;place id="place.one"/&gt;
+ *    &lt;place id="place.two"&gt;
+ *      &lt;documentation&gt;
+ *        This is the docs.
+ *      &lt;/documentation&gt;
+ *    &lt;place&gt;
+ *
+ *  @see ProcessTag
+ *  @see TransitionTag
+ *  @see InputTag
+ *  @see OutputTag
+ *  @see DocumentationTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public abstract class FundamentalTagSupport
-    extends MiscTagSupport
+public class PlaceTag
+    extends PetriTagSupport
+      // implements DocumentableTag
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    private static final String CURRENT_PROCESS_KEY = "werkflow.current.process";
-
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Current <code>ProcessDefinition</code>.
-     */
-    private ProcessDefinition processDef;
+    /** Unique identifier. */
+    private String id;
+
+    /** Documentation, possibly null. */
+    private String documentation;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -84,7 +101,7 @@ public abstract class FundamentalTagSupport
 
     /** Construct.
      */
-    public FundamentalTagSupport()
+    public PlaceTag()
     {
         // intentionally left blank
     }
@@ -93,67 +110,68 @@ public abstract class FundamentalTagSupport
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    protected Scope getCurrentScope()
+    /** Set the identifier.
+     *
+     *  @param id The identifier.
+     */
+    public void setId(String id)
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
+        this.id = id;
     }
 
-    protected void setCurrentScope(Scope scope)
+    /** Retrieve the identifier.
+     *
+     *  @return The identifier.
+     */
+    public String getId()
     {
-        getContext().setVariable( Scope.class.getName(),
-                                  scope );
+        return this.id;
     }
 
-    protected void pushScope()
+    /** @see DocumentableTag
+     */
+    public void setDocumentation(String documentation)
     {
-        Scope curScope = getCurrentScope();
-
-        if ( curScope == null )
-        {
-            setCurrentScope( new Scope() );
-        }
-        else
-        {
-            setCurrentScope( new Scope( curScope ) );
-        }
+        this.documentation = documentation;
     }
 
-    protected void popScope()
+    /** Retrieve the documentation.
+     *
+     *  @return The documentation.
+     */
+    public String getDocumentation()
     {
-        Scope curScope = getCurrentScope();
-
-        setCurrentScope( curScope.getParent() );
+        return this.documentation;
     }
 
-    protected void addProcessDefinition(ProcessDefinition processDef)
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+        DefaultNet net = getCurrentNet();
 
-        if ( pkgTag != null )
+        requireStringAttribute( "id",
+                                getId() );
+
+        DefaultPlace place = null;
+
+        try
         {
-            pkgTag.addProcessDefinition( processDef );
+            place = net.addPlace( getId() );
         }
-        else
+        catch (DuplicateIdException e)
         {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
-
-            pkg.addProcessDefinition( processDef );
-
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
+            throw new JellyTagException( e );
         }
-    }
 
-    protected ProcessDefinition getCurrentProcess()
-    {
-        return (ProcessDefinition) getContext().getVariable( CURRENT_PROCESS_KEY );
-    }
-
-    protected void setCurrentProcess(ProcessDefinition processDef)
-    {
-        getContext().setVariable( CURRENT_PROCESS_KEY,
-                                  processDef );
+        setDocumentation( null );
+        
+        invokeBody( output );
+        
+        place.setDocumentation( getDocumentation() );
     }
 }
-

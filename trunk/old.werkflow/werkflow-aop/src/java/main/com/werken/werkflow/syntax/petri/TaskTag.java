@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,37 +46,42 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.task.DefaultTask;
+import com.werken.werkflow.definition.petri.DefaultTransition;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Support for fundamental syntax tags.
+/** Define a <code>Task</code> for a <code>Transition</code>.
+ *
+ *  <p>
+ *  A &lt;task&gt; must contain some addition tag to specify
+ *  the concrete action that represents the task.  A useful
+ *  example is the {@link ActionTag} used to reference actions
+ *  defined in <code>actions.xml</code>.  Alternatively, an
+ *  in-line concrete action using the <code>JellyAction</code>
+ *  or <code>JavaAction</code> is possible.
+ *  </p>
+ *
+ *  @see ActionTag
+ *  @see com.werken.werkflow.semantics.java.JavaActionTag;
+ *  @see com.werken.werkflow.semantics.jelly.JellyActionTag;
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public abstract class FundamentalTagSupport
-    extends MiscTagSupport
+public class TaskTag
+    extends PetriTagSupport
+      // implements ActionReceptor
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    private static final String CURRENT_PROCESS_KEY = "werkflow.current.process";
-
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Current <code>ProcessDefinition</code>.
-     */
-    private ProcessDefinition processDef;
+    /** Action. */
+    private Action action;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -84,7 +89,7 @@ public abstract class FundamentalTagSupport
 
     /** Construct.
      */
-    public FundamentalTagSupport()
+    public TaskTag()
     {
         // intentionally left blank
     }
@@ -93,67 +98,45 @@ public abstract class FundamentalTagSupport
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    protected Scope getCurrentScope()
+    /** Set the <code>Action</code>.
+     *
+     *  @param action The action.
+     */
+    public void receiveAction(Action action)
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
+        this.action = action;
     }
 
-    protected void setCurrentScope(Scope scope)
+    /** Retrieve the <code>Action</code>.
+     *
+     *  @return The action.
+     */
+    public Action getAction()
     {
-        getContext().setVariable( Scope.class.getName(),
-                                  scope );
+        return this.action;
     }
 
-    protected void pushScope()
-    {
-        Scope curScope = getCurrentScope();
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-        if ( curScope == null )
-        {
-            setCurrentScope( new Scope() );
-        }
-        else
-        {
-            setCurrentScope( new Scope( curScope ) );
-        }
-    }
-
-    protected void popScope()
-    {
-        Scope curScope = getCurrentScope();
-
-        setCurrentScope( curScope.getParent() );
-    }
-
-    protected void addProcessDefinition(ProcessDefinition processDef)
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+        DefaultTransition transition = getCurrentTransition();
 
-        if ( pkgTag != null )
+        DefaultTask task = new DefaultTask();
+
+        invokeBody( output );
+
+        if ( getAction() != null )
         {
-            pkgTag.addProcessDefinition( processDef );
+            task.setAction( getAction() );
+
+            transition.setTask( task );
         }
-        else
-        {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
 
-            pkg.addProcessDefinition( processDef );
-
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
-        }
-    }
-
-    protected ProcessDefinition getCurrentProcess()
-    {
-        return (ProcessDefinition) getContext().getVariable( CURRENT_PROCESS_KEY );
-    }
-
-    protected void setCurrentProcess(ProcessDefinition processDef)
-    {
-        getContext().setVariable( CURRENT_PROCESS_KEY,
-                                  processDef );
+        this.action = null;
     }
 }
-
