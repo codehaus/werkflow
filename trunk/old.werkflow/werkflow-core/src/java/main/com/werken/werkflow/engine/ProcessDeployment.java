@@ -113,8 +113,8 @@ public class ProcessDeployment
 
         MessageType messageType = getMessageType( waiter.getMessageTypeId() );
 
-        CorrelatingRule rule = new CorrelatingRule( messageType,
-                                                    transition );
+        CorrelatingRule rule = new CorrelatingRule( transition,
+                                                    messageType );
 
         try
         {
