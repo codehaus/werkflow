@@ -163,6 +163,11 @@ class MessageWaiterHandler
 
         MessageCorrelator correlator = waiter.getMessageCorrelator();
 
+        if ( correlator == null )
+        {
+            return true;
+        }
+
         try
         {
             boolean result = correlator.correlates( message.getMessage(),
