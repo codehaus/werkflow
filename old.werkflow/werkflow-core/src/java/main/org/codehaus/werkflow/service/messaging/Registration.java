@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging;
+package org.codehaus.werkflow.service.messaging;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.service.messaging;
 
  */
 
-import com.werken.werkflow.definition.MessageType;
+import org.codehaus.werkflow.definition.MessageType;
 
 /** Registration of a <code>MessageSink</code> subscription to
  *  a <code>MessagingManager</code>.

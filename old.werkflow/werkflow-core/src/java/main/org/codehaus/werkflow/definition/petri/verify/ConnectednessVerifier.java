@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri.verify;
+package org.codehaus.werkflow.definition.petri.verify;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.definition.petri.verify;
 
  */
 
-import com.werken.werkflow.definition.petri.Net;
-import com.werken.werkflow.definition.petri.Place;
-import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.definition.petri.Arc;
+import org.codehaus.werkflow.definition.petri.Net;
+import org.codehaus.werkflow.definition.petri.Place;
+import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.definition.petri.Arc;
 
 import java.util.Set;
 import java.util.HashSet;

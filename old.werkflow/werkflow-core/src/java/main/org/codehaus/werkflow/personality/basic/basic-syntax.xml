@@ -17,7 +17,7 @@
     </syntax:tag>
 
     <syntax:tag name="process">
-        <syntax:expr-factory type="com.werken.werkflow.semantics.java.JavaExpressionFactory"/>
+        <syntax:expr-factory type="org.codehaus.werkflow.semantics.java.JavaExpressionFactory"/>
        <j:if test="${empty(package)}">
          <j:set var="package" value=""/>
        </j:if>

@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri.verify;
+package org.codehaus.werkflow.definition.petri.verify;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.definition.petri.verify;
 
  */
 
-import com.werken.werkflow.definition.petri.Net;
-import com.werken.werkflow.definition.petri.Place;
+import org.codehaus.werkflow.definition.petri.Net;
+import org.codehaus.werkflow.definition.petri.Place;
 
 public class InOutVerifier
     implements Verifier

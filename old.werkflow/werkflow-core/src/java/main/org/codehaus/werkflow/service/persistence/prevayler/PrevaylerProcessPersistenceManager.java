@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -50,12 +50,12 @@ import java.io.Serializable;
 
 import org.prevayler.Prevayler;
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.ChangeSet;
-import com.werken.werkflow.service.persistence.CorrelationTransfer;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.ChangeSet;
+import org.codehaus.werkflow.service.persistence.CorrelationTransfer;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 
 class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
 {

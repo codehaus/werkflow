@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.SimpleExpressionContext;
-import com.werken.werkflow.service.messaging.simple.SimpleMessageSelector;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.SimpleExpressionContext;
+import org.codehaus.werkflow.service.messaging.simple.SimpleMessageSelector;
 
 /** Java class-based <code>SimpleMessageSelector</code> implementation.
  *
@@ -129,7 +129,7 @@ public class ClassMessageSelector
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    /** @see com.werken.werkflow.service.messaging.simple.SimpleMessageSelector
+    /** @see org.codehaus.werkflow.service.messaging.simple.SimpleMessageSelector
      */
     public boolean selects( Object message )
         throws Exception

@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.definition;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionLibrary;
-import com.werken.werkflow.work.NoSuchActionException;
-import com.werken.werkflow.work.DuplicateActionException;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionLibrary;
+import org.codehaus.werkflow.work.NoSuchActionException;
+import org.codehaus.werkflow.work.DuplicateActionException;
 
 public class Scope
 {

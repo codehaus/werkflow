@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.codehaus.werkflow.syntax.fundamental.AbstractActionTag;
 
 import org.apache.bsf.BSFException;
 
@@ -57,7 +57,7 @@ import org.apache.commons.jelly.JellyTagException;
 /** Jelly tag for &lt;java:action&gt;.
  *
  *  @see JavaAction
- *  @see com.werken.werkflow.action.Action
+ *  @see org.codehaus.werkflow.action.Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

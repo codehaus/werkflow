@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.bsf.BsfExpression;
+import org.codehaus.werkflow.bsf.BsfExpression;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.expression.Expression;

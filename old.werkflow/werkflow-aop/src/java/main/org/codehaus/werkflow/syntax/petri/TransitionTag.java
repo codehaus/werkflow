@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.syntax.petri;
 
  */
 
-import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.definition.petri.AndInputRule;
-import com.werken.werkflow.definition.petri.OrInputRule;
-import com.werken.werkflow.definition.petri.DuplicateIdException;
-import com.werken.werkflow.task.Task;
+import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.definition.petri.AndInputRule;
+import org.codehaus.werkflow.definition.petri.OrInputRule;
+import org.codehaus.werkflow.definition.petri.DuplicateIdException;
+import org.codehaus.werkflow.task.Task;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

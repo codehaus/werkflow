@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.ognl;
+package org.codehaus.werkflow.semantics.ognl;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.ognl;
 
  */
 
-import com.werken.werkflow.expr.AbstractExpression;
-import com.werken.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.expr.AbstractExpression;
+import org.codehaus.werkflow.expr.ExpressionContext;
 import ognl.Ognl;
 import ognl.OgnlException;
 

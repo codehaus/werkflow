@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractAttributeTypeTag;
+import org.codehaus.werkflow.syntax.fundamental.AbstractAttributeTypeTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

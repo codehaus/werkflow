@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.MutableAttributes;
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.MutableAttributes;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.beanutils.MethodUtils;
 

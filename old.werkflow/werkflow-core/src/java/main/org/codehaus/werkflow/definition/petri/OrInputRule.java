@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package org.codehaus.werkflow.definition.petri;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.definition.petri;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionContext;
-import com.werken.werkflow.expr.AttributesExpressionContext;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.expr.AttributesExpressionContext;
 
 /** Or-based <code>ActivationRule</code> for a <code>Transition</code>.
  *

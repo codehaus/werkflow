@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -48,7 +48,7 @@ package com.werken.werkflow.service.persistence.prevayler;
 
 import java.io.Serializable;
 
-import com.werken.werkflow.ProcessInfo;
+import org.codehaus.werkflow.ProcessInfo;
 
 /**
  * @author kevin

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package org.codehaus.werkflow.semantics.jelly;
 
 /*
  $Id$

@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.event;
 
  */
 
-import com.werken.werkflow.Wfms;
+import org.codehaus.werkflow.Wfms;
 
 /** Indicates a process undeployed.
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.work;
+package org.codehaus.werkflow.work;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.work;
 
  */
 
-import com.werken.werkflow.WerkflowException;
+import org.codehaus.werkflow.WerkflowException;
 
 /** Indicates an attempt to add an <code>Action</code> with a duplicate
  *  identifier to an <code>ActionLibrary</code>.

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.NoSuchCaseException;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.NoSuchCaseException;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.Map;
 import java.util.HashMap;

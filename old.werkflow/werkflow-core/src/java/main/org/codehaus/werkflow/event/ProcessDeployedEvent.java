@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.event;
 
  */
 
-import com.werken.werkflow.Wfms;
-import com.werken.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.Wfms;
+import org.codehaus.werkflow.definition.ProcessDefinition;
 
 /** Indicates a new process deployment.
  *
  *  @see WfmsEventListener#processDeployed
- *  @see com.werken.werkflow.definition.ProcessDefinition
+ *  @see org.codehaus.werkflow.definition.ProcessDefinition
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging;
+package org.codehaus.werkflow.service.messaging;
 
 /*
  $Id$

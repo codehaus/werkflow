@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package org.codehaus.werkflow.semantics.jelly;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.jelly;
 
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.codehaus.werkflow.syntax.fundamental.AbstractActionTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

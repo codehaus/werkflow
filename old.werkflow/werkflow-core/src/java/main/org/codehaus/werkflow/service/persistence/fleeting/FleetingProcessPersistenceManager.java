@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.fleeting;
+package org.codehaus.werkflow.service.persistence.fleeting;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.service.persistence.fleeting;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.service.persistence.ChangeSet;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.DefaultCaseTransfer;
-import com.werken.werkflow.service.persistence.CorrelationTransfer;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.service.persistence.ChangeSet;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.DefaultCaseTransfer;
+import org.codehaus.werkflow.service.persistence.CorrelationTransfer;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.Map;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality;
+package org.codehaus.werkflow.personality;
 
 /*
  $Id$
@@ -50,7 +50,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import com.werken.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.ProcessDefinition;
 
 public interface Personality
 {

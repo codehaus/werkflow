@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.idiom;
+package org.codehaus.werkflow.syntax.idiom;
 
 /*
  $Id$
@@ -46,18 +46,18 @@ package com.werken.werkflow.syntax.idiom;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionFactory;
-import com.werken.werkflow.definition.petri.Net;
-import com.werken.werkflow.definition.petri.Idiom;
-import com.werken.werkflow.definition.petri.IdiomDefinition;
-import com.werken.werkflow.definition.petri.IdiomException;
-import com.werken.werkflow.definition.petri.NoSuchParameterException;
-import com.werken.werkflow.definition.petri.InvalidParameterTypeException;
-import com.werken.werkflow.syntax.fundamental.ActionReceptor;
-import com.werken.werkflow.syntax.fundamental.FundamentalTagSupport;
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionFactory;
+import org.codehaus.werkflow.definition.petri.Net;
+import org.codehaus.werkflow.definition.petri.Idiom;
+import org.codehaus.werkflow.definition.petri.IdiomDefinition;
+import org.codehaus.werkflow.definition.petri.IdiomException;
+import org.codehaus.werkflow.definition.petri.NoSuchParameterException;
+import org.codehaus.werkflow.definition.petri.InvalidParameterTypeException;
+import org.codehaus.werkflow.syntax.fundamental.ActionReceptor;
+import org.codehaus.werkflow.syntax.fundamental.FundamentalTagSupport;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.DynaTagSupport;
 import org.apache.commons.jelly.JellyContext;

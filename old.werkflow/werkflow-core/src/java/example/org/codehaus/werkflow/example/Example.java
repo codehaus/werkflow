@@ -1,4 +1,4 @@
-package com.werken.werkflow.example;
+package org.codehaus.werkflow.example;
 
 /*
  $Id$
@@ -60,11 +60,11 @@ public class Example
              ||
              args.length > 2 )
         {
-            System.err.println( "usage: java com.werken.werkflow.example.Example <exPkg> [<exName>]" );
+            System.err.println( "usage: java org.codehaus.werkflow.example.Example <exPkg> [<exName>]" );
                 return;
         }
 
-        String exClassName = "com.werken.werkflow.example." + args[0] + ".Example";
+        String exClassName = "org.codehaus.werkflow.example." + args[0] + ".Example";
 
         Class exClass = Class.forName( exClassName );
 

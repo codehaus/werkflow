@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$

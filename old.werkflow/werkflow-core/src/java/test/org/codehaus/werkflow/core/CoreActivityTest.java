@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.DefaultMessage;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.messaging.DefaultMessage;
 
 public class CoreActivityTest
     extends WerkflowTestCase

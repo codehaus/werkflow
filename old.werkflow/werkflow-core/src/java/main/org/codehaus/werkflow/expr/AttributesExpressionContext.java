@@ -1,4 +1,4 @@
-package com.werken.werkflow.expr;
+package org.codehaus.werkflow.expr;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.expr;
 
  */
 
-import com.werken.werkflow.Attributes;
+import org.codehaus.werkflow.Attributes;
 
 public class AttributesExpressionContext
     extends SimpleExpressionContext

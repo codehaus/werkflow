@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jexl;
+package org.codehaus.werkflow.semantics.jexl;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.jexl;
 
  */
 
-import com.werken.werkflow.expr.AbstractExpression;
-import com.werken.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.expr.AbstractExpression;
+import org.codehaus.werkflow.expr.ExpressionContext;
 
 import org.apache.commons.jexl.Expression;
 import org.apache.commons.jexl.JexlContext;

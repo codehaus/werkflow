@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -53,11 +53,11 @@ import org.prevayler.implementation.SnapshotPrevayler;
 import org.prevayler.implementation.TransactionPublisher;
 import org.prevayler.implementation.log.TransactionLogger;
 
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.admin.DeploymentException;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.admin.DeploymentException;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 
 /**
  * @author kevin
@@ -122,7 +122,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     // -- PersistenceManager implementation
 
     /**
-     * @see com.werken.werkflow.service.persistence.PersistenceManager#deployProcess(com.werken.werkflow.definition.ProcessDefinition)
+     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#deployProcess(org.codehaus.werkflow.definition.ProcessDefinition)
      */
     public ProcessPersistenceManager activate(ProcessInfo processInfo) throws DeploymentException
     {
@@ -159,7 +159,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.PersistenceManager#passivate(com.werken.werkflow.ProcessInfo)
+     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#passivate(org.codehaus.werkflow.ProcessInfo)
      */
     public void passivate(ProcessPersistenceManager manager) throws PersistenceException
     {

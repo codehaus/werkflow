@@ -1,4 +1,4 @@
-package com.werken.werkflow.work;
+package org.codehaus.werkflow.work;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.work;
 
  */
 
-import com.werken.werkflow.MutableAttributes;
+import org.codehaus.werkflow.MutableAttributes;
 
 public interface ActionInvocation
 {

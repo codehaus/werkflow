@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package org.codehaus.werkflow;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow;
 
  */
 
-import com.werken.werkflow.admin.WfmsAdmin;
+import org.codehaus.werkflow.admin.WfmsAdmin;
 
 /** The Workflow Management System entry-point.
  *

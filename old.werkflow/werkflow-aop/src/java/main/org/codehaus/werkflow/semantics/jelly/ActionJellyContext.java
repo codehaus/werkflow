@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package org.codehaus.werkflow.semantics.jelly;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.jelly;
 
  */
 
-import com.werken.werkflow.MutableAttributes;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.MutableAttributes;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.JellyContext;
 
@@ -56,8 +56,8 @@ import java.util.Map;
 /** <code>JellyContext</code> for <code>JellyAction</code>s.
  *
  *  @see JellyAction
- *  @see com.werken.werkflow.Attributes
- *  @see com.werken.werkflow.action.Action
+ *  @see org.codehaus.werkflow.Attributes
+ *  @see org.codehaus.werkflow.action.Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

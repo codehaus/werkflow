@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.extension;
+package org.codehaus.werkflow.personality.extension;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.personality.extension;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 /**
  * Implementation of <code>Action</code> to go with <code>FooTag</code>.

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package org.codehaus.werkflow.semantics.jelly;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.jelly;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;

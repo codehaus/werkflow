@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$

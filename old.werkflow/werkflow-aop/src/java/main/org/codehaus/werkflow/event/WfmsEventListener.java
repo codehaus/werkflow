@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -97,7 +97,7 @@ import java.util.EventListener;
  *  will be sent.
  *  </p>
  *
- *  @see com.werken.werkflow.admin.WfmsAdmin#addEventListener
+ *  @see org.codehaus.werkflow.admin.WfmsAdmin#addEventListener
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

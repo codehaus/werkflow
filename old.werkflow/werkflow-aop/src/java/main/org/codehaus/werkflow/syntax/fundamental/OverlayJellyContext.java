@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.MutableAttributes;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.MutableAttributes;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.JellyContext;
 

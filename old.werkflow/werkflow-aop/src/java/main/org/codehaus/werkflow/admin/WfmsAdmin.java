@@ -1,4 +1,4 @@
-package com.werken.werkflow.admin;
+package org.codehaus.werkflow.admin;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.admin;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.event.WfmsEventListener;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.event.WfmsEventListener;
 
 /** The administrative interface to the workflow management system.
  *
@@ -57,8 +57,8 @@ import com.werken.werkflow.event.WfmsEventListener;
  *  runtime.
  *  </p>
  *
- *  @see com.werken.werkflow.Wfms
- *  @see com.werken.werkflow.WfmsRuntime
+ *  @see org.codehaus.werkflow.Wfms
+ *  @see org.codehaus.werkflow.WfmsRuntime
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

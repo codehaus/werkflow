@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.idiom;
+package org.codehaus.werkflow.syntax.idiom;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.syntax.idiom;
 
  */
 
-import com.werken.werkflow.definition.petri.IdiomDefinition;
+import org.codehaus.werkflow.definition.petri.IdiomDefinition;
 
-import com.werken.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyTagException;
 

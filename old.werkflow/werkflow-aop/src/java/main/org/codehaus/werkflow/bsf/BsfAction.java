@@ -1,4 +1,4 @@
-package com.werken.werkflow.bsf;
+package org.codehaus.werkflow.bsf;
 
 /*
  $Id$
@@ -51,9 +51,9 @@ import org.apache.bsf.BSFEngine;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.util.ObjectRegistry;
 
-import com.werken.werkflow.MutableAttributes;
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.MutableAttributes;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import java.util.Map;
 import java.util.Iterator;

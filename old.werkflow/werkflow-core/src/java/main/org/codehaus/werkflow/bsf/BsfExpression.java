@@ -1,4 +1,4 @@
-package com.werken.werkflow.bsf;
+package org.codehaus.werkflow.bsf;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.bsf;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.AbstractExpression;
-import com.werken.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.AbstractExpression;
+import org.codehaus.werkflow.expr.ExpressionContext;
 
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.BSFEngine;

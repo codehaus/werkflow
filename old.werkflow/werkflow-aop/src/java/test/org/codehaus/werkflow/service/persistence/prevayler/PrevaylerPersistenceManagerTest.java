@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -52,13 +52,13 @@ import junit.framework.TestCase;
 
 import org.prevayler.implementation.TransientPublisher;
 
-import com.werken.werkflow.AttributeDeclaration;
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.admin.DeploymentException;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.AttributeDeclaration;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.admin.DeploymentException;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 
 /**
  * @author kevin
@@ -164,7 +164,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#getPackageId()
+         * @see org.codehaus.werkflow.ProcessInfo#getPackageId()
          */
         public String getPackageId()
         {
@@ -172,7 +172,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#getId()
+         * @see org.codehaus.werkflow.ProcessInfo#getId()
          */
         public String getId()
         {
@@ -180,7 +180,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#getDocumentation()
+         * @see org.codehaus.werkflow.ProcessInfo#getDocumentation()
          */
         public String getDocumentation()
         {
@@ -188,7 +188,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#addAttributeDeclaration(com.werken.werkflow.AttributeDeclaration)
+         * @see org.codehaus.werkflow.ProcessInfo#addAttributeDeclaration(org.codehaus.werkflow.AttributeDeclaration)
          */
         public void addAttributeDeclaration(AttributeDeclaration attrDecl)
         {
@@ -196,7 +196,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#getAttributeDeclarations()
+         * @see org.codehaus.werkflow.ProcessInfo#getAttributeDeclarations()
          */
         public AttributeDeclaration[] getAttributeDeclarations()
         {
@@ -204,7 +204,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
 
         /**
-         * @see com.werken.werkflow.ProcessInfo#getAttributeDeclaration(java.lang.String)
+         * @see org.codehaus.werkflow.ProcessInfo#getAttributeDeclaration(java.lang.String)
          */
         public AttributeDeclaration getAttributeDeclaration(String id)
         {

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.bpel4ws;
+package org.codehaus.werkflow.personality.bpel4ws;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.personality.bpel4ws;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.syntax.Syntax;
-import com.werken.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.syntax.Syntax;
+import org.codehaus.werkflow.jelly.JellyUtil;
 
-import com.werken.werkflow.personality.AbstractPersonality;
-import com.werken.werkflow.personality.Personality;
+import org.codehaus.werkflow.personality.AbstractPersonality;
+import org.codehaus.werkflow.personality.Personality;
 
 import org.apache.commons.jelly.JellyContext;
 

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.idiom;
+package org.codehaus.werkflow.syntax.idiom;
 
 /*
  $Id$

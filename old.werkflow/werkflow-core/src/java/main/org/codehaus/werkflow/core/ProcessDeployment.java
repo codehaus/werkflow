@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,25 +46,25 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.AttributeDeclaration;
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.InvalidAttributesException;
-import com.werken.werkflow.NoSuchCaseException;
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.ProcessNotCallableException;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.definition.petri.Arc;
-import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.MessageSink;
-import com.werken.werkflow.service.messaging.MessagingManager;
-import com.werken.werkflow.service.messaging.NoSuchMessageException;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.AttributeDeclaration;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.InvalidAttributesException;
+import org.codehaus.werkflow.NoSuchCaseException;
+import org.codehaus.werkflow.ProcessCase;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.ProcessNotCallableException;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.definition.petri.Arc;
+import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.service.messaging.IncompatibleMessageSelectorException;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.messaging.MessageSink;
+import org.codehaus.werkflow.service.messaging.MessagingManager;
+import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 
 class ProcessDeployment
     implements ProcessInfo, CaseEvaluator, ChangeSetSource, MessageSink, MessageConsumer

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.codehaus.werkflow.syntax.fundamental.AbstractActionTag;
 
 import org.apache.bsf.BSFException;
 

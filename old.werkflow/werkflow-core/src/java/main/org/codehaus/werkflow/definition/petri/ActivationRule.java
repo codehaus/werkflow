@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package org.codehaus.werkflow.definition.petri;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
 
  */
 
-import com.werken.werkflow.Attributes;
+import org.codehaus.werkflow.Attributes;
 
 /** Rule to determine when a <code>Transition</code> is activated.
  *

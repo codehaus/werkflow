@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.syntax.petri;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.task.DefaultTask;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.syntax.fundamental.ActionReceptor;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.task.DefaultTask;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.syntax.fundamental.ActionReceptor;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -66,8 +66,8 @@ import org.apache.commons.jelly.JellyTagException;
  *  </p>
  *
  *  @see ActionTag
- *  @see com.werken.werkflow.semantics.java.JavaActionTag;
- *  @see com.werken.werkflow.semantics.jelly.JellyActionTag;
+ *  @see org.codehaus.werkflow.semantics.java.JavaActionTag;
+ *  @see org.codehaus.werkflow.semantics.jelly.JellyActionTag;
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.initiator.message;
+package org.codehaus.werkflow.initiator.message;
 
 /*
  $Id$

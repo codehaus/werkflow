@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -57,8 +57,8 @@ import EDU.oswego.cs.dl.util.concurrent.ReadWriteLock;
 import EDU.oswego.cs.dl.util.concurrent.Sync;
 import EDU.oswego.cs.dl.util.concurrent.WriterPreferenceReadWriteLock;
 
-import com.werken.werkflow.AttributeDeclaration;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.AttributeDeclaration;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 /**
  *

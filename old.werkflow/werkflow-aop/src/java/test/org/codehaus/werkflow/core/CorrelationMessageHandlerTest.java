@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.service.messaging.MockRegistration;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.service.messaging.MockRegistration;
 
 public class CorrelationMessageHandlerTest
     extends WerkflowTestCase

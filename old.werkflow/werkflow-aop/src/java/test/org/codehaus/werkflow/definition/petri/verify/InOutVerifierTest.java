@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri.verify;
+package org.codehaus.werkflow.definition.petri.verify;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri.verify;
 
  */
 
-import com.werken.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
 
 import junit.framework.TestCase;
 

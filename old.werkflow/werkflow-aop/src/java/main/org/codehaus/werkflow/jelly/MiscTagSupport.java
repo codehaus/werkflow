@@ -1,4 +1,4 @@
-package com.werken.werkflow.jelly;
+package org.codehaus.werkflow.jelly;
 
 /*
  $Id$

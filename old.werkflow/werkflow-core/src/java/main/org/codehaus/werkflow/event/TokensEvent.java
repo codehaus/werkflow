@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -46,11 +46,11 @@ package com.werken.werkflow.event;
 
  */
 
-import com.werken.werkflow.Wfms;
+import org.codehaus.werkflow.Wfms;
 
 /** Base token-centric event for a <code>ProcessCase</code>.
  *
- *  @see com.werken.werkflow.ProcessCase
+ *  @see org.codehaus.werkflow.ProcessCase
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

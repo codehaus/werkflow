@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.work.Action;
+import org.codehaus.werkflow.work.Action;
 import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>Action</code> tags.

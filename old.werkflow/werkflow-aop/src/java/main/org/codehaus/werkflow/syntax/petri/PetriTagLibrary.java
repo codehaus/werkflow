@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$

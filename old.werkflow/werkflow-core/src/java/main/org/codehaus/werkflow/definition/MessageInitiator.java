@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.definition;
 
  */
 
-import com.werken.werkflow.work.Action;
+import org.codehaus.werkflow.work.Action;
 
 /** Annotation to a <code>ProcessDefinition</code> specifying
  *  how a message may initiate a new <code>ProcessCase</code>.
@@ -63,7 +63,7 @@ import com.werken.werkflow.work.Action;
  *  @see ProcessDefinition
  *  @see MessageType
  *  @see Action
- *  @see com.werken.werkflow.ProcessCase
+ *  @see org.codehaus.werkflow.ProcessCase
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

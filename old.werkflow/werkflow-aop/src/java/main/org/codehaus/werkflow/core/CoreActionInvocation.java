@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.MutableAttributes;
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.MutableAttributes;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 import java.util.Map;
 

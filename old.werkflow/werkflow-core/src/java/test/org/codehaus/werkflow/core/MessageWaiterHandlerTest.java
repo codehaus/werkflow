@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,17 +46,17 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.MockProcessCase;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.MockMessageCorrelator;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.service.messaging.MockRegistration;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.DefaultMessage;
-import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import org.codehaus.werkflow.ProcessCase;
+import org.codehaus.werkflow.MockProcessCase;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.MockMessageCorrelator;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.service.messaging.MockRegistration;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.messaging.DefaultMessage;
+import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 
 import junit.framework.TestCase;
 

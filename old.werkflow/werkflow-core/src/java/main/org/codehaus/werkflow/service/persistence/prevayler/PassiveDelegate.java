@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -46,11 +46,11 @@ package com.werken.werkflow.service.persistence.prevayler;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.ChangeSet;
-import com.werken.werkflow.service.persistence.CorrelationTransfer;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.ChangeSet;
+import org.codehaus.werkflow.service.persistence.CorrelationTransfer;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 /**
  * @author kevin
@@ -61,7 +61,7 @@ import com.werken.werkflow.service.persistence.PersistenceException;
 class PassiveDelegate implements MethodDelegate
 {
     /**
-     * @see com.werken.werkflow.service.persistence.ProcessPersistenceManager#persist(com.werken.werkflow.service.persistence.ChangeSet)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#persist(org.codehaus.werkflow.service.persistence.ChangeSet)
      */
     public void persist(ChangeSet changeSet) throws PersistenceException
     {
@@ -69,7 +69,7 @@ class PassiveDelegate implements MethodDelegate
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.ProcessPersistenceManager#hasCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#hasCase(java.lang.String)
      */
     public boolean hasCase(String caseId)
     {
@@ -78,7 +78,7 @@ class PassiveDelegate implements MethodDelegate
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.ProcessPersistenceManager#newCase(com.werken.werkflow.Attributes)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#newCase(org.codehaus.werkflow.Attributes)
      */
     public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
     {
@@ -86,7 +86,7 @@ class PassiveDelegate implements MethodDelegate
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.ProcessPersistenceManager#loadCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#loadCase(java.lang.String)
      */
     public CaseTransfer loadCase(String caseId) throws PersistenceException
     {
@@ -94,7 +94,7 @@ class PassiveDelegate implements MethodDelegate
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.ProcessPersistenceManager#getCorrelations()
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#getCorrelations()
      */
     public CorrelationTransfer[] getCorrelations() throws PersistenceException
     {

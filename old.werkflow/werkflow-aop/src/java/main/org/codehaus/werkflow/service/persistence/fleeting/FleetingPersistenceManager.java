@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.fleeting;
+package org.codehaus.werkflow.service.persistence.fleeting;
 
 /*
  $Id$
@@ -46,11 +46,11 @@ package com.werken.werkflow.service.persistence.fleeting;
 
  */
 
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.admin.DeploymentException;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.admin.DeploymentException;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 
 public class FleetingPersistenceManager
     implements PersistenceManager
@@ -68,7 +68,7 @@ public class FleetingPersistenceManager
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.PersistenceManager#passivate(com.werken.werkflow.service.persistence.ProcessPersistenceManager)
+     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#passivate(org.codehaus.werkflow.service.persistence.ProcessPersistenceManager)
      */
     public void passivate(ProcessPersistenceManager manager) throws PersistenceException
     {

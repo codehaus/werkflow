@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.AttributeType;
-import com.werken.werkflow.SimpleAttributeDeclaration;
-import com.werken.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.AttributeType;
+import org.codehaus.werkflow.SimpleAttributeDeclaration;
+import org.codehaus.werkflow.definition.ProcessDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

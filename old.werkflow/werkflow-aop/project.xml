@@ -12,7 +12,7 @@
     <logo>http://images.werken.com/werken_large.gif</logo>
   </organization>
   <inceptionYear>2002</inceptionYear>
-  <package>com.werken.werkflow</package>
+  <package>org.codehaus.werkflow</package>
   <shortDescription>werkflow: the flexible workflow engine</shortDescription>
   <logo>http://images.werken.com/werkflow.gif</logo>
 

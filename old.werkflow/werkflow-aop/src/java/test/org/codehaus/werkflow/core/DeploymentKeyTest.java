@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.WerkflowTestCase;
 
 public class DeploymentKeyTest
     extends WerkflowTestCase

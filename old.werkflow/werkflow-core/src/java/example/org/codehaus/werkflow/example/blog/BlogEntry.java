@@ -1,4 +1,4 @@
-package com.werken.werkflow.example.blog;
+package org.codehaus.werkflow.example.blog;
 
 /*
  $Id$

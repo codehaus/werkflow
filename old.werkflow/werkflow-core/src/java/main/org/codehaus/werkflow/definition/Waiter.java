@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$

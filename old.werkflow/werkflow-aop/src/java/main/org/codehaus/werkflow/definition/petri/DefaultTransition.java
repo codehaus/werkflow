@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package org.codehaus.werkflow.definition.petri;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.definition.petri;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.task.Task;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.task.Task;
 
 /** Default <code>Transition</code> implementation.
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.DuplicateMessageTypeException;
-import com.werken.werkflow.service.messaging.MessageSelector;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.definition.DuplicateMessageTypeException;
+import org.codehaus.werkflow.service.messaging.MessageSelector;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.example.blog;
+package org.codehaus.werkflow.example.blog;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.example.blog;
 
  */
 
-import com.werken.werkflow.Wfms;
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.example.BaseExample;
+import org.codehaus.werkflow.Wfms;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.example.BaseExample;
 
 public class Example
     extends BaseExample

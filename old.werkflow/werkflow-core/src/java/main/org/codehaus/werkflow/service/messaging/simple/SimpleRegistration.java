@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging.simple;
+package org.codehaus.werkflow.service.messaging.simple;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.service.messaging.simple;
 
  */
 
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.DefaultMessage;
-import com.werken.werkflow.service.messaging.MessageSink;
-import com.werken.werkflow.service.messaging.Registration;
-import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.messaging.DefaultMessage;
+import org.codehaus.werkflow.service.messaging.MessageSink;
+import org.codehaus.werkflow.service.messaging.Registration;
+import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 
 import java.util.Map;
 import java.util.HashMap;

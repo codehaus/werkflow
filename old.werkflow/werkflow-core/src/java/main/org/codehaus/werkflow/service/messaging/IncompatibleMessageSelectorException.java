@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging;
+package org.codehaus.werkflow.service.messaging;
 
 /*
  $Id$
@@ -58,7 +58,7 @@ package com.werken.werkflow.service.messaging;
  *
  *  @see MessageSelector
  *  @see MessagingManager#register
- *  @see com.werken.werkflow.definition.MessageType
+ *  @see org.codehaus.werkflow.definition.MessageType
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

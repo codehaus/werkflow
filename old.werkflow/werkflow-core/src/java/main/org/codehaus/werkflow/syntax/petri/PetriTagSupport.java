@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.syntax.petri;
 
  */
 
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.jelly.MiscTagSupport;
-import com.werken.werkflow.syntax.fundamental.FundamentalTagSupport;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.syntax.fundamental.FundamentalTagSupport;
 
 import org.apache.commons.jelly.JellyTagException;
 

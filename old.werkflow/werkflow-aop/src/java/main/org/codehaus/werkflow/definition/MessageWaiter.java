@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$
@@ -57,7 +57,7 @@ package com.werken.werkflow.definition;
  *
  *  @see MessageType
  *  @see MessageCorrelator
- *  @see com.werken.werkflow.definition.petri.Transition#getMessageWaiter
+ *  @see org.codehaus.werkflow.definition.petri.Transition#getMessageWaiter
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jexl;
+package org.codehaus.werkflow.semantics.jexl;
 
 /*
  $Id$
