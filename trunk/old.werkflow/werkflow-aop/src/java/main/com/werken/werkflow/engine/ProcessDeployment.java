@@ -72,7 +72,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class ProcessDeployment
+class ProcessDeployment
     implements ProcessInfo
 {
     // ----------------------------------------------------------------------

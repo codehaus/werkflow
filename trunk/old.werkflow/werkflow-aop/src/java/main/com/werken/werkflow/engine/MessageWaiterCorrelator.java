@@ -76,7 +76,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class MessageWaiterCorrelator
+class MessageWaiterCorrelator
 {
     // ----------------------------------------------------------------------
     //     Instance members

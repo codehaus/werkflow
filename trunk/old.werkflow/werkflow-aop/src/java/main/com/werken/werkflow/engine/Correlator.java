@@ -70,7 +70,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class Correlator
+class Correlator
 {
     // ----------------------------------------------------------------------
     //     Instance members

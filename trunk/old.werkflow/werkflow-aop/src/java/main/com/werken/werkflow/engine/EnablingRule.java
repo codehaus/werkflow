@@ -58,7 +58,7 @@ import com.werken.werkflow.definition.petri.Transition;
  *
  *  @version $Id$
  */
-public class EnablingRule
+class EnablingRule
 {
     // ----------------------------------------------------------------------
     //     Instance members

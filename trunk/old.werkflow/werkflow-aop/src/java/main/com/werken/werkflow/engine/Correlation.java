@@ -57,7 +57,7 @@ package com.werken.werkflow.engine;
  *
  *  @version $Id$
  */
-public class Correlation
+class Correlation
 {
     // ----------------------------------------------------------------------
     //     Instance members

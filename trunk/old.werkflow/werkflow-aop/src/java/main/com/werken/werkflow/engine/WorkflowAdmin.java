@@ -59,7 +59,7 @@ import com.werken.werkflow.event.WfmsEventListener;
  *
  *  @version $Id$
  */
-public class WorkflowAdmin
+class WorkflowAdmin
     implements WfmsAdmin
 {
     // ----------------------------------------------------------------------

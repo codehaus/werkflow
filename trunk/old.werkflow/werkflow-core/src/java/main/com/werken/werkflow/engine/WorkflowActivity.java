@@ -58,7 +58,7 @@ import java.util.Map;
  *
  *  @version $Id$
  */
-public class WorkflowActivity
+class WorkflowActivity
     implements Activity
 {
     // ----------------------------------------------------------------------
