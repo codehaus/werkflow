@@ -20,5 +20,8 @@ public class IdiomaticTagLibrary
 
         registerTag( "while",
                      WhileTag.class );
+
+        registerTag( "if",
+                     WhileTag.class );
     }
 }
