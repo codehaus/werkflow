@@ -10,15 +10,10 @@ import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.ActivationRule;
 import com.werken.werkflow.engine.rules.EnablingRule;
-import com.werken.werkflow.engine.rules.CorrelatingRule;
 import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.MessageSink;
+import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.task.Task;
-
-import org.drools.RuleBase;
-import org.drools.WorkingMemory;
-import org.drools.DroolsException;
-import org.drools.rule.RuleSet;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -31,42 +26,44 @@ import java.util.Iterator;
 public class ProcessDeployment
     implements ProcessInfo, MessageSink
 {
+    private WorkflowEngine engine;
+
     private ProcessDefinition processDef;
 
     private Map rules;
-    private List registrations;
     private Map messageTypes;
+    private Map correlators;
 
-    private RuleSet messagingRuleSet;
-    private RuleBase messagingRuleBase;
-    private WorkingMemory messagingMemory;;
-
-    public ProcessDeployment(ProcessDefinition processDef)
+    public ProcessDeployment(WorkflowEngine engine,
+                             ProcessDefinition processDef)
         throws ProcessDeploymentException
     {
-        this.processDef = processDef;
-        this.registrations = new ArrayList();
+        this.engine       = engine;
+        this.processDef   = processDef;
+        this.correlators = new HashMap();
+
         this.messageTypes = new HashMap();
 
-        MessageType[] messageTypes = processDef.getMessageTypes();
+        MessageType[] types = processDef.getMessageTypes();
 
-        for ( int i = 0 ; i < messageTypes.length ; ++i )
+        for ( int i = 0 ; i < types.length ; ++i )
         {
-            this.messageTypes.put( messageTypes[i].getId(),
-                                   messageTypes[i] );
+            this.messageTypes.put( types[i].getId(),
+                                   types[i] );
         }
 
-        initializeRules();
+        initializeEnablingRules();
+        initializeMessagingRules();
     }
 
-    private void initializeRules()
-        throws ProcessDeploymentException
+    public WorkflowEngine getEngine()
+    {
+        return this.engine;
+    }
+
+    private void initializeEnablingRules()
     {
         this.rules = new HashMap();
-
-        this.messagingRuleSet = new RuleSet( "rules.messaging" );
-        this.messagingRuleBase = new RuleBase();
-        this.messagingMemory = this.messagingRuleBase.createWorkingMemory();
 
         Net net = getProcessDefinition().getNet();
 
@@ -74,35 +71,39 @@ public class ProcessDeployment
 
         for ( int i = 0 ; i < transitions.length ; ++i )
         {
-            buildRules( transitions[i] );
+            buildEnablingRule( transitions[i] );
         }
-
-        try
-        {
-            this.messagingRuleBase.addRuleSet( this.messagingRuleSet );
-        }
-        catch (DroolsException e)
-        {
-            throw new ProcessDeploymentException( e );
-        }
-    }
-
-    private void buildRules(Transition transition)
-        throws ProcessDeploymentException
-    {
-        buildEnablingRule( transition );
-        buildMessagingRules( transition );
     }
 
     private void buildEnablingRule(Transition transition)
-        throws ProcessDeploymentException
     {
         this.rules.put( transition,
                         new EnablingRule( transition ) );
     }
 
-    private void buildMessagingRules(Transition transition)
+    private void initializeMessagingRules()
         throws ProcessDeploymentException
+    {
+        
+        try
+        {
+            Net net = getProcessDefinition().getNet();
+            
+            Transition[] transitions = net.getTransitions();
+            
+            for ( int i = 0 ; i < transitions.length ; ++i )
+            {
+                buildMessagingRule( transitions[i] );
+            }
+        }
+        catch (IncompatibleMessageSelectorException e)
+        {
+            throw new ProcessDeploymentException( e );
+        }
+    }
+
+    private void buildMessagingRule(Transition transition)
+        throws IncompatibleMessageSelectorException
     {
         MessageWaiter waiter = transition.getMessageWaiter();
 
@@ -113,26 +114,32 @@ public class ProcessDeployment
 
         MessageType messageType = getMessageType( waiter.getMessageTypeId() );
 
-        CorrelatingRule rule = new CorrelatingRule( transition,
-                                                    messageType );
+        if ( ! this.correlators.containsKey( messageType ) )
+        {
+            Correlator correlator = new Correlator( messageType );
 
-        try
-        {
-            this.messagingRuleSet.addRule( rule );
-        }
-        catch (DroolsException e)
-        {
-            throw new ProcessDeploymentException( e );
+            Registration registration = getEngine().register( this,
+                                                              messageType );
+
+            correlator.setRegistration( registration );
+
+            this.correlators.put( messageType,
+                                  correlators );
         }
     }
 
     public void acceptMessage(MessageType messageType,
                               Object message)
     {
-        /*
-        getMessagingRules().assertObject( new Message( messageType,
-                                                       message ) );
-        */
+        Correlator correlator = (Correlator) this.correlators.get( messageType );
+
+        if ( correlator == null )
+        {
+            // FIXME complain
+            return;
+        }
+
+        correlator.addMessage( message );
     }
 
     protected MessageType getMessageType(String id)
