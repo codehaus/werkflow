@@ -30,7 +30,7 @@ public class AutomaticEngine
         setSatisfactionManager( satisfactionManager );
     }
 
-    protected void enqueue(final Instance instance,
+    protected void enqueue(final RobustInstance instance,
                            final Path path)
         throws InterruptedException
     {
@@ -65,7 +65,7 @@ public class AutomaticEngine
                     try
                     {
                         if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
-                                                                  getInstance( instanceId ) ) )
+                                                                  (RobustInstance) getInstance( instanceId ) ) )
                         {
                             cancel();
                             

@@ -6,9 +6,9 @@ public class SequenceTest
     public void testBeginEnd()
         throws Exception
     {
-        Instance instance = new Instance( null,
-                                          null,
-                                          "ted" );
+        DefaultInstance instance = new DefaultInstance( null,
+                                                        null,
+                                                        "ted" );
 
         Sequence sequence = new Sequence();
 

@@ -1,14 +1,14 @@
 package org.codehaus.werkflow;
 
-public class InstanceTest
+public class DefaultInstanceTest
     extends WerkflowTestBase
 {
     public void testConstructor()
         throws Exception
     {
-        Instance instance = new Instance( null,
-                                          null,
-                                          "ted" );
+        DefaultInstance instance = new DefaultInstance( null,
+                                                        null,
+                                                        "ted" );
 
         assertEquals( "instance name is 'ted'",
                       "ted",
@@ -18,9 +18,9 @@ public class InstanceTest
     public void testPushPop()
         throws Exception
     {
-        Instance instance = new Instance( null,
-                                          null,
-                                          "ted" );
+        DefaultInstance instance = new DefaultInstance( null,
+                                                        null,
+                                                        "ted" );
 
         Path path_0 = new Path();
 
@@ -62,9 +62,9 @@ public class InstanceTest
     public void testPushPopAssumptionViolation()
         throws Exception
     {
-        Instance instance = new Instance( null,
-                                          null,
-                                          "ted" );
+        DefaultInstance instance = new DefaultInstance( null,
+                                                        null,
+                                                        "ted" );
 
         Path path = new Path();
 
