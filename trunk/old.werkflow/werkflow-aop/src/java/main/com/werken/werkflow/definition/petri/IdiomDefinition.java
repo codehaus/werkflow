@@ -164,7 +164,9 @@ public class IdiomDefinition
         {
             if ( ! placeDefs[i].getId().startsWith( COMPONENT_PREFIX ) )
             {
-                idiom.addPlace( placeDefs[i].getId(),
+                idiom.addPlace( qualifyId( placeDefs[i].getId(),
+                                           idiom ),
+
                                 placeDefs[i].getDocumentation() );
                 
                 if ( placeDefs[i].getStashId() != null )
@@ -183,7 +185,8 @@ public class IdiomDefinition
                      ||
                      transitionDefs[i].getId().equals( COMPONENT ) ) )
             {
-                idiom.addTransition( transitionDefs[i].getId(),
+                idiom.addTransition( qualifyId( transitionDefs[i].getId(),
+                                                idiom ),
                                      transitionDefs[i].getDocumentation() );
             }
         }
@@ -203,15 +206,19 @@ public class IdiomDefinition
 
                 if ( arcDefs[i].getType() == ArcDefinition.PLACE_TO_TRANSITION_TYPE )
                 {
-                    idiom.connectPlaceToTransition( arcDefs[i].getPlaceId(),
-                                                    arcDefs[i].getTransitionId(),
+                    idiom.connectPlaceToTransition( qualifyId( arcDefs[i].getPlaceId(),
+                                                               idiom ),
+                                                    qualifyId( arcDefs[i].getTransitionId(),
+                                                               idiom ),
                                                     expr );
                 }
                 else
                 {
                     System.err.println( "A" );
-                    idiom.connectTransitionToPlace( arcDefs[i].getTransitionId(),
-                                                    arcDefs[i].getPlaceId(),
+                    idiom.connectTransitionToPlace( qualifyId( arcDefs[i].getTransitionId(),
+                                                               idiom ),
+                                                    qualifyId( arcDefs[i].getPlaceId(),
+                                                               idiom ),
                                                     expr );
                 }
             }
@@ -279,7 +286,7 @@ public class IdiomDefinition
             {
                 String placeId = createId( arcDefs[i].getPlaceId(),
                                            component );
-
+                
                 String transitionId = createId( arcDefs[i].getTransitionId(),
                                                 component );
                 
@@ -346,10 +353,25 @@ public class IdiomDefinition
     {
         if ( id.startsWith( COMPONENT_PREFIX ) )
         {
-            return id.substring( COMPONENT_PREFIX.length() ) + "[" + component.getIndex() + "]";
+            return qualifyId( id.substring( COMPONENT_PREFIX.length() ),
+                              component );
         }
 
-        return id;
+        return qualifyId( id,
+                          component.getParent() );
+    }
+
+    protected String qualifyId(String id,
+                               Idiom component)
+    {
+        if ( IN_PLACE.equals( id )
+             ||
+             OUT_PLACE.equals( id ) )
+        {
+            return id;
+        }
+
+        return component.getId() + ":" + id;
     }
 
     protected Expression getExpression(Idiom idiom,
