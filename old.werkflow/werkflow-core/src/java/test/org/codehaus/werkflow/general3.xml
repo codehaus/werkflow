@@ -42,15 +42,17 @@
 
         <transition id="transition two" type="and">
             <documentation>the 2nd transition</documentation>
+
             <input from="middle"/>
             <output to="out"/>
 
             <message id="message" type="normal.msg">
-              <jexl:correlator test="message.payload == bob"/>
-            </message>>
+              <java:correlator test="myMsg.payload.equals( bob )"/>
+            </message>
 
             <task>
                 <jelly:action>
+                    ${message.touch()}
                     case ${caseId}
                     action 2
                     bob == ${bob}
