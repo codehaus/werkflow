@@ -47,7 +47,7 @@
             <output to="out"/>
 
             <message id="message" type="normal.msg">
-              <java:correlator test="myMsg.payload.equals( bob )"/>
+              <java:correlator test="message.payload.equals( bob )"/>
             </message>
 
             <task>
