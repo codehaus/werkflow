@@ -42,7 +42,7 @@ public class RobustInstance
         this.state.setId( id );
         this.state.setContext( new HashMap( context.getContextMap()  ) );
     }
-    
+
     public RobustInstanceState getState()
     {
         return this.state;
@@ -329,6 +329,6 @@ public class RobustInstance
 
     public String toString()
     {
-        return "[" + getId() + "| " + this.state.getQueue() + "]";
+        return "[" + getId() + "| " + Collections.synchronizedSet(this.state.getQueue()) + "]";
     }
 }

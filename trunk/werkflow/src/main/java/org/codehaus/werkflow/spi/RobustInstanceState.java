@@ -126,7 +126,7 @@ public class RobustInstanceState
             + "  id: " + this.id + "\n"
             + "  context: " + this.context + "\n"
             + "  scope: " + this.scope + "\n"
-            + "  queue: " + this.queue + "\n"
+            + "  queue: " + Collections.synchronizedSet(this.queue) + "\n"
             + "  complete: " + this.complete + "]";
     }
 
