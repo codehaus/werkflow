@@ -46,7 +46,7 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 
 import org.apache.commons.jelly.JellyTagException;
 

@@ -5,7 +5,7 @@ import org.apache.commons.jelly.TagLibrary;
 public class PetriTagLibrary
     extends TagLibrary
 {
-    public static final String NAMESPACE_URI = "werkflow:petri";
+    public static final String NS_URI = "werkflow:petri";
 
     public PetriTagLibrary()
     {

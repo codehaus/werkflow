@@ -61,12 +61,16 @@ public class InvalidAttributesException
     
     /** Construct.
      *
+     *  @param id The offending process package identifier.
      *  @param id The offending process identifier.
+     *  @param attributes The offending attributes;
      */
-    public InvalidAttributesException(String id,
+    public InvalidAttributesException(String packageId,
+                                      String id,
                                       Attributes attributes)
     {
-        super( id );
+        super( packageId,
+               id );
 
         this.attributes = attributes;
     }
@@ -84,6 +88,6 @@ public class InvalidAttributesException
      */
     public String getMessage()
     {
-        return "Invalid attributes for process: " + getId();
+        return "Invalid attributes for process: " + getProcessDescription();
     }
 } 

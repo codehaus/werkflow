@@ -65,11 +65,13 @@ public class MissingAttributesException
      *
      *  @param id The offending process identifier.
      */
-    public MissingAttributesException(String id,
+    public MissingAttributesException(String packageId,
+                                      String id,
                                       Attributes attributes,
                                       String[] missingAttributes)
     {
-        super( id,
+        super( packageId,
+               id,
                attributes );
 
         this.missingAttributes = missingAttributes;

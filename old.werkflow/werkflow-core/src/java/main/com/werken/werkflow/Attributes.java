@@ -56,6 +56,24 @@ package com.werken.werkflow;
  */
 public interface Attributes
 {
+    static final Attributes EMPTY_ATTRIBUTES = new Attributes()
+        {
+            public Object getAttribute(String name)
+            {
+                return null;
+            }
+            
+            public String[] getAttributeNames()
+            {
+                return new String[0];
+            }
+
+            public boolean hasAttribute(String name)
+            {
+                return false;
+            }
+        };
+
     /** Retrieve an attribute by name.
      *
      *  @param name The attribute name.

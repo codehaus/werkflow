@@ -105,6 +105,6 @@ public interface Registration
      *  @throws NoSuchMessageException If no unconsumed message
      *          is associated with the identifier.
      */
-    void consumeMessage(String id)
+    Message consumeMessage(String id)
         throws NoSuchMessageException;
 }

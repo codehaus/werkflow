@@ -47,7 +47,6 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
@@ -260,9 +259,6 @@ public class ProcessTag
         processDef.setNet( net );
 
         addProcessDefinition( processDef );
-
-        addToCollector( ProcessDefinition.class,
-                        processDef );
 
         this.net = null;
     }

@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.engine.WorkflowProcessCase;
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.expr.ExpressionContext;
 import com.werken.werkflow.expr.AttributesExpressionContext;
@@ -68,7 +68,7 @@ import com.werken.werkflow.expr.AttributesExpressionContext;
  *  @version $Id$
  */
 public class OrInputRule
-    implements ActivationRule
+    extends AbstractActivationRule
 {
     // ----------------------------------------------------------------------
     //     Constants
@@ -110,52 +110,36 @@ public class OrInputRule
 
     /** @see ActivationRule
      */
-    public boolean isSatisfied(Transition transition,
-                               WorkflowProcessCase processCase)
+    public String[] getSatisfyingTokens(Transition transition,
+                                        Attributes caseAttrs,
+                                        String[] availMarks)
         throws Exception
     {
         Arc[] arcs = transition.getArcsFromPlaces();
-        Place eachPlace = null;
+        String eachPlaceId = null;
+
+        ExpressionContext context = new AttributesExpressionContext( caseAttrs );
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
-            eachPlace = arcs[i].getPlace();
+            eachPlaceId = arcs[i].getPlace().getId();
 
-            if ( processCase.hasMark( eachPlace.getId() ) )
+            if ( contains( eachPlaceId,
+                           availMarks ) )
             {
-                return true;
-            }
+                Expression expr = arcs[i].getExpression();
 
-            if ( arcs[i].getExpression() != null )
-            {
-                ExpressionContext context = new AttributesExpressionContext( processCase );
-                return arcs[i].getExpression().evaluateAsBoolean( context );
-            }
-        }
-
-        return false;
-    }
-
-    /** @see ActivationRule
-     */
-    public String[] satisfy(Transition transition,
-                            WorkflowProcessCase processCase)
-    {
-        Arc[] arcs = transition.getArcsFromPlaces();
-        Place eachPlace = null;
-
-        for ( int i = 0 ; i < arcs.length ; ++i )
-        {
-            eachPlace = arcs[i].getPlace();
-
-            if ( processCase.hasMark( eachPlace.getId() ) )
-            {
-                processCase.removeMark( eachPlace.getId() ); 
-
-                return new String[]
+                if ( expr != null )
+                {
+                    if ( expr.evaluateAsBoolean( context ) )
                     {
-                        eachPlace.getId()
-                    };
+                        return new String[] { eachPlaceId };
+                    }
+                }
+                else
+                {
+                    return new String[] { eachPlaceId };
+                }
             }
         }
 

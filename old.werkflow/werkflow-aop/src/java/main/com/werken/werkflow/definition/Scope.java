@@ -1,9 +1,9 @@
 package com.werken.werkflow.definition;
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.ActionLibrary;
-import com.werken.werkflow.action.NoSuchActionException;
-import com.werken.werkflow.action.DuplicateActionException;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.ActionLibrary;
+import com.werken.werkflow.work.NoSuchActionException;
+import com.werken.werkflow.work.DuplicateActionException;
 
 public class Scope
 {

@@ -71,9 +71,6 @@ public class FundamentalTagLibrary
      */
     public FundamentalTagLibrary()
     {
-        registerTag( "package",
-                     PackageTag.class );
-
         registerTag( "process",
                      ProcessTag.class );
 
@@ -85,11 +82,6 @@ public class FundamentalTagLibrary
 
         registerTag( "message-type",
                      MessageTypeTag.class );
-
-        /*
-        registerTag( "message",
-                     MessageTag.class );
-        */
 
         registerTag( "actions",
                      ActionsTag.class );

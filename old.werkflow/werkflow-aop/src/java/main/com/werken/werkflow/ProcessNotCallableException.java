@@ -55,11 +55,14 @@ public class ProcessNotCallableException
 
     /** Construct.
      *
+     *  @param packageId The offending process package identifier.
      *  @param id The offending process identifier.
      */
-    public ProcessNotCallableException(String id)
+    public ProcessNotCallableException(String packageId,
+                                       String processId)
     {
-        super( id );
+        super( packageId,
+               processId );
     }
 
     // ----------------------------------------------------------------------
@@ -70,6 +73,6 @@ public class ProcessNotCallableException
      */
     public String getMessage()
     {
-        return "Process not callable: " + getId();
+        return "Process not callable: " + getProcessDescription();
     }
 } 

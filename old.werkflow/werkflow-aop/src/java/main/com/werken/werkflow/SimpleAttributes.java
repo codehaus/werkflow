@@ -56,7 +56,7 @@ import java.util.HashMap;
  *  @version $Id$
  */
 public class SimpleAttributes
-    implements Attributes
+    implements MutableAttributes
 {
     // ----------------------------------------------------------------------
     //     Constants
@@ -90,6 +90,19 @@ public class SimpleAttributes
     public SimpleAttributes(Map initialAttrs)
     {
         this.attrs = new HashMap( initialAttrs );
+    }
+
+    public SimpleAttributes(Attributes initialAttrs)
+    {
+        this.attrs = new HashMap();
+
+        String[] attrNames = initialAttrs.getAttributeNames();
+
+        for ( int i = 0 ; i < attrNames.length ; ++i )
+        {
+            this.attrs.put( attrNames[i],
+                            initialAttrs.getAttribute( attrNames[i] ) );
+        }
     }
 
     // ----------------------------------------------------------------------

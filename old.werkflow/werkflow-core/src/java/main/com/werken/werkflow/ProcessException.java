@@ -53,8 +53,11 @@ public class ProcessException
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Offending process identifier. */
-    private String id;
+    /** Package identifier. */
+    private String packageId;
+
+    /** Process identifier. */
+    private String processId;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -64,22 +67,35 @@ public class ProcessException
      *
      *  @param id The offending process identifier.
      */
-    public ProcessException(String id)
+    public ProcessException(String packageId,
+                            String processId)
     {
-        this.id = id;
+        this.packageId = packageId;
+        this.processId = processId;
+    }
+
+    public ProcessException(String packageId,
+                            String processId,
+                            Throwable rootCause)
+    {
+        super( rootCause );
+
+        this.packageId = packageId;
+        this.processId = processId;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the offending process identifier.
-     *
-     *  @return The offending process identifier.
-     */
-    public String getId()
+    public String getPackageId()
     {
-        return this.id;
+        return this.packageId;
+    }
+
+    public String getProcessId()
+    {
+        return this.processId;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -88,6 +104,11 @@ public class ProcessException
      */
     public String getMessage()
     {
-        return "Process error: " + getId();
+        return "Process error: " + getPackageId() + "/" + getProcessId();
+    }
+
+    protected String getProcessDescription()
+    {
+        return getPackageId() + "#" + getProcessId();
     }
 } 

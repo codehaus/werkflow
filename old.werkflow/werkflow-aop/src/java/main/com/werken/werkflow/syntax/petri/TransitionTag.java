@@ -290,14 +290,11 @@ public class TransitionTag
         
         setDocumentation( null );
 
-        getContext().setVariable( DefaultTransition.class.getName(),
-                                  transition );
-
         setCurrentTransition( transition );
-        invokeBody( output );
-        setCurrentTransition( null );
 
-        getContext().removeVariable( DefaultTransition.class.getName() );
+        invokeBody( output );
+
+        setCurrentTransition( null );
 
         transition.setDocumentation( getDocumentation() );
 

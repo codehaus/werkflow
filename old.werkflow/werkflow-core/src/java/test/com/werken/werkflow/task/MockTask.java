@@ -1,6 +1,6 @@
 package com.werken.werkflow.task;
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 
 import java.util.Set;
 import java.util.HashSet;

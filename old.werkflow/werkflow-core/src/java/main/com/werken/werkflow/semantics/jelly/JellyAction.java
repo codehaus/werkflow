@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
@@ -101,28 +101,20 @@ public class JellyAction
 
     /** @see Action
      */
-    public void perform(Activity activity,
-                        Map caseAttrs,
-                        Map otherAttrs)
+    public void perform(ActionInvocation invocation)
     {
         try
         {
-            ActionJellyContext context = new ActionJellyContext( caseAttrs,
-                                                                 otherAttrs );
+            ActionJellyContext context = new ActionJellyContext( invocation );
             
             getScript().run( context,
                              XMLOutput.createDummyXMLOutput() );
 
-            /*
-            getScript().run( context,
-                             XMLOutput.createXMLOutput( System.err ) );
-            */
-
-            activity.complete();
+            invocation.complete();
         }
         catch (Exception e)
         {
-            activity.completeWithError( e );
+            invocation.completeWithError( e );
         }
     }
 }

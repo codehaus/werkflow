@@ -31,7 +31,7 @@ public class SyntaxLoader
         loadContext.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                         new FundamentalTagLibrary() );
 
-        loadContext.registerTagLibrary( PetriTagLibrary.NAMESPACE_URI,
+        loadContext.registerTagLibrary( PetriTagLibrary.NS_URI,
                                         new PetriTagLibrary() );
 
         loadContext.registerTagLibrary( IdiomTagLibrary.NAMESPACE_URI,
@@ -49,7 +49,7 @@ public class SyntaxLoader
         evalContext.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                         new FundamentalTagLibrary() );
 
-        evalContext.registerTagLibrary( PetriTagLibrary.NAMESPACE_URI,
+        evalContext.registerTagLibrary( PetriTagLibrary.NS_URI,
                                         new PetriTagLibrary() );
 
         evalContext.registerTagLibrary( IdiomTagLibrary.NAMESPACE_URI,

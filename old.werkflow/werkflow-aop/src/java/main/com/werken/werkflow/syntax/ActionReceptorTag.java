@@ -1,6 +1,6 @@
 package com.werken.werkflow.syntax;
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 import com.werken.werkflow.jelly.MiscTagSupport;
 import com.werken.werkflow.syntax.fundamental.ActionReceptor;
 

@@ -101,10 +101,10 @@ public class SimpleRegistration
                               MessageSink sink,
                               MessageType messageType)
     {
-        this.manager     = manager;
-        this.sink        = sink;
-        this.messageType = messageType;
-        this.messages    = new HashMap();
+        this.manager      = manager;
+        this.sink         = sink;
+        this.messageType  = messageType;
+        this.messages     = new HashMap();
     }
 
     // ----------------------------------------------------------------------
@@ -160,15 +160,19 @@ public class SimpleRegistration
 
     /** @see Registration
      */
-    public void consumeMessage(String id)
+    public Message consumeMessage(String id)
         throws NoSuchMessageException
     {
         if ( ! this.messages.containsKey( id ) )
         {
             throw new NoSuchMessageException( id );
         }
-        
+
+        Message message = (Message) this.messages.get( id );
+
         this.messages.remove( id );
+
+        return message;
     }
 
     /** Accept a message for potential delivery to the <code>MessageSink</code>.

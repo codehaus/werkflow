@@ -46,8 +46,8 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
@@ -117,22 +117,17 @@ public class ModifiableAction
 
     /** @see Action
      */
-    public void perform(Activity activity,
-                        Map caseAttrs,
-                        Map otherAttrs)
+    public void perform(ActionInvocation invocation)
     {
         try
         {
-            Map modifiedOtherAttrs = getModifiedOtherAttributes( caseAttrs,
-                                                                 otherAttrs );
+            modifyAttributes( invocation );
             
-            getAction().perform( activity,
-                                 Collections.unmodifiableMap( caseAttrs ),
-                                 modifiedOtherAttrs );
+            getAction().perform( invocation );
         }
         catch (Exception e)
         {
-            activity.completeWithError( e );
+            invocation.completeWithError( e );
         }
     }
 
@@ -141,21 +136,15 @@ public class ModifiableAction
      *  @param caseAttrs The original case attributes.
      *  @param otherAttrs The original other attributes.
      *
-     *  @return The new modified other attributes.
-     *
      *  @throws Exception If an error occurs while attempting
      *          to evaluate the modification script.
      */
-    public Map getModifiedOtherAttributes(Map caseAttrs,
-                                          Map otherAttrs)
+    public void modifyAttributes(ActionInvocation invocation)
         throws Exception
     {
-        OverlayJellyContext context = new OverlayJellyContext( caseAttrs,
-                                                               otherAttrs );
+        OverlayJellyContext context = new OverlayJellyContext( invocation );
         
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
-
-        return context.getOtherAttributes();
     }
 }

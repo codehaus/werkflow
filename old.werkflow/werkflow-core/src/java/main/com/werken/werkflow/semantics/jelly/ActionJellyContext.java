@@ -46,6 +46,9 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
+import com.werken.werkflow.MutableAttributes;
+import com.werken.werkflow.work.ActionInvocation;
+
 import org.apache.commons.jelly.JellyContext;
 
 import java.util.Map;
@@ -67,11 +70,7 @@ public class ActionJellyContext
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Case attributes. */
-    private Map caseAttrs;
-
-    /** Other attributes. */
-    private Map otherAttrs;
+    private ActionInvocation invocation;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -79,39 +78,51 @@ public class ActionJellyContext
 
     /** Construct.
      *
-     *  @param caseAttrs The case attributes.
-     *  @param otherAttrs The other attributes.
+     *  @param invocation The action invocation.
      */
-    public ActionJellyContext(Map caseAttrs,
-                              Map otherAttrs)
+    public ActionJellyContext(ActionInvocation invocation)
     {
-        this.caseAttrs  = caseAttrs;
-        this.otherAttrs = otherAttrs;
+        this.invocation = invocation;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
+    protected ActionInvocation getInvocation()
+    {
+        return this.invocation;
+    }
+
+    protected MutableAttributes getCaseAttributes()
+    {
+        return getInvocation().getCaseAttributes();
+    }
+
+    protected MutableAttributes getOtherAttributes()
+    {
+        return getInvocation().getOtherAttributes();
+    }
+
     /** @see JellyContext
      */
     public void setVariable(String key,
                             Object value)
     {
-        this.caseAttrs.put( key,
-                            value );
+        getCaseAttributes().setAttribute( key,
+                                          value );
     }
 
     /** @see JellyContext
      */
     public Object getVariable(String key)
     {
-        if ( this.caseAttrs.containsKey( key ) )
+        if ( getCaseAttributes().hasAttribute( key ) )
         {
-            return this.caseAttrs.get( key );
+            return getCaseAttributes().getAttribute( key );
         }
 
-        return this.otherAttrs.get( key );
+        return getOtherAttributes().getAttribute( key );
     }
 
     /** @see JellyContext
@@ -125,7 +136,7 @@ public class ActionJellyContext
      */
     public void removeVariable(String key)
     {
-        this.caseAttrs.remove( key );
-        this.otherAttrs.remove( key );
+        //getCaseAttributes().removeAttribute( key );
+        //getOtherAttributes().removeAttribute( key );
     }
 }
