@@ -1,5 +1,5 @@
 
-<project default="java:jar"
+<project default="jar:jar"
          xmlns:j="jelly:core">
 
   <postGoal name="clover">
