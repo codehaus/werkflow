@@ -86,4 +86,12 @@ public class WorkflowRuntime
         return getEngine().selectCases( processId,
                                         placeId );
     }
+
+    public ProcessCase[] selectCases(String processId,
+                                     Map qbeAttrs)
+        throws QueryException
+    {
+        return getEngine().selectCases( processId,
+                                        qbeAttrs );
+    }
 }

@@ -50,6 +50,8 @@ import com.werken.werkflow.resource.Resource;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.work.WorkItem;
 
+import java.util.Map;
+
 /** Client runtime interface.
  *
  *  <p>
@@ -133,5 +135,9 @@ public interface WfmsRuntime
 
     ProcessCase[] selectCases(String processId,
                               String placeId)
+        throws QueryException;
+
+    ProcessCase[] selectCases(String processId,
+                              Map qbeAttrs)
         throws QueryException;
 }
