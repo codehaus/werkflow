@@ -46,8 +46,6 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.service.messaging.Message;
-
 import java.util.Map;
 import java.util.HashMap;
 
