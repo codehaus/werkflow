@@ -81,7 +81,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -104,7 +105,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -122,7 +124,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -144,7 +147,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -166,7 +170,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -192,7 +197,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -217,7 +223,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -242,7 +249,8 @@ public class ProcessDeploymentTest
         ProcessDeployment deployment = new ProcessDeployment( this.engine,
                                                               this.def );
 
-        CaseState state = this.caseRepo.newCaseState( "the process",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
