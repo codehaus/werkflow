@@ -14,7 +14,7 @@ import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
 
 import junit.framework.TestCase;
 
-import java.util.Set;
+import java.util.List;
 
 public class ProcessDeploymentTest
     extends TestCase
@@ -89,7 +89,7 @@ public class ProcessDeploymentTest
         processCase.addMark( "in1" );
         processCase.addMark( "in2" );
 
-        Set potentialTrans = deployment.getPotentialTransitions( processCase );
+        List potentialTrans = deployment.getPotentialTransitions( processCase );
 
         assertEquals( 1,
                       potentialTrans.size() );

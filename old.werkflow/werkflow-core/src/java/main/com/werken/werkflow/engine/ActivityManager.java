@@ -183,7 +183,7 @@ class ActivityManager
                             }
                             
                             Transition nextTrans = enabledTrans[0];
-                            
+
                             fire( processCase,
                                   nextTrans );
                         }
