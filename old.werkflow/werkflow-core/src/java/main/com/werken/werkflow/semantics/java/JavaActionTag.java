@@ -18,7 +18,7 @@ public class JavaActionTag
         this.methodName = DEFAULT_METHOD_NAME;
     }
 
-    public void setClass(String className)
+    public void setClassName(String className)
     {
         this.className = className;
     }
