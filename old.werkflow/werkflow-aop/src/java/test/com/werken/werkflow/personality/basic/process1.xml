@@ -7,6 +7,12 @@
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
 
+<!--
+<sequence>
+  <jelly:log message="foo"/>
+</sequence>
+-->
+
 <message-types>
     <message-type id="str.msg">
         <java:selector type="java.lang.String"/> 
@@ -15,7 +21,9 @@
 
 <sequence>
     <jelly:log message="before receive"/>
-    <receive type="str.msg"/>
+    <receive type="str.msg">
+        <jelly:log message="received ${message} foo"/>
+    </receive>
     <jelly:log message="after receive"/>
 </sequence>
 

@@ -191,6 +191,8 @@ class ActivityManager
                             
                             Transition nextTrans = enabledTrans[0];
 
+                            System.err.println( "next trans: " + nextTrans.getId() );
+
                             fire( processCase,
                                   nextTrans );
                         }
@@ -219,6 +221,8 @@ class ActivityManager
                          Transition transition)
         throws VerificationException
     {
+        System.err.println( "verify: " + transition.getId() );
+
         Map otherAttrs = new HashMap();
 
         Transition[] enabledTrans = processCase.getEnabledTransitions();
@@ -228,6 +232,8 @@ class ActivityManager
             if ( enabledTrans[i] == transition )
             {
                 Waiter waiter = transition.getWaiter();
+                
+                System.err.println( " waiter: " + waiter );
 
                 if ( waiter != null )
                 {
@@ -277,6 +283,8 @@ class ActivityManager
                             {
                                 Object message = getEngine().consumeMessage( processCase,
                                                                              transition );
+
+                                System.err.println( "consuming: " + message + " for " + transition.getId() );
 
                                 otherAttrs.put( msgWaiter.getBindingVar(),
                                                 message );

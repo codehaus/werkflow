@@ -112,6 +112,16 @@ public class IdiomImplTag
 
         Idiom current = currentIdiom();
 
+        if ( current != null )
+        {
+            if ( current.getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_NONE 
+                 ||
+                 current.getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_ONE_ACTION )
+            {
+                throw new JellyTagException( "not allowed within parent" );
+            }
+        }
+
         if ( current == null )
         {
             this.idiom = getIdiomDefinition().newIdiom();
@@ -221,19 +231,40 @@ public class IdiomImplTag
     public void receiveAction(Action action)
         throws JellyTagException
     {
-        try
+        if ( getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_NONE )
         {
-            Idiom actionIdiom = this.idiom.addComponent( IdiomDefinition.ACTION );
-            
-            actionIdiom.setParameter( "action",
-                                      action );
-            
-            actionIdiom.build();
-            actionIdiom.complete();
+            throw new JellyTagException( "action not allowed within this context" );
         }
-        catch (Exception e)
+
+        System.err.println( "ACTION received by " + getIdiomDefinition().getId() );
+
+        if ( getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_ONE_ACTION )
         {
-            throw new JellyTagException( e );
+            try
+            {
+                System.err.println( "ADD ACTION" );
+                this.idiom.addAction( action );
+            }
+            catch (IdiomException e)
+            {
+                throw new JellyTagException( e );
+            }
+        }
+        else
+        {
+            System.err.println( "ADD COMPONENT ACTION" );
+            try
+            {
+                Idiom actionIdiom = this.idiom.addComponent( IdiomDefinition.ACTION_IDIOM );
+                
+                actionIdiom.build();
+                actionIdiom.addAction( action );
+                actionIdiom.complete();
+            }
+            catch (IdiomException e)
+            {
+                throw new JellyTagException( e );
+            }
         }
     }
 

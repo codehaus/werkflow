@@ -12,6 +12,7 @@ public class MessageTag
 {
     private String type;
     private String correlator;
+    private String var;
 
     public MessageTag()
     {
@@ -38,6 +39,16 @@ public class MessageTag
         return this.correlator;
     }
 
+    public void setVar(String var)
+    {
+        this.var = var;
+    }
+
+    public String getVar()
+    {
+        return this.var;
+    }
+
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
@@ -56,8 +67,8 @@ public class MessageTag
         invokeBody( output );
 
         MessageWaiterDefinition msgWaiter = new MessageWaiterDefinition( getType(),
-                                                                         getCorrelator() );
-
+                                                                         getCorrelator(),
+                                                                         getVar() );
         tag.setWaiter( msgWaiter );
     }
 }
