@@ -53,6 +53,7 @@ import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
+import com.werken.werkflow.jelly.JellyUtil;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
@@ -95,7 +96,7 @@ public class FundamentalDefinitionLoader
         throws Exception
     {
         XMLParser    parser  = new XMLParser();
-        JellyContext context = new JellyContext();
+        JellyContext context = JellyUtil.newJellyContext();
 
         context.registerTagLibrary( FundamentalTagLibrary.NS_URI,
                                     new FundamentalTagLibrary() );

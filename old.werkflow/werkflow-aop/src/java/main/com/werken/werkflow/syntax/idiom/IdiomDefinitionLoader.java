@@ -2,6 +2,7 @@ package com.werken.werkflow.syntax.idiom;
 
 import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.jelly.JellyUtil;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
@@ -23,7 +24,7 @@ public class IdiomDefinitionLoader
     public IdiomDefinition[] load(URL url)
         throws IOException, Exception
     {
-        JellyContext context = new JellyContext();
+        JellyContext context = JellyUtil.newJellyContext();
 
         context.registerTagLibrary( IdiomTagLibrary.NAMESPACE_URI,
                                     new IdiomTagLibrary() );
