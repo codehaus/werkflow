@@ -49,7 +49,7 @@ class Evaluator
 
         return workItems;
     }
-    
+
     private List evaluate(CoreChangeSet changeSet,
                           CoreProcessCase processCase,
                           Transition transition)
@@ -131,7 +131,7 @@ class Evaluator
         */
 
         Correlation[] correlations = processCase.getCorrelations( transition.getId() );
-        
+
         for ( int i = 0 ; i < correlations.length ; ++i )
         {
             workItems.add( new CoreWorkItem( processCase,
@@ -152,13 +152,13 @@ class Evaluator
             try
             {
                 Place place = getPlace( tokens[i] );
-                
+
                 Arc[] arcs = place.getArcsToTransitions();
-                
+
                 for ( int j = 0 ; j < arcs.length ; ++j )
                 {
                     Transition trans = arcs[j].getTransition();
-                    
+
                     if ( ! potentials.contains( trans ) )
                     {
                         potentials.add( trans );

@@ -53,7 +53,7 @@ public class DefaultNetTest
         throws Exception
     {
         DefaultNet net = new DefaultNet();
-        
+
         DefaultTransition transition = net.addTransition( "the transition" );
 
         assertSame( transition,

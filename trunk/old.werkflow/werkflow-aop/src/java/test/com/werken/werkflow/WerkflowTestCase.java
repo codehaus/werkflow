@@ -74,5 +74,5 @@ public class WerkflowTestCase
     {
         System.err.println( message + ": " + Arrays.asList( array ) );
     }
-       
+
 }

@@ -25,7 +25,7 @@ public class Syntax
         this( namespaceUri,
               new DynamicTagLibrary() );
     }
-                  
+
     public String getNamespaceUri()
     {
         return this.namespaceUri;

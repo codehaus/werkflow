@@ -60,7 +60,7 @@ public class ConnectednessVerifier
                     knownConnected,
                     path );
     }
-    
+
     protected boolean ensurePath(Place in,
                                  Place out,
                                  Set knownConnected,
@@ -90,12 +90,12 @@ public class ConnectednessVerifier
             if ( ! currentPath.contains( eachAfter ) )
             {
                 currentPath.addLast( eachAfter );
-                
+
                 boolean result = ensurePath( in,
                                              out,
                                              knownConnected,
                                              currentPath );
-                
+
                 currentPath.removeLast();
 
                 if ( result )

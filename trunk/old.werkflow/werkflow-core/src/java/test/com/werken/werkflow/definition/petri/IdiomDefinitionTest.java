@@ -54,7 +54,7 @@ public class IdiomDefinitionTest
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
                                                         "idiom",
                                                         IdiomDefinition.CONTAINS_NONE );
-        
+
         PlaceDefinition placeDef = new PlaceDefinition( "place",
                                                         "place" );
 
@@ -151,7 +151,7 @@ public class IdiomDefinitionTest
     {
         IdiomDefinition parentDef = new IdiomDefinition( "uri",
                                                         "parent",
-                                                         IdiomDefinition.CONTAINS_MULTI_COMPONENTS ); 
+                                                         IdiomDefinition.CONTAINS_MULTI_COMPONENTS );
 
         parentDef.addPlace( new PlaceDefinition( "head",
                                                  "head" ) );
@@ -172,7 +172,7 @@ public class IdiomDefinitionTest
 
         IdiomDefinition childDef = new IdiomDefinition( "uri",
                                                         "child",
-                                                        IdiomDefinition.CONTAINS_NONE ); 
+                                                        IdiomDefinition.CONTAINS_NONE );
 
         childDef.addTransition( new TransitionDefinition( "trans",
                                                           "trans" ) );
@@ -184,7 +184,7 @@ public class IdiomDefinitionTest
         childDef.addArc( ArcDefinition.newArcFromTransitionToPlace( "trans",
                                                                     "out",
                                                                     "" ) );
-                         
+
         Idiom parentIdiom = parentDef.newIdiom();
 
         parentIdiom.build();

@@ -30,7 +30,7 @@ class CoreActionInvocation
         // action acts in isolation.  Changes to the case
         // attributes are only loaded back upon successfully
         // completion, and within the token-producing tx.
-        
+
         this.caseAttrs  = new SimpleAttributes( processCase );
         this.otherAttrs = new SimpleAttributes( otherAttrsMap );
 

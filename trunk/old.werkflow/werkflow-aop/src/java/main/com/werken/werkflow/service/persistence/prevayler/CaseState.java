@@ -1,7 +1,7 @@
 /*
  * Created on Apr 7, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -22,7 +22,7 @@ import com.werken.werkflow.service.persistence.CaseTransfer;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 class CaseState implements CaseTransfer
@@ -32,7 +32,7 @@ class CaseState implements CaseTransfer
         _id = caseId;
         _tokens = new SyncSet(new HashSet(), new WriterPreferenceReadWriteLock());
         _attributes = new ConcurrentHashMap();
-        
+
         Iterator attributeIterator = attributes.entrySet().iterator();
         while (attributeIterator.hasNext())
         {

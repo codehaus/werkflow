@@ -34,7 +34,7 @@ class Scheduler
         ChangeSetSource changeSetSource = processCase.getChangeSetSource();
 
         List activities = new ArrayList();
-        
+
         synchronized ( changeSetSource )
         {
             CoreChangeSet changeSet = changeSetSource.newChangeSet();
@@ -42,7 +42,7 @@ class Scheduler
             synchronized ( processCase )
             {
                 CoreWorkItem[] workItems = processCase.evaluate( changeSet );
-                
+
                 for ( int i = 0 ; i < workItems.length ; ++i )
                 {
                     CoreActivity activity = workItems[i].satisfy( changeSet );

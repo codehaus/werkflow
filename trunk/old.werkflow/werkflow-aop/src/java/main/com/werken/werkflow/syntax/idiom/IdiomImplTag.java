@@ -114,7 +114,7 @@ public class IdiomImplTag
 
         if ( current != null )
         {
-            if ( current.getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_NONE 
+            if ( current.getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_NONE
                  ||
                  current.getIdiomDefinition().getContainsType() == IdiomDefinition.CONTAINS_ONE_ACTION )
             {
@@ -146,22 +146,22 @@ public class IdiomImplTag
         try
         {
             this.idiom.build();
-            
+
             pushIdiom( this.idiom );
 
             MiscTagSupport.pushObject( ActionReceptor.class,
                                        this,
                                        getContext() );
-            
+
             invokeBody( output );
 
             MiscTagSupport.popObject( ActionReceptor.class,
                                       getContext() );
-            
+
             popIdiom();
 
             this.idiom.complete();
-            
+
         }
         catch (IdiomException e)
         {
@@ -249,7 +249,7 @@ public class IdiomImplTag
             try
             {
                 Idiom actionIdiom = this.idiom.addComponent( IdiomDefinition.ACTION_IDIOM );
-                
+
                 actionIdiom.build();
                 actionIdiom.addAction( action );
                 actionIdiom.complete();

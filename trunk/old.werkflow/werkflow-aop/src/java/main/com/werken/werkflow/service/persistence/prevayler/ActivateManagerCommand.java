@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -13,7 +13,7 @@ import com.werken.werkflow.AttributeDeclaration;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ActivateManagerCommand extends TransactionWithQuery
@@ -38,10 +38,10 @@ public class ActivateManagerCommand extends TransactionWithQuery
       {
           throw new IllegalArgumentException("This command operates on a ProcessStore PrevalentSystem.");
       }
-      
+
       ProcessStore store = (ProcessStore) prevalentSystem;
       ProcessState state = store.activateManager(_package, _process, _attributes);
-          
+
       return state;
     }
 }

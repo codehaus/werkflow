@@ -6,7 +6,7 @@ import com.werken.werkflow.service.messaging.Message;
 class CoreActivity
 {
     static final CoreActivity[] EMPTY_ARRAY = new CoreActivity[0];
-    
+
     private CoreWorkItem workItem;
     private Message message;
 

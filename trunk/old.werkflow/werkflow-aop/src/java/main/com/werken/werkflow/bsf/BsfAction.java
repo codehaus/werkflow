@@ -87,7 +87,7 @@ public class BsfAction
 
             BsfUtil.unpopulate( this.manager,
                                 caseAttrs );
-            
+
             BsfUtil.unpopulate( this.manager,
                                 otherAttrs );
         }

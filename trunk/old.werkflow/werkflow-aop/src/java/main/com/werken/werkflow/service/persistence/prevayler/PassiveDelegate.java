@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -15,7 +15,7 @@ import com.werken.werkflow.service.persistence.PersistenceException;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 class PassiveDelegate implements MethodDelegate
@@ -34,7 +34,7 @@ class PassiveDelegate implements MethodDelegate
     public boolean hasCase(String caseId)
     {
         // -- @todo should this be an exception ?
-        return false; 
+        return false;
     }
 
     /**

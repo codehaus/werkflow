@@ -58,7 +58,7 @@ public class BasicPersonalityTest
 
         SimpleAttributes attrs = new SimpleAttributes();
 
-        
+
         /*
         runtime.newProcessCase( "my.proc1",
                                 attrs );

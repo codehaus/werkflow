@@ -36,7 +36,7 @@ public class CoreCompletionTest
 
         CoreCompletion completion = new CoreCompletion( completer,
                                                         activity );
-        
+
         Throwable error = new Throwable();
 
         completion.completeWithError( error );
