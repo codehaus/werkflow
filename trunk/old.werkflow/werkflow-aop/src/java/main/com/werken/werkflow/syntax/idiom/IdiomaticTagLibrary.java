@@ -5,6 +5,7 @@ import com.werken.werkflow.definition.petri.IdiomDefinitionLibrary;
 
 import org.apache.commons.jelly.Tag;
 import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.expression.ExpressionFactory;
 import org.apache.commons.jelly.impl.DynamicTagLibrary;
 
 import org.xml.sax.Attributes;
@@ -15,6 +16,7 @@ public class IdiomaticTagLibrary
     public static final String NAMESPACE_URI = "werkflow:idiomatic";
 
     private IdiomDefinition[] idiomDefs;
+    private ExpressionFactory exprFactory;
 
     public IdiomaticTagLibrary(IdiomDefinitionLibrary idiomDefLib)
     {
@@ -49,5 +51,15 @@ public class IdiomaticTagLibrary
         System.err.println( "register tag: " + idiomDef.getId() );
         registerBeanTag( idiomDef.getId(),
                          new IdiomTagFactory( idiomDef ) );
+    }
+
+    public void setExpressionFactory(ExpressionFactory exprFactory)
+    {
+        this.exprFactory = exprFactory;
+    }
+
+    public ExpressionFactory getExpressionFactory()
+    {
+        return this.exprFactory;
     }
 }

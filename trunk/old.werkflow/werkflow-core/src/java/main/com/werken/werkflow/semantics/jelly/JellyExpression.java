@@ -61,7 +61,7 @@ import org.apache.commons.jelly.expression.Expression;
  *  @version $Id$
  */
 public class JellyExpression
-    implements com.werken.werkflow.definition.Expression
+    implements com.werken.werkflow.expr.Expression
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -101,7 +101,7 @@ public class JellyExpression
 
     /** @see com.werken.werkflow.definition.petri.Expression
      */
-    public boolean evaluate(Attributes attrs)
+    public boolean evaluateAsBoolean(Attributes attrs)
         throws Exception
     {
         String[] attrNames = attrs.getAttributeNames();

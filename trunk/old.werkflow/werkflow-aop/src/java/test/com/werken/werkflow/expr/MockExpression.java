@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package com.werken.werkflow.expr;
 
 import com.werken.werkflow.Attributes;
 
@@ -13,7 +13,7 @@ public class MockExpression
         this.result = result;
     }
 
-    public boolean evaluate(Attributes attributes)
+    public boolean evaluateAsBoolean(Attributes attributes)
         throws Exception
     {
         this.attributes = attributes;

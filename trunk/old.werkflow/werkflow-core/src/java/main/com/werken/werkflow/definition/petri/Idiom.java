@@ -1,6 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -88,12 +88,25 @@ public class Idiom
     {
         IdiomParameter param = getIdiomDefinition().getParameter( name );
 
+        /*
         if ( ! param.getType().isInstance( value ) )
         {
             throw new InvalidParameterTypeException( param,
                                                      value );
         }
-
+        */
+        
+        /*
+        if ( "expr".equals( param.getType() )
+             &&
+             ( ! ( value instanceof org.apache.commons.jelly.expression.Expression ) ) )
+        {
+            System.err.println( "INVLID: " + value );
+            throw new InvalidParameterTypeException( param,
+                                                     value );
+        }
+        */
+        
         this.parameters.put( name,
                              value );
     }
@@ -117,10 +130,23 @@ public class Idiom
     public void build()
         throws IdiomException
     {
+        System.err.println( getId() + " BUILD" );
+
         verify();
 
         getIdiomDefinition().buildStatic( this );
 
+        /*
+        if ( getParent() != null )
+        {
+            getParent().addComponent( this );
+        }
+        */
+    }
+
+    public void complete()
+        throws IdiomException
+    {
         if ( getParent() != null )
         {
             getParent().addComponent( this );
@@ -146,6 +172,8 @@ public class Idiom
 
     public Idiom addComponent(IdiomDefinition idiomDef)
     {
+        System.err.println( getId() + " ADD NEW COMPONENT" + idiomDef.getId() );
+
         Idiom idiom = idiomDef.newIdiom( this,
                                          this.components.size() );
         
@@ -157,6 +185,8 @@ public class Idiom
     private void addComponent(Idiom component)
         throws IdiomException
     {
+        System.err.println( getId() + " ADD COMPONENT" + component.getId() );
+
         getIdiomDefinition().addComponent( this,
                                            component );
     }
@@ -169,13 +199,13 @@ public class Idiom
     void addPlace(String id,
                   String documentation)
     {
-        System.err.println( "addPlace( " + id + " )" );
         DefaultPlace place = new DefaultPlace( id );
 
         place.setDocumentation( documentation );
 
         this.places.put( id,
                          place );
+        // System.err.println( this + " " + getId() + " PLACES ----> " + this.places.values() );
     }
 
     void removePlace(String id)
@@ -227,7 +257,6 @@ public class Idiom
     void addTransition(String id,
                        String documentation)
     {
-        System.err.println( "addTransition( " + id + " )" );
         DefaultTransition transition = new DefaultTransition( id );
 
         transition.setDocumentation( documentation );
@@ -283,7 +312,7 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
-        System.err.println( "connect p/t " + placeId + " -> " + transitionId );
+        // System.err.println( getId() + " connect p/t " + placeId + " -> " + transitionId );
 
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
@@ -301,7 +330,7 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
-        System.err.println( "connect t/p " + transitionId + " -> " + placeId );
+        // System.err.println( getId() + "connect t/p " + transitionId + " -> " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -319,7 +348,9 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
-        System.err.println( "graft input: " + placeId + " / " + component + " // " + component.getInPlace() );
+        System.err.println( getId() + " GRAFT IN " + component.getId() );
+
+        // System.err.println( this + " " + getId() + " graft input: " + placeId + " / " + component + " // " + component.getInPlace() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();
@@ -345,15 +376,18 @@ public class Idiom
             componentTransition.addInboundArc( graftArc );
         }
 
-        component.removePlace( componentIn.getId() );
+        // component.removePlace( componentIn.getId() );
     }
 
     void graftComponentOutput(Idiom component,
                               String placeId,
                               Expression expression)
     {
+        System.err.println( getId() + " GRAFT OUT " + component.getId() );
+        // System.err.println( this + " " + this + " graph out to " + placeId + " places->" + this.places.values() );
+
         DefaultPlace place = getMutablePlace( placeId );
-        
+
         DefaultPlace componentOut = component.getOutPlace();
         
         Arc[] componentArcs = componentOut.getArcsFromTransitions();
@@ -377,7 +411,7 @@ public class Idiom
             componentTransition.addOutboundArc( graftArc );
         }
 
-        component.removePlace( componentOut.getId() );
+        // component.removePlace( componentOut.getId() );
     }
 
     /*
@@ -420,8 +454,10 @@ public class Idiom
         return (String) this.stashed.get( id );
     }
 
+    /*
     public String toString()
     {
         return "[Idiom: " + getIdiomDefinition().getId() + "]";
     }
+    */
 }

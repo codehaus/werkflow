@@ -304,7 +304,7 @@ class ProcessDeployment
                 {
                     try
                     {
-                        if ( ! eachTrans.getExpression().evaluate( processCase ) )
+                        if ( ! eachTrans.getExpression().evaluateAsBoolean( processCase ) )
                         {
                             continue;
                         }

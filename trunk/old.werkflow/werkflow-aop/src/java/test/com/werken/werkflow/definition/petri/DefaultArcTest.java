@@ -1,7 +1,7 @@
 package com.werken.werkflow.definition.petri;
 
-import com.werken.werkflow.definition.Expression;
-import com.werken.werkflow.definition.MockExpression;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.MockExpression;
 
 import junit.framework.TestCase;
 

@@ -56,12 +56,12 @@ import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.NoSuchTransitionException;
 import com.werken.werkflow.definition.petri.NoSuchPlaceException;
+import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.task.Task;
 import com.werken.werkflow.work.WorkItem;
 
@@ -628,7 +628,7 @@ class ActivityManager
             {
                 try
                 {
-                    if ( ! expr.evaluate( processCase ) )
+                    if ( ! expr.evaluateAsBoolean( processCase ) )
                     {
                         continue;
                     }

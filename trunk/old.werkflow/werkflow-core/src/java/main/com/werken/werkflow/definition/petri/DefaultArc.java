@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 /** Default <code>Arc</code> implementation.
  *

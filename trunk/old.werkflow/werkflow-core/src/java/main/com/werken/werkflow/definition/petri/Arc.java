@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 /** An edge between a <code>Place</code> and an <code>Transition</code>
  *  within a Petri net.

@@ -1,6 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -152,6 +152,7 @@ public class IdiomDefinition
     protected void buildStatic(Idiom idiom)
         throws IdiomException
     {
+        System.err.println( "BUILD_STATIC: " + idiom.getId() );
         idiom.addPlace( IN_PLACE,
                         "in" );
 
@@ -214,7 +215,6 @@ public class IdiomDefinition
                 }
                 else
                 {
-                    System.err.println( "A" );
                     idiom.connectTransitionToPlace( qualifyId( arcDefs[i].getTransitionId(),
                                                                idiom ),
                                                     qualifyId( arcDefs[i].getPlaceId(),
@@ -261,7 +261,6 @@ public class IdiomDefinition
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
         {
-            System.err.println( "ARC: " + arcDefs[i] );
             if ( arcDefs[i].getTransitionId().equals( COMPONENT ) )
             {
                 String placeId = createId( arcDefs[i].getPlaceId(),
@@ -301,8 +300,6 @@ public class IdiomDefinition
                 }
                 else
                 {
-                    System.err.println( "B" );
-
                     idiom.connectTransitionToPlace( transitionId,
                                                     placeId,
                                                     expr );
@@ -327,7 +324,6 @@ public class IdiomDefinition
                 }
                 else
                 {
-                    System.err.println( "C" );
                     idiom.connectTransitionToPlace( transitionId,
                                                     placeId,
                                                     expr );
@@ -387,6 +383,7 @@ public class IdiomDefinition
         
         if ( exprStr.startsWith( PARAMETER_PREFIX ) )
         {
+            System.err.println( "[[[[[" + idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) ) + "]]]]]" );
             return (Expression) idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) );
         }
 
