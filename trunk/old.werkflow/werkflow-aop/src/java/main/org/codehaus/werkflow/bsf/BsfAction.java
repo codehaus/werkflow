@@ -55,9 +55,6 @@ import org.codehaus.werkflow.MutableAttributes;
 import org.codehaus.werkflow.work.Action;
 import org.codehaus.werkflow.work.ActionInvocation;
 
-import java.util.Map;
-import java.util.Iterator;
-
 public class BsfAction
     implements Action
 {

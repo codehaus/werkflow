@@ -52,7 +52,6 @@ import org.codehaus.werkflow.service.messaging.MessagingManager;
 import org.codehaus.werkflow.service.messaging.Registration;
 import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 import org.codehaus.werkflow.service.messaging.IncompatibleMessageSelectorException;
-import org.codehaus.werkflow.definition.Waiter;
 import org.codehaus.werkflow.definition.MessageType;
 import org.codehaus.werkflow.definition.MessageWaiter;
 import org.codehaus.werkflow.definition.petri.Transition;

@@ -46,8 +46,6 @@ package org.codehaus.werkflow.syntax;
 
  */
 
-import org.codehaus.werkflow.jelly.MiscTagSupport;
-import org.codehaus.werkflow.definition.Scope;
 import org.codehaus.werkflow.syntax.fundamental.FundamentalTagSupport;
 
 import org.apache.commons.jelly.XMLOutput;

@@ -52,7 +52,6 @@ import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.expr.Expression;
 import org.codehaus.werkflow.expr.ExpressionContext;
 import org.codehaus.werkflow.expr.AttributesExpressionContext;
-import org.codehaus.werkflow.semantics.jelly.CaseJellyContext;
 
 import java.util.Map;
 import java.util.Iterator;

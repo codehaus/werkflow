@@ -51,10 +51,6 @@ import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.JellyContext;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
-
 /** <code>JellyContext</code> for case-attributes and other-attributes.
  *
  *  <p>

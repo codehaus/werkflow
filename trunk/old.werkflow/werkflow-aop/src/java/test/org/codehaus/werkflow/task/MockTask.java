@@ -48,9 +48,6 @@ package org.codehaus.werkflow.task;
 
 import org.codehaus.werkflow.work.Action;
 
-import java.util.Set;
-import java.util.HashSet;
-
 public class MockTask
     implements Task
 {

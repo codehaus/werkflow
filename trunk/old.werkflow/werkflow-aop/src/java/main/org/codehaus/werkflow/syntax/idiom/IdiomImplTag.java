@@ -46,7 +46,6 @@ package org.codehaus.werkflow.syntax.idiom;
 
  */
 
-import org.codehaus.werkflow.expr.Expression;
 import org.codehaus.werkflow.expr.ExpressionFactory;
 import org.codehaus.werkflow.definition.petri.Net;
 import org.codehaus.werkflow.definition.petri.Idiom;
@@ -59,7 +58,6 @@ import org.codehaus.werkflow.syntax.fundamental.FundamentalTagSupport;
 import org.codehaus.werkflow.work.Action;
 import org.codehaus.werkflow.jelly.MiscTagSupport;
 
-import org.apache.commons.jelly.DynaTagSupport;
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

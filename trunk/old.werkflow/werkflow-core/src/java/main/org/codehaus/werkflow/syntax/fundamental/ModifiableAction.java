@@ -55,7 +55,6 @@ import org.apache.commons.jelly.XMLOutput;
 
 import java.util.Map;
 import java.util.Iterator;
-import java.util.Collections;
 
 /** Wrapper around any <code>Action</code> to allow modifications
  *  of the <code>otherAttributes</code>s paramater.

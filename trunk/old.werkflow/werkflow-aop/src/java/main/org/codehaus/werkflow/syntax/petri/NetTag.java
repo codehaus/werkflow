@@ -48,8 +48,6 @@ package org.codehaus.werkflow.syntax.petri;
 
 import org.codehaus.werkflow.definition.petri.Net;
 import org.codehaus.werkflow.definition.petri.DefaultNet;
-import org.codehaus.werkflow.definition.petri.DefaultPlace;
-import org.codehaus.werkflow.definition.petri.DuplicateIdException;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

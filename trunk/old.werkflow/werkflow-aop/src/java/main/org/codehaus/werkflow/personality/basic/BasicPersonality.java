@@ -46,7 +46,6 @@ package org.codehaus.werkflow.personality.basic;
 
  */
 
-import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.syntax.Syntax;
 import org.codehaus.werkflow.jelly.JellyUtil;
 
@@ -55,7 +54,6 @@ import org.codehaus.werkflow.personality.Personality;
 
 import org.apache.commons.jelly.JellyContext;
 
-import java.io.IOException;
 import java.net.URL;
 
 public class BasicPersonality

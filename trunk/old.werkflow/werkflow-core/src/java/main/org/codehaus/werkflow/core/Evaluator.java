@@ -46,7 +46,6 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.definition.Waiter;
 import org.codehaus.werkflow.definition.MessageWaiter;
 import org.codehaus.werkflow.definition.petri.Arc;

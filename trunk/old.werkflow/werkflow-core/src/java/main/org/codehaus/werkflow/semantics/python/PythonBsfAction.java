@@ -46,7 +46,6 @@ package org.codehaus.werkflow.semantics.python;
 
  */
 
-import org.codehaus.werkflow.bsf.BeanShellBSFEngine;
 import org.codehaus.werkflow.bsf.BsfAction;
 
 import org.apache.bsf.BSFException;

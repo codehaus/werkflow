@@ -46,8 +46,6 @@ package org.codehaus.werkflow.definition.petri;
 
  */
 
-import org.codehaus.werkflow.definition.Waiter;
-
 public class TransitionDefinition
 {
     public static final TransitionDefinition[] EMPTY_ARRAY = new TransitionDefinition[0];

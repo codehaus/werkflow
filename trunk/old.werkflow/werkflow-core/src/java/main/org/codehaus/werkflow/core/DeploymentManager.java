@@ -54,7 +54,6 @@ import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.service.messaging.MessagingManager;
 import org.codehaus.werkflow.service.persistence.PersistenceManager;
 import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
-import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.Map;
 import java.util.HashMap;

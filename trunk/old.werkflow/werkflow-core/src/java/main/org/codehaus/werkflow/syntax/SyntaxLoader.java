@@ -54,9 +54,7 @@ import org.codehaus.werkflow.syntax.petri.PetriTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
-import org.apache.commons.jelly.TagLibrary;
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.impl.DynamicTagLibrary;
 import org.apache.commons.jelly.parser.XMLParser;
 
 import java.io.IOException;

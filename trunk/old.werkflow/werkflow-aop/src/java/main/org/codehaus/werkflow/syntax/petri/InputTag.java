@@ -46,7 +46,6 @@ package org.codehaus.werkflow.syntax.petri;
 
  */
 
-import org.codehaus.werkflow.expr.ExpressionFactory;
 import org.codehaus.werkflow.definition.petri.DefaultNet;
 import org.codehaus.werkflow.definition.petri.DefaultArc;
 import org.codehaus.werkflow.definition.petri.DefaultTransition;

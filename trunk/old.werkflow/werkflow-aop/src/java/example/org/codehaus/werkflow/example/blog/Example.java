@@ -46,8 +46,6 @@ package org.codehaus.werkflow.example.blog;
 
  */
 
-import org.codehaus.werkflow.Wfms;
-import org.codehaus.werkflow.SimpleAttributes;
 import org.codehaus.werkflow.example.BaseExample;
 
 public class Example

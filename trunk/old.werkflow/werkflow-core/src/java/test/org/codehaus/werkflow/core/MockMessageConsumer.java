@@ -46,8 +46,6 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.definition.petri.Transition;
-
 import org.codehaus.werkflow.service.messaging.Message;
 import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 

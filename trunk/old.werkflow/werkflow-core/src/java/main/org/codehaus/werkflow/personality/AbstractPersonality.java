@@ -51,7 +51,6 @@ import org.codehaus.werkflow.jelly.MiscTagSupport;
 import org.codehaus.werkflow.jelly.JellyUtil;
 import org.codehaus.werkflow.syntax.Syntax;
 import org.codehaus.werkflow.syntax.SyntaxLoader;
-import org.codehaus.werkflow.syntax.fundamental.FundamentalTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;

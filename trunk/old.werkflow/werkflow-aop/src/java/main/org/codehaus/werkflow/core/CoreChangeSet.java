@@ -46,16 +46,10 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.service.messaging.Message;
 import org.codehaus.werkflow.service.persistence.ChangeSet;
 import org.codehaus.werkflow.service.persistence.CaseTransfer;
-import org.codehaus.werkflow.service.persistence.CorrelationTransfer;
-import org.codehaus.werkflow.service.persistence.UncorrelatedTransfer;
-import org.codehaus.werkflow.service.persistence.ConsumptionTransfer;
 import org.codehaus.werkflow.service.persistence.PersistenceException;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 

@@ -46,8 +46,6 @@ package org.codehaus.werkflow.service.persistence.prevayler;
 
  */
 
-import java.io.Serializable;
-
 import org.prevayler.Prevayler;
 
 import org.codehaus.werkflow.Attributes;

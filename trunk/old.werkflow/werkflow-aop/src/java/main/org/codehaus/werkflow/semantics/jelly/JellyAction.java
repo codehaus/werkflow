@@ -52,8 +52,6 @@ import org.codehaus.werkflow.work.ActionInvocation;
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 
-import java.util.Map;
-
 /** Jelly-based <code>Action</code> implementation.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>

@@ -53,9 +53,7 @@ import org.codehaus.werkflow.admin.WfmsAdmin;
 import org.codehaus.werkflow.engine.WorkflowEngine;
 import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.personality.Personality;
-import org.codehaus.werkflow.service.WfmsServices;
 import org.codehaus.werkflow.service.SimpleWfmsServices;
-import org.codehaus.werkflow.service.persistence.PersistenceManager;
 import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
 

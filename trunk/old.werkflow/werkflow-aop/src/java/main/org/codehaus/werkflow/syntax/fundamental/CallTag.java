@@ -46,7 +46,6 @@ package org.codehaus.werkflow.syntax.fundamental;
 
  */
 
-import org.codehaus.werkflow.work.Action;
 import org.codehaus.werkflow.work.DefaultCallAction;
 import org.codehaus.werkflow.expr.Expression;
 
