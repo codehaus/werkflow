@@ -47,9 +47,12 @@ package com.werken.werkflow.definition.fundamental;
  */
 
 import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.expression.Expression;
 
 /** Create an input arc for a <code>Transition</code>.
  *
@@ -86,6 +89,9 @@ public class InputTag
     /** From place identifier. */
     private String from;
 
+    /** Filter expression. */
+    private Expression filterExpr;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -121,6 +127,16 @@ public class InputTag
         return this.from;
     }
 
+    public void setFilter(Expression filterExpr)
+    {
+        this.filterExpr = filterExpr;
+    }
+
+    public Expression getFilter()
+    {
+        return this.filterExpr;
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -142,10 +158,14 @@ public class InputTag
             
             DefaultNet net = process.getNet();
             
-            net.connectPlaceToTransition( getFrom(),
-                                          transition.getId() );
+            DefaultArc arc = net.connectPlaceToTransition( getFrom(),
+                                                           transition.getId() );
             
-            
+            if ( getFilter() != null )
+            {
+                arc.setExpression( new JellyExpression( getFilter() ) );
+            }
+
             invokeBody( output );
         }
         catch (Exception e)

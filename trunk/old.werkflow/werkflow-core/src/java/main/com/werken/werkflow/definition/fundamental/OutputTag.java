@@ -47,9 +47,12 @@ package com.werken.werkflow.definition.fundamental;
  */
 
 import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.expression.Expression;
 
 /** Create an output arc for a <code>Transition</code>.
  *
@@ -86,6 +89,8 @@ public class OutputTag
     /** To place identifier. */
     private String to;
 
+    private Expression testExpr;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -121,6 +126,16 @@ public class OutputTag
         return this.to;
     }
 
+    public void setTest(Expression testExpr)
+    {
+        this.testExpr = testExpr;
+    }
+
+    public Expression getTest()
+    {
+        return this.testExpr;
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -142,8 +157,13 @@ public class OutputTag
             
             DefaultNet net = process.getNet();
             
-            net.connectTransitionToPlace( transition.getId(),
-                                          getTo() );
+            DefaultArc arc = net.connectTransitionToPlace( transition.getId(),
+                                                           getTo() );
+
+            if ( getTest() != null )
+            {
+                arc.setExpression( new JellyExpression( getTest() ) );
+            }
             
             invokeBody( output );
         }
