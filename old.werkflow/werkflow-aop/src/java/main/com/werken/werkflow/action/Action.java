@@ -73,6 +73,16 @@ import java.util.Map;
  */
 public interface Action
 {
+    final static Action NOOP = new Action()
+        {
+            public void perform(Activity activity,
+                                Map caseAttrs,
+                                Map otherAttrs)
+            {
+                activity.complete();
+            }
+        };
+
     /** Perform the work.
      *
      *  @param activity The activity for which this action

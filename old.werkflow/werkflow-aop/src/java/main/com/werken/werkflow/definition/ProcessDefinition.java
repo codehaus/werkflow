@@ -49,6 +49,10 @@ package com.werken.werkflow.definition;
 import com.werken.werkflow.definition.petri.Net;
 
 import com.werken.werkflow.ProcessInfo;
+import com.werken.werkflow.AttributeDeclaration;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /** Definition of a process.
  *
@@ -76,6 +80,20 @@ public class ProcessDefinition
     /** Empty <code>ProcessDefinition</code> array. */
     public static final ProcessDefinition[] EMPTY_ARRAY = new ProcessDefinition[0];
 
+    /** Empty <code>String</code> array. */
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
+    public static final class InitiationType
+    {
+        public static final InitiationType MESSAGE = new InitiationType();
+        public static final InitiationType OTHER   = new InitiationType();
+
+        private InitiationType()
+        {
+
+        }
+    }
+
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
@@ -91,6 +109,11 @@ public class ProcessDefinition
 
     /** Message initiators, possibly empty. */
     private MessageInitiator[] messageInitiators;
+
+    private Map attrDecls;
+
+    private String[] inParameters;
+    private String[] outParameters;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -110,6 +133,11 @@ public class ProcessDefinition
         this.net = net;
 
         this.messageInitiators = messageInitiators;
+
+        this.attrDecls = new HashMap();
+
+        this.inParameters = EMPTY_STRING_ARRAY;
+        this.outParameters = EMPTY_STRING_ARRAY;
     }
 
     // ----------------------------------------------------------------------
@@ -156,5 +184,54 @@ public class ProcessDefinition
     {
         return this.messageInitiators;
     }
-}
 
+    public void addAttributeDeclaration(AttributeDeclaration attrDecl)
+    {
+        this.attrDecls.put( attrDecl.getId(),
+                            attrDecl );
+    }
+
+    public AttributeDeclaration[] getAttributeDeclarations()
+    {
+        return (AttributeDeclaration[]) this.attrDecls.values().toArray( AttributeDeclaration.EMPTY_ARRAY );
+    }
+
+    public AttributeDeclaration getAttributeDeclaration(String id)
+    {
+        return (AttributeDeclaration) this.attrDecls.get( id );
+    }
+
+    public void setInParameterNames(String[] inParameters)
+    {
+        if ( inParameters == null )
+        {
+            this.inParameters = EMPTY_STRING_ARRAY;
+        }
+        else
+        {
+            this.inParameters = inParameters;
+        }
+    }
+
+    public void setOutParameterNames(String[] outParameters)
+    {
+        if ( outParameters == null )
+        {
+            this.outParameters = EMPTY_STRING_ARRAY;
+        }
+        else
+        {
+            this.outParameters = outParameters;
+        }
+    }
+
+    public String[] getInParameterNames()
+    {
+        return this.inParameters;
+    }
+
+    public String[] getOutParameterNames()
+    {
+        return this.outParameters;
+    }
+}
