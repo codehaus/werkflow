@@ -268,4 +268,18 @@ public class WorkflowProcessCase
 
         return caseAttrs;
     }
+
+    void mergeCaseAttributes(Map attrs)
+    {
+        Iterator nameIter = attrs.keySet().iterator();
+        String   eachName = null;
+
+        while ( nameIter.hasNext() )
+        {
+            eachName = (String) nameIter.next();
+
+            setAttribute( eachName,
+                          attrs.get( eachName ) );
+        }
+    }
 }
