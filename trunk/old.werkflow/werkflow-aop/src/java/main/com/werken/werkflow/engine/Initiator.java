@@ -2,6 +2,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.SimpleAttributes;
 import com.werken.werkflow.NoSuchProcessException;
+import com.werken.werkflow.action.Action;
 import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.service.messaging.Message;
@@ -97,8 +98,33 @@ public class Initiator
             try
             {
                 registration.consumeMessage( message.getId() );
+
+                Map caseAttrs = new HashMap();
+                Map otherAttrs = new HashMap();
+
+                Action action = initiator.getAction();
+
+                if ( action != null )
+                {
+                    otherAttrs.put( initiator.getBindingVar(),
+                                    message.getMessage() );
+
+                    InitiatorActivity activity = new InitiatorActivity();
+
+                    try
+                    {
+                        action.perform( activity,
+                                        caseAttrs,
+                                        otherAttrs );
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+
                 
-                SimpleAttributes initialAttrs = new SimpleAttributes();
+                SimpleAttributes initialAttrs = new SimpleAttributes( caseAttrs );
 
                 /*
                 attrs.setAttribute( initiator.getBindingVar(),

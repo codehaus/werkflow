@@ -26,7 +26,6 @@ public class JellyAction
     public void perform(Activity activity,
                         Map caseAttrs,
                         Map otherAttrs)
-        throws Exception
     {
         try
         {

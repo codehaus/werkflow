@@ -35,14 +35,20 @@ public class ModifiableAction
     public void perform(Activity activity,
                         Map caseAttrs,
                         Map otherAttrs)
-        throws Exception
     {
-        Map modifiedOtherAttrs = getModifiedOtherAttributes( caseAttrs,
-                                                             otherAttrs );
-
-        getAction().perform( activity,
-                             Collections.unmodifiableMap( caseAttrs ),
-                             modifiedOtherAttrs );
+        try
+        {
+            Map modifiedOtherAttrs = getModifiedOtherAttributes( caseAttrs,
+                                                                 otherAttrs );
+            
+            getAction().perform( activity,
+                                 Collections.unmodifiableMap( caseAttrs ),
+                                 modifiedOtherAttrs );
+        }
+        catch (Exception e)
+        {
+            activity.completeWithError( e );
+        }
     }
 
     public Map getModifiedOtherAttributes(Map caseAttrs,

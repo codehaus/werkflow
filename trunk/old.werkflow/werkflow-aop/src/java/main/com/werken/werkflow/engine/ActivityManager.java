@@ -136,10 +136,12 @@ public class ActivityManager
         }
     }
 
-    protected void verify(WorkflowProcessCase processCase,
+    protected Map verify(WorkflowProcessCase processCase,
                           Transition transition)
         throws VerificationException
     {
+        Map otherAttrs = new HashMap();
+
         Transition[] enabledTrans = processCase.getEnabledTransitions();
 
         for ( int i = 0 ; i < enabledTrans.length ; ++i )
@@ -155,8 +157,8 @@ public class ActivityManager
                         Object message = getEngine().consumeMessage( processCase,
                                                                      transition );
                         
-                        processCase.setAttribute( waiter.getBindingVar(),
-                                                  message );
+                        otherAttrs.put( waiter.getBindingVar(),
+                                        message );
                     }
                     catch (NoSuchCorrelationException e)
                     {
@@ -172,6 +174,17 @@ public class ActivityManager
                 }
             }
         }
+
+        otherAttrs.put( "processId",
+                        processCase.getProcessInfo().getId() );
+
+        otherAttrs.put( "caseId",
+                        processCase.getId() );
+
+        otherAttrs.put( "transitionId",
+                        transition.getId() );
+
+        return otherAttrs;
     }
 
     protected String[] satisfy(WorkflowProcessCase processCase,
@@ -188,15 +201,16 @@ public class ActivityManager
         {
             try
             {
-                verify( processCase,
-                        transition);
+                Map otherAttrs = verify( processCase,
+                                         transition);
                 
                 String[] placeIds = satisfy( processCase,
                                              transition );
                 
                 return fire( processCase,
                              transition,
-                             placeIds );
+                             placeIds,
+                             otherAttrs );
             }
             catch (VerificationException e)
             {
@@ -230,7 +244,8 @@ public class ActivityManager
 
     protected Activity fire(WorkflowProcessCase processCase,
                             Transition transition,
-                            String[] placeIds)
+                            String[] placeIds,
+                            Map otherAttrs)
     {
         Task task = transition.getTask();
 
@@ -249,7 +264,8 @@ public class ActivityManager
         {
             fire( activity,
                   processCase,
-                  task );
+                  task,
+                  otherAttrs );
         }
             
         try
@@ -267,31 +283,14 @@ public class ActivityManager
 
     protected void fire(WorkflowActivity activity,
                         WorkflowProcessCase processCase,
-                        Task task)
+                        Task task,
+                        Map otherAttrs)
     {
         Action action = task.getAction();
 
-        Map otherAttrs = new HashMap();
-
-        otherAttrs.put( "transitionId",
-                        activity.getTransitionId() );
-
-        otherAttrs.put( "caseId",
-                        processCase.getId() );
-
-        try
-        {
-            action.perform( activity,
-                            activity.getCaseAttributes(),
-                            otherAttrs );
-
-            activity.complete();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            activity.completeWithError( e );
-        }
+        action.perform( activity,
+                        activity.getCaseAttributes(),
+                        otherAttrs );
     }
 
 
