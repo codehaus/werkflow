@@ -8,7 +8,10 @@ package com.werken.werkflow.service.persistence.prevayler;
 
 import java.io.IOException;
 
+import org.prevayler.implementation.SnapshotManager;
 import org.prevayler.implementation.SnapshotPrevayler;
+import org.prevayler.implementation.TransactionPublisher;
+import org.prevayler.implementation.log.TransactionLogger;
 
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.admin.DeploymentException;
@@ -39,6 +42,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
     private String _storePath;
     private boolean _snapOnStop;
+    private TransactionPublisher _transactionPublisher;
 
     public void setSnapOnStop(boolean snapOnStop)
     {
@@ -58,6 +62,11 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     public void setStorePath(String storePath)
     {
         _storePath = storePath;
+    }
+    
+    public void setTransactionPublisher(TransactionPublisher publisher)
+    {
+        _transactionPublisher = publisher;
     }
 
     /**
@@ -183,8 +192,13 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     private synchronized void start() throws IOException, ClassNotFoundException
     {
         checkConfig();
-
-        _prevayler = new SnapshotPrevayler(new ProcessStore(), _storePath);
+        
+        TransactionPublisher publisher = 
+            null == _transactionPublisher
+                ? new TransactionLogger(_storePath)
+                : _transactionPublisher;
+        
+        _prevayler = new SnapshotPrevayler(new ProcessStore(), new SnapshotManager(_storePath), publisher);
     }
 
     private synchronized void stop() throws IOException
