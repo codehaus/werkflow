@@ -11,17 +11,9 @@ public class ConditionalSegment
     private Expression condition;
     private Segment bodySegment;
 
-    public ConditionalSegment(Expression condition,
-                              Segment bodySegment)
-    {
-        this.condition   = condition;
-        this.bodySegment = bodySegment;
-    }
-
     public ConditionalSegment(Expression condition)
     {
         this.condition   = condition;
-        this.bodySegment = new SequenceSegment();
     }
 
     protected Segment getBodySegment()
@@ -32,7 +24,7 @@ public class ConditionalSegment
     public void addSegment(Segment segment)
         throws UnsupportedIdiomException
     {
-        this.bodySegment.addSegment( segment );
+        this.bodySegment = segment;
     }
 
     public DefaultPlace append(DefaultPlace in,

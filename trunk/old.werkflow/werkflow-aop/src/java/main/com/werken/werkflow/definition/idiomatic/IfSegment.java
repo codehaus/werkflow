@@ -13,15 +13,13 @@ import java.util.Iterator;
 public class IfSegment
     extends ConditionalSegment
 {
-    public IfSegment(Expression condition,
-                     Segment segment)
+    public IfSegment(Expression condition)
     {
-        super( condition,
-               segment );
+        super( condition );
     }
 
-    public DefaultPlace build(DefaultPlace in,
-                              NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
         DefaultPlace out = super.append( in,
