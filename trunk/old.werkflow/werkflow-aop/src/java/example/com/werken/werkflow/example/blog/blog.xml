@@ -99,7 +99,7 @@
         </attributes>
     
         <sequence>
-            <jelly:log message="publishing ${title}"/>
+            <jelly:log message="publishing ${title} by ${author}"/>
         </sequence>
     </process>
 
@@ -115,7 +115,7 @@
         </attributes>
     
         <sequence>
-            <jelly:log message="rejecting ${title}"/>
+            <jelly:log message="rejecting ${title} by ${author}"/>
         </sequence>
     </process>
 
