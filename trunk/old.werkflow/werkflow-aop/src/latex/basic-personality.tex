@@ -319,7 +319,7 @@ the body may also contain a \emph{correlator} such as
 
 \begin{codelisting}
 \hired{<receive type="some.message">}
-    <jexl:correlator test="\$\{message.someProp == someCaseAttr\}"
+    <jexl:correlator test="message.someProp == someCaseAttr"/>
     <jelly:action>
         <j:set var="caseAttrOne" value="\$\{message.propOne\}"/>
         <j:set var="caseAttrTwo" value="\$\{message.propTwo\}"/>
