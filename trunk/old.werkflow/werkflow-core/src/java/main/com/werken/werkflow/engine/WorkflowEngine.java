@@ -62,6 +62,7 @@ import com.werken.werkflow.admin.ProcessVerificationException;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Transition;
+import com.werken.werkflow.event.WfmsEventListener;
 import com.werken.werkflow.log.Log;
 import com.werken.werkflow.log.SimpleLog;
 import com.werken.werkflow.service.WfmsServices;
@@ -591,5 +592,10 @@ public class WorkflowEngine
         
         return deployment.consumeMessage( processCase.getId(),
                                           transition );
+    }
+
+    void addEventListener(WfmsEventListener listener)
+    {
+
     }
 }

@@ -47,6 +47,7 @@ package com.werken.werkflow.admin;
  */
 
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.event.WfmsEventListener;
 
 /** The administrative interface to the workflow management system.
  *
@@ -74,4 +75,6 @@ public interface WfmsAdmin
      */
     void deployProcess(ProcessDefinition processDef)
         throws ProcessException;
+
+    void addEventListener(WfmsEventListener listener);
 }
