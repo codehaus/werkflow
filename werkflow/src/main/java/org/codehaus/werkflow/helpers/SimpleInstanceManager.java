@@ -19,6 +19,12 @@ public class SimpleInstanceManager
 {
     private Map instances;
 
+    public SimpleInstanceManager()
+    {
+        instances = new HashMap();
+    }
+
+
     public RobustInstance newInstance(Workflow workflow,
                                       String id,
                                       InitialContext initialContext)

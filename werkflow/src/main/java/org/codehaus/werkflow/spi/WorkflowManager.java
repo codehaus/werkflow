@@ -5,6 +5,8 @@ import org.codehaus.werkflow.NoSuchWorkflowException;
 
 public interface WorkflowManager
 {
+    void addWorkflow(Workflow workflow);
+    
     Workflow getWorkflow(String id)
         throws NoSuchWorkflowException;
 

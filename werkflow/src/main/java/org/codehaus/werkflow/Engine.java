@@ -33,10 +33,17 @@ public class Engine
 
     public void start()
     {
+        System.out.println("Starting engine");
         this.threadPool.start();
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    public void stop()
+    {
+        System.out.println("Stopping engine");
+        this.threadPool.stop();
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     public void setPersistenceManager(PersistenceManager persistenceManager)
