@@ -24,16 +24,16 @@
 
   <mailingLists>
     <mailingList>
-      <name>werkflow interest</name>
-      <archive>http://lists.codehaus.org/pipermail/werkflow-interest/</archive>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-interest</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-interest</unsubscribe>
+      <name>werkflow users</name>
+      <archive>http://lists.codehaus.org/pipermail/werkflow-user/</archive>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-user</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-user</unsubscribe>
     </mailingList>
     <mailingList>
       <name>werkflow cvs messages</name>
-      <archive>http://lists.codehaus.org/pipermail/werkflow-cvs/</archive>
-      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-cvs</subscribe>
-      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-cvs</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/werkflow-scm/</archive>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-scm</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-scm</unsubscribe>
     </mailingList>
     <mailingList>
       <name>general workflow discussion</name>
@@ -227,7 +227,7 @@
   </dependencies>
 
   <build>
-    <nagEmailAddress>werkflow-cvs@lists.codehaus.org</nagEmailAddress>
+    <nagEmailAddress>werkflow-scm@lists.codehaus.org</nagEmailAddress>
     <sourceDirectory>src/java/main</sourceDirectory>
     <unitTestSourceDirectory>src/java/test</unitTestSourceDirectory>
     <aspectSourceDirectory/>
