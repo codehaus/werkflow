@@ -1,0 +1,25 @@
+<process xmlns="werkflow:idiomatic"
+         xmlns:jelly="werkflow;jelly"
+         id="fortytwo">
+
+  <message-initiator id="theMsg" type="number.msg">
+    <jelly:action>
+      <j:set var="theNumber" value="${theMsg}"/>
+    </jelly:action>
+  </message-initiator>
+
+  <sequence>
+    <switch>
+      <case condition="${theNumber == 42}">
+        <jelly:action>
+          ${theNumber} is 42
+        </jelly:action>
+      </case>
+      <otherwise>
+        <jelly:action>
+          ${theNumber} is not 42
+        </jelly:action>
+      </otherwise>
+  </sequence>
+
+</process>
