@@ -57,7 +57,7 @@
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>
                         </receive>
-                        <call process="publish">
+                        <call id="publish">
                             <in id="author" value="author"/>
                             <in id="title" value="title"/>
                         </call>
@@ -74,7 +74,7 @@
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>
     
-                            <call process="reject">
+                            <call id="reject">
                                 <in id="author" value="author"/>
                                 <in id="title" value="title"/>
                             </call>
