@@ -7,6 +7,10 @@ public class Bpel4wsTagLibrary
 {
     public Bpel4wsTagLibrary()
     {
+        registerTag( "sequence",
+                     SequenceTag.class );
 
+        registerTag( "flow",
+                     FlowTag.class );
     }
 }
