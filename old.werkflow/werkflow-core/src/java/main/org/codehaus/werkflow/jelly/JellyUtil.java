@@ -48,7 +48,6 @@ package org.codehaus.werkflow.jelly;
 
 import org.codehaus.werkflow.semantics.jelly.JellyTagLibrary;
 import org.codehaus.werkflow.semantics.java.JavaTagLibrary;
-import org.codehaus.werkflow.semantics.jexl.JexlTagLibrary;
 import org.codehaus.werkflow.semantics.ognl.OgnlTagLibrary;
 import org.codehaus.werkflow.semantics.python.PythonTagLibrary;
 import org.codehaus.werkflow.syntax.petri.PetriTagLibrary;
@@ -85,9 +84,6 @@ public class JellyUtil
 
         context.registerTagLibrary( JavaTagLibrary.NS_URI,
                                     new JavaTagLibrary() );
-
-        context.registerTagLibrary( JexlTagLibrary.NS_URI,
-                                    new JexlTagLibrary() );
 
         context.registerTagLibrary( OgnlTagLibrary.NS_URI,
                                     new OgnlTagLibrary() );
