@@ -8,6 +8,8 @@ public interface WfmsEventListener
     void processDeployed(ProcessDeployedEvent event);
     void processUndeployed(ProcessUndeployedEvent event);
 
+    void caseInitiated(CaseInitiatedEvent event);
+
     void tokensProduced(TokensProducedEvent event);
     void tokensConsumed(TokensConsumedEvent event);
     void tokensRolledBack(TokensRolledBackEvent event);
