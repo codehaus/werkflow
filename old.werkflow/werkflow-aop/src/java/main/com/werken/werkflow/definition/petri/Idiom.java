@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Idiom
     implements Net
@@ -178,6 +179,7 @@ public class Idiom
     void addPlace(String id,
                   String documentation)
     {
+        // System.err.println( getId() + " addPlace(" + id + ")" );
         DefaultPlace place = new DefaultPlace( id );
 
         place.setDocumentation( documentation );
@@ -236,6 +238,7 @@ public class Idiom
                        String documentation,
                        Action action)
     {
+        // System.err.println( getId() + " addTransition(" + id + ")" );
         DefaultTransition transition = new DefaultTransition( id );
 
         transition.setActivationRule( AndInputRule.getInstance() );
@@ -309,6 +312,7 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
+        // System.err.println( getId() + " p/t " + placeId + " > " + transitionId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -325,6 +329,7 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
+        // System.err.println( getId() + " t/p " + transitionId + " > " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -342,6 +347,7 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
+        // System.err.println( getId() + " graft in  || " + placeId + " to " + component.getId() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();
@@ -367,6 +373,8 @@ public class Idiom
             componentTransition.addInboundArc( graftArc );
         }
 
+        component.replaceIn( place );
+
         // component.removePlace( componentIn.getId() );
     }
 
@@ -374,6 +382,8 @@ public class Idiom
                               String placeId,
                               Expression expression)
     {
+        // System.err.println( getId() + " graft out || " + component.getId() + " to " + placeId );
+
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentOut = component.getOutPlace();
@@ -399,7 +409,74 @@ public class Idiom
             componentTransition.addOutboundArc( graftArc );
         }
 
+
         // component.removePlace( componentOut.getId() );
+    }
+
+    void replaceIn(DefaultPlace newIn)
+    {
+        Iterator          transIter = this.transitions.values().iterator();
+        DefaultTransition eachTrans = null;
+
+        while ( transIter.hasNext() )
+        {
+            eachTrans = (DefaultTransition) transIter.next();
+
+            replaceIn( newIn,
+                       eachTrans );
+        }
+
+        Iterator componentIter = this.components.iterator();
+        Idiom    eachComponent = null;
+
+        while ( componentIter.hasNext() )
+        {
+            eachComponent = (Idiom) componentIter.next();
+
+            eachComponent.replaceIn( newIn );
+        }
+    }
+
+    void replaceIn(DefaultPlace newIn,
+                   DefaultTransition transition)
+    {
+        // System.err.println( "replace in with " + newIn + " for " + transition );
+
+        Arc[] arcs = null;
+
+        arcs = transition.getInboundArcs();
+
+        for ( int i = 0 ; i < arcs.length ; ++i )
+        {
+            // System.err.println( "test : " + arcs[i] );
+            if ( arcs[i].getPlace().getId().equals( getInPlace().getId() ) )
+            {
+                DefaultArc newArc = new DefaultArc( newIn,
+                                                    transition );
+
+                newArc.setExpression( arcs[i].getExpression() );
+
+                transition.replaceInboundArc( arcs[i],
+                                              newArc );
+            }
+        }
+
+        arcs = transition.getOutboundArcs();
+
+        for ( int i = 0 ; i < arcs.length ; ++i )
+        {
+            // System.err.println( "test : " + arcs[i] );
+            if ( arcs[i].getPlace().getId().equals( getInPlace().getId() ) )
+            {
+                DefaultArc newArc = new DefaultArc( newIn,
+                                                    transition );
+
+                newArc.setExpression( arcs[i].getExpression() );
+
+                transition.replaceOutboundArc( arcs[i],
+                                               newArc );
+            }
+        }
     }
 
     /*
