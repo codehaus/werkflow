@@ -86,6 +86,16 @@ public class ThreadPoolSchedulerTest extends TestCase
 
         showInstance(instance);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
+
         RobustInstance i = engine.getInstanceManager().getInstance("een");
 
         // new user action
@@ -101,6 +111,15 @@ public class ThreadPoolSchedulerTest extends TestCase
 
         showInstance(i);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         // new user action
         tx = engine.beginTransaction(i.getId());
         // provide more user choices
@@ -111,6 +130,15 @@ public class ThreadPoolSchedulerTest extends TestCase
         System.out.println("About to satisfy approval...");
         tx.satisfy("approval", sv);
         tx.commit();
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }        
 
         showInstance(i);
 
