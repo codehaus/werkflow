@@ -46,43 +46,61 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import org.apache.commons.jelly.TagLibrary;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.activity.Activity;
 
-/** Jelly tag library providing Jelly semantics.
- *
- *  @see JellyMessageCorrelatorTag
- *  @see JellyActionTag
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class JellyTagLibrary
-    extends TagLibrary
+import org.apache.commons.jelly.expression.Expression;
+import org.apache.commons.jelly.XMLOutput;
+
+import java.util.Map;
+
+public class LogAction
+    implements Action
 {
     // ----------------------------------------------------------------------
-    //     Constants
+    //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Tag library Namespace URI. */
-    public static final String NS_URI = "werkflow:jelly";
+    /** Jelly script. */
+    private Expression expr;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
-    /** Construct.
-     */
-    public JellyTagLibrary()
+    public LogAction(Expression expr)
     {
-        registerTag( "correlator",
-                     JellyMessageCorrelatorTag.class );
+        this.expr = expr;
+    }
 
-        registerTag( "action",
-                     JellyActionTag.class );
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-        registerTag( "log",
-                     LogActionTag.class );
+    /** @see Action
+     */
+    public void perform(Activity activity,
+                        Map caseAttrs,
+                        Map otherAttrs)
+    {
+        try
+        {
+            ActionJellyContext context = new ActionJellyContext( caseAttrs,
+                                                                 otherAttrs );
+            
+            String msg = this.expr.evaluateAsString( context );
+            
+            
+            synchronized ( LogAction.class )
+            {
+                System.err.println( otherAttrs.get( "caseId" )
+                                    + " ][ " + msg );
+            }
+
+            activity.complete();
+        }
+        catch (Exception e)
+        {
+            activity.completeWithError( e );
+        }
     }
 }
-

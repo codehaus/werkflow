@@ -18,7 +18,7 @@ public class MessageConditionalSegment
     public MessageConditionalSegment(MessageWaiter messageWaiter)
     {
         this.messageWaiter = messageWaiter;
-        this.bodySegment = bodySegment;
+        this.bodySegment   = new SequenceSegment();
     }
 
     public void setAction(Action action)
@@ -29,14 +29,7 @@ public class MessageConditionalSegment
     public void addSegment(Segment segment)
         throws UnsupportedIdiomException
     {
-        if ( segment instanceof AtomicSegment )
-        {
-            this.bodySegment = segment;
-        }
-        else
-        {
-            throw new UnsupportedIdiomException();
-        }
+        this.bodySegment.addSegment( segment );
     }
 
     public DefaultPlace append(DefaultPlace in,

@@ -30,6 +30,12 @@ public class IdiomaticTagLibrary
         registerTag( "action",
                      com.werken.werkflow.syntax.fundamental.ActionTag.class );
 
+        registerTag( "call",
+                     com.werken.werkflow.syntax.fundamental.CallTag.class );
+
+        registerTag( "import",
+                     com.werken.werkflow.syntax.fundamental.ImportTag.class );
+
         registerTag( "process",
                      ProcessTag.class );
 
@@ -59,6 +65,10 @@ public class IdiomaticTagLibrary
 
         registerTag( "on-message",
                      OnMessageTag.class );
+
+        registerTag( "receiver",
+                     ReceiverTag.class );
+
 
         registerTag( "terminate",
                      TerminateTag.class );

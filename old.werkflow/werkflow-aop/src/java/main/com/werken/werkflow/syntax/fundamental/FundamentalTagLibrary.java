@@ -115,5 +115,8 @@ public class FundamentalTagLibrary
 
         registerTag( "import",
                      ImportTag.class );
+
+        registerTag( "call",
+                     CallTag.class );
     }
 }

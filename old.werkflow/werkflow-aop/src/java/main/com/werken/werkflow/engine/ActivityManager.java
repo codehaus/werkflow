@@ -46,9 +46,11 @@ package com.werken.werkflow.engine;
  
  */
 
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.action.Action;
+import com.werken.werkflow.action.CallAction;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
@@ -102,6 +104,9 @@ class ActivityManager
     /** In-flight activities. */
     private Set activities;
 
+    /** In-flight call activities, indexed by child case id. */
+    private Map callActivities;
+
     /** Thread pool. */
     private PooledExecutor pool;
 
@@ -118,8 +123,9 @@ class ActivityManager
      */
     public ActivityManager(WorkflowEngine engine)
     {
-        this.engine     = engine;
-        this.activities = new HashSet();
+        this.engine         = engine;
+        this.activities     = new HashSet();
+        this.callActivities = new HashMap();
 
         this.queue = new LinkedQueue();
 
@@ -445,15 +451,22 @@ class ActivityManager
     {
         Task task = transition.getTask();
 
-        // Map caseAttrs = new HashMap( processCase.getCaseAttributes() );
         Map caseAttrs = processCase.getCaseAttributes();
+
+        boolean isCall = false;
+
+        if ( task != null )
+        {
+            isCall = ( task.getAction() instanceof CallAction );
+        }
 
         WorkflowActivity activity = newActivity( processCase.getProcessInfo().getId(),
                                                  processCase.getId(),
                                                  transition.getId(),
                                                  placeIds,
-                                                 caseAttrs );
-        
+                                                 caseAttrs,
+                                                 isCall );
+
         if ( task == null )
         {
             complete( activity );
@@ -491,13 +504,42 @@ class ActivityManager
                         Task task,
                         Map otherAttrs)
     {
-        Action action = task.getAction();
 
-        action.perform( activity,
-                        activity.getCaseAttributes(),
-                        otherAttrs );
+        if ( activity.isCall() )
+        {
+            CallAction action = (CallAction) task.getAction();
+            
+            String processId = action.getProcessId();
+
+            Attributes attrs = action.getAttributes();
+
+            try
+            {
+                getEngine().newChildProcessCase( activity,
+                                                 processId,
+                                                 attrs );
+            }
+            catch (NoSuchProcessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            Action action = task.getAction();
+
+            action.perform( activity,
+                            activity.getCaseAttributes(),
+                            otherAttrs );
+        }
     }
 
+    void newChildProcessCase(WorkflowActivity activity,
+                             WorkflowProcessCase childCase)
+    {
+        this.callActivities.put( childCase.getId(),
+                                 activity );
+    }
 
     /** Receive completion notification.
      *
@@ -555,6 +597,16 @@ class ActivityManager
         }
     }
 
+    void processCaseComplete(String caseId)
+    {
+        WorkflowActivity activity = (WorkflowActivity) this.callActivities.get( caseId );
+
+        if ( activity != null )
+        {
+            complete( activity );
+        }
+    }
+
     String[] produceTokens(WorkflowProcessCase processCase,
                            ProcessDefinition processDef,
                            Transition transition)
@@ -604,6 +656,8 @@ class ActivityManager
     {
         try
         {
+            error.printStackTrace();
+
             WorkflowProcessCase processCase = getEngine().getProcessCase( activity.getCaseId() );
 
             synchronized( processCase )
@@ -662,16 +716,21 @@ class ActivityManager
                                            String caseId,
                                            String transitionId,
                                            String[] placeIds,
-                                           Map caseAttrs)
+                                           Map caseAttrs,
+                                           boolean isCall)
     {
         WorkflowActivity activity = new WorkflowActivity( this,
                                                           processId,
                                                           caseId,
                                                           transitionId,
                                                           placeIds,
-                                                          caseAttrs );
+                                                          caseAttrs,
+                                                          isCall );
 
-        this.activities.add( activity );
+        if ( ! isCall )
+        {
+            this.activities.add( activity );
+        }
 
         return activity;
     }

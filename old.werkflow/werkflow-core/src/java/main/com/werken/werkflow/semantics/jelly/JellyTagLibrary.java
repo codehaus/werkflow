@@ -80,6 +80,9 @@ public class JellyTagLibrary
 
         registerTag( "action",
                      JellyActionTag.class );
+
+        registerTag( "log",
+                     LogActionTag.class );
     }
 }
 

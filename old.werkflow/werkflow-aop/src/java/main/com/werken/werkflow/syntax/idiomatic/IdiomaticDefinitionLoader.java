@@ -115,12 +115,13 @@ public class IdiomaticDefinitionLoader
 
         Script script = parser.parse( url.toExternalForm() );
 
-        /*
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
-        */
+
+        /*
         script.run( context,
                     XMLOutput.createXMLOutput( System.err ) );
+        */
 
         ProcessPackage pkg = (ProcessPackage) context.getVariable( ProcessPackage.class.getName() );
 
