@@ -1,5 +1,6 @@
 
-<process id="my.proc1"
+<process package="my.pkg"
+         id="my.proc1"
          initiation="message"
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"

@@ -33,6 +33,9 @@ public class BasicPersonalityTest
         assertEquals( 1,
                       procDefs.length );
 
+        assertEquals( "my.pkg",
+                      procDefs[0].getPackageId() );
+
         assertEquals( "my.proc1",
                       procDefs[0].getId() );
 

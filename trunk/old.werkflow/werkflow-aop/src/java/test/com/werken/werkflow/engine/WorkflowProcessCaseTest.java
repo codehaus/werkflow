@@ -21,7 +21,8 @@ public class WorkflowProcessCaseTest
 
     public void testConstruct()
     {
-        MockProcessInfo  info  = new MockProcessInfo( "the process",
+        MockProcessInfo  info  = new MockProcessInfo( "the package",
+                                                      "the process",
                                                       "the docs" );
 
         CaseState state = this.caseRepo.newCaseState( "the case",
@@ -53,7 +54,8 @@ public class WorkflowProcessCaseTest
 
     public void testAttributes()
     {
-        MockProcessInfo  info  = new MockProcessInfo( "the process",
+        MockProcessInfo  info  = new MockProcessInfo( "the package",
+                                                      "the process",
                                                       "the docs" );
 
         CaseState state = this.caseRepo.newCaseState( "the case",
@@ -114,7 +116,8 @@ public class WorkflowProcessCaseTest
 
     public void testMarks()
     {
-        MockProcessInfo  info  = new MockProcessInfo( "the process",
+        MockProcessInfo  info  = new MockProcessInfo( "the package",
+                                                      "the process",
                                                       "the docs" );
 
         CaseState state = this.caseRepo.newCaseState( "the case",

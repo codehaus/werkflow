@@ -69,6 +69,13 @@ public interface ProcessInfo
     //     Interface
     // ----------------------------------------------------------------------
     
+    /** Retrieve the package identifier.
+     *
+     *  @return The package identifier or the
+     *          empty string if in the global package.
+     */
+    String getPackageId();
+
     /** Retrieve the process identifier.
      *
      *  @return The process identifier.

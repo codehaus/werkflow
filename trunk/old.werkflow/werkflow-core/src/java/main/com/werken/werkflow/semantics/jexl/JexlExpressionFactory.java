@@ -22,7 +22,6 @@ public class JexlExpressionFactory
     public Expression newExpression(String expr)
         throws Exception
     {
-        System.err.println( "JEXL " + expr );
         return new JexlExpression( ExpressionFactory.createExpression( expr ) );
     }
 }

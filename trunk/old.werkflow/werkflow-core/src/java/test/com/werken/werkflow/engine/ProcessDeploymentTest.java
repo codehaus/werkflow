@@ -49,7 +49,8 @@ public class ProcessDeploymentTest
         this.net.connectTransitionToPlace( "transition",
                                            "out" );
 
-        this.def = new ProcessDefinition( "the process",
+        this.def = new ProcessDefinition( "the package",
+                                          "the process",
                                           net,
                                           ProcessDefinition.InitiationType.CALL );
 
