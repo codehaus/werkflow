@@ -7,7 +7,6 @@ import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.InvalidAttributesException;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.ProcessNotCallableException;
-import com.werken.werkflow.admin.DeploymentException;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageType;
@@ -18,7 +17,6 @@ import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.MessagingManager;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
-import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 import com.werken.werkflow.service.persistence.PersistenceException;
@@ -55,21 +53,19 @@ class ProcessDeployment
         this.persistenceManager = persistenceManager;
 
         this.scheduler          = scheduler;
-        this.evaluator          = new Evaluator( this );
+        this.evaluator          = new Evaluator( processDefinition );
         this.messageHandler     = new MessageHandler( messagingManager,
                                                      this );
 
     }
 
     void initialize()
-        throws DeploymentException
     {
         initializeInitiators();
         initializeMessageWaiters();
     }
 
     private void initializeInitiators()
-        throws DeploymentException
     {
         if ( isCallable() )
         {
@@ -78,7 +74,6 @@ class ProcessDeployment
     }
 
     private void initializeMessageWaiters()
-        throws DeploymentException
     {
         Transition[] transitions = getProcessDefinition().getNet().getTransitions();
 
@@ -89,7 +84,6 @@ class ProcessDeployment
     }
 
     private void initializeMessageWaiter(Transition transition)
-        throws DeploymentException
     {
         Waiter waiter = transition.getWaiter();
 
@@ -109,15 +103,9 @@ class ProcessDeployment
             return;
         }
 
-        try
-        {
-            getMessageHandler().add( transition );
-        }
-        catch (IncompatibleMessageSelectorException e)
-        {
-            throw new DeploymentException( getProcessDefinition(),
-                                           e );
-        }
+        MessageWaiter msgWaiter = (MessageWaiter) waiter;
+
+        MessageType type = msgWaiter.getMessageType();
     }
 
     private boolean isAttachedToIn(Transition transition)
@@ -147,11 +135,9 @@ class ProcessDeployment
         return this.evaluator;
     }
 
-    public CoreWorkItem[] evaluate(CoreChangeSet changeSet,
-                                   CoreProcessCase processCase)
+    public CoreWorkItem[] evaluate(CoreProcessCase processCase)
     {
-        return getEvaluator().evaluate( changeSet,
-                                        processCase );
+        return getEvaluator().evaluate( processCase );
     }
 
     public String getPackageId()
@@ -216,15 +202,6 @@ class ProcessDeployment
         return this.persistenceManager;
     }
 
-    void addCase(CoreChangeSet changeSet,
-                 CoreProcessCase processCase,
-                 String transitionId)
-    {
-        getMessageHandler().addCase( changeSet,
-                                     processCase,
-                                     transitionId );
-    }
-
     public void acceptMessage(Message message)
     {
         System.err.println( "acceptMessage; " + message.getMessage() );
@@ -259,6 +236,10 @@ class ProcessDeployment
                 schedCases.add( processCase );
             }
             catch (NoSuchCaseException e)
+            {
+                e.printStackTrace();
+            }
+            catch (PersistenceException e)
             {
                 e.printStackTrace();
             }
@@ -329,7 +310,7 @@ class ProcessDeployment
     }
 
     ProcessCase getProcessCase(String caseId)
-        throws NoSuchCaseException
+        throws NoSuchCaseException, PersistenceException
     {
         return getCaseManager().getCase( caseId );
     }

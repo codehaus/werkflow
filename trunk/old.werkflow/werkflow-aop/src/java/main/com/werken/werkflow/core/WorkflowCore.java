@@ -46,6 +46,8 @@ package com.werken.werkflow.core;
  
  */
 
+import com.werken.werkflow.NoSuchCaseException;
+import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.Attributes;
@@ -133,8 +135,16 @@ public class WorkflowCore
                                       String caseId)
         throws ProcessException
     {
-        return getDeploymentManager().getDeployment( packageId,
-                                                     processId ).getProcessCase( caseId );
+        try
+        {
+            return getDeploymentManager().getDeployment( packageId,
+                                                         processId ).getProcessCase( caseId );
+        }
+        catch (PersistenceException e)
+        {
+
+            throw new ProcessException(packageId, processId);
+        }
     }
 
     public ProcessCase callProcess(String packageId,

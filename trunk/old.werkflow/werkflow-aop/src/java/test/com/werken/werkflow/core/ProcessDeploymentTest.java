@@ -28,7 +28,7 @@ public class ProcessDeploymentTest
 
         ProcessDeployment deployment = new ProcessDeployment( processDef,
                                                               scheduler,
-                                                              persistManager.deployProcess( processDef ),
+                                                              persistManager.activate( processDef ),
                                                               messagingManager );
 
         assertEquals( "the.package",
@@ -67,7 +67,7 @@ public class ProcessDeploymentTest
 
         ProcessDeployment deployment = new ProcessDeployment( processDef,
                                                               scheduler,
-                                                              persistManager.deployProcess( processDef ),
+                                                              persistManager.activate( processDef ),
                                                               messagingManager )
             {
                 public void commit(CoreChangeSet changeSet)
