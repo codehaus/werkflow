@@ -3,10 +3,8 @@ package com.werken.werkflow.event;
 import com.werken.werkflow.Wfms;
 
 public class TransitionEvent
-    extends WfmsEvent
+    extends CaseEvent
 {
-    private String processId;
-    private String caseId;
     private String transitionId;
 
     public TransitionEvent(Wfms wfms,
@@ -14,21 +12,11 @@ public class TransitionEvent
                            String caseId,
                            String transitionId)
     {
-        super( wfms );
+        super( wfms,
+               processId,
+               caseId );
 
-        this.processId     = processId;
-        this.caseId        = caseId;
         this.transitionId  = transitionId;
-    }
-
-    public String getProcessId()
-    {
-        return this.processId;
-    }
-
-    public String getCaseId()
-    {
-        return this.caseId;
     }
 
     public String getTransitionId()

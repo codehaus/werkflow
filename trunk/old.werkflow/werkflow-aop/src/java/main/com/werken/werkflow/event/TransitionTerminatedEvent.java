@@ -2,15 +2,15 @@ package com.werken.werkflow.event;
 
 import com.werken.werkflow.Wfms;
 
-public class TransitionFinishedEvent
+public class TransitionTerminatedEvent
     extends TransitionEvent
 {
     private Exception error;
 
-    public TransitionFinishedEvent(Wfms wfms,
-                                   String processId,
-                                   String caseId,
-                                   String transitionId)
+    public TransitionTerminatedEvent(Wfms wfms,
+                                     String processId,
+                                     String caseId,
+                                     String transitionId)
     {
         super( wfms,
                processId,
@@ -18,11 +18,11 @@ public class TransitionFinishedEvent
                transitionId );
     }
 
-    public TransitionFinishedEvent(Wfms wfms,
-                                   String processId,
-                                   String caseId,
-                                   String transitionId,
-                                   Exception error)
+    public TransitionTerminatedEvent(Wfms wfms,
+                                     String processId,
+                                     String caseId,
+                                     String transitionId,
+                                     Exception error)
     {
         super( wfms,
                processId,

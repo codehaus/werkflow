@@ -2,13 +2,13 @@ package com.werken.werkflow.event;
 
 import com.werken.werkflow.Wfms;
 
-public class CaseInitiatedEvent
+public class CaseTerminatedEvent
     extends CaseEvent
 {
 
-    public CaseInitiatedEvent(Wfms wfms,
-                              String processId,
-                              String caseId)
+    public CaseTerminatedEvent(Wfms wfms,
+                               String processId,
+                               String caseId)
     {
         super( wfms,
                processId,
