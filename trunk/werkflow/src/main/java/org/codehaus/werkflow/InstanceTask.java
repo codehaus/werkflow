@@ -1,25 +1,25 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.*;
+import org.codehaus.werkflow.spi.Path;
 
-class InstanceTask
+public class InstanceTask
 {
-    private String instanceId;
-    private Path path;
+    private final String instanceId;
+    private final Path path;
 
-    InstanceTask(String instanceId,
+    public InstanceTask(String instanceId,
                  Path path)
     {
         this.instanceId = instanceId;
         this.path     = path;
     }
 
-    String getInstanceId()
+    public String getInstanceId()
     {
         return this.instanceId;
     }
 
-    Path getPath()
+    public Path getPath()
     {
         return this.path;
     }
