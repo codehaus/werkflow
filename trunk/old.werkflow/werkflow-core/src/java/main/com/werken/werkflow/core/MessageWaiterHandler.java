@@ -74,6 +74,12 @@ class MessageWaiterHandler
                                    processCase );
     }
 
+    void removeCase(CoreProcessCase processCase)
+    {
+        processCase.removeCorrelationsByTransition( transition.getId() );
+        this.processCases.remove( processCase );
+    }
+
     boolean attemptCorrelation(CoreChangeSet changeSet,
                                CoreProcessCase processCase)
     {

@@ -53,6 +53,13 @@ class MessageTypeHandler
                                                     transitionId );
     }
 
+    void removeCase(CoreProcessCase processCase,
+                    String transitionId)
+    {
+        getTerminalMessageHandler().removeCase( processCase,
+                                                transitionId );
+    }
+
     Message consumeMessage(CoreChangeSet changeSet,
                            CoreProcessCase processCase,
                            String transitionId,

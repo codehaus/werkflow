@@ -101,6 +101,13 @@ class MessageHandler
                                                               transitionId );
     }
 
+    void removeCase(CoreProcessCase processCase,
+                    String transitionId)
+    {
+        getMessageTypeHandler( transitionId ).removeCase( processCase,
+                                                          transitionId );
+    }
+
     private MessageTypeHandler getMessageTypeHandler(MessageType messageType)
     {
         return (MessageTypeHandler) this.messageTypeHandlers.get( messageType );

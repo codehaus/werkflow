@@ -19,6 +19,10 @@ interface TerminalMessageHandler
                     CoreProcessCase processCase,
                     String transitionId);
 
+    void removeCase(CoreProcessCase processCase,
+                    String transitionId);
+
     void add(Transition transition);
+
 
 }
