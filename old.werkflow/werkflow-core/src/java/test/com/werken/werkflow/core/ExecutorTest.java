@@ -61,7 +61,7 @@ public class ExecutorTest
                                                                                           "the.process" );
 
         CoreProcessCase processCase = new CoreProcessCase( null,
-                                                           null,
+                                                           new MockChangeSetSource(),
                                                            null,
                                                            null,
                                                            new MockProcessInfo( "the.package",

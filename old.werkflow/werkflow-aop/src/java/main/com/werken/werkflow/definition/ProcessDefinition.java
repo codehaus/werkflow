@@ -215,44 +215,6 @@ public class ProcessDefinition
         return (AttributeDeclaration) this.attrDecls.get( id );
     }
 
-    /*
-    public void setInParameterNames(String[] inParameters)
-    {
-        if ( inParameters == null )
-        {
-            this.inParameters = EMPTY_STRING_ARRAY;
-        }
-        else
-        {
-            this.inParameters = inParameters;
-        }
-    }
-
-    public void setOutParameterNames(String[] outParameters)
-    {
-        if ( outParameters == null )
-        {
-            this.outParameters = EMPTY_STRING_ARRAY;
-        }
-        else
-        {
-            this.outParameters = outParameters;
-        }
-    }
-    */
-
-    /*
-    public String[] getInParameterNames()
-    {
-        return this.inParameters;
-    }
-
-    public String[] getOutParameterNames()
-    {
-        return this.outParameters;
-    }
-    */
-
     public AttributeDeclaration[] getInParameters()
     {
         Set decls = new HashSet();
