@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.task.Task;
 
 public class DefaultTransition
@@ -8,6 +9,7 @@ public class DefaultTransition
 {
     private Expression expression;
     private ActivationRule activationRule;
+    private MessageWaiter messageWaiter;
     private Task task;
 
     public DefaultTransition(String id)
@@ -53,5 +55,15 @@ public class DefaultTransition
     public Task getTask()
     {
         return this.task;
+    }
+
+    public void setMessageWaiter(MessageWaiter messageWaiter)
+    {
+        this.messageWaiter = messageWaiter;
+    }
+
+    public MessageWaiter getMessageWaiter()
+    {
+        return this.messageWaiter;
     }
 }

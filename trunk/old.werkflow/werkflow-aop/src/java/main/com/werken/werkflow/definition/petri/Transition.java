@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.task.Task;
 
 public interface Transition
@@ -15,4 +16,6 @@ public interface Transition
     ActivationRule getActivationRule();
 
     Task getTask();
+
+    MessageWaiter getMessageWaiter();
 }
