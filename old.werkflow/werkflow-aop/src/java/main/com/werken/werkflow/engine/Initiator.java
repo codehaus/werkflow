@@ -112,37 +112,16 @@ public class Initiator
                     otherAttrs.put( initiator.getBindingVar(),
                                     message.getMessage() );
 
-                    InitiatorActivity activity = new InitiatorActivity();
+                    InitiatorActivity activity = new InitiatorActivity( getEngine(),
+                                                                        getProcessDeployment().getId(),
+                                                                        caseAttrs );
 
-                    try
-                    {
-                        action.perform( activity,
-                                        caseAttrs,
-                                        otherAttrs );
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
+                    action.perform( activity,
+                                    caseAttrs,
+                                    otherAttrs );
                 }
-
-                
-                SimpleAttributes initialAttrs = new SimpleAttributes( caseAttrs );
-
-                /*
-                attrs.setAttribute( initiator.getBindingVar(),
-                                    message.getMessage() );
-                */
-                
-                getEngine().newProcessCase( getProcessDeployment().getId(),
-                                            initialAttrs );
             }
             catch (NoSuchMessageException e)
-            {
-                // FIXME
-                e.printStackTrace();
-            }
-            catch (NoSuchProcessException e)
             {
                 // FIXME
                 e.printStackTrace();
