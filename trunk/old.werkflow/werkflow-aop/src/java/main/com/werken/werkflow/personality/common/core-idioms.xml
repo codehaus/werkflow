@@ -1,0 +1,71 @@
+<idioms uri="werkflow:core-idioms"
+        xmlns="werkflow:idiom">
+
+    <!--
+      ||     EMPTY
+      -->
+
+    <idiom id="empty">
+        <template> 
+            <transition id="empty">
+                <input from="in"/>
+                <input to="out"/>
+            </transition>
+        </template> 
+    </idiom>
+
+    <!--
+      ||     PARALLEL
+      -->
+
+    <idiom id="parallel">
+        <template>
+
+            <place id="component:head"/>
+            <place id="component:tail"/>
+
+            <transition id="split">
+                <input from="in"/>
+                <output  to="component:head"/>
+            </transition>
+
+            <transition id="component">
+                <input from="component:head"/>
+                <output  to="component:tail"/>
+            </transition>
+
+            <transition id="join">
+                <input from="component:tail"/>
+                <output  to="out"/>
+            </transition>
+
+        </template>
+
+    </idiom>
+
+    <!--
+      ||     IF
+      -->
+
+    <idiom id="if">
+        <parameter id="condition" type="com.werken.werkflow.definition.Expression"/>
+
+        <place id="component:head"/>
+
+        <transition id="true">
+            <input from="in"/>
+            <output to="component:head"/>
+        </transition>
+
+        <transition id="component">
+            <input from="component:head"/>
+            <output  to="out"/>
+        </transition>
+
+        <transition id="false">
+            <input from="in"/>
+            <output to="out"/>
+        </transition>
+    </idiom>
+
+</idioms>
