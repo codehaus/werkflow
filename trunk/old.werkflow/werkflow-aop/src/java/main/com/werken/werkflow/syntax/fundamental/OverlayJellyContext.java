@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,44 +46,93 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.apache.commons.jelly.JellyContext;
 
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** <code>JellyContext</code> for case-attributes and other-attributes.
  *
- *  @see JellyAction
+ *  <p>
+ *  All attributes are available via the context, but any new variables
+ *  set will land in the other-attributes, not the case-attributes.
+ *  </p>
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public class OverlayJellyContext
+    extends JellyContext
 {
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Case attributes backing map. */
+    private Map caseAttrs;
+
+    /** Other attributes backing map. */
+    private Map otherAttrs;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
+     *
+     *  @param caseAttrs The case-attributes backing map.
+     *  @param otherAttrs The other-attributes backing map.
      */
-    public JellyActionTag()
+    public OverlayJellyContext(Map caseAttrs,
+                               Map otherAttrs)
     {
-        // intentionally left blank
+        this.caseAttrs  = Collections.unmodifiableMap( caseAttrs );
+        this.otherAttrs = new HashMap( otherAttrs );
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** @see org.apache.commons.jelly.Tag
+    /** Retrieve the other-attributes backing map.
+     *
+     *  @return The other-attributes backing map.
      */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
+    public Map getOtherAttributes()
     {
-        JellyAction action = new JellyAction( getBody() );
+        return this.otherAttrs;
+    }
 
-        setAction( action );
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see JellyContext
+     */
+    public void setVariable(String id,
+                            Object value)
+    {
+        this.otherAttrs.put( id,
+                             value );
+    }
+
+    /** @see JellyContext
+     */
+    public Object getVariable(String id)
+    {
+        if ( this.otherAttrs.containsKey( id ) )
+        {
+            return this.otherAttrs.get( id );
+        }
+
+        return this.caseAttrs.get( id );
+    }
+
+    /** @see JellyContext
+     */
+    public Object findVariable(String id)
+    {
+        return getVariable( id );
     }
 }

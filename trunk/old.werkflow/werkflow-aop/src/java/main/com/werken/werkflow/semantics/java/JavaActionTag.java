@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.definition.fundamental.AbstractActionTag;
+import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;

@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.definition.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

@@ -2,12 +2,12 @@ package com.werken.werkflow;
 
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.fundamental.FundamentalDefinitionLoader;
 import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
 import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
+import com.werken.werkflow.syntax.fundamental.FundamentalDefinitionLoader;
 
 import junit.framework.TestCase;
 

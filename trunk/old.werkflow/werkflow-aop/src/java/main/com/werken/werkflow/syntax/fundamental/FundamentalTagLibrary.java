@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,44 +46,68 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.apache.commons.jelly.TagLibrary;
 
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
- *
- *  @see JellyAction
+/** Tag library for the fundamental process-definition syntax.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public class FundamentalTagLibrary
+    extends TagLibrary
 {
+    // ----------------------------------------------------------------------
+    //     Constants
+    // ----------------------------------------------------------------------
+
+    /** Namespace URI */
+    public static final String NS_URI = "werkflow:fundamental";
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
-
     /** Construct.
      */
-    public JellyActionTag()
+    public FundamentalTagLibrary()
     {
-        // intentionally left blank
-    }
+        registerTag( "process",
+                     ProcessTag.class );
 
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
+        registerTag( "place",
+                     PlaceTag.class );
 
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
-    {
-        JellyAction action = new JellyAction( getBody() );
+        registerTag( "transition",
+                     TransitionTag.class );
 
-        setAction( action );
+        registerTag( "input",
+                     InputTag.class );
+
+        registerTag( "output",
+                     OutputTag.class );
+
+        registerTag( "documentation",
+                     DocumentationTag.class );
+
+        registerTag( "task",
+                     TaskTag.class );
+
+        registerTag( "message-types",
+                     MessageTypesTag.class );
+
+        registerTag( "message-type",
+                     MessageTypeTag.class );
+
+        registerTag( "message",
+                     MessageTag.class );
+
+        registerTag( "message-initiator",
+                     MessageInitiatorTag.class );
+
+        registerTag( "actions",
+                     ActionsTag.class );
+
+        registerTag( "action",
+                     ActionTag.class );
     }
 }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,21 +46,34 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.service.messaging.MessageSelector;
 
-import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Base for custom <code>MessageSelector</code> tags.
  *
- *  @see JellyAction
+ *  <p>
+ *  Due to the pluggable nature of werkflow semantics, the
+ *  <code>AbstractMessageSelectorTag</code> assists in weaving custom
+ *  <code>MessageSelector</code>s into the fundamental syntax.
+ *  </p>
+ *
+ *  <p>
+ *  The custom tag should perform whatever is required to
+ *  construct an <code>MessageSelector</code> in the {@link org.apache.commons.jelly.Tag#doTag}
+ *  method, and finally call {@link #setMessageSelector} on this class
+ *  to install the message-selector into the appropriate library or task.
+ *  </p>
+ *
+ *  @see MessageSelector
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public abstract class AbstractMessageSelectorTag
+    extends TagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,7 +81,7 @@ public class JellyActionTag
 
     /** Construct.
      */
-    public JellyActionTag()
+    public AbstractMessageSelectorTag()
     {
         // intentionally left blank
     }
@@ -77,13 +90,23 @@ public class JellyActionTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** @see org.apache.commons.jelly.Tag
+    /** Install a <code>MessageSelector</code>.
+     *
+     *  @param selector The message-selector.
+     *
+     *  @throws JellyTagException If the tag is not used within the correct
+     *          context of a &lt;message-type&gt; tag.
      */
-    public void doTag(XMLOutput output)
+    public void setMessageSelector(MessageSelector selector)
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
+        MessageTypeTag messageType = (MessageTypeTag) findAncestorWithClass( MessageTypeTag.class );
 
-        setAction( action );
+        if ( messageType == null )
+        {
+            throw new JellyTagException( "not within <message-type>" );
+        }
+
+        messageType.setMessageSelector( selector );
     }
 }

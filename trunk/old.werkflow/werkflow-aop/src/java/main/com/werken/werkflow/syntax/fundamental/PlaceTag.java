@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,29 +46,61 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultPlace;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly <code>Tag</code> for <code>JellyAction</code>.
+/** Define a <code>Place</code>.
  *
- *  @see JellyAction
+ *  <p>
+ *  Within a &lt;process&gt; &lt;place&gt;s can be defined for
+ *  use as input sources and output sinks for transitions.  It
+ *  may contain an optional &lt;documentation&gt; element.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *  &lt;process id="my.process"&gt;
+ *    &lt;place id="place.one"/&gt;
+ *    &lt;place id="place.two"&gt;
+ *      &lt;documentation&gt;
+ *        This is the docs.
+ *      &lt;/documentation&gt;
+ *    &lt;place&gt;
+ *
+ *  @see ProcessTag
+ *  @see TransitionTag
+ *  @see InputTag
+ *  @see OutputTag
+ *  @see DocumentationTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyActionTag
-    extends AbstractActionTag
+public class PlaceTag
+    extends FundamentalTagSupport
+    implements DocumentableTag
 {
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Unique identifier. */
+    private String id;
+
+    /** Documentation, possibly null. */
+    private String documentation;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
      */
-    public JellyActionTag()
+    public PlaceTag()
     {
         // intentionally left blank
     }
@@ -77,13 +109,69 @@ public class JellyActionTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
+    /** Set the identifier.
+     *
+     *  @param id The identifier.
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    /** Retrieve the identifier.
+     *
+     *  @return The identifier.
+     */
+    public String getId()
+    {
+        return this.id;
+    }
+
+    /** @see DocumentableTag
+     */
+    public void setDocumentation(String documentation)
+    {
+        this.documentation = documentation;
+    }
+
+    /** Retrieve the documentation.
+     *
+     *  @return The documentation.
+     */
+    public String getDocumentation()
+    {
+        return this.documentation;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        JellyAction action = new JellyAction( getBody() );
+        requireStringAttribute( "id",
+                                getId() );
 
-        setAction( action );
+        try
+        {
+            ProcessTag process = (ProcessTag) requiredAncestor( "process",
+                                                                ProcessTag.class );
+            
+            DefaultNet net = process.getNet();
+
+            DefaultPlace place = net.addPlace( getId() );
+            
+            setDocumentation( null );
+            
+            invokeBody( output );
+            
+            place.setDocumentation( getDocumentation() );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,33 +46,51 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.expression.Expression;
 
-/** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
+/** Create an output arc for a <code>Transition</code>.
  *
- *  @see ClassMessageSelector
+ *  <p>
+ *  Used within a &lt;transition&gt; tag, the &lt;output&gt; tag
+ *  is used to specify a &lt;place&gt; from which tokens are
+ *  consumed.
+ *  </p>
+ *
+ *  <p>
+ *  <pre>
+ *    &lt;place id="some.place"/&gt;
+ *
+ *    &lt;transition&gt;
+ *      &lt;output to="some.place"/&gt;
+ *    &lt;/transition&gt;
+ *  </pre>
+ *  </p>
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
+ *  @see TransitionTag
+ *  @see InputTag
+ *
  *  @version $Id$
  */
-public class ClassMessageSelectorTag
-    extends AbstractMessageSelectorTag
+public class OutputTag
+    extends FundamentalTagSupport
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message class name. */
-    private String className;
+    /** To place identifier. */
+    private String to;
 
-    /** Filtering expression. */
-    private Expression expression;
+    /** Mark-generation test expression. */
+    private Expression testExpr;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -80,7 +98,7 @@ public class ClassMessageSelectorTag
 
     /** Construct.
      */
-    public ClassMessageSelectorTag()
+    public OutputTag()
     {
         // intentionally left blank
     }
@@ -89,40 +107,42 @@ public class ClassMessageSelectorTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the message type class.
+    /** Set the identifier of the <code>Place</code> to which tokens
+     *  should be produced.
      *
-     *  @param className The message-type class.
+     *  @param to The place identifier.
      */
-    public void setType(String className)
+    public void setTo(String to)
     {
-        this.className = className;
+        this.to = to;
     }
 
-    /** Retrieve the message type class.
+    /** Retrieve the identifier of the <code>Place</code> to which tokens
+     *  should be produced.
      *
-     *  @return The message-type class.
+     *  @return The place identifier.
      */
-    public String getType()
+    public String getTo()
     {
-        return this.className;
+        return this.to;
     }
 
-    /** Set the filtering <code>Expression</code>.
+    /** Set the mark-generation test <code>Expression</code>.
      *
-     *  @param expression The filtering expression.
+     *  @param testExpr The test expression.
      */
-    public void setFilter(Expression expression)
+    public void setTest(Expression testExpr)
     {
-        this.expression = expression;
+        this.testExpr = testExpr;
     }
 
-    /** Retrieve the filtering <code>Expression</code>.
+    /** Retrieve the mark-generation test <code>Expression</code>.
      *
-     *  @return The filtering expression, or <code>null</code> if none.
+     *  @return The test expression.
      */
-    public Expression getFilter()
+    public Expression getTest()
     {
-        return this.expression;
+        return this.testExpr;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -133,22 +153,28 @@ public class ClassMessageSelectorTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( this.className == null
-             ||
-             "".equals( this.className ) )
-        {
-            throw new MissingAttributeException( "class" );
-        }
-
         try
         {
-            Class messageClass = Class.forName( this.className );
+            ProcessTag process = (ProcessTag) requiredAncestor( "process",
+                                                                ProcessTag.class );
             
-            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
+            TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
+                                                                         TransitionTag.class );
             
+            requireStringAttribute( "to",
+                                    getTo() );
             
-            setMessageSelector( selector );
+            DefaultNet net = process.getNet();
+            
+            DefaultArc arc = net.connectTransitionToPlace( transition.getId(),
+                                                           getTo() );
+
+            if ( getTest() != null )
+            {
+                arc.setExpression( new JellyExpression( getTest() ) );
+            }
+            
+            invokeBody( output );
         }
         catch (Exception e)
         {

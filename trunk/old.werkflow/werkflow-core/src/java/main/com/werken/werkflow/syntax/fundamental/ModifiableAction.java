@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,113 +46,116 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.activity.Activity;
 
+import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-/** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
+import java.util.Map;
+import java.util.Collections;
+
+/** Wrapper around any <code>Action</code> to allow modifications
+ *  of the <code>otherAttributes</code>s paramater.
  *
- *  @see ClassMessageSelector
+ *  @see Action
  *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *  @author <a href="mailto;bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class ClassMessageSelectorTag
-    extends AbstractMessageSelectorTag
+public class ModifiableAction
+    implements Action
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message class name. */
-    private String className;
+    /** Modification script. */
+    private Script script;
 
-    /** Filtering expression. */
-    private Expression expression;
+    /** Wrapped action. */
+    private Action action;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
+     *
+     *  @param script The other-attributes modification script.
+     *  @param action The wrapped action.
      */
-    public ClassMessageSelectorTag()
+    public ModifiableAction(Script script,
+                            Action action)
     {
-        // intentionally left blank
+        this.script = script;
+        this.action = action;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the message type class.
+    /** Retrieve the other-attributes modification Jelly <code>Script</code>.
      *
-     *  @param className The message-type class.
+     *  @return The modification script.
      */
-    public void setType(String className)
+    public Script getScript()
     {
-        this.className = className;
+        return this.script;
     }
 
-    /** Retrieve the message type class.
+    /** Retrieve the wrapped <code>Action</code>.
      *
-     *  @return The message-type class.
+     *  @return The wrapped action.
      */
-    public String getType()
+    public Action getAction()
     {
-        return this.className;
+        return this.action;
     }
 
-    /** Set the filtering <code>Expression</code>.
-     *
-     *  @param expression The filtering expression.
+    /** @see Action
      */
-    public void setFilter(Expression expression)
+    public void perform(Activity activity,
+                        Map caseAttrs,
+                        Map otherAttrs)
     {
-        this.expression = expression;
-    }
-
-    /** Retrieve the filtering <code>Expression</code>.
-     *
-     *  @return The filtering expression, or <code>null</code> if none.
-     */
-    public Expression getFilter()
-    {
-        return this.expression;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
-    {
-        if ( this.className == null
-             ||
-             "".equals( this.className ) )
-        {
-            throw new MissingAttributeException( "class" );
-        }
-
         try
         {
-            Class messageClass = Class.forName( this.className );
+            Map modifiedOtherAttrs = getModifiedOtherAttributes( caseAttrs,
+                                                                 otherAttrs );
             
-            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                      getFilter() );
-            
-            
-            setMessageSelector( selector );
+            getAction().perform( activity,
+                                 Collections.unmodifiableMap( caseAttrs ),
+                                 modifiedOtherAttrs );
         }
         catch (Exception e)
         {
-            throw new JellyTagException( e );
+            activity.completeWithError( e );
         }
+    }
+
+    /** Perform modification script.
+     *
+     *  @param caseAttrs The original case attributes.
+     *  @param otherAttrs The original other attributes.
+     *
+     *  @return The new modified other attributes.
+     *
+     *  @throws Exception If an error occurs while attempting
+     *          to evaluate the modification script.
+     */
+    public Map getModifiedOtherAttributes(Map caseAttrs,
+                                          Map otherAttrs)
+        throws Exception
+    {
+        OverlayJellyContext context = new OverlayJellyContext( caseAttrs,
+                                                               otherAttrs );
+        
+        script.run( context,
+                    XMLOutput.createDummyXMLOutput() );
+
+        return context.getOtherAttributes();
     }
 }
