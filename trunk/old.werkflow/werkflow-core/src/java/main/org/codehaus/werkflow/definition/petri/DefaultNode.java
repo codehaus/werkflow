@@ -128,20 +128,15 @@ public class DefaultNode
     void replaceInboundArc(Arc oldArc,
                            Arc newArc)
     {
-        // System.err.println( "replace inbound " + oldArc + " with " + newArc );
-
         ListIterator arcIter = this.inboundArcs.listIterator();
 
         while ( arcIter.hasNext() )
         {
             if ( arcIter.next().equals( oldArc ) )
             {
-                // System.err.println( "REPLACED!" );
                 arcIter.set( newArc );
             }
         }
-
-        // System.err.println( "arcs -----> " + this.inboundArcs );
     }
 
     /** Add an outbound <code>Arc</code>.
@@ -164,20 +159,15 @@ public class DefaultNode
     void replaceOutboundArc(Arc oldArc,
                             Arc newArc)
     {
-        // System.err.println( "replace outbound " + oldArc + " with " + newArc );
-
         ListIterator arcIter = this.outboundArcs.listIterator();
 
         while ( arcIter.hasNext() )
         {
             if ( arcIter.next().equals( oldArc ) )
             {
-                // System.err.println( "REPLACED!" );
                 arcIter.set( newArc );
             }
         }
-
-        // System.err.println( "arcs -----> " + this.inboundArcs );
     }
 
     /** Return all outbound <code>Arc</code>s.

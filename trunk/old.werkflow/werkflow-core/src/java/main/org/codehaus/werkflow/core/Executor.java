@@ -91,7 +91,6 @@ class Executor
     void enqueueActivity( CoreActivity activity )
         throws InterruptedException
     {
-        System.err.println( "enqueue: " + activity );
         enqueue( new ExecutionEnqueuement( this,
                                            activity ) );
     }

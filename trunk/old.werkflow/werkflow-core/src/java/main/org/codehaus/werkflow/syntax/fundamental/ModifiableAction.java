@@ -163,21 +163,13 @@ public class ModifiableAction
 
                 otherAttrs.setAttribute( key,
                                          value );
-
-                System.err.println( key + "--->" + value );
             }
         }
 
-        System.err.println( "!!! modifying attributes" );
         OverlayJellyContext context = new OverlayJellyContext( invocation );
 
         script.run( context,
                     XMLOutput.createXMLOutput( System.err ) );
-
-        System.err.println( "script: " + script );
-
-        // XMLOutput.createDummyXMLOutput() );
-
     }
 
     public String toString()
