@@ -331,9 +331,9 @@ public class Engine
     }
 
     void satisfy(RobustTransaction transaction,
-                        String instanceId,
-                        String satisfactionId,
-                        SatisfactionValues values)
+                 String instanceId,
+                 String satisfactionId,
+                 SatisfactionValues values)
         throws NoSuchInstanceException, Exception
     {
         if ( ! getInstanceManager().hasInstance( instanceId ) )
