@@ -1,0 +1,14 @@
+<message-types xmlns="werkflow:fundamental"
+               xmlns:wfjava="werkflow:java">
+
+  <message-type id="normal.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
+                     filter="${message.type == 'normal'}"/>
+  </message-type>
+
+  <message-type id="init.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
+                     filter="${message.type == 'init'}"/>
+  </message-type>
+
+</message-types>

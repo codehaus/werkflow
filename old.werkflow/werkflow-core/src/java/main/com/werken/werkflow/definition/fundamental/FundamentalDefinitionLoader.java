@@ -48,15 +48,29 @@ public class FundamentalDefinitionLoader
 
         parser.setContext( context );
 
+        MessageTypeLibrary msgTypeLib = new MessageTypeLibrary();
+
+        try
+        {
+            Script msgTypeLibScript = parser.parse( new URL( url,
+                                                             "message-types.xml" ).toExternalForm() );
+            context.setVariable( MESSAGE_TYPE_LIBRARY_KEY,
+                                 msgTypeLib );
+
+            msgTypeLibScript.run( context,
+                                  XMLOutput.createDummyXMLOutput() );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+            
         Script script = parser.parse( url.toExternalForm() );
 
         List defs = new ArrayList();
 
         context.setVariable( FUNDAMENTAL_DEFINITION_LIST,
                              defs );
-
-        context.setVariable( MESSAGE_TYPE_LIBRARY_KEY,
-                             new MessageTypeLibrary() );
 
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
