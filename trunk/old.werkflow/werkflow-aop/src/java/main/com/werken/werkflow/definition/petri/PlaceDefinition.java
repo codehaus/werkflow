@@ -49,4 +49,9 @@ public class PlaceDefinition
     {
         return getId().hashCode();
     }
+
+    public String toString()
+    {
+        return "[PlaceDefinition: id=" + this.id + "]";
+    }
 }

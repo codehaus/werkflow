@@ -1,5 +1,6 @@
 package com.werken.werkflow.syntax.idiom;
 
+import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.ArcDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -39,6 +40,8 @@ public class InputTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        IdiomDefinition idiomDef = getCurrentIdiomDefinition();
+
         requireStringAttribute( "from",
                                 getFrom() );
 
@@ -56,5 +59,7 @@ public class InputTag
                                                                           getFilter() );
 
         invokeBody( output );
+
+        idiomDef.addArc( arcDef );
     }
 }

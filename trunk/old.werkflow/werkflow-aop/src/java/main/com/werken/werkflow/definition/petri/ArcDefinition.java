@@ -84,4 +84,16 @@ public class ArcDefinition
                                   transitionId,
                                   expression );
     }
+
+    public String toString()
+    {
+        if ( this.type == TRANSITION_TO_PLACE_TYPE )
+        {
+            return "[ArcDefinition: transition=" + this.transitionId + " place=" + this.placeId + "]";
+        }
+        else
+        {
+            return "[ArcDefinition: place=" + this.placeId + " transition=" + this.transitionId + "]";
+        }
+    }
 }
