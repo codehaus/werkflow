@@ -20,36 +20,36 @@
     werkflow is a flexible workflow engine.
   </description>
 
-  <url>http://werkflow.werken.com/</url>
+  <url>http://werkflow.codehaus.org/</url>
 
   <mailingLists>
     <mailingList>
       <name>werkflow interest</name>
-      <archive>http://lists.werken.com/pipermail/werkflow-interest/</archive>
-      <subscribe>http://lists.werken.com/mailman/listinfo/werkflow-interest</subscribe>
-      <unsubscribe>http://lists.werken.com/mailman/listinfo/werkflow-interest</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/werkflow-interest/</archive>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-interest</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-interest</unsubscribe>
     </mailingList>
     <mailingList>
       <name>werkflow cvs messages</name>
-      <archive>http://lists.werken.com/pipermail/werkflow-cvs/</archive>
-      <subscribe>http://lists.werken.com/mailman/listinfo/werkflow-cvs</subscribe>
-      <unsubscribe>http://lists.werken.com/mailman/listinfo/werkflow-cvs</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/werkflow-cvs/</archive>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-cvs</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/werkflow-cvs</unsubscribe>
     </mailingList>
     <mailingList>
       <name>general workflow discussion</name>
-      <archive>http://lists.werken.com/pipermail/workflow-discuss/</archive>
-      <subscribe>http://lists.werken.com/mailman/listinfo/workflow-discuss</subscribe>
-      <unsubscribe>http://lists.werken.com/mailman/listinfo/workflow-discuss</unsubscribe>
+      <archive>http://lists.codehaus.org/pipermail/workflow-discuss/</archive>
+      <subscribe>http://lists.codehaus.org/mailman/listinfo/workflow-discuss</subscribe>
+      <unsubscribe>http://lists.codehaus.org/mailman/listinfo/workflow-discuss</unsubscribe>
     </mailingList>
   </mailingLists>
 
-  <siteAddress>werkflow.werken.com</siteAddress>
-  <siteDirectory>/www/werkflow.werken.com</siteDirectory>
-  <issueTrackingUrl>http://jira.werken.com:8181/secure/BrowseProject.jspa?id=10010&amp;report=roadmap</issueTrackingUrl>
+  <siteAddress>werkflow.codehaus.org</siteAddress>
+  <siteDirectory>/www/werkflow.codehaus.org</siteDirectory>
+  <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10010&amp;report=roadmap</issueTrackingUrl>
 
   <repository>
-    <connection>scm:cvs:pserver:anonymous@cvs.werken.com:/cvsroot/werkflow:werkflow</connection>
-    <url>http://cvs.werken.com/viewcvs.cgi/?cvsroot=werkflow</url>
+    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow:werkflow</connection>
+    <url>http://cvs.werkflow.codehaus.org/werkflow/</url>
   </repository>
 
   <developers>
@@ -226,7 +226,7 @@
   </dependencies>
 
   <build>
-    <nagEmailAddress>werkflow-cvs@lists.werken.com</nagEmailAddress>
+    <nagEmailAddress>werkflow-cvs@lists.codehaus.org</nagEmailAddress>
     <sourceDirectory>src/java/main</sourceDirectory>
     <unitTestSourceDirectory>src/java/test</unitTestSourceDirectory>
     <aspectSourceDirectory/>
