@@ -1,19 +1,11 @@
 
-<process id="blog"
-         initiation="message"
-         xmlns="werkflow:basic"
-         xmlns:j="jelly:core"
-         xmlns:jelly="werkflow:jelly"
-         xmlns:java="werkflow:java"
-         xmlns:python="werkflow:python"
-         xmlns:ognl="werkflow:ognl">
-
-<!--
-         xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
-         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
-         xmlns:ognl="jelly:com.werken.werkflow.semantics.ognl.OgnlTagLibrary"
-         xmlns:python="jelly:com.werken.werkflow.semantics.python.PythonTagLibrary">
--->
+<processes initiation="message"
+           xmlns="werkflow:basic"
+           xmlns:j="jelly:core"
+           xmlns:jelly="werkflow:jelly"
+           xmlns:java="werkflow:java"
+           xmlns:python="werkflow:python"
+           xmlns:ognl="werkflow:ognl">
 
     <message-types>
         <message-type id="blog.entry">
@@ -28,59 +20,64 @@
                              filter="message.getType() == 'reject'"/>
         </message-type>
     </message-types>
+    
 
-    <attributes>
-        <attribute id="author"> 
-            <java:attr-type type="java.lang.String"/>
-        </attribute>
-        <attribute id="title"> 
-            <java:attr-type type="java.lang.String"/>
-        </attribute>
-    </attributes>
+    <process id="blog">
 
-    <sequence>
-        <receive type="blog.entry">
-            <jelly:action>
-                <j:set var="title" value="${message.title}"/>
-                <j:set var="author" value="${message.author}"/>
-            </jelly:action>
-        </receive>
-        <jelly:log message="received: ${title} by ${author}"/>
-        <java:action>
-            import java.util.Date;
-            System.err.println( new Date() + " :: waiting for action for: " + title + " // " + author );
-        </java:action>
-        <pick>
-            <choice>
-                <sequence>
-                    <receive type="publish.cmd" bind="cmd">
-<!--
-                        <python:correlator test="cmd.title == title"/>
--->
-                        <ognl:correlator test="#cmd.title == #title"/>
-                        <jelly:action>
-                            <j:set var="cmdTitle" value="${cmd.title}"/>
-                        </jelly:action>
-                    </receive>
-                    <jelly:log message="publishing ${title}"/>
-                </sequence>
-            </choice>
-            <choice>
-                <sequence>
-                    <receive type="reject.cmd" bind="cmd">
-<!--
-                        <python:correlator test="cmd.title == title"/>
--->
-                        <ognl:correlator test="#cmd.title == #title"/>
+        <attributes>
+            <attribute id="author"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+            <attribute id="title"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+        </attributes>
+    
+        <sequence>
+            <receive type="blog.entry">
+                <jelly:action>
+                    <j:set var="title" value="${message.title}"/>
+                    <j:set var="author" value="${message.author}"/>
+                </jelly:action>
+            </receive>
+            <jelly:log message="received: ${title} by ${author}"/>
+            <java:action>
+                import java.util.Date;
+                System.err.println( new Date() + " :: waiting for action for: " + title + " // " + author );
+            </java:action>
+            <pick>
+                <choice>
+                    <sequence>
+                        <receive type="publish.cmd" bind="cmd">
+    <!--
+                            <python:correlator test="cmd.title == title"/>
+    -->
+                            <ognl:correlator test="#cmd.title == #title"/>
+                            <jelly:action>
+                                <j:set var="cmdTitle" value="${cmd.title}"/>
+                            </jelly:action>
+                        </receive>
+                        <jelly:log message="publishing ${title}"/>
+                    </sequence>
+                </choice>
+                <choice>
+                    <sequence>
+                        <receive type="reject.cmd" bind="cmd">
+    <!--
+                            <python:correlator test="cmd.title == title"/>
+    -->
+                            <ognl:correlator test="#cmd.title == #title"/>
+    
+                            <jelly:action>
+                                <j:set var="cmdTitle" value="${cmd.title}"/>
+                            </jelly:action>
+                        </receive>
+                        <jelly:log message="rejecting ${title}"/>
+                    </sequence>
+                </choice>
+            </pick>
+        </sequence>
+    
+    </process>
 
-                        <jelly:action>
-                            <j:set var="cmdTitle" value="${cmd.title}"/>
-                        </jelly:action>
-                    </receive>
-                    <jelly:log message="rejecting ${title}"/>
-                </sequence>
-            </choice>
-        </pick>
-    </sequence>
-
-</process>
+</processes>
