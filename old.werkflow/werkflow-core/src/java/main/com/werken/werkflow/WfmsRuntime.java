@@ -126,6 +126,8 @@ public interface WfmsRuntime
      *
      *  @param caseId The case id.
      *
+     *  @return The activities.
+     *
      *  @throws NoSuchCaseException If the identifier does not
      *          match any case known by the system.
      *  @throws NoSuchProcessException If the identifier do match
@@ -145,6 +147,8 @@ public interface WfmsRuntime
      *  @param processId The process identifier.
      *  @param placeId The place identifier.
      *
+     *  @return The selected cases.
+     *
      *  @throws QueryException If an error occurs while attempting to
      *          evaluate the selection query.
      */
@@ -157,6 +161,8 @@ public interface WfmsRuntime
      *
      *  @param processId The process identifier.
      *  @param qbeAttrs The query-by-example attributes.
+     *
+     *  @return The selected cases.
      *
      *  @throws QueryException If an error occurs while attempting to
      *          evaluate the selection query.
