@@ -16,13 +16,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public abstract class AbstractPersonality
     implements Personality
 {
     private Syntax[] syntaxes;
 
-    public AbstractPersonality(Syntax[] syntaxes)
+    public AbstractPersonality( Syntax[] syntaxes )
     {
         this.syntaxes = syntaxes;
     }
@@ -32,28 +33,49 @@ public abstract class AbstractPersonality
         return this.syntaxes;
     }
 
-    protected JellyContext newJellyContext(JellyContext parent)
+    public ProcessDefinition[] load(URL url)
+        throws IOException, Exception
+    {
+        JellyContext context = newJellyContext( getBaseJellyContext() );
+
+        return load( url,
+                     context );
+    }
+
+    public ProcessDefinition[] load(URL url, Map beans )
+        throws IOException, Exception
+    {
+        JellyContext context = newJellyContext( getBaseJellyContext(), beans );
+
+        return load( url,
+                     context );
+    }
+
+    protected abstract JellyContext getBaseJellyContext();
+
+    protected JellyContext newJellyContext( JellyContext parent )
     {
         JellyContext context = JellyUtil.newJellyContext( parent );
 
         Syntax[] syntaxes = getSyntaxes();
 
-        for ( int i = 0 ; i < syntaxes.length ; ++i )
+        for ( int i = 0; i < syntaxes.length; ++i )
         {
             context.registerTagLibrary( syntaxes[i].getNamespaceUri(),
                                         syntaxes[i].getTagLibrary() );
         }
 
-	/*
-        context.registerTagLibrary( FundamentalTagLibrary.NS_URI,
-                                    new FundamentalTagLibrary() );
-	*/
-
         return context;
     }
 
-    protected ProcessDefinition[] load(URL url,
-                                       JellyContext context)
+    protected JellyContext newJellyContext( JellyContext parent, Map beans )
+    {
+        JellyContext context = newJellyContext( parent );
+        return context.newJellyContext( beans );
+    }
+
+    protected ProcessDefinition[] load( URL url,
+                                        JellyContext context )
         throws IOException, Exception
     {
         List processDefs = new ArrayList();
@@ -74,8 +96,8 @@ public abstract class AbstractPersonality
         return (ProcessDefinition[]) processDefs.toArray( ProcessDefinition.EMPTY_ARRAY );
     }
 
-    protected static Syntax[] loadSyntaxes(URL url,
-                                           JellyContext context)
+    protected static Syntax[] loadSyntaxes( URL url,
+                                            JellyContext context )
         throws IOException, Exception
     {
         SyntaxLoader loader = new SyntaxLoader();
