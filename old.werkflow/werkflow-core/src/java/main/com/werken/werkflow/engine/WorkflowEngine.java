@@ -251,6 +251,9 @@ public class WorkflowEngine
         CaseState caseState = newCaseState( processId,
                                             attributes );
 
+        notifyCaseInitiated( processId,
+                             caseState.getCaseId() );
+
         return assumeCase( caseState );
     }
 
@@ -398,6 +401,8 @@ public class WorkflowEngine
         verifyProcess( processDef );
 
         deployVerifiedProcess( processDef );
+
+        notifyProcessDeployed( processDef );
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -526,6 +531,16 @@ public class WorkflowEngine
     void evaluateCase(WorkflowProcessCase processCase)
         throws NoSuchProcessException
     {
+        if ( processCase.hasMark( "out" ) )
+        {
+            notifyCaseTerminated( processCase.getProcessInfo().getId(),
+                                  processCase.getId() );
+
+            this.cases.remove( processCase.getId() );
+
+            return;
+        }
+
         ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
 
         deployment.evaluateCase( processCase );

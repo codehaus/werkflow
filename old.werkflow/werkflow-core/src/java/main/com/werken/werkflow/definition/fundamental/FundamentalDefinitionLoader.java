@@ -201,8 +201,6 @@ public class FundamentalDefinitionLoader
     public ProcessDefinition[] load(URL url)
         throws Exception
     {
-        System.err.println( "load from: " + url );
-
         ActionLibrary actionLib = loadOptionalActionLibrary( new URL( url,
                                                                       ACTIONS_FILENAME ) );
 
@@ -321,7 +319,6 @@ public class FundamentalDefinitionLoader
     public MessageTypeLibrary loadOptionalMessageTypeLibrary(URL url)
         throws Exception
     {
-        System.err.println( "optional message-types.xml: " + url );
         try
         {
             return loadMessageTypeLibrary( url );
@@ -384,7 +381,6 @@ public class FundamentalDefinitionLoader
     public ActionLibrary loadOptionalActionLibrary(URL url)
         throws Exception
     {
-        System.err.println( "optional message-types.xml: " + url );
         try
         {
             return loadActionLibrary( url );
