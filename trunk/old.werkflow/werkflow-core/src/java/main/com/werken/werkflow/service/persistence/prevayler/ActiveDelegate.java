@@ -6,6 +6,10 @@
  */
 package com.werken.werkflow.service.persistence.prevayler;
 
+import java.io.File;
+
+import org.prevayler.Prevayler;
+
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.ChangeSet;
@@ -20,12 +24,14 @@ import com.werken.werkflow.service.persistence.PersistenceException;
  */
 class ActiveDelegate implements MethodDelegate
 {
-    private ProcessState _state;
-
-    public ActiveDelegate(ProcessState state)
+    public ActiveDelegate(Prevayler prevayler, ProcessState state)
     {
+        _prevayler = prevayler;
         _state = state;
     }
+
+    private ProcessState _state;
+    private Prevayler _prevayler;
 
     /**
      * @see com.werken.werkflow.service.persistence.prevayler.MethodDelegate#persist(null, com.werken.werkflow.service.persistence.ChangeSet)
@@ -49,8 +55,18 @@ class ActiveDelegate implements MethodDelegate
      */
     public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
     {
-        // @todo - Implement method
-        throw new RuntimeException("Method not implemented");
+        try
+        {
+            final ManagerKey key = key();
+            NewCaseCommand command = new NewCaseCommand(key.getPackageId(), key.getProcessId(), initialiAttrs);
+            CaseState caseState = (CaseState) command.executeUsing(_prevayler);
+            
+            return caseState;
+        }
+        catch (Exception e)
+        {
+            throw new PersistenceException(e);
+        }
     }
 
     /**
@@ -69,4 +85,12 @@ class ActiveDelegate implements MethodDelegate
         // @todo - Implement method
         throw new RuntimeException("Method not implemented");
     }
+    
+    // --  beyond here be dragons
+    
+    private ManagerKey key()
+    {
+        return _state.key();
+    }
+    
 }

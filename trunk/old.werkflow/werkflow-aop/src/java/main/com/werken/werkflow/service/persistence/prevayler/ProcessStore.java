@@ -116,10 +116,19 @@ class ProcessStore implements Externalizable
         }
     }
 
-    public CaseState createCase(String packageId, String processId, Map attributes) throws PersistenceException
+    // -- methods for my friends
+
+    CaseState fetchCase(String packageId, String processId, String caseId) throws PersistenceException
+    {
+        return activeProcessState(packageId, processId).loadCase(caseId);
+    }
+
+    CaseState createCase(String packageId, String processId, Map attributes) throws PersistenceException
     {
         return activeProcessState(packageId, processId).addCase(attributes);
     }
+    
+    
 
     //  - Externalizable implementation
 

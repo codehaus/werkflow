@@ -8,11 +8,14 @@ package com.werken.werkflow.service.persistence.prevayler;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
+import EDU.oswego.cs.dl.util.concurrent.SyncSet;
+import EDU.oswego.cs.dl.util.concurrent.WriterPreferenceReadWriteLock;
 
 import com.werken.werkflow.service.persistence.CaseTransfer;
 
@@ -27,8 +30,8 @@ class CaseState implements CaseTransfer
     CaseState(String caseId, Map attributes) throws ClassCastException
     {
         _id = caseId;
-        _tokens = new HashSet();
-        _attributes = new HashMap();
+        _tokens = new SyncSet(new HashSet(), new WriterPreferenceReadWriteLock());
+        _attributes = new ConcurrentHashMap();
         
         Iterator attributeIterator = attributes.entrySet().iterator();
         while (attributeIterator.hasNext())

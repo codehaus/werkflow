@@ -6,13 +6,17 @@
  */
 package com.werken.werkflow.service.persistence.prevayler;
 
-import org.prevayler.implementation.TransientPublisher;
+import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.prevayler.implementation.TransientPublisher;
+
 import com.werken.werkflow.AttributeDeclaration;
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.admin.DeploymentException;
+import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.PersistenceException;
 import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 
@@ -24,7 +28,6 @@ import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
  */
 public class PrevaylerPersistenceManagerTest extends TestCase
 {
-
     /**
      * Constructor for PrevaylerPersistenceManagerTest.
      * @param name
@@ -41,19 +44,14 @@ public class PrevaylerPersistenceManagerTest extends TestCase
 
     public void testActivatePassivate()
     {
-        
-        ProcessInfo info = createInfo("activate-passivate");        
-        PrevaylerPersistenceManager manager =  new PrevaylerPersistenceManager();
-        manager.setTransactionPublisher(new TransientPublisher());
-        manager.setSnapOnStop(false);
-        
-        assertNotNull(manager);
-        
+        ProcessInfo info = createInfo("activate-passivate");
+
         try
         {
-            ProcessPersistenceManager processManager  = manager.activate(info);
+            ProcessPersistenceManager processManager = _manager.activate(info);
             assertNotNull(processManager);
-            manager.passivate(processManager);
+            
+            _manager.passivate(processManager);
             try
             {
                 processManager.loadCase("test-case");
@@ -61,10 +59,10 @@ public class PrevaylerPersistenceManagerTest extends TestCase
             catch (PersistenceException pe)
             {
                 // -- this is good :)
-                
+
                 return;
             }
-            
+
             fail("Able to execute action on passive manager");
         }
         catch (DeploymentException de)
@@ -77,20 +75,29 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
     }
 
-/*
-    public void testAddAndGet()
+    public void testAdd()
     {
-        ProcessInfo info = createInfo("and-n-get");        
-        PrevaylerPersistenceManager manager =  new PrevaylerPersistenceManager();
-        
-        assertNotNull(manager);
-        
+        ProcessInfo info = createInfo("add-n-get");
+
         try
         {
-            ProcessPersistenceManager processManager  = manager.activate(info);
+            ProcessPersistenceManager processManager = _manager.activate(info);
             assertNotNull(processManager);
+
+            CaseTransfer newCaseTransfer = processManager.newCase(Attributes.EMPTY_ATTRIBUTES);
+
+            assertNotNull(newCaseTransfer);
+            assertNotNull(newCaseTransfer.getCaseId());
+            assertFalse(newCaseTransfer.getCaseId().length() == 0);
             
-            processManager.newCase();
+            String caseId = newCaseTransfer.getCaseId();
+            assertTrue(processManager.hasCase(caseId));
+            
+            CaseTransfer loadCaseTransfer = processManager.loadCase(caseId);
+            assertNotNull(loadCaseTransfer);
+            assertEquals(caseId, loadCaseTransfer.getCaseId());
+
+            _manager.passivate(processManager);            
         }
         catch (DeploymentException de)
         {
@@ -101,8 +108,9 @@ public class PrevaylerPersistenceManagerTest extends TestCase
             fail(pe.getMessage());
         }
     }
-  */  
+
     
+
     private class SimpleInfo implements ProcessInfo
     {
 
@@ -162,11 +170,69 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         {
             throw new RuntimeException("Unimplemented method");
         }
-        
+
+    }
+
+    private PrevaylerPersistenceManager createManager()
+    {
+        PrevaylerPersistenceManager manager = new PrevaylerPersistenceManager();
+        manager.setTransactionPublisher(new TransientPublisher());
+        manager.setSnapOnStop(false);
+        manager.setStorePath(storePath());
+
+        return manager;
+    }
+
+    private void releaseManager()
+    {
+        deleteDirectory(new File(_manager.storePath()));
+        _manager = null;
+    }
+    
+    private void deleteDirectory(File directory)
+    {
+        if (directory.isDirectory())
+        {
+            File[] contents = directory.listFiles();
+            
+            for (int i = 0; i < contents.length; i++)
+            {
+                File file = contents[i];
+                if (file.isDirectory())
+                {
+                    deleteDirectory(file);
+                }
+                else
+                {
+                    file.delete();            
+                }
+            }
+            
+            directory.delete();
+        }
+    }
+
+    private String storePath()
+    {
+        String tempDir = System.getProperty("java.io.tmpdir");
+        return (tempDir.endsWith(File.separator) ? tempDir : tempDir + File.separator) + "werkflow-prevayler-test";
     }
 
     private ProcessInfo createInfo(String suffix)
     {
-        return new SimpleInfo("test-package-" + suffix, "test-process-" + suffix);        
+        return new SimpleInfo("test-package-" + suffix, "test-process-" + suffix);
     }
+    
+    private PrevaylerPersistenceManager _manager;
+
+    protected void setUp() throws Exception
+    {
+        _manager = createManager();
+    }
+
+    protected void tearDown() throws Exception
+    {
+        releaseManager();
+    }
+
 }

@@ -50,7 +50,7 @@ class NewCaseCommand extends TransactionWithQuery
         }
         
         ProcessStore store = (ProcessStore) prevalentSystem;
-        return store.createCase(_packageId, _packageId, _attributes);
+        return store.createCase(_packageId, _processId, _attributes);
     }
 
 }

@@ -97,7 +97,9 @@ public class PrevaylerPersistenceManager implements PersistenceManager
                     processInfo.getId(),
                     processInfo.getAttributeDeclarations());
 
-            return (ProcessPersistenceManager) command.executeUsing(_prevayler);
+            ProcessState state = (ProcessState) command.executeUsing(_prevayler);
+            
+            return new PrevaylerProcessPersistenceManager(_prevayler, state);
         }
         catch (IOException e)
         {

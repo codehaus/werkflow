@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
+
 import com.werken.werkflow.AttributeDeclaration;
 
 /**
@@ -23,18 +25,18 @@ class ProcessState implements Serializable
     public ProcessState(String packageId, String processId, AttributeDeclaration[] attributes)
     {
         _key = new ManagerKey(packageId, processId);
-        _cases = new HashMap();
+        _cases = new ConcurrentHashMap();
     }
     
     private int _id;
-    private HashMap _cases;
+    private Map _cases;
     private ManagerKey _key;
     
     public ManagerKey key()
     {
         return _key;    
     }
-
+    
     public boolean hasCase(String caseId)
     {
         return _cases.containsKey(caseId);

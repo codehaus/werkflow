@@ -42,6 +42,6 @@ public class ActivateManagerCommand extends TransactionWithQuery
       ProcessStore store = (ProcessStore) prevalentSystem;
       ProcessState state = store.activateManager(_package, _process, _attributes);
           
-      return new PrevaylerProcessPersistenceManager(state);
+      return state;
     }
 }
