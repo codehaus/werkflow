@@ -17,14 +17,14 @@
       <item name="IRC"                 href="/irc.html"/>
       <item name="Blog"                href="http://blogs.werken.com/people/bob/"/>
 
+<!--
       <item name="Tag Libraries"       href="/taglibs.html">
         <item name="Fundamental"       href="/fundamental-taglib.html"/>
-<!--
         <item name="BPEL4WS"/>
         <item name="BPML"/>
         <item name="XBPMN"/>
--->
       </item>
+-->
 <!--
       <item name="Papers"              href="/papers.html"/>
       <item name="Status"              href="/status.html"/>

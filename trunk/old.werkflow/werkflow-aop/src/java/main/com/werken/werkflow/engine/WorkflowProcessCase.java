@@ -2,7 +2,6 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.definition.petri.Parameters;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.caserepo.CaseState;
 
@@ -13,7 +12,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class WorkflowProcessCase
-    implements ProcessCase, Parameters
+    implements ProcessCase
 {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
@@ -89,16 +88,6 @@ public class WorkflowProcessCase
     public void removeMark(String placeId)
     {
         getState().removeMark( placeId );
-    }
-
-    public Object getParameter(String name)
-    {
-        return getAttribute( name );
-    }
-
-    public String[] getParameterNames()
-    {
-        return getAttributeNames();
     }
 
     public void setEnabledTransitions(Transition[] enabledTransitions)
