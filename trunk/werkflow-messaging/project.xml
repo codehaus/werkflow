@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>tagalog</groupId>
-            <artifactId>tagalog</artifactId>
+            <artifactId>tagalog-core</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
