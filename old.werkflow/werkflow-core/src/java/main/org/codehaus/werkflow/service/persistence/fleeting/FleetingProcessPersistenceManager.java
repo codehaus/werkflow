@@ -77,13 +77,11 @@ public class FleetingProcessPersistenceManager
     public void persist(ChangeSet changeSet)
         throws PersistenceException
     {
-        System.err.println( "persist: " + changeSet );
     }
 
     public CaseTransfer newCase(Attributes initialAttrs)
         throws PersistenceException
     {
-        System.err.println( "newCase: " + initialAttrs );
         String[] attrNames = initialAttrs.getAttributeNames();
 
         Map attrsMap = new HashMap();
@@ -106,13 +104,11 @@ public class FleetingProcessPersistenceManager
     public CaseTransfer loadCase(String caseId)
         throws PersistenceException
     {
-        System.err.println( "loadCase: " + caseId );
         return null;
     }
 
     public boolean hasCase(String caseId)
     {
-        System.err.println( "hasCase: " + caseId );
         return false;
     }
 
