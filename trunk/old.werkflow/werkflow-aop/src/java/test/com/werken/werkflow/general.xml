@@ -5,16 +5,6 @@
          xmlns:wfjelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
-  <message-type id="normal.msg">
-    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
-                     filter="${message.type == 'normal'}"/>
-  </message-type>
-
-  <message-type id="init.msg">
-    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
-                     filter="${message.type == 'init'}"/>
-  </message-type>
-
   <message-initiator id="bob" 
                      type="init.msg"/>
 
