@@ -221,7 +221,7 @@ public class ProcessTag
         }
         else
         {
-            throw new JellyTagException( "initiation attribute must be 'message' or 'other'" );
+            throw new JellyTagException( "initiation attribute must be 'message' or 'call'" );
         } 
 
         this.net = new DefaultNet();

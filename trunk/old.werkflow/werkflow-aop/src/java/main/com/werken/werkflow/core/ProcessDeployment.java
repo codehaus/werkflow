@@ -90,12 +90,18 @@ class ProcessDeployment
     private void initializeMessageInitiator(Transition transition)
         throws IncompatibleMessageSelectorException
     {
+        System.err.println( "initializeMessageInitiator(" + transition + ")" );
+
         if ( isAttachedToIn( transition ) )
         {
+            System.err.println( "initializeMessageInitiator(" + transition + ") connected to in" );
+
             Waiter waiter = transition.getWaiter();
 
             if ( waiter instanceof MessageWaiter )
             {
+                System.err.println( "initializeMessageInitiator(" + transition + ") is message waiter" );
+
                 getMessageHandler().add( transition,
                                          this );
             }
@@ -105,6 +111,8 @@ class ProcessDeployment
     private void initializeMessageWaiter(Transition transition)
         throws IncompatibleMessageSelectorException
     {
+        System.err.println( "initializeMessageWaiter(" + transition + ")" );
+
         Waiter waiter = transition.getWaiter();
 
         if ( ! ( waiter instanceof MessageWaiter ) )
@@ -116,12 +124,14 @@ class ProcessDeployment
         // connected to (in) will be dealt with as an initiation
         // waiter instead of a correlation waiter.
         
-        if ( ! isCallable()
+        if ( ( ! isCallable() )
              &&
              isAttachedToIn( transition ) )
         {
             return;
         }
+
+        System.err.println( "initializeMessageWaiter(" + transition + ") not message-initiated and connected to in" );
 
         this.messageHandler.add( transition,
                                  null );
@@ -129,15 +139,22 @@ class ProcessDeployment
 
     private boolean isAttachedToIn(Transition transition)
     {
+        System.err.println( "isAttachedToIn(" + transition + ")" );
+
         Arc[] arcs = transition.getArcsFromPlaces();
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
-            if ( arcs[i].getPlace().equals( "in" ) )
+            System.err.println( "isAttachedToIn(" + transition + ") vs " + arcs[i].getPlace() );
+
+            if ( arcs[i].getPlace().getId().equals( "in" ) )
             {
+                System.err.println( "isAttachedToIn(" + transition + ") vs " + arcs[i].getPlace() + " TRUE" );
                 return true;
             }
         }
+
+        System.err.println( "isAttachedToIn(" + transition + ") FALSE" );
 
         return false;
     }
