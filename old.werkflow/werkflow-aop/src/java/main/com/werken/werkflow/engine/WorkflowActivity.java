@@ -2,6 +2,8 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.activity.Activity;
 
+import java.util.Map;
+
 public class WorkflowActivity
     implements Activity
 {
@@ -9,16 +11,19 @@ public class WorkflowActivity
     private String caseId;
     private String transitionId;
     private String[] placeIds;
+    private Map caseAttrs;
 
     public WorkflowActivity(ActivityManager activityManager,
                             String caseId,
                             String transitionId,
-                            String[] placeIds)
+                            String[] placeIds,
+                            Map caseAttrs)
     {
         this.activityManager = activityManager;
         this.caseId          = caseId;
         this.transitionId    = transitionId;
         this.placeIds        = placeIds;
+        this.caseAttrs       = caseAttrs;
     }
 
     public ActivityManager getActivityManager()
@@ -39,6 +44,11 @@ public class WorkflowActivity
     public String[] getPlaceIds()
     {
         return this.placeIds;
+    }
+
+    public Map getCaseAttributes()
+    {
+        return this.caseAttrs;
     }
 
     public void complete()

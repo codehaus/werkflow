@@ -77,13 +77,13 @@ public interface Action
      *
      *  @param activity The activity for which this action
      *         should occur.
-     *  @param processCase The mutable process-case.
+     *  @param caseAttrs The mutable case attributes.
      *
      *  @throws Exception If an error occurs and failure must be
      *          signalled to the core engine to take corrective action.
      */
     void perform(Activity activity,
-                 MutableProcessCase processCase,
+                 Map caseAttrs,
                  Map otherAttrs)
         throws Exception;
 }

@@ -47,7 +47,6 @@ package com.werken.werkflow.semantics.java;
  */
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.MutableProcessCase;
 import com.werken.werkflow.activity.Activity;
 
 import org.apache.commons.beanutils.MethodUtils;
@@ -154,24 +153,14 @@ public class JavaAction
     /** @see Action
      */
     public void perform(Activity activity,
-                        MutableProcessCase processCase,
+                        Map caseAttrs,
                         Map otherAttrs)
     {
-        Map caseMap = new HashMap();
-
-        String[] attrNames = processCase.getAttributeNames();
-
-        for ( int i = 0 ; i < attrNames.length ; ++i )
-        {
-            caseMap.put( attrNames[i],
-                         processCase.getAttribute( attrNames[i] ) );
-        }
-        
         try
         {
             MethodUtils.invokeMethod( getJavaBean(),
                                       getMethodName(),
-                                      new Object[] { caseMap,
+                                      new Object[] { caseAttrs,
                                                      otherAttrs } );
         }
         catch (NoSuchMethodException e)
@@ -180,7 +169,7 @@ public class JavaAction
             {
                 MethodUtils.invokeMethod( getJavaBean(),
                                           getMethodName(),
-                                          caseMap );
+                                          caseAttrs );
             }
             catch (Exception e2)
             {
@@ -192,14 +181,6 @@ public class JavaAction
         {
             activity.completeWithError( e );
             return;
-        }
-        
-        for ( Iterator nameIter = caseMap.keySet().iterator() ; nameIter.hasNext() ; )
-        {
-            String attrName = (String) nameIter.next();
-            
-            processCase.setAttribute( attrName,
-                                      caseMap.get( attrName ) );
         }
         
         activity.complete();

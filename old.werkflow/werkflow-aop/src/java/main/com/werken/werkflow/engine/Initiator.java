@@ -98,13 +98,15 @@ public class Initiator
             {
                 registration.consumeMessage( message.getId() );
                 
-                SimpleAttributes attrs = new SimpleAttributes();
-                
+                SimpleAttributes initialAttrs = new SimpleAttributes();
+
+                /*
                 attrs.setAttribute( initiator.getBindingVar(),
                                     message.getMessage() );
+                */
                 
                 getEngine().newProcessCase( getProcessDeployment().getId(),
-                                            attrs );
+                                            initialAttrs );
             }
             catch (NoSuchMessageException e)
             {
