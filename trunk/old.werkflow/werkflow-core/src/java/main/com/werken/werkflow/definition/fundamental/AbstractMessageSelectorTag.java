@@ -98,7 +98,7 @@ public abstract class AbstractMessageSelectorTag
      *          context of a &lt;message-type&gt; tag.
      */
     public void setMessageSelector(MessageSelector selector)
-        throws Exception
+        throws JellyTagException
     {
         MessageTypeTag messageType = (MessageTypeTag) findAncestorWithClass( MessageTypeTag.class );
 

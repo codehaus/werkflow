@@ -49,7 +49,6 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.action.ActionLibrary;
 import com.werken.werkflow.definition.DefinitionLoader;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
@@ -80,17 +79,45 @@ public class FundamentalDefinitionLoader
     //     Constants
     // ----------------------------------------------------------------------
 
+    /** Message-types library filename. */
     public static final String MESSAGE_TYPES_FILENAME = "message-types.xml";
+
+    /** Actions library filename. */
     public static final String ACTIONS_FILENAME = "actions.xml";
 
+    /** Message-type library context key. */
     static final String MESSAGE_TYPE_LIBRARY_KEY = "werkflow.msg.type.lib";
+
+    /** Action library context key. */
     static final String ACTION_LIBRARY_KEY = "werkflow.action.lib";
+
+    /** Definition list context key. */
     static final String FUNDAMENTAL_DEFINITION_LIST = "werkflow.fundamental.definition-list";
 
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
+     */
     public FundamentalDefinitionLoader()
     {
+        // intentionally left blank.
     }
 
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** Load a flow archive.
+     *
+     *  @param flowArchive The flow archive.
+     *
+     *  @return The process definitions in the archive.
+     *
+     *  @throws Exception If an error occurs while attempting to load
+     *          the archive.
+     */
     public ProcessDefinition[] loadFlowArchve(File flowArchive)
         throws Exception
     {
@@ -102,6 +129,15 @@ public class FundamentalDefinitionLoader
         return loadFlowArchive( flowArchive.toURL() );
     }
 
+    /** Load a directory flow archive.
+     *
+     *  @param archiveDir The archive directory.
+     *
+     *  @return The process definitions in the archive.
+     *
+     *  @throws Exception If an error occurs while attempting to load
+     *          the archive.
+     */
     public ProcessDefinition[] loadDirectoryFlowArchive(File archiveDir)
         throws Exception
     {
@@ -141,12 +177,27 @@ public class FundamentalDefinitionLoader
         return (ProcessDefinition[]) defs.toArray( ProcessDefinition.EMPTY_ARRAY );
     }
 
+    /** Load a flow archive.
+     *
+     *  <p>
+     *  <b>NOT IMPLEMENTED</b>
+     *  </p>
+     *
+     *  @param flowArchive The flow archive URL.
+     *
+     *  @return The process definitions in the archive.
+     *
+     *  @throws Exception If an error occurs while attempting to load
+     *          the archive.
+     */
     public ProcessDefinition[] loadFlowArchive(URL flowArchive)
         throws Exception
     {
         return null;
     }
 
+    /** @see DefinitionLoader
+     */
     public ProcessDefinition[] load(URL url)
         throws Exception
     {
@@ -163,6 +214,23 @@ public class FundamentalDefinitionLoader
                      msgTypeLib );
     }
 
+    /** Load a definition file.
+     *
+     *  <p>
+     *  Load a process-definition file within the context of
+     *  a pre-configured <code>ActionLibrary</code> and
+     *  <code>MessageTypeLibrary</code>.
+     *  </p>
+     *
+     *  @param url The definition URL.
+     *  @param actionLib The action library.
+     *  @param msgTypeLib The message-type library.
+     *
+     *  @return The loaded process definitions.
+     *
+     *  @throws Exception If an error occurs while attempting 
+     *          to load the library.
+     */
     public ProcessDefinition[] load(URL url,
                                     ActionLibrary actionLib,
                                     MessageTypeLibrary msgTypeLib)
@@ -201,6 +269,15 @@ public class FundamentalDefinitionLoader
         return (ProcessDefinition[]) defs.toArray( ProcessDefinition.EMPTY_ARRAY );
     }
 
+    /** Load an <code>MessageTypeLibrary</code>.
+     *
+     *  @param url The URL to load.
+     *
+     *  @return The message-type library.
+     *
+     *  @throws Exception If an error occurs while attempting 
+     *          to load the library.
+     */
     public MessageTypeLibrary loadMessageTypeLibrary(URL url)
         throws Exception
     {
@@ -231,6 +308,16 @@ public class FundamentalDefinitionLoader
         return msgTypeLib;
     }
 
+    /** Load optional <code>message-types.xml</code> <code>MessageTypeLibrary</code>.
+     *
+     *  @param url The possibly invalid URL to an optional message-type library.
+     *
+     *  @return An action library, either empty due to non-existence,
+     *          or the loaded library.
+     *
+     *  @throws Exception If a core error occurs while attempting to
+     *          load the library.
+     */
     public MessageTypeLibrary loadOptionalMessageTypeLibrary(URL url)
         throws Exception
     {
@@ -245,6 +332,15 @@ public class FundamentalDefinitionLoader
         }
     }
 
+    /** Load an <code>ActionLibrary</code>.
+     *
+     *  @param url The URL to load.
+     *
+     *  @return The action library.
+     *
+     *  @throws Exception If an error occurs while attempting 
+     *          to load the library.
+     */
     public ActionLibrary loadActionLibrary(URL url)
         throws Exception
     {
@@ -275,6 +371,16 @@ public class FundamentalDefinitionLoader
         return actionLib;
     }
 
+    /** Load optional <code>actions.xml</code> <code>ActionLibrary</code>.
+     *
+     *  @param url The possibly invalid URL to an optional action library.
+     *
+     *  @return An action library, either empty due to non-existence,
+     *          or the loaded library.
+     *
+     *  @throws Exception If a core error occurs while attempting to
+     *          load the library.
+     */
     public ActionLibrary loadOptionalActionLibrary(URL url)
         throws Exception
     {

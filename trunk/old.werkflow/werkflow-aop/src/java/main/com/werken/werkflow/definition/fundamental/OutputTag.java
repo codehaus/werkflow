@@ -89,6 +89,7 @@ public class OutputTag
     /** To place identifier. */
     private String to;
 
+    /** Mark-generation test expression. */
     private Expression testExpr;
 
     // ----------------------------------------------------------------------
@@ -126,11 +127,19 @@ public class OutputTag
         return this.to;
     }
 
+    /** Set the mark-generation test <code>Expression</code>.
+     *
+     *  @param testExpr The test expression.
+     */
     public void setTest(Expression testExpr)
     {
         this.testExpr = testExpr;
     }
 
+    /** Retrieve the mark-generation test <code>Expression</code>.
+     *
+     *  @return The test expression.
+     */
     public Expression getTest()
     {
         return this.testExpr;

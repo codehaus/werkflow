@@ -46,19 +46,37 @@ package com.werken.werkflow.definition.fundamental;
  
  */
 
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultPlace;
-
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
+/** Aggregator of <code>MessageType</code>s.
+ *
+ *  @see MessageTypeTag
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *
+ *  @version $Id$
+ */
 public class MessageTypesTag
      extends FundamentalTagSupport
 {
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
+     */
     public MessageTypesTag()
     {
+        // intentionally left blank
     }
 
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** @see org.apache.commons.jelly.Tag
+     */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
