@@ -9,6 +9,9 @@ extends TagLibrary
     {
         registerTag( "correlator",
                      JellyMessageCorrelatorTag.class );
+
+        registerTag( "action",
+                     JellyActionTag.class );
     }
 }
 

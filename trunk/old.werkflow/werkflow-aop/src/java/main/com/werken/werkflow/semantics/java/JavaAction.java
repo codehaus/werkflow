@@ -1,4 +1,4 @@
-package com.werken.werkflow.action;
+package com.werken.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,6 +46,8 @@ package com.werken.werkflow.action;
  
  */
 
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.action.MutableProcessCase;
 import com.werken.werkflow.activity.Activity;
 
 import org.apache.commons.beanutils.MethodUtils;
@@ -96,7 +98,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class JavaBeanAction
+public class JavaAction
     implements Action
 {
     // ----------------------------------------------------------------------
@@ -118,8 +120,8 @@ public class JavaBeanAction
      *  @param bean The JavaBean to wrap.
      *  @param methodName The name of the work-performing method.
      */
-    public JavaBeanAction(String bean,
-                          String methodName)
+    public JavaAction(Object bean,
+                      String methodName)
     {
         this.bean       = bean;
         this.methodName = methodName;

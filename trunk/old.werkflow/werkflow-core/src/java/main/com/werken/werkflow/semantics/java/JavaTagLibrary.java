@@ -9,5 +9,8 @@ public class JavaTagLibrary
     {
         registerTag( "selector",
                      ClassMessageSelectorTag.class );
+
+        registerTag( "action",
+                     JavaActionTag.class );
     }
 }

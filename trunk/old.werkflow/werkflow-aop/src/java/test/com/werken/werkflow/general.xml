@@ -1,8 +1,8 @@
 
 <process id="general"
          xmlns="werkflow:fundamental"
-         xmlns:wfjava="werkflow:java"
-         xmlns:wfjelly="werkflow:jelly"
+         xmlns:java="werkflow:java"
+         xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
   <message-initiator id="bob" 
@@ -26,11 +26,11 @@
     <output to="middle"/>
     
     <task>
-      <action>
+      <jelly:action>
         action 1
         bob = ${bob}
         <j:set var="bob" value="mcstrachan"/>
-      </action>
+      </jelly:action>
     </task>
   </transition>
 
@@ -40,15 +40,15 @@
     <output to="out"/>
 
     <message id="myMsg" type="normal.msg">
-      <wfjelly:correlator test="${myMsg.payload == bob}"/>
+      <jelly:correlator test="${myMsg.payload == bob}"/>
     </message>>
 
     <task>
-      <action>
+      <jelly:action>
         action 2
         bob == ${bob}
         myMsg == ${myMsg.type} : ${myMsg.payload} 
-      </action>
+      </jelly:action>
     </task>
   </transition>
 
