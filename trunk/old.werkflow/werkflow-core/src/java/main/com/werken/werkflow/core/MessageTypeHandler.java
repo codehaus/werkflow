@@ -39,6 +39,7 @@ class MessageTypeHandler
     boolean acceptMessage(CoreChangeSet changeSet,
                           Message message)
     {
+        System.err.println( "MessageTypeHandler.acceptMessage( " + message.getMessage() + " )" );
         return getTerminalMessageHandler().acceptMessage( changeSet,
                                                           message );
     }

@@ -36,6 +36,7 @@ class CorrelationMessageHandler
     public boolean acceptMessage(CoreChangeSet changeSet,
                                  Message message)
     {
+        System.err.println( "CorrelationMessageHanderl.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
 
         Iterator waiterIter = this.messageWaiterHandlers.values().iterator();

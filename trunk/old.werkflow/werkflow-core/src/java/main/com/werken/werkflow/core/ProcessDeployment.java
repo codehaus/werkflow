@@ -216,6 +216,8 @@ class ProcessDeployment
 
     public void acceptMessage(Message message)
     {
+        System.err.println( "acceptMessage; " + message.getMessage() );
+
         CoreChangeSet changeSet = newChangeSet();
 
         getMessageHandler().acceptMessage( changeSet,

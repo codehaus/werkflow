@@ -31,7 +31,6 @@ class Scheduler
     void schedule(CoreProcessCase processCase)
         throws InterruptedException
     {
-        System.err.println( "scheduling: " + processCase );
         ChangeSetSource changeSetSource = processCase.getChangeSetSource();
 
         List activities = new ArrayList();
@@ -46,7 +45,6 @@ class Scheduler
                 
                 for ( int i = 0 ; i < workItems.length ; ++i )
                 {
-                    System.err.println( "workItem: " + workItems[i] );
                     CoreActivity activity = workItems[i].satisfy( changeSet );
 
                     if ( activity != null )

@@ -60,6 +60,8 @@ class MessageHandler
 
             handler = new MessageTypeHandler( registration );
 
+            System.err.println( "new message type handle: " + handler + " // " + registration );
+
             this.messageTypeHandlers.put( messageType,
                                           handler );
 
@@ -73,6 +75,7 @@ class MessageHandler
     boolean acceptMessage(CoreChangeSet changeSet,
                           Message message)
     {
+        System.err.println( "MessageHandler.acceptMessage( " + message.getMessage() + " )" );
         return getMessageTypeHandler( message.getMessageType() ).acceptMessage( changeSet,
                                                                                 message );
     }

@@ -187,6 +187,10 @@ public class SimpleRegistration
     public void acceptMessage(Object message)
         throws Exception
     {
+        System.err.println( "simple reg: acceptMessage( " + message + " )" );
+
+        System.err.println( "message-selector: " + getMessageType().getMessageSelector() );
+
         if ( ((SimpleMessageSelector)getMessageType().getMessageSelector()).selects( message ) )
         {
             String msgId = "msg." + (++this.idCounter);
@@ -198,8 +202,9 @@ public class SimpleRegistration
             this.messages.put( msgId,
                                messageWrapper );
 
+            System.err.println( "sink: " + getMessageSink() );
+
             getMessageSink().acceptMessage( messageWrapper );
         }
     }
-
 }

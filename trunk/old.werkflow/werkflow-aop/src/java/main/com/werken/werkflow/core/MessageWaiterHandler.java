@@ -44,6 +44,7 @@ class MessageWaiterHandler
     boolean acceptMessage(CoreChangeSet changeSet,
                           Message message)
     {
+        System.err.println( "MessageWaiterHandler.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
 
         this.messages.put( message.getId(),
@@ -52,12 +53,15 @@ class MessageWaiterHandler
         result = attemptCorrelation( changeSet,
                                      message );
 
+
+        System.err.println( "RESULT: " +  result );
         return result;
     }
 
     boolean addCase(CoreChangeSet changeSet,
                     CoreProcessCase processCase)
     {
+        System.err.println( "MessageWaiterHandler.CASECASECASE( " + processCase.getId() + " )" );
         this.processCases.add( processCase );
 
         return attemptCorrelation( changeSet,

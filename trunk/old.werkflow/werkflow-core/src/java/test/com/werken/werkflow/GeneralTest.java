@@ -18,7 +18,8 @@ import java.net.URL;
 public class GeneralTest
     extends WerkflowTestCase
 {
-    public void test1()
+    /*
+    public void testGeneral2()
         throws Exception
     {
         SimpleWfmsServices services = new SimpleWfmsServices();
@@ -57,5 +58,52 @@ public class GeneralTest
                                                        attrs );
 
         assertNotNull( processCase );
+    }
+    */
+
+    public void testGeneral3()
+        throws Exception
+    {
+        SimpleWfmsServices services = new SimpleWfmsServices();
+
+        SimpleMessagingManager messagingManager = new SimpleMessagingManager();
+        PersistenceManager persistenceManager = new FleetingPersistenceManager();
+
+        services.setMessagingManager( messagingManager );
+        services.setPersistenceManager( persistenceManager );
+
+        WorkflowEngine engine = new WorkflowEngine( services );
+
+        URL url = getClass().getResource( "general3.xml" );
+
+        FundamentalDefinitionLoader loader = new FundamentalDefinitionLoader();
+
+        ProcessDefinition[] processDefs = loader.load( url );
+
+        WfmsAdmin admin = engine.getAdmin();
+
+        assertLength( 1,
+                      processDefs );
+
+        for ( int i = 0 ; i < processDefs.length ; ++i )
+        {
+            // System.err.println( processDefs[i] );
+            admin.deployProcess( processDefs[i] );
+        }
+
+        WfmsRuntime runtime = engine.getRuntime();
+
+        SimpleAttributes attrs = new SimpleAttributes();
+
+        ProcessCase processCase = runtime.callProcess( "",
+                                                       "general",
+                                                       attrs );
+
+        assertNotNull( processCase );
+
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mr mcwhirter" ) );
+
+        Thread.sleep( 1000 );
     }
 }
