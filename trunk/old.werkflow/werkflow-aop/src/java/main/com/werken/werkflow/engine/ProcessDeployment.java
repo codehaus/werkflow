@@ -177,6 +177,26 @@ public class ProcessDeployment
         }
 
         processCase.setEnabledTransitions( (Transition[]) enabledTrans.toArray( Transition.EMPTY_ARRAY ) );
+
+        Iterator   waitingTransIter = msgWaitingTrans.iterator();
+        Transition eachWaitingTrans = null;
+
+        while ( waitingTransIter.hasNext() )
+        {
+            eachWaitingTrans = (Transition) waitingTransIter.next();
+
+            MessageWaiter waiter = eachWaitingTrans.getMessageWaiter();
+
+            if ( waiter != null )
+            {
+                MessageType messageType = getMessageType( waiter.getMessageTypeId() );
+
+                Correlator correlator = (Correlator) this.correlators.get( messageType );
+
+                correlator.addBlocker( eachWaitingTrans.getId(),
+                                       processCase );
+            }
+        }
     }
 
     Set getPotentialTransitions(WorkflowProcessCase processCase)
