@@ -1,6 +1,5 @@
 
-<processes initiation="message"
-           xmlns="werkflow:basic"
+<processes xmlns="werkflow:basic"
            xmlns:j="jelly:core"
            xmlns:jelly="werkflow:jelly"
            xmlns:java="werkflow:java"
@@ -22,7 +21,8 @@
     </message-types>
     
 
-    <process id="blog">
+    <process id="blog"
+             initiation="message">
 
         <attributes>
             <attribute id="author"> 
@@ -57,7 +57,10 @@
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>
                         </receive>
-                        <jelly:log message="publishing ${title}"/>
+                        <call process="publish">
+                            <in id="author" value="author"/>
+                            <in id="title" value="title"/>
+                        </call>
                     </sequence>
                 </choice>
                 <choice>
@@ -67,17 +70,53 @@
                             <python:correlator test="cmd.title == title"/>
     -->
                             <ognl:correlator test="#cmd.title == #title"/>
-    
                             <jelly:action>
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>
+    
+                            <call process="reject">
+                                <in id="author" value="author"/>
+                                <in id="title" value="title"/>
+                            </call>
+
                         </receive>
-                        <jelly:log message="rejecting ${title}"/>
                     </sequence>
                 </choice>
             </pick>
         </sequence>
     
+    </process>
+
+    <process id="publish"
+             initiation="call">
+        <attributes>
+            <attribute id="author" in="true"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+            <attribute id="title" in="true"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+        </attributes>
+    
+        <sequence>
+            <jelly:log message="publishing ${title}"/>
+        </sequence>
+    </process>
+
+    <process id="reject" 
+             initiation="call">
+        <attributes>
+            <attribute id="author" in="true"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+            <attribute id="title" in="true"> 
+                <java:attr-type type="java.lang.String"/>
+            </attribute>
+        </attributes>
+    
+        <sequence>
+            <jelly:log message="rejecting ${title}"/>
+        </sequence>
     </process>
 
 </processes>
