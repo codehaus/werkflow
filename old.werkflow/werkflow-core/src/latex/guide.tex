@@ -1,0 +1,57 @@
+
+%%
+%%
+%% the werkflow manual
+%%
+%%
+
+\documentclass[10pt,letterpaper]{book}
+
+
+%%
+%% Package Imports
+%%
+
+\usepackage{alltt}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{color}
+
+%%
+%% Extra Commands and Evironments
+%%
+
+\newenvironment{codelisting}%
+        {\bigskip\begin{minipage}{250pt}\footnotesize\begin{alltt}}%
+        {\end{alltt}\end{minipage}\bigskip}
+
+\newcommand{\drools}{{\textsf{drools}}}
+
+\definecolor{light}{rgb}{0.4,0.4,0.4}
+
+\begin{document}
+
+\let\footnoterule\hrule
+
+\makeatletter
+\renewcommand{\@makefntext}[1]%
+        {\noindent\makebox[1.8em][r]{\@makefnmark}#1}
+\makeatother
+
+\title{The \textsf{werkflow} Guide}
+
+\author{\textsf{The Werken Company}\\
+        \textsf{www.werken.com}}
+
+
+\frontmatter
+
+\maketitle
+
+%\tableofcontents
+%\listoffigures
+
+\mainmatter
+
+
+\end{document}
