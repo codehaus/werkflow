@@ -1,66 +1,69 @@
 
-<process id="general"
+<fund:process id="general"
          initiation="message"
-         xmlns="werkflow:fundamental"
+         xmlns:fund="werkflow:fundamental"
+         xmlns="werkflow:petri"
          xmlns:java="werkflow:java"
          xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
-  <import url="message-types.xml"/>
+  <fund:import url="message-types.xml"/>
 
 <!--
   <message-initiator id="bob" 
                      type="init.msg"/>
 -->
 
-  <place id="in">
-    <documentation>the in place</documentation>
-  </place>
+    <net>
+        <place id="in">
+            <documentation>the in place</documentation>
+        </place>
 
-  <place id="middle">
-    <documentation>the middle place</documentation>
-  </place>
+        <place id="middle">
+            <documentation>the middle place</documentation>
+        </place>
 
-  <place id="out">
-    <documentation>the out place</documentation>
-  </place>
+        <place id="out">
+            <documentation>the out place</documentation>
+        </place>
 
-  <transition id="transition one" type="or">
-    <documentation>the 1st transition</documentation>
+        <transition id="transition one" type="or">
+            <documentation>the 1st transition</documentation>
 
-    <message id="message" type="init.msg"/>
+            <message id="message" type="init.msg"/>
 
-    <input from="in"/>
-    <output to="middle"/>
+            <input from="in"/>
+            <output to="middle"/>
     
-    <task>
-      <jelly:action>
-        <j:set var="bob" value="${message.payload}"/>
-        case ${caseId}
-        action 1
-        bob = ${bob}
-        <j:set var="bob" value="mr ${bob}"/>
-      </jelly:action>
-    </task>
-  </transition>
+            <task>
+                <jelly:action>
+                    <j:set var="bob" value="${message.payload}"/>
+                    case ${caseId}
+                    action 1
+                    bob = ${bob}
+                    <j:set var="bob" value="mr ${bob}"/>
+                </jelly:action>
+            </task>
+        </transition>
 
-  <transition id="transition two" type="and">
-    <documentation>the 2nd transition</documentation>
-    <input from="middle"/>
-    <output to="out"/>
+        <transition id="transition two" type="and">
+            <documentation>the 2nd transition</documentation>
+            <input from="middle"/>
+            <output to="out"/>
 
-    <message id="myMsg" type="normal.msg">
-      <jelly:correlator test="${myMsg.payload == bob}"/>
-    </message>>
+            <message id="myMsg" type="normal.msg">
+              <jelly:correlator test="${myMsg.payload == bob}"/>
+            </message>>
 
-    <task>
-      <jelly:action>
-        case ${caseId}
-        action 2
-        bob == ${bob}
-        myMsg == ${myMsg.type} : ${myMsg.payload} 
-      </jelly:action>
-    </task>
-  </transition>
+            <task>
+                <jelly:action>
+                    case ${caseId}
+                    action 2
+                    bob == ${bob}
+                    myMsg == ${myMsg.type} : ${myMsg.payload} 
+                </jelly:action>
+            </task>
+        </transition> 
+    </net>
 
-</process>
+</fund:process>
