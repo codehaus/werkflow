@@ -1,30 +1,24 @@
 package com.werken.werkflow.core;
 
-import com.werken.werkflow.Attributes;
 import com.werken.werkflow.AttributeDeclaration;
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.ProcessCase;
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.InvalidAttributesException;
 import com.werken.werkflow.NoSuchCaseException;
+import com.werken.werkflow.ProcessCase;
+import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.ProcessNotCallableException;
+import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.Transition;
+import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.MessagingManager;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
-import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 import com.werken.werkflow.service.persistence.PersistenceException;
-
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Date;
+import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 
 class ProcessDeployment
     implements ProcessInfo, CaseEvaluator, ChangeSetSource, MessageSink, MessageConsumer
