@@ -11,11 +11,20 @@ public abstract class Engine
 {
     private Timer timer;
     private Map workflows;
+    private Map instances;
+    private SatisfactionManager satisfactionManager;
 
     public Engine()
     {
         this.workflows = new HashMap();
+        this.instances = new HashMap();
         this.timer     = new Timer();
+    }
+
+    public Engine(SatisfactionManager satisfactionManager)
+    {
+        this();
+        setSatisfactionManager( satisfactionManager );
     }
 
     public void addWorkflow(Workflow workflow)
@@ -44,7 +53,12 @@ public abstract class Engine
     public Instance getInstance(String id)
         throws NoSuchInstanceException
     {
-        return null;
+        if ( ! this.instances.containsKey( id ) )
+        {
+            throw new NoSuchInstanceException( id );
+        }
+
+        return (Instance) this.instances.get( id );
     }
 
     public Instance newInstance(String workflowId,
@@ -56,6 +70,9 @@ public abstract class Engine
         Instance instance = new Instance( this,
                                           workflow,
                                           id );
+
+        this.instances.put( id,
+                            instance );
 
         start( instance,
                new Path() );
@@ -78,8 +95,8 @@ public abstract class Engine
 
         if ( component instanceof Satisfaction )
         {
-            //System.err.println( "## Satisfaction" );
             Satisfaction satisfaction = (Satisfaction) component;
+            //System.err.println( "## Satisfaction " + satisfaction.getId() );
 
             if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
                                                        instance ) ) 
@@ -99,6 +116,7 @@ public abstract class Engine
                 if ( component instanceof PolledSatisfaction )
                 {
                     PolledSatisfaction polledSatisfaction = (PolledSatisfaction) satisfaction;
+
 
                     setupSatisfactionPoll( polledSatisfaction,
                                            instance.getId() );
@@ -286,14 +304,24 @@ public abstract class Engine
                        nextPaths[ i ] );
             }
         }
+        else
+        {
+            end( instance,
+                 satisfactionPath );
+        }
     }
 
     protected abstract void setupSatisfactionPoll(final PolledSatisfaction satisfaction,
                                                   final String instanceId);
 
+    public void setSatisfactionManager(SatisfactionManager satisfactionManager)
+    {
+        this.satisfactionManager = satisfactionManager;
+    }
+
     public SatisfactionManager getSatisfactionManager()
     {
-        return null;
+        return this.satisfactionManager;
     }
     
 }
