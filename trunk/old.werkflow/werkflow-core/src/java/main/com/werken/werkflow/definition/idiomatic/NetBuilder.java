@@ -13,6 +13,9 @@ public class NetBuilder
     private long transitionCounter;
     private long placeCounter;
 
+    private DefaultPlace in;
+    private DefaultPlace out;
+
     public NetBuilder()
     {
     }
@@ -26,11 +29,10 @@ public class NetBuilder
         this.net = new DefaultNet();
         Net result = this.net;
 
+        this.in = this.net.addPlace( "in" );
+        this.out = this.net.addPlace( "out" );
+
         DefaultTransition[] ends = segment.build( this );
-
-
-        DefaultPlace in = this.net.addPlace( "in" );
-        DefaultPlace out = this.net.addPlace( "out" );
 
         connect( in,
                  ends[0] );
@@ -42,6 +44,16 @@ public class NetBuilder
         this.net = null;
 
         return result;
+    }
+
+    public DefaultPlace getIn()
+    {
+        return this.in;
+    }
+
+    public DefaultPlace getOut()
+    {
+        return this.out;
     }
 
     public DefaultTransition newTransition()

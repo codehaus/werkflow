@@ -1,5 +1,6 @@
 package com.werken.werkflow.syntax.idiomatic;
 
+import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.UnsupportedIdiomException;
 import com.werken.werkflow.jelly.MiscTagSupport;
@@ -60,5 +61,10 @@ public abstract class IdiomaticTagSupport
         tag.receiveSegment( this.segment );
 
         this.segment = null;
+    }
+
+    protected MessageType getMessageType(String id)
+    {
+        return null;
     }
 }

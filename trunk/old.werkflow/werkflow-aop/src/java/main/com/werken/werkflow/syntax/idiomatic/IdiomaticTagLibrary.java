@@ -22,6 +22,21 @@ public class IdiomaticTagLibrary
                      WhileTag.class );
 
         registerTag( "if",
-                     WhileTag.class );
+                     IfTag.class );
+
+        registerTag( "switch",
+                     SwitchTag.class );
+
+        registerTag( "case",
+                     CaseTag.class );
+
+        registerTag( "pick",
+                     PickTag.class );
+
+        registerTag( "on-message",
+                     OnMessageTag.class );
+
+        registerTag( "terminate",
+                     TerminateTag.class );
     }
 }
