@@ -703,6 +703,21 @@ public class WorkflowEngine
         }
     }
 
+    void evaluateCases(WorkflowProcessCase[] processCases)
+    {
+        for ( int i = 0 ; i < processCases.length ; ++i )
+        {
+            try
+            {
+                evaluateCase( processCases[i] );
+            }
+            catch (NoSuchProcessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 

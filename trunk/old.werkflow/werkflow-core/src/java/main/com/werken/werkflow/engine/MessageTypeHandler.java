@@ -208,7 +208,7 @@ class MessageTypeHandler
 
     /** @see MessageSink
      */
-    public void acceptMessage(Message message)
+    public synchronized void acceptMessage(Message message)
     {
         if ( this.messageInitiator != null )
         {
@@ -236,6 +236,8 @@ class MessageTypeHandler
         }
         else
         {
+            List correlated = new ArrayList();
+
             //Iterator                correlatorIter = msgWaiterCorrelators.values().iterator();
             Iterator                correlatorIter = this.orderedCorrelators.iterator();
             MessageWaiterCorrelator eachCorrelator = null;
@@ -244,7 +246,7 @@ class MessageTypeHandler
             {
                 eachCorrelator = (MessageWaiterCorrelator) correlatorIter.next();
 
-                eachCorrelator.acceptMessage( message );
+                correlated.addAll( eachCorrelator.acceptMessage( message ) );
 
                 /*
                 if ( eachCorrelator.acceptMessage( message ) )
@@ -253,6 +255,8 @@ class MessageTypeHandler
                 }
                 */
             }
+
+            getEngine().evaluateCases( (WorkflowProcessCase[]) correlated.toArray( WorkflowProcessCase.EMPTY_ARRAY ) );
         }
     }
 

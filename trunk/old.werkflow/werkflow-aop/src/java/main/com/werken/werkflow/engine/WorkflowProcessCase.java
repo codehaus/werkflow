@@ -69,6 +69,9 @@ public class WorkflowProcessCase
     //     Constants
     // ----------------------------------------------------------------------
 
+    /** Empty <code>WorkflowProcessCase</code> array. */
+    public static final WorkflowProcessCase[] EMPTY_ARRAY = new WorkflowProcessCase[0];
+
     /** Empty <code>String</code> array. */
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
