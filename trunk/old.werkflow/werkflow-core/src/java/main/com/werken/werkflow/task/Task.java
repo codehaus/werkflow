@@ -61,7 +61,7 @@ public interface Task
     // ----------------------------------------------------------------------
 
     /** Empty <code>Task</code> array. */
-    final static Task[] EMPTY_ARRAY = new Task[0];
+    static final Task[] EMPTY_ARRAY = new Task[0];
 
     // ----------------------------------------------------------------------
     //     Interface

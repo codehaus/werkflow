@@ -85,6 +85,8 @@ public interface CaseRepository
      *  @param processId The identifier of the process for which to
      *         instantiate and store a new case-state.
      *  @param attributes The case's initial attributes to be stored.
+     *
+     *  @return The new case state.
      */
     CaseState newCaseState(String processId,
                            Attributes attributes);
@@ -98,10 +100,36 @@ public interface CaseRepository
      */
     CaseState getCaseState(String caseId);
 
+    /** Select <code>ProcessCase</code> identifiers by process-id and a place-id.
+     *
+     *  <p>
+     *  All process-cases of the specified process containing a mark
+     *  in the specified place are returned.
+     *  </p>
+     *
+     *  @param processId The process identifier.
+     *  @param placeId The place identifier.
+     *
+     *  @return The selected cases.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     String[] selectCases(String processId,
                          String placeId)
         throws QueryException;
 
+    /** Select <code>ProcessCase</code> identifiers by process-id and
+     *  query-by-example case attributes.
+     *
+     *  @param processId The process identifier.
+     *  @param qbeAttrs The query-by-example attributes.
+     *
+     *  @return The selected cases.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     String[] selectCases(String processId,
                          Map qbeAttrs)
         throws QueryException;

@@ -80,6 +80,7 @@ import com.werken.werkflow.definition.MessageType;
  */
 public interface MessagingManager
 {
+    /** Component role. */
     public static final String ROLE = MessagingManager.class.getName();
 
     /** Register an interest by a <code>MessageSink</code> in

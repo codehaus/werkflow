@@ -52,8 +52,6 @@ import com.werken.werkflow.activity.Activity;
 import org.apache.commons.beanutils.MethodUtils;
 
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /** Adaptor to wrap most any generic JavaBean into a werkflow <code>Action</code>.
  *
