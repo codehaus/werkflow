@@ -48,9 +48,19 @@ public class IdiomImplTag
 
             if ( "expr".equals( getIdiomDefinition().getParameter( id ).getType() ) )
             {
-                ExpressionFactory exprFactory = getExpressionFactory();
-
-                finalValue = exprFactory.newExpression( value.toString() );
+                try
+                {
+                    if ( value != null )
+                    {
+                        ExpressionFactory exprFactory = getExpressionFactory();
+                        
+                        finalValue = exprFactory.newExpression( value.toString() );
+                    }
+                }
+                catch (Exception  e)
+                {
+                    throw new JellyTagException( e );
+                }
             }
             else
             {
@@ -184,7 +194,23 @@ public class IdiomImplTag
     }
 
     protected ExpressionFactory getExpressionFactory()
+        throws Exception
     {
-        return (ExpressionFactory) getContext().getVariable( ExpressionFactory.class.getName() );
+        // return (ExpressionFactory) getContext().getVariable( ExpressionFactory.class.getName() );
+
+        String factoryName = (String) getContext().findVariable( ExpressionFactory.class.getName() );
+
+        if ( factoryName == null )
+        {
+            return null;
+        }
+
+        System.err.println( "FACTORY GET: " + getContext() + " -- " + factoryName );
+
+        ExpressionFactory factory = (ExpressionFactory) getContext().findVariable( factoryName );
+
+        System.err.println( "FACTORY itself: " + getContext() + " -- " + factory );
+
+        return factory;
     }
 }

@@ -6,6 +6,7 @@
     <syntax:import url="../common/core-idioms.xml"/>
 
     <syntax:tag name="process">
+        <syntax:expr-factory type="com.werken.werkflow.semantics.jexl.JexlExpressionFactory"/>
         <fund:process id="${id}"
                       initiation="${initiation}">
             <syntax:invokeBody/>
