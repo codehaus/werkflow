@@ -55,7 +55,7 @@ import org.apache.commons.jelly.JellyContext;
  *
  *  @see JellyAction
  *  @see org.codehaus.werkflow.Attributes
- *  @see org.codehaus.werkflow.action.Action
+ *  @see org.codehaus.werkflow.work.Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

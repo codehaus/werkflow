@@ -74,8 +74,7 @@ import org.apache.commons.jelly.JellyTagException;
  *  </p>
  *
  *  @see TransitionTag
- *  @see MessageTypeTag
- *  @see org.codehaus.werkflow.semantics.jelly.JellyMessageCorrelatorTag
+ *  @see org.codehaus.werkflow.syntax.fundamental.MessageTypeTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

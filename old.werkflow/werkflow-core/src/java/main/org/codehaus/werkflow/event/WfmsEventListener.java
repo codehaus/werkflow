@@ -88,7 +88,7 @@ import java.util.EventListener;
  *
  *  The <code>TransitionTerminatedEvent</code> will return
  *  <code>true</code> for {@link TransitionTerminatedEvent#terminatedWithError}
- *  and the error will be provided via {@link #TransitionTerminatedEvent#getError}
+ *  and the error will be provided via {@link TransitionTerminatedEvent#getError}
  *  </p>
  *
  *  <p>

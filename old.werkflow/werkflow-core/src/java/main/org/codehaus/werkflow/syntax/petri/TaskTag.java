@@ -57,17 +57,14 @@ import org.apache.commons.jelly.JellyTagException;
 /** Define a <code>Task</code> for a <code>Transition</code>.
  *
  *  <p>
- *  A &lt;task&gt; must contain some addition tag to specify
- *  the concrete action that represents the task.  A useful
- *  example is the {@link ActionTag} used to reference actions
- *  defined in <code>actions.xml</code>.  Alternatively, an
- *  in-line concrete action using the <code>JellyAction</code>
- *  or <code>JavaAction</code> is possible.
+ *  A &lt;task&gt; must contain some additional tag to specify
+ *  the concrete action that represents the task.  Typically this
+ *  would be an in-line concrete action such as <code>JellyAction</code>
+ *  or <code>JavaAction</code>.
  *  </p>
  *
- *  @see ActionTag
- *  @see org.codehaus.werkflow.semantics.java.JavaActionTag;
- *  @see org.codehaus.werkflow.semantics.jelly.JellyActionTag;
+ *  @see org.codehaus.werkflow.semantics.java.JavaActionTag
+ *  @see org.codehaus.werkflow.semantics.jelly.JellyActionTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

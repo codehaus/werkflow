@@ -61,7 +61,7 @@ public class InvalidAttributesException
 
     /** Construct.
      *
-     *  @param id The offending process package identifier.
+     *  @param packageId The offending process package identifier.
      *  @param id The offending process identifier.
      *  @param attributes The offending attributes;
      */

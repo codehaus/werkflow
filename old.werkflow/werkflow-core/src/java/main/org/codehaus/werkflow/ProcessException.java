@@ -65,7 +65,8 @@ public class ProcessException
 
     /** Construct.
      *
-     *  @param id The offending process identifier.
+     *  @param packageId The offending process package identifier.
+     *  @param processId The offending process identifier.
      */
     public ProcessException(String packageId,
                             String processId)

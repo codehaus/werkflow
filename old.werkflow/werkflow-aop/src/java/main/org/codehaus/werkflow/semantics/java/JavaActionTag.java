@@ -56,7 +56,7 @@ import org.apache.commons.jelly.JellyTagException;
 /** Jelly tag for &lt;java:action&gt;.
  *
  *  @see JavaAction
- *  @see org.codehaus.werkflow.action.Action
+ *  @see org.codehaus.werkflow.work.Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

@@ -57,7 +57,7 @@ package org.codehaus.werkflow.definition;
  *
  *  @see MessageType
  *  @see MessageCorrelator
- *  @see org.codehaus.werkflow.definition.petri.Transition#getMessageWaiter
+ *  @see org.codehaus.werkflow.definition.petri.Transition#getWaiter
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
