@@ -1,6 +1,6 @@
 <processes xmlns="werkflow:basic"
-	   xmlns:extension="werkflow:test"
-	   package="org.codehaus.werkflow.personality.extension">
+           xmlns:extension="werkflow:test"
+           package="org.codehaus.werkflow.personality.extension">
 
   <process id="test" initiation="call">
     <sequence>
