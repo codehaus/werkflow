@@ -10,6 +10,12 @@ import com.werken.werkflow.admin.WfmsAdmin;
  *  functionality and client runtime.
  *  </p>
  *
+ *  <p>
+ *  The core <code>Wfms</code> provides access to the <code>WfmsAdmin</code>
+ *  for process deployment and resource management and the <code>WfmsRuntime</code>
+ *  for case and activity management.
+ *  </p>
+ *
  *  @see WfmsAdmin
  *  @see WfmsRuntime
  *
