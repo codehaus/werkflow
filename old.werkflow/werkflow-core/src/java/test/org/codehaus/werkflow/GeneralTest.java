@@ -46,53 +46,13 @@ package org.codehaus.werkflow;
 
  */
 
-import org.codehaus.werkflow.WfmsRuntime;
-import org.codehaus.werkflow.ProcessCase;
-import org.codehaus.werkflow.SimpleAttributes;
-import org.codehaus.werkflow.admin.WfmsAdmin;
-import org.codehaus.werkflow.engine.WorkflowEngine;
-import org.codehaus.werkflow.service.SimpleWfmsServices;
-import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
-import org.codehaus.werkflow.service.persistence.PersistenceManager;
-import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
-import org.codehaus.werkflow.syntax.fundamental.FundamentalDefinitionLoader;
-import org.codehaus.werkflow.definition.ProcessDefinition;
-
-import java.net.URL;
-
 public class GeneralTest
     extends WerkflowTestCase
 {
-    /*
     public void testGeneral2()
         throws Exception
     {
-        SimpleWfmsServices services = new SimpleWfmsServices();
-
-        SimpleMessagingManager messagingManager = new SimpleMessagingManager();
-        PersistenceManager persistenceManager = new FleetingPersistenceManager();
-
-        services.setMessagingManager( messagingManager );
-        services.setPersistenceManager( persistenceManager );
-
-        WorkflowEngine engine = new WorkflowEngine( services );
-
-        URL url = getClass().getResource( "general2.xml" );
-
-        FundamentalDefinitionLoader loader = new FundamentalDefinitionLoader();
-
-        ProcessDefinition[] processDefs = loader.load( url );
-
-        WfmsAdmin admin = engine.getAdmin();
-
-        assertLength( 1,
-                      processDefs );
-
-        for ( int i = 0 ; i < processDefs.length ; ++i )
-        {
-            // System.err.println( processDefs[i] );
-            admin.deployProcess( processDefs[i] );
-        }
+        deployFundamentalProcess( "general2.xml", 1 );
 
         WfmsRuntime runtime = engine.getRuntime();
 
@@ -104,37 +64,11 @@ public class GeneralTest
 
         assertNotNull( processCase );
     }
-    */
 
     public void testGeneral3()
         throws Exception
     {
-        SimpleWfmsServices services = new SimpleWfmsServices();
-
-        SimpleMessagingManager messagingManager = new SimpleMessagingManager();
-        PersistenceManager persistenceManager = new FleetingPersistenceManager();
-
-        services.setMessagingManager( messagingManager );
-        services.setPersistenceManager( persistenceManager );
-
-        WorkflowEngine engine = new WorkflowEngine( services );
-
-        URL url = getClass().getResource( "general3.xml" );
-
-        FundamentalDefinitionLoader loader = new FundamentalDefinitionLoader();
-
-        ProcessDefinition[] processDefs = loader.load( url );
-
-        WfmsAdmin admin = engine.getAdmin();
-
-        assertLength( 1,
-                      processDefs );
-
-        for ( int i = 0 ; i < processDefs.length ; ++i )
-        {
-            // System.err.println( processDefs[i] );
-            admin.deployProcess( processDefs[i] );
-        }
+        deployFundamentalProcess( "general3.xml", 1 );
 
         WfmsRuntime runtime = engine.getRuntime();
 
@@ -143,8 +77,6 @@ public class GeneralTest
         ProcessCase processCase = runtime.callProcess( "",
                                                        "general",
                                                        attrs );
-
-
 
         assertNotNull( processCase );
 

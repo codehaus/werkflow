@@ -46,13 +46,82 @@ package org.codehaus.werkflow;
 
  */
 
+import org.codehaus.werkflow.admin.WfmsAdmin;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.engine.WorkflowEngine;
+import org.codehaus.werkflow.service.SimpleWfmsServices;
+import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
+import org.codehaus.werkflow.syntax.fundamental.FundamentalDefinitionLoader;
+
 import junit.framework.TestCase;
 
+import java.net.URL;
 import java.util.Arrays;
 
+/**
+ * Common base class for werkflow unit tests. Provides basic services that
+ * are common to test case start-up and execution (initializing the werkflow
+ * engine, loading processes and such like).
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *  @author <a href="mailto:mhw@kremvax.net">Mark Wilkinson</a>
+ *
+ *  @version $Id$
+ */
 public class WerkflowTestCase
     extends TestCase
 {
+    /** Workflow services. */
+    protected SimpleWfmsServices services;
+
+    /** Workflow persistence manager. */
+    protected PersistenceManager persistenceManager;
+
+    /** Workflow messaging manager. */
+    protected SimpleMessagingManager messagingManager;
+
+    /** Workflow engine. */
+    protected WorkflowEngine engine;
+
+    protected void setUp()
+        throws Exception
+    {
+        services = new SimpleWfmsServices();
+
+        messagingManager = new SimpleMessagingManager();
+
+        persistenceManager = new FleetingPersistenceManager();
+
+        services.setMessagingManager( messagingManager );
+
+        services.setPersistenceManager( persistenceManager );
+
+        engine = new WorkflowEngine( services );
+    }
+
+    protected void deployFundamentalProcess( String file,
+                                             int expectedProcesses)
+        throws Exception
+    {
+        URL url = getClass().getResource( file );
+    
+        FundamentalDefinitionLoader loader = new FundamentalDefinitionLoader();
+    
+        ProcessDefinition[] processDefs = loader.load( url );
+    
+        WfmsAdmin admin = engine.getAdmin();
+    
+        assertLength( expectedProcesses,
+                      processDefs );
+    
+        for ( int i = 0 ; i < processDefs.length ; ++i )
+        {
+            admin.deployProcess( processDefs[i] );
+        }
+    }
+
     public static class Relay
     {
         private Object value;
