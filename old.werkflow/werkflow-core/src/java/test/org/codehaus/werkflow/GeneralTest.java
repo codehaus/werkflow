@@ -62,7 +62,7 @@ public class GeneralTest
 
         messagingManager.acceptMessage( initMessage );
 
-        Thread.sleep( 1000 );
+        initMessage.waitUntilTouched();
 
         assertTrue( "init message not touched", initMessage.hasBeenTouched() );
 
@@ -71,7 +71,7 @@ public class GeneralTest
 
         messagingManager.acceptMessage( normalMessage );
 
-        Thread.sleep( 1000 );
+        normalMessage.waitUntilTouched();
 
         assertTrue( "normal message not touched", normalMessage.hasBeenTouched() );
     }
@@ -124,7 +124,7 @@ public class GeneralTest
 
         messagingManager.acceptMessage( normalMessage );
 
-        Thread.sleep( 1000 );
+        normalMessage.waitUntilTouched();
 
         assertTrue( "normal message not touched", normalMessage.hasBeenTouched() );
     }
