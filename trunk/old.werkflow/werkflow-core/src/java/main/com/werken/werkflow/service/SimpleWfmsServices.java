@@ -46,7 +46,7 @@ package com.werken.werkflow.service;
  
  */
 
-import com.werken.werkflow.service.caserepo.CaseRepository;
+import com.werken.werkflow.service.persistence.PersistenceManager;
 import com.werken.werkflow.service.messaging.MessagingManager;
 
 /** Simple <code>WfmsServices</code> implementation.
@@ -62,8 +62,7 @@ public class SimpleWfmsServices
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Case repository. */
-    private CaseRepository caseRepo;
+    private PersistenceManager persistenceManager;
 
     /** Messaging-manager. */
     private MessagingManager messagingManager;
@@ -83,20 +82,16 @@ public class SimpleWfmsServices
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the <code>CaseRepository</code>.
-     *
-     *  @param caseRepo The case repository.
-     */
-    public void setCaseRepository(CaseRepository caseRepo)
+    public void setPersistenceManager(PersistenceManager persistenceManager)
     {
-        this.caseRepo = caseRepo;
+        this.persistenceManager = persistenceManager;
     }
 
     /** @see WfmsServices
      */
-    public CaseRepository getCaseRepository()
+    public PersistenceManager getPersistenceManager()
     {
-        return this.caseRepo;
+        return this.persistenceManager;
     }
 
     /** Set the <code>MessagingManager</code>.

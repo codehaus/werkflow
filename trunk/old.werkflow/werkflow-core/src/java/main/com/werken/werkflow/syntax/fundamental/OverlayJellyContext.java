@@ -46,6 +46,9 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
+import com.werken.werkflow.MutableAttributes;
+import com.werken.werkflow.work.ActionInvocation;
+
 import org.apache.commons.jelly.JellyContext;
 
 import java.util.Map;
@@ -70,63 +73,56 @@ public class OverlayJellyContext
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Case attributes backing map. */
-    private Map caseAttrs;
-
-    /** Other attributes backing map. */
-    private Map otherAttrs;
+    private ActionInvocation invocation;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
-    /** Construct.
-     *
-     *  @param caseAttrs The case-attributes backing map.
-     *  @param otherAttrs The other-attributes backing map.
-     */
-    public OverlayJellyContext(Map caseAttrs,
-                               Map otherAttrs)
+    public OverlayJellyContext(ActionInvocation invocation)
     {
-        this.caseAttrs  = Collections.unmodifiableMap( caseAttrs );
-        this.otherAttrs = new HashMap( otherAttrs );
+        this.invocation = invocation;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the other-attributes backing map.
-     *
-     *  @return The other-attributes backing map.
-     */
-    public Map getOtherAttributes()
+    protected ActionInvocation getInvocation()
     {
-        return this.otherAttrs;
+        return this.invocation;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    protected MutableAttributes getCaseAttributes()
+    {
+        return getInvocation().getCaseAttributes();
+    }
+
+    protected MutableAttributes getOtherAttributes()
+    {
+        return getInvocation().getOtherAttributes();
+    }
+
 
     /** @see JellyContext
      */
     public void setVariable(String id,
                             Object value)
     {
-        this.otherAttrs.put( id,
-                             value );
+        getOtherAttributes().setAttribute( id,
+                                           value );
     }
 
     /** @see JellyContext
      */
     public Object getVariable(String id)
     {
-        if ( this.otherAttrs.containsKey( id ) )
+        if ( getOtherAttributes().hasAttribute( id ) )
         {
-            return this.otherAttrs.get( id );
+            return getOtherAttributes().getAttribute( id );
         }
 
-        return this.caseAttrs.get( id );
+        return getCaseAttributes().getAttribute( id );
     }
 
     /** @see JellyContext

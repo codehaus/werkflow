@@ -57,14 +57,14 @@ package com.werken.werkflow;
  *  @version $Id$
  */
 public class NoSuchCaseException
-    extends WerkflowException
+    extends ProcessException
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Offending process-case id. */
-    private String id;
+    /** The case id. */
+    private String caseId;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -72,11 +72,18 @@ public class NoSuchCaseException
 
     /** Construct.
      *
-     *  @param id The offending process case identifier.
+     *  @param packageId The package id.
+     *  @param processId the process id.
+     *  @param caseId The caseId.
      */
-    public NoSuchCaseException(String id)
+    public NoSuchCaseException(String packageId,
+                               String processId,
+                               String caseId)
     {
-        this.id = id;
+        super( packageId,
+               processId );
+
+        this.caseId = caseId;
     }
 
     // ----------------------------------------------------------------------
@@ -87,9 +94,9 @@ public class NoSuchCaseException
      *
      *  @return The offending process-case identifier.
      */
-    public String getId()
+    public String getCaseId()
     {
-        return this.id;
+        return this.caseId;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -98,6 +105,7 @@ public class NoSuchCaseException
      */
     public String getMessage()
     {
-        return "No such process case: " + getId();
+        return "No such process case: "
+            + getProcessDescription() + ":" + getCaseId();
     }
 } 

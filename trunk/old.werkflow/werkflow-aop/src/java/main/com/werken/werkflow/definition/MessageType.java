@@ -64,6 +64,8 @@ import com.werken.werkflow.service.messaging.MessageSelector;
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
+ *
+ *  @todo MOVE TO services.messaging.*
  */
 public class MessageType
 {

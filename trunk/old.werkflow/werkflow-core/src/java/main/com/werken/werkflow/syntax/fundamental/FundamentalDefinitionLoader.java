@@ -46,14 +46,14 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.ActionLibrary;
+import com.werken.werkflow.work.ActionLibrary;
 import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
 import com.werken.werkflow.jelly.JellyUtil;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
@@ -92,7 +92,7 @@ public class FundamentalDefinitionLoader
     // ----------------------------------------------------------------------
 
 
-    public ProcessPackage load(URL url)
+    public ProcessDefinition[] load(URL url)
         throws Exception
     {
         XMLParser    parser  = new XMLParser();
@@ -116,11 +116,15 @@ public class FundamentalDefinitionLoader
 
         Script script = parser.parse( url.toExternalForm() );
 
+        List processDefs = new ArrayList();
+
+        MiscTagSupport.installCollector( ProcessDefinition.class,
+                                         processDefs,
+                                         context );
+
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
 
-        ProcessPackage pkg = (ProcessPackage) context.getVariable( ProcessPackage.class.getName() );
-
-        return pkg;
+        return (ProcessDefinition[]) processDefs.toArray( ProcessDefinition.EMPTY_ARRAY );
     }
 }

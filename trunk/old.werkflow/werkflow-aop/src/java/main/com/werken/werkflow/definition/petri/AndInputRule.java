@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.engine.WorkflowProcessCase;
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.expr.ExpressionContext;
 import com.werken.werkflow.expr.AttributesExpressionContext;
@@ -71,7 +71,7 @@ import java.util.ArrayList;
  *  @version $Id$
  */
 public class AndInputRule
-    implements ActivationRule
+    extends AbstractActivationRule
 {
     // ----------------------------------------------------------------------
     //     Constants
@@ -113,48 +113,43 @@ public class AndInputRule
 
     /** @see ActivationRule
      */
-    public boolean isSatisfied(Transition transition,
-                               WorkflowProcessCase processCase)
+    public String[] getSatisfyingTokens(Transition transition,
+                                        Attributes caseAttrs,
+                                        String[] availMarks)
         throws Exception
-    {
-        Arc[] arcs = transition.getArcsFromPlaces();
-        Place eachPlace = null;
-
-        for ( int i = 0 ; i < arcs.length ; ++i )
-        {
-            eachPlace = arcs[i].getPlace();
-
-            if ( ! processCase.hasMark( eachPlace.getId() ) )
-            {
-                return false;
-            }
-
-            if ( arcs[i].getExpression() != null )
-            {
-                ExpressionContext context = new AttributesExpressionContext( processCase );
-                return arcs[i].getExpression().evaluateAsBoolean( context );
-            }
-        }
-        
-        return true;
-    }
-
-    /** @see ActivationRule
-     */
-    public String[] satisfy(Transition transition,
-                        WorkflowProcessCase processCase)
     {
         List placeIds = new ArrayList();
 
-        Arc[] arcs = transition.getArcsFromPlaces();
-        Place eachPlace = null;
+        Arc[]  arcs        = transition.getArcsFromPlaces();
+        String eachPlaceId = null;
+
+        ExpressionContext context = new AttributesExpressionContext( caseAttrs );
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
-            eachPlace = arcs[i].getPlace();
+            eachPlaceId = arcs[i].getPlace().getId();
 
-            processCase.removeMark( eachPlace.getId() );
-            placeIds.add( eachPlace.getId() );
+            if ( contains( eachPlaceId,
+                           availMarks ) )
+            {
+                Expression expr = arcs[i].getExpression();
+
+                if ( expr != null )
+                {
+                    if ( ! expr.evaluateAsBoolean( context ) )
+                    {
+                        return EMPTY_STRING_ARRAY;
+                    }
+                }
+                else
+                {
+                    placeIds.add( eachPlaceId );
+                }
+            }
+            else
+            {
+                return EMPTY_STRING_ARRAY;
+            }
         }
 
         return (String[]) placeIds.toArray( EMPTY_STRING_ARRAY );

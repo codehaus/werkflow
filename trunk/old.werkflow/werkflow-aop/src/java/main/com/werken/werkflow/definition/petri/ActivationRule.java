@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.engine.WorkflowProcessCase;
+import com.werken.werkflow.Attributes;
 
 /** Rule to determine when a <code>Transition</code> is activated.
  *
@@ -59,28 +59,8 @@ import com.werken.werkflow.engine.WorkflowProcessCase;
  */
 public interface ActivationRule
 {
-    /** Determine if the rule is satisfied.
-     *
-     *  @param transition The transition to test.
-     *  @param processCase The satisfaction context.
-     *
-     *  @return <code>true</code> if the rule is satisfied,
-     *          otherwise <code>false</code>.
-     *
-     *  @throws Exception If an error occurs while evaluating
-     *          the satisfaction status.
-     */
-    boolean isSatisfied(Transition transition,
-                        WorkflowProcessCase processCase)
+    String[] getSatisfyingTokens(Transition transition,
+                                 Attributes caseAttrs,
+                                 String[] availableMarks)
         throws Exception;
-
-    /** Determine which places are used to satisfy.
-     *
-     *  @param transition The transition to test.
-     *  @param processCase The satisfaction context.
-     *
-     *  @return Array of place names of tokens involved in satisfaction.
-     */
-    String [] satisfy(Transition transition,
-                      WorkflowProcessCase processCase);
 }

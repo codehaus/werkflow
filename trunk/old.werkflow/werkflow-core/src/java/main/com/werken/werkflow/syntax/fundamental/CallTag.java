@@ -46,8 +46,8 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.DefaultCallAction;
 import com.werken.werkflow.expr.Expression;
 
 import org.apache.commons.jelly.XMLOutput;

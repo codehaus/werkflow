@@ -65,21 +65,25 @@ public class NoSuchProcessException
 
     /** Construct.
      *
+     *  @param packageId The offending process package identifier.
      *  @param id The offending process identifier.
      */
-    public NoSuchProcessException(String id)
+    public NoSuchProcessException(String packageId,
+                                  String id)
     {
-        super( id );
+        super( packageId,
+               id );
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
-
+    
     /** @see java.lang.Throwable
      */
     public String getMessage()
     {
-        return "No such process: " + getId();
+        return "No such process: " + getProcessDescription();
     }
-} 
+}
+

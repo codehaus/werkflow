@@ -5,6 +5,7 @@ import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jexl.JexlTagLibrary;
 import com.werken.werkflow.semantics.ognl.OgnlTagLibrary;
 import com.werken.werkflow.semantics.python.PythonTagLibrary;
+import com.werken.werkflow.syntax.petri.PetriTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 
@@ -30,6 +31,9 @@ public class JellyUtil
 
     public static void registerTagLibraries(JellyContext context)
     {
+        context.registerTagLibrary( PetriTagLibrary.NS_URI,
+                                    new PetriTagLibrary() );
+
         context.registerTagLibrary( JellyTagLibrary.NS_URI,
                                     new JellyTagLibrary() );
 

@@ -46,12 +46,16 @@ package com.werken.werkflow.semantics.java;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.Attributes;
+import com.werken.werkflow.MutableAttributes;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.ActionInvocation;
 
 import org.apache.commons.beanutils.MethodUtils;
 
 import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /** Adaptor to wrap most any generic JavaBean into a werkflow <code>Action</code>.
  *
@@ -150,16 +154,26 @@ public class JavaAction
 
     /** @see Action
      */
-    public void perform(Activity activity,
-                        Map caseAttrs,
-                        Map otherAttrs)
+    public void perform(ActionInvocation invocation)
     {
+        MutableAttributes caseAttrs  = invocation.getCaseAttributes();
+        MutableAttributes otherAttrs = invocation.getOtherAttributes();
+
+        Map caseAttrsMap  = new HashMap();
+        Map otherAttrsMap = new HashMap();
+
+        copy( caseAttrs,
+              caseAttrsMap );
+
+        copy( otherAttrs,
+              otherAttrsMap );
+
         try
         {
             MethodUtils.invokeMethod( getJavaBean(),
                                       getMethodName(),
-                                      new Object[] { caseAttrs,
-                                                     otherAttrs } );
+                                      new Object[] { caseAttrsMap,
+                                                     otherAttrsMap } );
         }
         catch (NoSuchMethodException e)
         {
@@ -167,20 +181,50 @@ public class JavaAction
             {
                 MethodUtils.invokeMethod( getJavaBean(),
                                           getMethodName(),
-                                          caseAttrs );
+                                          caseAttrsMap );
             }
             catch (Exception e2)
             {
-                activity.completeWithError( e2 );
+                invocation.completeWithError( e2 );
                 return;
             }
         }
         catch (Exception e)
         {
-            activity.completeWithError( e );
+            invocation.completeWithError( e );
             return;
         }
+
+        copy( caseAttrsMap,
+              caseAttrs );
         
-        activity.complete();
+        invocation.complete();
+    }
+
+    void copy(Attributes attrs,
+              Map attrsMap)
+    {
+        String[] names = attrs.getAttributeNames();
+
+        for ( int i = 0 ; i < names.length ; ++i )
+        {
+            attrsMap.put( names[i],
+                          attrs.getAttribute( names[i] ) );
+        }
+    }
+
+    void copy(Map attrsMap,
+              MutableAttributes attrs)
+    {
+        Iterator nameIter = attrsMap.keySet().iterator();
+        String   eachName = null;
+
+        while ( nameIter.hasNext() )
+        {
+            eachName = (String) nameIter.next();
+
+            attrs.setAttribute( eachName,
+                                attrsMap.get( eachName ) );
+        }
     }
 }

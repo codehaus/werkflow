@@ -46,7 +46,7 @@ package com.werken.werkflow.definition;
  
  */
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 
 /** Annotation to a <code>ProcessDefinition</code> specifying
  *  how a message may initiate a new <code>ProcessCase</code>.

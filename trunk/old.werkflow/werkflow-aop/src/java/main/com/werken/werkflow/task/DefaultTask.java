@@ -46,7 +46,7 @@ package com.werken.werkflow.task;
  
  */
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 
 /** Default <code>Task</code> implementation.
  *

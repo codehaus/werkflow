@@ -5,8 +5,9 @@ import org.apache.bsf.BSFEngine;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.util.ObjectRegistry;
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.activity.Activity;
+import com.werken.werkflow.MutableAttributes;
+import com.werken.werkflow.work.Action;
+import com.werken.werkflow.work.ActionInvocation;
 
 import java.util.Map;
 import java.util.Iterator;
@@ -51,10 +52,11 @@ public class BsfAction
         return this.engine;
     }
 
-    public void perform(Activity activity,
-                        Map caseAttrs,
-                        Map otherAttrs)
+    public void perform(ActionInvocation invocation)
     {
+        MutableAttributes caseAttrs  = invocation.getCaseAttributes();
+        MutableAttributes otherAttrs = invocation.getOtherAttributes();
+
         ObjectRegistry registry = new BsfObjectRegistry();
 
         synchronized ( this.manager )
@@ -73,29 +75,16 @@ public class BsfAction
                                   0,
                                   0,
                                   this.text );
-                activity.complete();
+
+                invocation.complete();
             }
             catch (BSFException e)
             {
                 e.printStackTrace();
                 e.getTargetException().printStackTrace();
-                activity.completeWithError( e );
+                invocation.completeWithError( e );
             }
 
-            Iterator nameIter = caseAttrs.keySet().iterator();
-            String   eachName = null;
-            Object   value    = null;
-
-            while ( nameIter.hasNext() )
-            {
-                eachName = (String) nameIter.next();
-
-                value = this.manager.lookupBean( eachName );
-
-                caseAttrs.put( eachName,
-                               this.manager.lookupBean( eachName ) );
-            }
-            
             BsfUtil.unpopulate( this.manager,
                                 caseAttrs );
             

@@ -46,8 +46,8 @@ package com.werken.werkflow.service;
  
  */
 
-import com.werken.werkflow.service.caserepo.CaseRepository;
 import com.werken.werkflow.service.messaging.MessagingManager;
+import com.werken.werkflow.service.persistence.PersistenceManager;
 
 /** Services used by the WFMS.
  *
@@ -62,11 +62,7 @@ import com.werken.werkflow.service.messaging.MessagingManager;
  */
 public interface WfmsServices
 {
-    /** Retrieve the <code>CaseRepository</code>.
-     *
-     *  @return The case repository.
-     */
-    CaseRepository getCaseRepository();
+    PersistenceManager getPersistenceManager();
 
     /** Retrieve the <code>MessagingManager</code>.
      *

@@ -48,7 +48,6 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.definition.Scope;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.expr.ExpressionFactory;
@@ -136,21 +135,7 @@ public abstract class FundamentalTagSupport
     protected void addProcessDefinition(ProcessDefinition processDef)
         throws JellyTagException
     {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
-
-        if ( pkgTag != null )
-        {
-            pkgTag.addProcessDefinition( processDef );
-        }
-        else
-        {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
-
-            pkg.addProcessDefinition( processDef );
-
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
-        }
+        getCollector( ProcessDefinition.class ).add( processDef );
     }
 
     protected ProcessDefinition getCurrentProcess()

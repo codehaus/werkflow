@@ -1,5 +1,3 @@
-<jelly:jelly xmlns:jelly="jelly:core">
-
 <syntax:syntax uri="test:syntax"
               xmlns:syntax="werkflow:syntax"
               xmlns:fund="werkflow:fundamental"
@@ -27,24 +25,3 @@
         </idiom:empty>
     </syntax:tag>
 </syntax:syntax>
-    
-
-    <process xmlns="test:syntax" 
-             namespaceUri="http://ns.org/" 
-             name="myProc" 
-             initiation="call">
-
-<!--
-        <petri:net>
-            <petri:place id="foo"/>
-        </petri:net>
-
--->
-        <flow>
-            <empty/>
-            <empty/>
-        </flow>
-
-    </process>
-
-</jelly:jelly>

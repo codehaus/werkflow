@@ -1,6 +1,6 @@
 package com.werken.werkflow.definition.petri;
 
-import com.werken.werkflow.action.Action;
+import com.werken.werkflow.work.Action;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageType;

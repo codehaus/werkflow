@@ -1,5 +1,6 @@
 package com.werken.werkflow.bsf;
 
+import com.werken.werkflow.Attributes;
 import com.werken.werkflow.expr.ExpressionContext;
 
 import org.apache.bsf.BSFManager;
@@ -63,6 +64,18 @@ public class BsfUtil
                 // swallow
             }
         }
+    }
+
+    public static void populate(BSFManager manager,
+                                Attributes attributes)
+    {
+
+    }
+
+    public static void unpopulate(BSFManager manager,
+                                  Attributes attributes)
+    {
+
     }
 
     public static void populate(BSFManager manager,

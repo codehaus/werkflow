@@ -46,8 +46,6 @@ package com.werken.werkflow;
  
  */
 
-import com.werken.werkflow.activity.Activity;
-
 import java.util.Map;
 
 /** Client runtime interface.
@@ -92,10 +90,12 @@ public interface WfmsRuntime
      */
     ProcessInfo getProcess(String packageId,
                            String processId)
-        throws NoSuchProcessException;
+        throws ProcessException;
 
     /** Retrieve a <code>ProcessCase</code> by its id.
      *
+     *  @param packageId The package id.
+     *  @param processId The process id.
      *  @param caseId The case id.
      *
      *  @return The case associated with the id.
@@ -106,8 +106,10 @@ public interface WfmsRuntime
      *          a case known by the system, but the process associated
      *          with the case is not currently deployed.
      */
-    ProcessCase getProcessCase(String caseId)
-        throws NoSuchCaseException, NoSuchProcessException;
+    ProcessCase getProcessCase(String packageId,
+                               String processId,
+                               String caseId)
+        throws ProcessException;
     
     /** Create a new <code>ProcessCase</code> for a particular process.
      *
@@ -125,22 +127,6 @@ public interface WfmsRuntime
                             Attributes attributes)
         throws ProcessException;
     
-    /** Retrieve the in-progress <code>Activity</code> handles
-     *  for a given case.
-     *
-     *  @param caseId The case id.
-     *
-     *  @return The activities.
-     *
-     *  @throws NoSuchCaseException If the identifier does not
-     *          match any case known by the system.
-     *  @throws NoSuchProcessException If the identifier do match
-     *          a case known by the system, but the process associated
-     *          with the case is not currently deployed.
-     */
-    Activity[] getActivitiesForProcessCase(String caseId)
-        throws NoSuchCaseException, NoSuchProcessException;
-
     /** Select <code>ProcessCase</code>s by process-id and a place-id.
      *
      *  <p>
@@ -148,6 +134,7 @@ public interface WfmsRuntime
      *  in the specified place are returned.
      *  </p>
      *
+     *  @param packageId The package identifier.
      *  @param processId The process identifier.
      *  @param placeId The place identifier.
      *
@@ -156,13 +143,15 @@ public interface WfmsRuntime
      *  @throws QueryException If an error occurs while attempting to
      *          evaluate the selection query.
      */
-    ProcessCase[] selectCases(String processId,
+    ProcessCase[] selectCases(String packageId,
+                              String processId,
                               String placeId)
         throws QueryException;
 
     /** Select <code>ProcessCase</code>s by process-id and
      *  query-by-example case attributes.
      *
+     *  @param packageId The package identifier.
      *  @param processId The process identifier.
      *  @param qbeAttrs The query-by-example attributes.
      *
@@ -171,7 +160,8 @@ public interface WfmsRuntime
      *  @throws QueryException If an error occurs while attempting to
      *          evaluate the selection query.
      */
-    ProcessCase[] selectCases(String processId,
-                              Map qbeAttrs)
+    ProcessCase[] selectCases(String packageId,
+                              String processId,
+                              Attributes qbeAttrs)
         throws QueryException;
 }
