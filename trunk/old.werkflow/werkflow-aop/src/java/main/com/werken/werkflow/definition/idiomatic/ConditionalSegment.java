@@ -43,7 +43,12 @@ public class ConditionalSegment
         builder.connect( condTrans,
                          connectingPlace );
         
-        return this.bodySegment.append( connectingPlace,
-                                        builder );
+        if ( this.bodySegment != null )
+        {
+            return this.bodySegment.append( connectingPlace,
+                                            builder );
+        }
+
+        return connectingPlace;
     }
 }

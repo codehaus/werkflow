@@ -13,11 +13,9 @@ import java.util.Iterator;
 public class WhileSegment
     extends ConditionalSegment
 {
-    public WhileSegment(Expression condition,
-                        Segment segment)
+    public WhileSegment(Expression condition)
     {
-        super( condition,
-               segment );
+        super( condition );
     }
 
     public DefaultPlace append(DefaultPlace in,
