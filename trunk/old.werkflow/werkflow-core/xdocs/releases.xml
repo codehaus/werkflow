@@ -19,7 +19,7 @@
     <section name="Nighly Builds">
       <p>
       Nighly builds have been temporarily suspended as we ramp up
-      with using <a href="http://jakarta.apache.org/turbine/maven/index.html">maven</a>.
+      with using <a href="http://maven.apache.org/">maven</a>.
       </p>
     </section>
 
