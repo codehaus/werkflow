@@ -2,6 +2,6 @@ package com.werken.werkflow.service.messaging;
 
 public interface MessageSink
 {
-    void acceptMessage(MessageInterest interest,
+    void acceptMessage(MessageSelector selector,
                        Object message);
 }
