@@ -2,5 +2,24 @@
 
 \section{Overview}
 
+Jexl is an expression language the somewhat follows the JSTL
+expression language.  Jexl was originally written by Geir
+Magnusson and is a part of The Apache Software Foundation's 
+Jakarta project.  More information may be found at
+\emph{http://jakarta.apache.org/commons/jexl/}.
+
 \section{\tag{jexl:correlator}}
 
+The \tag{jexl:correlator} tag takes a single \verb|test| attribute
+that should contain a boolean Jexl expression determining if
+the message matches the process case.
+
+\begin{codelisting}
+<receive \dots>
+    <jexl:correlator test="message.poId == poId"/>
+</receive>
+\end{codelisting}
+
+\begin{attrDefs}
+test		&	required	&			& Jexl boolean correlation expression \\
+\end{attrDefs}
