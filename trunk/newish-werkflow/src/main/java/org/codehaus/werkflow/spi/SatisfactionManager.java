@@ -6,4 +6,8 @@ public interface SatisfactionManager
 {
     public boolean isSatisfied(String satisfactionId,
                                Context context);
+
+    public boolean isSatisfied(String satisfactionId,
+                               Context context,
+                               SatisfactionCallback callback);
 }

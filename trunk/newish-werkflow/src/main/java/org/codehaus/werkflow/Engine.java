@@ -97,7 +97,7 @@ public abstract class Engine
                                     Path path)
         throws InterruptedException;
 
-    protected void run(RobustInstance instance,
+    protected void run(final RobustInstance instance,
                        Path path)
         throws Exception
     {
@@ -118,11 +118,26 @@ public abstract class Engine
                 
                 if ( component instanceof Satisfaction )
                 {
-                    Satisfaction satisfaction = (Satisfaction) component;
+                    final Satisfaction satisfaction = (Satisfaction) component;
                     //System.err.println( "## Satisfaction " + satisfaction.getId() );
                     
                     if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
-                                                               instance ) ) 
+                                                               instance,
+                                                               new SatisfactionCallback()
+                                                               {
+                                                                   public void notifySatisfied()
+                                                                   {
+                                                                       try
+                                                                       {
+                                                                           satisfy( satisfaction.getId(),
+                                                                                    instance.getId() );
+                                                                       }
+                                                                       catch (Exception e)
+                                                                       {
+                                                                           e.printStackTrace();
+                                                                       }
+                                                                   }
+                                                               }) ) 
                     {
                         try
                         {

@@ -195,4 +195,17 @@ public class AutomaticEngineTest
 
         return result;
     }
+
+    public boolean isSatisfied(String satisfactionId,
+                               Context context,
+                               SatisfactionCallback callback)
+    {
+        long delay = Long.parseLong( satisfactionId );
+
+        long now = System.currentTimeMillis();
+
+        boolean result = ( this.start + delay <= now );
+
+        return result;
+    }
 }
