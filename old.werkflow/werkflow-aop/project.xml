@@ -77,6 +77,10 @@
         <role>Documentor</role>
       </roles>
     </contributor>
+    <contributor>
+      <name>Eelco Hillenius</name>
+      <email>eelco.hillenius@topicus.nl</email>
+    </contributor>
   </contributors>
   
 
