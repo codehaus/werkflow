@@ -108,7 +108,7 @@ public class JellyAction
             ActionJellyContext context = new ActionJellyContext( invocation );
             
             getScript().run( context,
-                             XMLOutput.createDummyXMLOutput() );
+                             XMLOutput.createXMLOutput( System.err ) );
 
             invocation.complete();
         }
