@@ -12,13 +12,11 @@
 
     <syntax:tag name="process">
         <syntax:expr-factory type="com.werken.werkflow.semantics.python.PythonExpressionFactory"/>
-       <j:if test="${!empty(package)}">
-         <j:set var="package" value="${package}#"/>
-       </j:if>
        <j:if test="${empty(package)}">
          <j:set var="package" value=""/>
        </j:if>
-        <fund:process id="${package}${id}"
+        <fund:process package="${package}"
+                      id="${id}"
                       initiation="${initiation}">
             <syntax:invokeBody/>
         </fund:process> 

@@ -464,6 +464,13 @@ class ProcessDeployment
 
     /** @see ProcessInfo
      */
+    public String getPackageId()
+    {
+        return getProcessDefinition().getId();
+    }
+
+    /** @see ProcessInfo
+     */
     public String getId()
     {
         return getProcessDefinition().getId();

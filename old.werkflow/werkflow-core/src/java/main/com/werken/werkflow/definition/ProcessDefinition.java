@@ -93,6 +93,9 @@ public class ProcessDefinition
     //     Instance members
     // ----------------------------------------------------------------------
 
+    /** Package identifier. */
+    private String packageId;
+
     /** Process identifier. */
     private String id;
 
@@ -114,18 +117,22 @@ public class ProcessDefinition
     //     Constructors
     // ----------------------------------------------------------------------
 
-    public ProcessDefinition(String id,
+    public ProcessDefinition(String packageId,
+                             String id,
                              InitiationType initiationType)
     {
-        this( id,
+        this( packageId,
+              id,
               null,
               initiationType );
     }
 
-    public ProcessDefinition(String id,
+    public ProcessDefinition(String packageId,
+                             String id,
                              Net net,
                              InitiationType initiationType)
     {
+        this.packageId = packageId;
         this.id  = id;
         this.net = net;
 
@@ -153,6 +160,11 @@ public class ProcessDefinition
     public boolean isCallable()
     {
         return this.initiationType == InitiationType.CALL;
+    }
+
+    public String getPackageId()
+    {
+        return this.packageId;
     }
 
     /** @see ProcessInfo

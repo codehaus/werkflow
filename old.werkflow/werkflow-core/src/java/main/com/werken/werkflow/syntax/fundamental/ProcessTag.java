@@ -104,6 +104,9 @@ public class ProcessTag
     //     Instance members
     // ----------------------------------------------------------------------
 
+    /** Package identifier. */
+    private String packageId;
+
     /** Process identifier. */
     private String id;
 
@@ -129,6 +132,16 @@ public class ProcessTag
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
+
+    public void setPackage(String packageId)
+    {
+        this.packageId = packageId;
+    }
+
+    public String getPackage()
+    {
+        return this.packageId;
+    }
 
     /** Set the identifier.
      *
@@ -216,8 +229,15 @@ public class ProcessTag
 
         setDocumentation( null );
 
-        ProcessDefinition processDef = new ProcessDefinition( getId(),
-                                                              // this.net,
+        String pkgId = getPackage();
+
+        if ( pkgId == null )
+        {
+            pkgId = "";
+        }
+
+        ProcessDefinition processDef = new ProcessDefinition( pkgId,
+                                                              getId(),
                                                               initiationType );
 
         setCurrentProcess( processDef );

@@ -12,9 +12,14 @@ public class ProcessDefinitionTest
     {
         Net net = new DefaultNet();
 
-        ProcessDefinition def = new ProcessDefinition( "the process",
+        ProcessDefinition def = new ProcessDefinition( "the package",
+                                                       "the process",
                                                        net,
                                                        ProcessDefinition.InitiationType.CALL );
+
+        assertEquals( "the package",
+                      def.getPackageId() );
+
         assertEquals( "the process",
                       def.getId() );
 
@@ -28,7 +33,8 @@ public class ProcessDefinitionTest
     {
         Net net = new DefaultNet();
 
-        ProcessDefinition def = new ProcessDefinition( "the process",
+        ProcessDefinition def = new ProcessDefinition( "the package",
+                                                       "the process",
                                                        net,
                                                        ProcessDefinition.InitiationType.CALL );
 
