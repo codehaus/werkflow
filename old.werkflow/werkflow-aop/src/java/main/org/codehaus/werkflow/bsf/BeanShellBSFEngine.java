@@ -190,9 +190,9 @@ public class BeanShellBSFEngine extends BSFEngineImpl
        throws BSFException
     {
         if ( namesVec.size() != argsVec.size() )
-            throw new BSFException("number of params/names mismatch");
+            throw new BSFException( "number of params/names mismatch" );
         if ( !(funcBody instanceof String) )
-            throw new BSFException("apply: functino body must be a string");
+            throw new BSFException(" apply: function body must be a string" );
 
         String [] names = new String [ namesVec.size() ];
         namesVec.copyInto( names );
@@ -207,7 +207,7 @@ public class BeanShellBSFEngine extends BSFEngineImpl
                 installedApplyMethod = true;
             }
 
-            bsh.This global = (bsh.This)interpreter.get( "global" );
+            bsh.This global = (bsh.This) interpreter.get( "global" );
             return global.invokeMethod(
                 "_bsfApply", new Object [] { names, args, (String)funcBody } );
 
@@ -238,11 +238,11 @@ public class BeanShellBSFEngine extends BSFEngineImpl
         throws BSFException
     {
         if ( ! (expr instanceof String) )
-            throw new BSFException("BeanShell expression must be a string");
+            throw new BSFException( "BeanShell expression must be a string" );
 
         try
         {
-            return interpreter.eval( ((String)expr) );
+            return interpreter.eval( (String) expr );
         }
         catch ( InterpreterError e )
         {
@@ -304,7 +304,7 @@ public class BeanShellBSFEngine extends BSFEngineImpl
     {
         try
         {
-            interpreter.set( bean.name, bean.bean);
+            interpreter.set( bean.name, bean.bean );
         }
         catch ( EvalError e )
         {
