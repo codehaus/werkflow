@@ -14,7 +14,7 @@ class Scheduler
         this.executor = executor;
     }
 
-    private Executor getExecutor()
+    Executor getExecutor()
     {
         return this.executor;
     }

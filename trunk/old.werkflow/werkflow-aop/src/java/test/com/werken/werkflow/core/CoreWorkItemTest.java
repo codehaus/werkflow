@@ -122,9 +122,6 @@ public class CoreWorkItemTest
 
         assertContains( processCase,
                         changeSet.getCoreModifiedCases() );
-
-        assertContains( "the.message",
-                        changeSet.getCoreConsumptions() );
     }
 
     public void testSatisfy_notSatisfiableTokens()
@@ -181,7 +178,6 @@ public class CoreWorkItemTest
                         processCase.getTokens() );
 
         assertEmpty( changeSet.getCoreModifiedCases() );
-        assertEmpty( changeSet.getCoreConsumptions() );
     }
 
     public void testSatisfy_notSatisfiableMessage()
@@ -242,7 +238,6 @@ public class CoreWorkItemTest
                         processCase.getTokens() );
 
         assertEmpty( changeSet.getCoreModifiedCases() );
-        assertEmpty( changeSet.getCoreConsumptions() );
     }
 
     public void testSatisfy_noMessage()
@@ -295,7 +290,5 @@ public class CoreWorkItemTest
 
         assertContains( processCase,
                         changeSet.getCoreModifiedCases() );
-
-        assertEmpty( changeSet.getCoreConsumptions() );
     }
 }

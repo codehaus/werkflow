@@ -41,8 +41,7 @@ class MessageWaiterHandler
         return this.transition;
     }
 
-    boolean acceptMessage(CoreChangeSet changeSet,
-                          Message message)
+    boolean acceptMessage(Message message)
     {
         System.err.println( "MessageWaiterHandler.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
@@ -50,16 +49,14 @@ class MessageWaiterHandler
         this.messages.put( message.getId(),
                            message );
 
-        result = attemptCorrelation( changeSet,
-                                     message );
+        result = attemptCorrelation( message );
 
 
         System.err.println( "RESULT: " +  result );
         return result;
     }
 
-    boolean addCase(CoreChangeSet changeSet,
-                    CoreProcessCase processCase)
+    boolean addCase(CoreProcessCase processCase)
     {
         System.err.println( "MessageWaiterHandler.CASECASECASE( " + processCase.getId() + " )" );
         
@@ -70,8 +67,7 @@ class MessageWaiterHandler
 
         this.processCases.add( processCase );
 
-        return attemptCorrelation( changeSet,
-                                   processCase );
+        return attemptCorrelation( processCase );
     }
 
     void removeCase(CoreProcessCase processCase)
@@ -80,8 +76,7 @@ class MessageWaiterHandler
         this.processCases.remove( processCase );
     }
 
-    boolean attemptCorrelation(CoreChangeSet changeSet,
-                               CoreProcessCase processCase)
+    boolean attemptCorrelation(CoreProcessCase processCase)
     {
         boolean result = false;
 
@@ -92,8 +87,7 @@ class MessageWaiterHandler
         {
             eachMessage = (Message) messageIter.next();
 
-            result = ( attemptCorrelation( changeSet,
-                                           processCase,
+            result = ( attemptCorrelation( processCase,
                                            eachMessage )
                        ||
                        result );
@@ -102,8 +96,7 @@ class MessageWaiterHandler
         return result;
     }
 
-    boolean attemptCorrelation(CoreChangeSet changeSet,
-                               Message message)
+    boolean attemptCorrelation(Message message)
     {
         boolean result = false;
 
@@ -114,8 +107,7 @@ class MessageWaiterHandler
         {
             eachCase = (CoreProcessCase) caseIter.next();
 
-            result = ( attemptCorrelation( changeSet,
-                                           eachCase,
+            result = ( attemptCorrelation( eachCase,
                                            message )
                        ||
                        result );
@@ -124,28 +116,11 @@ class MessageWaiterHandler
         return result;
     }
 
-    boolean attemptCorrelation(CoreChangeSet changeSet,
-                               CoreProcessCase processCase,
+    boolean attemptCorrelation(CoreProcessCase processCase,
                                Message message)
     {
-        boolean result = correlates( processCase,
-                                     message );
-
-        if ( result )
-        {
-            changeSet.addCorrelation( new Correlation( processCase,
-                                                       getTransition(),
-                                                       message ) );
-        }
-
-        return result;
-    }
-
-    boolean correlates(ProcessCase processCase,
-                       Message message)
-    {
         MessageWaiter waiter = (MessageWaiter) getTransition().getWaiter();
-
+        
         MessageCorrelator correlator = waiter.getMessageCorrelator();
 
         System.err.println( "transition: " + getTransition().getId() + " // " + correlator );

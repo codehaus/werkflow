@@ -17,6 +17,7 @@ import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.MessagingManager;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 import com.werken.werkflow.service.persistence.PersistenceException;
@@ -60,20 +61,30 @@ class ProcessDeployment
     }
 
     void initialize()
+        throws Exception
     {
         initializeInitiators();
         initializeMessageWaiters();
     }
 
     private void initializeInitiators()
+        throws IncompatibleMessageSelectorException
     {
         if ( isCallable() )
         {
             return;
         }
+
+        Transition[] transitions = getProcessDefinition().getNet().getTransitions();
+
+        for ( int i = 0 ; i < transitions.length ; ++i )
+        {
+            initializeMessageInitiator( transitions[i] );
+        }
     }
 
     private void initializeMessageWaiters()
+        throws IncompatibleMessageSelectorException
     {
         Transition[] transitions = getProcessDefinition().getNet().getTransitions();
 
@@ -82,8 +93,23 @@ class ProcessDeployment
             initializeMessageWaiter( transitions[i] );
         }
     }
+    private void initializeMessageInitiator(Transition transition)
+        throws IncompatibleMessageSelectorException
+    {
+        if ( isAttachedToIn( transition ) )
+        {
+            Waiter waiter = transition.getWaiter();
+
+            if ( waiter instanceof MessageWaiter )
+            {
+                getMessageHandler().add( transition,
+                                         this );
+            }
+        }
+    }
 
     private void initializeMessageWaiter(Transition transition)
+        throws IncompatibleMessageSelectorException
     {
         Waiter waiter = transition.getWaiter();
 
@@ -103,9 +129,8 @@ class ProcessDeployment
             return;
         }
 
-        MessageWaiter msgWaiter = (MessageWaiter) waiter;
-
-        MessageType type = msgWaiter.getMessageType();
+        this.messageHandler.add( transition,
+                                 null );
     }
 
     private boolean isAttachedToIn(Transition transition)
@@ -208,53 +233,9 @@ class ProcessDeployment
     {
         System.err.println( "acceptMessage; " + message.getMessage() );
 
-        CoreChangeSet changeSet = newChangeSet();
+        getMessageHandler().acceptMessage( message );
 
-        getMessageHandler().acceptMessage( changeSet,
-                                           message );
-
-        try
-        {
-            changeSet.commit();
-        }
-        catch (PersistenceException e)
-        {
-            e.printStackTrace();
-        }
-
-        Correlation[]   correlations = changeSet.getCoreCorrelations();
-        CoreProcessCase processCase  = null;
-
-        Set schedCases = new HashSet();
-
-        for ( int i = 0 ; i < correlations.length ; ++i )
-        {
-            try
-            {
-                processCase = getCaseManager().getCase( correlations[i].getCaseId() );
-                
-                processCase.addCorrelation( correlations[i] );
-
-                schedCases.add( processCase );
-            }
-            catch (NoSuchCaseException e)
-            {
-                e.printStackTrace();
-            }
-            catch (PersistenceException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        try
-        {
-            getScheduler().schedule( (CoreProcessCase[]) schedCases.toArray( CoreProcessCase.EMPTY_ARRAY ) );
-        }
-        catch (InterruptedException e)
-        {
-            // swallow
-        }
+        // getScheduler().schedule( (CoreProcessCase[]) schedCases.toArray( CoreProcessCase.EMPTY_ARRAY ) );
     }
 
     /** @see MessageConsumer
@@ -303,6 +284,42 @@ class ProcessDeployment
         changeSet.commit();
 
         return newCase;
+    }
+
+
+    ProcessCase initiate(Transition transition,
+                         String messageId)
+        throws PersistenceException
+    {
+        CoreChangeSet changeSet = newChangeSet();
+
+        CoreProcessCase newCase = getCaseManager().newCase( Attributes.EMPTY_ATTRIBUTES );
+
+        newCase.addToken( "in" );
+
+        CoreWorkItem workItem = new CoreWorkItem( newCase,
+                                                  transition,
+                                                  new String[] { "in" },
+                                                  messageId );
+
+        changeSet.addModifiedCase( newCase );
+
+        try
+        {
+            CoreActivity activity = workItem.satisfy( changeSet );
+
+            getScheduler().getExecutor().enqueueActivity( activity );
+
+            changeSet.commit();
+
+            return newCase;
+        }
+        catch (InterruptedException e)
+        {
+            // swallow, don't commit changeset.
+        }
+
+        return null;
     }
 
     private void validateAttributes(Attributes attributes)

@@ -33,12 +33,10 @@ class CorrelationMessageHandler
                                                                   transition ) );
     }
 
-    public boolean addCase(CoreChangeSet changeSet,
-                           CoreProcessCase processCase,
+    public boolean addCase(CoreProcessCase processCase,
                            String transitionId)
     {
-        return getMessageWaiterHandler( transitionId ).addCase( changeSet,
-                                                                processCase );
+        return getMessageWaiterHandler( transitionId ).addCase( processCase );
     }
 
     public void removeCase(CoreProcessCase processCase,
@@ -47,8 +45,7 @@ class CorrelationMessageHandler
         getMessageWaiterHandler( transitionId ).removeCase( processCase );
     }
 
-    public boolean acceptMessage(CoreChangeSet changeSet,
-                                 Message message)
+    public boolean acceptMessage(Message message)
     {
         System.err.println( "CorrelationMessageHanderl.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
@@ -60,15 +57,9 @@ class CorrelationMessageHandler
         {
             eachWaiter = (MessageWaiterHandler) waiterIter.next();
 
-            result = ( eachWaiter.acceptMessage( changeSet,
-                                                 message )
+            result = ( eachWaiter.acceptMessage( message )
                        ||
                        result );
-        }
-
-        if ( ! result )
-        {
-            changeSet.addUncorrelated( message );
         }
 
         return result;

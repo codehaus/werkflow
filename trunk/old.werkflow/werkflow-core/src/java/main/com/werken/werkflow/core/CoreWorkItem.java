@@ -62,11 +62,11 @@ class CoreWorkItem
      *  and <code>ProcessCase</code>.
      *  </p>
      *
-     *  @param tx The transaction.
+     *  @param changeSet The change set.
      *
      *  @return <code>true</code> if satisfied, otherwise <code>false</code>.
      */
-    CoreActivity satisfy(CoreChangeSet tx)
+    CoreActivity satisfy(CoreChangeSet changeSet)
     {
         CoreProcessCase processCase = getCase();
 
@@ -85,7 +85,7 @@ class CoreWorkItem
 
             try
             {
-                message = consumer.consumeMessage( tx,
+                message = consumer.consumeMessage( changeSet,
                                                    processCase,
                                                    getTransition().getId(),
                                                    messageId );
@@ -94,14 +94,11 @@ class CoreWorkItem
             {
                 return null;
             }
-
-            tx.addConsumption( messageId );
-
         }
 
         processCase.consumeTokens( getTokens() );
         
-        tx.addModifiedCase( processCase );
+        changeSet.addModifiedCase( processCase );
 
         CoreActivity activity = new CoreActivity( this,
                                                   message );

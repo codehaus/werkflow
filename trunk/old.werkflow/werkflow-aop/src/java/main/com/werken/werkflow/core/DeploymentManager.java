@@ -61,11 +61,19 @@ class DeploymentManager
                                                               processPersist,
                                                               getMessagingManager() );
         
-        deployment.initialize();
+        try
+        {
+            deployment.initialize();
             
-        this.deployments.put( new DeploymentKey( processDef.getPackageId(),
-                                                 processDef.getId() ),
-                              deployment );
+            this.deployments.put( new DeploymentKey( processDef.getPackageId(),
+                                                     processDef.getId() ),
+                                  deployment );
+        }
+        catch (Exception e)
+        {
+            throw new DeploymentException( processDef,
+                                           e );
+        }
     }
     
     ProcessDeployment getDeployment(String packageId,
