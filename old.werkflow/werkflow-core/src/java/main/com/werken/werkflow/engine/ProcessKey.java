@@ -45,4 +45,9 @@ class ProcessKey
     {
         return getPackageId().hashCode() + getId().hashCode();
     }
+
+    public String toString()
+    {
+        return "[key: pkg=" + this.packageId + " id=" + this.id + "]";
+    }
 }
