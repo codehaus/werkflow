@@ -107,7 +107,7 @@ public class ClassAttributeTypeTag
              ||
              "".equals( this.className ) )
         {
-            throw new MissingAttributeException( "class" );
+            throw new MissingAttributeException( "type" );
         }
 
         try
