@@ -42,8 +42,11 @@ public class WorkflowProcessCaseTest
         assertEquals( 0,
                       processCase.getParameterNames().length );
 
-        assertEquals( 0,
+        assertEquals( 1,
                       processCase.getMarks().length );
+
+        assertEquals( "in",
+                      processCase.getMarks()[0] );
         
         assertEquals( 0,
                       processCase.getEnabledTransitions().length );
@@ -158,12 +161,12 @@ public class WorkflowProcessCaseTest
         WorkflowProcessCase processCase = new WorkflowProcessCase( info,
                                                                    state );
 
-        assertEquals( 0,
+        assertEquals( 1,
                       processCase.getMarks().length );
 
         processCase.addMark( "foo" );
 
-        assertEquals( 1,
+        assertEquals( 2,
                       processCase.getMarks().length );
 
         assertContains( "foo",
@@ -171,7 +174,7 @@ public class WorkflowProcessCaseTest
 
         processCase.addMark( "bar" );
 
-        assertEquals( 2,
+        assertEquals( 3,
                       processCase.getMarks().length );
 
         assertContains( "foo",
@@ -182,7 +185,7 @@ public class WorkflowProcessCaseTest
 
         processCase.removeMark( "foo" );
 
-        assertEquals( 1,
+        assertEquals( 2,
                       processCase.getMarks().length );
 
         assertContains( "bar",
