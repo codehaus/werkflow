@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package com.werken.werkflow.expr;
 
 /*
  $Id$
@@ -58,7 +58,7 @@ public interface Expression
 {
     final static Expression TRUE = new Expression()
         {
-            public boolean evaluate(Attributes attributes)
+            public boolean evaluateAsBoolean(Attributes attributes)
                 throws Exception
             {
                 return true;
@@ -67,7 +67,7 @@ public interface Expression
 
     final static Expression FALSE = new Expression()
         {
-            public boolean evaluate(Attributes attributes)
+            public boolean evaluateAsBoolean(Attributes attributes)
                 throws Exception
             {
                 return false;
@@ -84,6 +84,6 @@ public interface Expression
      *  @throws Exception If an error occurs while attempting to
      *          perform evaluation.
      */
-    boolean evaluate(Attributes attributes)
+    boolean evaluateAsBoolean(Attributes attributes)
         throws Exception;
 }

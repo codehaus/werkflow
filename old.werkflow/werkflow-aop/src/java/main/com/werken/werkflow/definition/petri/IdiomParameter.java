@@ -5,11 +5,11 @@ public class IdiomParameter
     public static final IdiomParameter[] EMPTY_ARRAY = new IdiomParameter[0];
 
     private String id;
-    private Class type;
+    private String type;
     private boolean required;
 
     public IdiomParameter(String id,
-                          Class type,
+                          String type,
                           boolean required)
     {
         this.id       = id;
@@ -22,7 +22,7 @@ public class IdiomParameter
         return this.id;
     }
 
-    public Class getType()
+    public String getType()
     {
         return this.type;
     }

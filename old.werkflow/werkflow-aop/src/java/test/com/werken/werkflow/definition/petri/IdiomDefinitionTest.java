@@ -178,6 +178,8 @@ public class IdiomDefinitionTest
         Idiom childIdiom = parentIdiom.addComponent( childDef );
 
         childIdiom.build();
+        childIdiom.complete();
+        parentIdiom.complete();
 
         Place place = null;
         Arc[] arcs = null;

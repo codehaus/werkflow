@@ -47,7 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.engine.WorkflowProcessCase;
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -129,7 +129,7 @@ public class AndInputRule
 
             if ( arcs[i].getExpression() != null )
             {
-                return arcs[i].getExpression().evaluate( processCase );
+                return arcs[i].getExpression().evaluateAsBoolean( processCase );
             }
         }
         

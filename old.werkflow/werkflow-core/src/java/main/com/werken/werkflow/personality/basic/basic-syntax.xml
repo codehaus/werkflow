@@ -17,6 +17,7 @@
     </syntax:tag>
 
     <syntax:tag name="if">
+        yo yo 
         <core:if condition="${condition}">
             <syntax:invokeBody/>
         </core:if>

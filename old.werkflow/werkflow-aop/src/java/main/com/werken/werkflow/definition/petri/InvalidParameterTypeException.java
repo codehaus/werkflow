@@ -26,8 +26,7 @@ public class InvalidParameterTypeException
     public String getMessage()
     {
         return "invalid parameter type for '" + getParameter().getId()
-            + "': expected: " + getParameter().getType().getName()
-            + " but received: " + getValue().getClass().getName()
-            + " (" + getValue() + ")";
+            + "': expected type: " + getParameter().getType()
+            + " but received value: " + getValue();
     }
 }

@@ -47,7 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.engine.WorkflowProcessCase;
-import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.expr.Expression;
 
 /** Or-based <code>ActivationRule</code> for a <code>Transition</code>.
  *
@@ -126,7 +126,7 @@ public class OrInputRule
 
             if ( arcs[i].getExpression() != null )
             {
-                return arcs[i].getExpression().evaluate( processCase );
+                return arcs[i].getExpression().evaluateAsBoolean( processCase );
             }
         }
 

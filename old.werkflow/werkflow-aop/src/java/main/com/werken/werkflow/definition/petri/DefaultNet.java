@@ -143,7 +143,7 @@ public class DefaultNet
     public Place getPlace(String id)
         throws NoSuchPlaceException
     {
-        return getPlace( id );
+        return getMutablePlace( id );
     }
 
     /** Add a new <code>Transition</code>.
@@ -194,7 +194,7 @@ public class DefaultNet
     public Transition getTransition(String id)
         throws NoSuchTransitionException
     {
-        return getTransition( id );
+        return getMutableTransition( id );
     }
     
     /** @see Net

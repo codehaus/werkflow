@@ -1,5 +1,7 @@
 package com.werken.werkflow.syntax.idiom;
 
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionFactory;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Idiom;
 import com.werken.werkflow.definition.petri.IdiomDefinition;
@@ -38,10 +40,25 @@ public class IdiomImplTag
                              Object value)
         throws JellyTagException
     {
+        System.err.println( "id: " + id + " > " + value );
+
         try
         {
+            Object finalValue = null;
+
+            if ( "expr".equals( getIdiomDefinition().getParameter( id ).getType() ) )
+            {
+                ExpressionFactory exprFactory = getExpressionFactory();
+
+                finalValue = exprFactory.newExpression( value.toString() );
+            }
+            else
+            {
+                finalValue = value;
+            }
+
             this.idiom.setParameter( id,
-                                     value );
+                                     finalValue );
         }
         catch (NoSuchParameterException e)
         {
@@ -53,20 +70,28 @@ public class IdiomImplTag
         }
     }
 
+    /*
     public Class getAttributeType(String id)
         throws JellyTagException
     {
+        // System.err.println( "GET ATTR TYPE(" + id + ")" );
         try
         {
-            return getIdiomDefinition().getParameter( id ).getType();
+            if ( getIdiomDefinition().getParameter( id ).getType().equals( "expr" ) )
+            {
+                System.err.println( id + " is an EXPR" );
+                return Expression.class;
+            }
         }
         catch (NoSuchParameterException e)
         {
             // swallow
         }
 
+        System.err.println( id + " is an OBJ" );
         return Object.class;
     }
+    */
 
     public void setContext(JellyContext context)
         throws JellyTagException
@@ -107,6 +132,8 @@ public class IdiomImplTag
             invokeBody( output );
             
             popIdiom();
+
+            this.idiom.complete();
         }
         catch (IdiomException e)
         {
@@ -154,5 +181,10 @@ public class IdiomImplTag
         }
 
         return (Idiom) stack.peek();
+    }
+
+    protected ExpressionFactory getExpressionFactory()
+    {
+        return (ExpressionFactory) getContext().getVariable( ExpressionFactory.class.getName() );
     }
 }

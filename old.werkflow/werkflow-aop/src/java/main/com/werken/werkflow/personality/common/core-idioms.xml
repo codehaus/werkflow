@@ -48,24 +48,26 @@
       -->
 
     <idiom id="if">
-        <parameter id="condition" type="com.werken.werkflow.definition.Expression"/>
+        <parameter id="condition" type="expr"/>
 
-        <place id="component:head"/>
+        <template>
+            <place id="component:head"/>
 
-        <transition id="true">
-            <input from="in"/>
-            <output to="component:head"/>
-        </transition>
+            <transition id="true">
+                <input from="in" filter="parameter:condition"/>
+                <output to="component:head"/>
+            </transition>
 
-        <transition id="component">
-            <input from="component:head"/>
-            <output  to="out"/>
-        </transition>
+            <transition id="component">
+                <input from="component:head"/>
+                <output  to="out"/>
+            </transition>
 
-        <transition id="false">
-            <input from="in"/>
-            <output to="out"/>
-        </transition>
+            <transition id="false">
+                <input from="in"/>
+                <output  to="out"/>
+            </transition>
+        </template>
     </idiom>
 
 </idioms>

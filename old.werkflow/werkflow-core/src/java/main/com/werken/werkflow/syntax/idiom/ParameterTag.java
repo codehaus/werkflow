@@ -51,33 +51,26 @@ public class ParameterTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        System.err.println( "PARAM TAG" );
         IdiomDefinition idiomDef = getCurrentIdiomDefinition();
 
         requireStringAttribute( "id",
                                 getId() );
 
-        requireStringAttribute( "type",
-                                getType() );
+        String type = getType();
 
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-
-        if ( cl == null )
+        if ( type == null )
         {
-            cl = getContext().getClassLoader();
-
-            if ( cl == null )
-            {
-                cl = getClass().getClassLoader();
-            }
+            type = "object";
         }
 
         try
         {
-            Class type = cl.loadClass( getType() );
-
             IdiomParameter param = new IdiomParameter( getId(),
                                                        type,
                                                        isRequired() );
+
+            idiomDef.addParameter( param );
         }
         catch (Exception e)
         {
