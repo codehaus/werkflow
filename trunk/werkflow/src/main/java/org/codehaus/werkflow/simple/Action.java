@@ -5,16 +5,16 @@ import org.codehaus.werkflow.spi.SyncComponent;
 
 import java.util.Properties;
 
-class Action
+public class Action
     implements SyncComponent
 {
     private ActionManager manager;
     private String id;
     private Properties properties;
 
-    Action(ActionManager manager,
-           String id,
-           Properties properties)
+    public Action(ActionManager manager,
+                  String id,
+                  Properties properties)
     {
         this.manager    = manager;
         this.id         = id;
