@@ -14,11 +14,11 @@
     <attainGoal name="clover"/>
   </preGoal>
 
-<!--
   <goal name="werkflow:compile-examples" prereqs="java:jar">
--->
 
+<!--
   <goal name="werkflow:compile-examples">
+-->
     <echo>compiling examples</echo>
     <mkdir dir="${werkflow.examples.dest.dir}"/>
     <javac srcdir="${werkflow.examples.src.dir}"
