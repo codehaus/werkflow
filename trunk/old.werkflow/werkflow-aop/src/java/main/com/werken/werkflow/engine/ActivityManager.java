@@ -527,20 +527,26 @@ class ActivityManager
             String packageId = action.getPackageId();
             String processId = action.getProcessId();
 
-            Attributes attrs = action.getAttributes( processCase );
-
             try
             {
-                getEngine().callChildProcess( activity,
-                                              packageId,
-                                              processId,
-                                              attrs );
+                Attributes attrs = action.getAttributes( processCase );
+                try
+                {
+                    getEngine().callChildProcess( activity,
+                                                  packageId,
+                                                  processId,
+                                                  attrs );
+                }
+                catch (NoSuchProcessException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (ProcessException e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (NoSuchProcessException e)
-            {
-                e.printStackTrace();
-            }
-            catch (ProcessException e)
+            catch (Exception e)
             {
                 e.printStackTrace();
             }

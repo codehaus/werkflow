@@ -48,11 +48,11 @@ package com.werken.werkflow.syntax.fundamental;
 
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.expr.Expression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -141,7 +141,12 @@ public class CallTag
 
         this.attrs = new HashMap();
 
+        getContext().setVariable( CallTag.class.getName(),
+                                  this );
+        
         invokeBody( output );
+
+        getContext().removeVariable( CallTag.class.getName() );
 
         action.setAttributeExpressions( this.attrs );
 

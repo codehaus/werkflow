@@ -10,5 +10,6 @@ public interface CallAction
 
     String getProcessId();
 
-    Attributes getAttributes(ProcessCase parentCase);
+    Attributes getAttributes(ProcessCase parentCase)
+        throws Exception;
 }

@@ -26,24 +26,4 @@ public class JavaExpression
         super( "beanshell",
                text );
     }
-
-    public boolean asBoolean(Object value)
-    {
-        if ( value instanceof Integer )
-        {
-            return ( ((Integer)value).intValue() != 0 );
-        }
-
-        if ( value instanceof Boolean )
-        {
-            return ((Boolean)value).booleanValue();
-        }
-
-        if ( value instanceof String)
-        {
-            return stringAsBoolean( (String) value );
-        }
-
-        return false;
-    }
 }

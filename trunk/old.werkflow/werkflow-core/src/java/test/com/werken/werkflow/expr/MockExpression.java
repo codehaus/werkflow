@@ -1,21 +1,31 @@
 package com.werken.werkflow.expr;
 
 public class MockExpression
-    implements Expression
+    extends AbstractExpression
 {
-    private boolean result;
+    private Object result;
     private ExpressionContext context;
 
-    public MockExpression(boolean result)
+    public MockExpression(Object result)
     {
         this.result = result;
     }
 
-    public boolean evaluateAsBoolean(ExpressionContext context)
+    public MockExpression(boolean result)
+    {
+        if ( result )
+        {
+            this.result = Boolean.TRUE;
+        }
+        else
+        {
+            this.result = Boolean.FALSE;
+        }
+    }
+
+    public Object evaluate(ExpressionContext context)
         throws Exception
     {
-        this.context = context;
-
         return this.result;
     }
 

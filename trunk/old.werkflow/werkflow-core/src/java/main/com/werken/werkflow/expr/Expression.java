@@ -61,6 +61,12 @@ public interface Expression
             {
                 return true;
             }
+
+            public Object evaluate(ExpressionContext context)
+                throws Exception
+            {
+                return Boolean.TRUE;
+            }
         };
 
     final static Expression FALSE = new Expression()
@@ -69,6 +75,11 @@ public interface Expression
                 throws Exception
             {
                 return false;
+            }
+            
+            public Object evaluate(ExpressionContext context)
+            {
+                return Boolean.FALSE;
             }
         };
 
@@ -83,4 +94,9 @@ public interface Expression
      */
     boolean evaluateAsBoolean(ExpressionContext context)
         throws Exception;
+
+    Object evaluate(ExpressionContext context)
+        throws Exception;
+
+    
 }
