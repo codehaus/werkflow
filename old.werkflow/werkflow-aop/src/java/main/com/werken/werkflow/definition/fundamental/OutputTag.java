@@ -104,7 +104,7 @@ public class OutputTag
     /** Set the identifier of the <code>Place</code> to which tokens
      *  should be produced.
      *
-     *  @param from The place identifier.
+     *  @param to The place identifier.
      */
     public void setTo(String to)
     {
