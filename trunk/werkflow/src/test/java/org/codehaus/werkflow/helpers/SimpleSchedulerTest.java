@@ -94,7 +94,7 @@ public class SimpleSchedulerTest extends TestCase
 
         showInstance(instance);
 
-        while (instance.getEligibleSatisfactions().length == 0 && !instance.isComplete())
+        while (instance.getEligibleSatisfactions().length < 2 && !instance.isComplete())
         {
             this.scheduler.runTask();
         }
@@ -116,7 +116,7 @@ public class SimpleSchedulerTest extends TestCase
         tx.commit();
         showInstance(i);
 
-        while (i.getEligibleSatisfactions().length == 0 && !instance.isComplete())
+        while (i.getEligibleSatisfactions().length < 1 && !instance.isComplete())
         {
             this.scheduler.runTask();
         }
@@ -138,7 +138,7 @@ public class SimpleSchedulerTest extends TestCase
 
         showInstance(i);
 
-        while (i.getEligibleSatisfactions().length == 0 && !instance.isComplete())
+        while (!instance.isComplete())
         {
             this.scheduler.runTask();
         }
