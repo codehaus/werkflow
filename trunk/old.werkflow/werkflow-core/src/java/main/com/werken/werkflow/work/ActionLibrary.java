@@ -4,7 +4,7 @@ package com.werken.werkflow.work;
  $Id$
 
  Copyright 2003 (C) The Werken Company. All Rights Reserved.
- 
+
  Redistribution and use of this software and associated documentation
  ("Software"), with or without modification, are permitted provided
  that the following conditions are met:
@@ -12,25 +12,25 @@ package com.werken.werkflow.work;
  1. Redistributions of source code must retain copyright
     statements and notices.  Redistributions must also contain a
     copy of this document.
- 
+
  2. Redistributions in binary form must reproduce the
     above copyright notice, this list of conditions and the
     following disclaimer in the documentation and/or other
     materials provided with the distribution.
- 
+
  3. The name "werkflow" must not be used to endorse or promote
     products derived from this Software without prior written
     permission of The Werken Company.  For written permission,
     please contact bob@werken.com.
- 
+
  4. Products derived from this Software may not be called "werkflow"
     nor may "werkflow" appear in their names without prior written
     permission of The Werken Company. "werkflow" is a registered
     trademark of The Werken Company.
- 
+
  5. Due credit should be given to The Werken Company.
     (http://werkflow.werken.com/).
- 
+
  THIS SOFTWARE IS PROVIDED BY THE WERKEN COMPANY AND CONTRIBUTORS
  ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -43,7 +43,7 @@ package com.werken.werkflow.work;
  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  */
 
 import java.util.Map;
@@ -93,12 +93,12 @@ public class ActionLibrary
     {
         this( null );
     }
-    
+
     /** Construct a library with a parent.
      *
      *  @param parent The parent.
      */
-    public ActionLibrary(ActionLibrary parent)
+    public ActionLibrary( ActionLibrary parent )
     {
         this.parent = parent;
         this.actions = new HashMap();
@@ -126,7 +126,7 @@ public class ActionLibrary
      *  @return <code>true</code> if this library or one of its parents
      *          contains an action associated with the identifier.
      */
-    public boolean containsAction(String id)
+    public boolean containsAction( String id )
     {
         if ( this.actions.containsKey( id ) )
         {
@@ -157,8 +157,8 @@ public class ActionLibrary
      *          associated with an action either directly within this
      *          library or one of the libraries along the parentage chain.
      */
-    public void addAction(String id,
-                          Action action)
+    public void addAction( String id,
+                           Action action )
         throws DuplicateActionException
     {
         if ( containsAction( id ) )
@@ -186,27 +186,43 @@ public class ActionLibrary
      *          an action either directly within this library or one of the
      *          libraries along the parentage chain.
      */
-    public Action getAction(String id)
+    public Action getAction( String id )
         throws NoSuchActionException
     {
-        if ( ! this.actions.containsKey( id ) )
-        {
-            if ( this.parent == null )
-            {
-                throw new NoSuchActionException( id );
-            }
+        Action action = (Action) this.actions.get( id );
 
-            return this.parent.getAction( id );
+        // Try locally first.
+        if ( action != null )
+        {
+            return action;
         }
-        
-        return (Action) this.actions.get( id );
+
+        // Try the parent.
+        if ( this.parent != null )
+        {
+            action = this.parent.getAction( id );
+
+            if ( action != null )
+            {
+                return action;
+            }
+        }
+
+        // See if a default action has been set.
+        if ( getDefaultAction() != null )
+        {
+            return getDefaultAction();
+        }
+
+        // We're hosed eh :-)
+        throw new NoSuchActionException( id );
     }
 
     /** Set the default <code>Action</code>.
      *
      *  @param defaultAction The default action.
      */
-    public void setDefaultAction(Action defaultAction)
+    public void setDefaultAction( Action defaultAction )
     {
         this.defaultAction = defaultAction;
     }
