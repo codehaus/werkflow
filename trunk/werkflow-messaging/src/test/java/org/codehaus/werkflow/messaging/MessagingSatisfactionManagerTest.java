@@ -1,30 +1,50 @@
 package org.codehaus.werkflow.messaging;
 
-import org.codehaus.werkflow.Workflow;
-import org.codehaus.werkflow.Instance;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.codehaus.tagalog.ParserConfiguration;
+import org.codehaus.tagalog.TagalogParser;
+import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
+
+import org.codehaus.werkflow.Engine;
 import org.codehaus.werkflow.InitialContext;
-import org.codehaus.werkflow.AutomaticEngine;
-import org.codehaus.werkflow.simple.SimpleWorkflowReader;
-import org.codehaus.werkflow.simple.ExpressionFactory;
+import org.codehaus.werkflow.Transaction;
+import org.codehaus.werkflow.Workflow;
+import org.codehaus.werkflow.helpers.SimplePersistenceManager;
+import org.codehaus.werkflow.messaging.tagalog.MessagingTagLibrary;
 import org.codehaus.werkflow.simple.ActionManager;
-import org.codehaus.werkflow.nonpersistent.NonPersistentInstanceManager;
+import org.codehaus.werkflow.spi.Instance;
+import org.codehaus.werkflow.tagalog.SimpleWerkflowTagLibrary;
 
 import org.drools.RuleBase;
 import org.drools.io.RuleBaseBuilder;
-
-import java.util.List;
-import java.util.ArrayList;
 
 public class MessagingSatisfactionManagerTest
     extends MessagingTestBase
     implements ActionManager
 {
+    private TagalogSAXParserFactory factory;
+
     private List performed;
 
     public void setUp()
         throws Exception
     {
         super.setUp();
+
+        ParserConfiguration config = new ParserConfiguration();
+
+        config.addTagLibrary( SimpleWerkflowTagLibrary.NS_URI,
+                              new SimpleWerkflowTagLibrary() );
+        config.addTagLibrary( MessagingTagLibrary.NS_URI,
+                              new MessagingTagLibrary() );
+
+        this.factory = new TagalogSAXParserFactory(config);
+
         this.performed = new ArrayList();
     }
 
@@ -38,22 +58,38 @@ public class MessagingSatisfactionManagerTest
     public void testCorrelation()
         throws Exception
     {
-        Workflow workflow = SimpleWorkflowReader.read( this,
-                                                       (ExpressionFactory) null,
-                                                       getClass().getResource( "MessagingSatisfactionManagerTest-workflow.xml" ) );
+        InputStream stream = getClass().getResourceAsStream( "MessagingSatisfactionManagerTest-workflow.xml" );
+
+        TagalogParser parser = factory.createParser( stream );
+
+        Map context = new java.util.HashMap();
+
+        context.put("actionManager", this);
+
+        Object o = parser.parse(context);
+
+        assertEquals(0, parser.parseErrors().length);
+
+        Workflow workflow = (Workflow) o;
 
         RuleBase ruleBase = RuleBaseBuilder.buildFromUrl( getClass().getResource( "MessagingSatisfactionManagerTest-rules.xml" ) );
 
-        MessagingSatisfactionManager satisfactionManager = new MessagingSatisfactionManager( ruleBase );
+        Engine engine = new Engine();
 
-        AutomaticEngine engine = new AutomaticEngine( new NonPersistentInstanceManager(),
-                                                      satisfactionManager );
+        MessagingSatisfactionManager satisfactionManager = new MessagingSatisfactionManager( ruleBase, engine );
 
-        engine.addWorkflow( workflow );
+        engine.setSatisfactionManager( satisfactionManager );
 
-        Instance cheddar = engine.newInstance( "MessagingSatisfactionManagerTest-workflow",
-                                               "cheddar",
-                                               new InitialContext() );
+        engine.setPersistenceManager( new SimplePersistenceManager() );
+
+        engine.start();
+
+        engine.getWorkflowManager().addWorkflow( workflow );
+
+        Transaction tx = engine.beginTransaction( "MessagingSatisfactionManagerTest-workflow",
+                                                  "cheddar",
+                                                  new InitialContext() );
+        tx.commit();
 
         System.err.println( "A" );
         Thread.sleep( 1000 );
@@ -90,9 +126,10 @@ public class MessagingSatisfactionManagerTest
         assertContains( "cheddar/after message",
                         getPerformed() );
 
-        Instance velveeta = engine.newInstance( "MessagingSatisfactionManagerTest-workflow",
-                                                "velveeta",
-                                                new InitialContext() );
+        tx = engine.beginTransaction( "MessagingSatisfactionManagerTest-workflow",
+                                      "velveeta",
+                                      new InitialContext() );
+        tx.commit();
 
         Thread.sleep( 1000 );
         
@@ -119,7 +156,8 @@ public class MessagingSatisfactionManagerTest
     }
 
     public void perform(String actionId,
-                        Instance instance)
+                        Instance instance,
+                        Properties properties)
         throws Exception
     {
         this.performed.add( instance.getId() + "/" + actionId );

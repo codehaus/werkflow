@@ -1,12 +1,13 @@
 <workflow xmlns="http://werkflow.codehaus.org/simple"
+          xmlns:msg="http://werkflow.codehaus.org/messaging"
           id="MessagingSatisfactionManagerTest-workflow">
 
   <action id="before message"/>
-  <satisfaction id="receive message">
+  <msg:receive id="receive message">
     <sequence>
       <action id="with message"/>
     </sequence>
-  </satisfaction>
+  </msg:receive>
   <action id="after message"/>
 
 </workflow>
