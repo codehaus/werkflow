@@ -89,10 +89,8 @@ public class DefaultPlace
         return getInboundArcs();
     }
 
-    /*
     public String toString()
     {
         return "[place id=" + getId() + "]";
     }
-    */
 }

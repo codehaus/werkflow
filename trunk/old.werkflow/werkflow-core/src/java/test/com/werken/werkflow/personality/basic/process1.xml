@@ -5,6 +5,32 @@
          xmlns:j="jelly:core"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
+<!--
+<sequence>
+  <empty/>
+  <while condition="false">
+    <empty/>
+  </while> 
+  <empty/>
+</sequence>
+-->
+
+<!--
+<sequence>
+    <jelly:action>
+       <j:set var="i" value="10"/>
+    </jelly:action>
+    <jelly:log message="i is originally ${i}"/>
+    <while condition="!(i == 0)">
+        <sequence>
+            <jelly:action>
+                <j:set var="i" value="${i - 1}"/>
+            </jelly:action>
+            <jelly:log message="countdown: ${i}"/>
+        </sequence>
+   </while>
+</sequence>
+-->
     <parallel>
         <parallel>
             <jelly:log message="I like foo #1"/>
@@ -24,9 +50,19 @@
         <sequence>
             <jelly:action>
                 <j:set var="name" value="james"/>
+                <j:set var="i" value="10"/>
+                <j:set var="i" value="${i - 1}"/>
             </jelly:action>
             <jelly:log message="I like cheese #1"/>
-            <jelly:log message="I like cheese #2 ${name}"/>
+            <jelly:log message="I like cheese #2 ${name} ${i}"/>
+            <while condition="!(i == 0)">
+                <sequence>
+                    <jelly:action>
+                        <j:set var="i" value="${i - 1}"/>
+                    </jelly:action>
+                    <jelly:log message="countdown: ${i}"/>
+                </sequence>
+           </while>
             <if condition="name == 'bob'">
                 <jelly:log message="You are bob"/>
             </if>

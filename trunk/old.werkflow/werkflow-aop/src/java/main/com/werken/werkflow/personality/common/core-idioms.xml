@@ -71,6 +71,34 @@
     </idiom>
 
     <!--
+      ||     WHILE
+      -->
+
+    <idiom id="while">
+        <parameter id="condition" type="expr"/>
+
+        <template>
+            <place id="component:head"/>
+
+            <transition id="true">
+                <input from="in" filter="parameter:condition"/>
+                <output to="component:head"/>
+            </transition>
+
+            <transition id="component">
+                <input from="component:head"/>
+                <output  to="in"/>
+            </transition>
+
+            <transition id="complete:false">
+                <input from="in"/>
+                <output  to="out"/>
+            </transition>
+        </template>
+    </idiom>
+
+
+    <!--
       ||     SEQUENCE
       -->
 

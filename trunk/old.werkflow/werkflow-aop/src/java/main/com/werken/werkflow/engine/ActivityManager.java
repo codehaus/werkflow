@@ -618,6 +618,8 @@ class ActivityManager
         List placeIds = new ArrayList();
         
         Arc[] arcs = transition.getArcsToPlaces();
+
+        // System.err.println( "produce tokens for : " + transition.getId() );
         
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
@@ -640,6 +642,8 @@ class ActivityManager
             }
             
             Place place = arcs[i].getPlace();
+
+            // System.err.println( "   produce: " + place.getId() + " // " + place );
             
             processCase.addMark( place.getId() );
             

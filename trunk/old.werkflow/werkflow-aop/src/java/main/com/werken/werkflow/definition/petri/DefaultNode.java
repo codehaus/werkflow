@@ -48,6 +48,7 @@ package com.werken.werkflow.definition.petri;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /** Default base for <code>Place</code>s and <code>Transition</code>s.
  *
@@ -124,6 +125,25 @@ public class DefaultNode
         }
     }
 
+    void replaceInboundArc(Arc oldArc,
+                           Arc newArc)
+    {
+        // System.err.println( "replace inbound " + oldArc + " with " + newArc );
+
+        ListIterator arcIter = this.inboundArcs.listIterator();
+
+        while ( arcIter.hasNext() )
+        {
+            if ( arcIter.next().equals( oldArc ) )
+            {
+                // System.err.println( "REPLACED!" );
+                arcIter.set( newArc );
+            }
+        }
+
+        // System.err.println( "arcs -----> " + this.inboundArcs );
+    }
+
     /** Add an outbound <code>Arc</code>.
      *
      *  @param arc The arc.
@@ -139,6 +159,25 @@ public class DefaultNode
         {
             // intentionally left blank
         }
+    }
+
+    void replaceOutboundArc(Arc oldArc,
+                            Arc newArc)
+    {
+        // System.err.println( "replace outbound " + oldArc + " with " + newArc );
+
+        ListIterator arcIter = this.outboundArcs.listIterator();
+
+        while ( arcIter.hasNext() )
+        {
+            if ( arcIter.next().equals( oldArc ) )
+            {
+                // System.err.println( "REPLACED!" );
+                arcIter.set( newArc );
+            }
+        }
+
+        // System.err.println( "arcs -----> " + this.inboundArcs );
     }
 
     /** Return all outbound <code>Arc</code>s.

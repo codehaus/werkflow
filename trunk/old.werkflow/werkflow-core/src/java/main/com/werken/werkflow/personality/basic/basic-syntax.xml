@@ -23,6 +23,12 @@
         </core:if>
     </syntax:tag>
 
+    <syntax:tag name="while">
+        <core:while condition="${condition}">
+            <syntax:invokeBody/>
+        </core:while>
+    </syntax:tag>
+
     <syntax:tag name="parallel">
         <core:parallel>
             <syntax:invokeBody/>

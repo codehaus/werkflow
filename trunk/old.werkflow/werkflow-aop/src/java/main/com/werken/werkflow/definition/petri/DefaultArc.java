@@ -124,4 +124,8 @@ public class DefaultArc
         return this.transition;
     }
 
+    public String toString()
+    {
+        return "[DefaultArc: place=" + getPlace() + " transition=" + getTransition() + "]";
+    }
 }
