@@ -22,7 +22,7 @@ public class ManualEngine
         this.polls  = new HashSet();
     }
 
-    protected void enqueue(final Instance instance,
+    protected void enqueue(final RobustInstance instance,
                            final Path path)
     {
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
@@ -63,7 +63,7 @@ public class ManualEngine
 
         Path path = (Path) list.removeFirst();
 
-        run( instance,
+        run( (RobustInstance) instance,
              path );
 
         return true;

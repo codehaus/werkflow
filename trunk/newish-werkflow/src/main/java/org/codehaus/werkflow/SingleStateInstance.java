@@ -1,7 +1,7 @@
 package org.codehaus.werkflow;
 
 public class SingleStateInstance
-    extends Instance
+    extends DefaultInstance
 {
     protected SingleStateInstance(Engine engine,
                                   Workflow workflow,

@@ -412,15 +412,32 @@ public class SimpleWorkflowReader
         {
             if ( element.equals( "then" ) )
             {
+                if ( ((IfElse)parent).getTrueBody() != null )
+                {
+                    throw new SAXParseException( "<then> may be specified at most once",
+                                                 this.locator );
+                }
+
                 ((IfElse)parent).setTrueBody( head );
             }
             else if ( element.equals( "else" ) )
             {
+                if ( ((IfElse)parent).getTrueBody() == null )
+                {
+                    throw new SAXParseException( "<then> must come before <else>",
+                                                 this.locator );
+                }
+                if ( ((IfElse)parent).getFalseBody() != null )
+                {
+                    throw new SAXParseException( "<else> may be specified at most once",
+                                                 this.locator );
+                }
+
                 ((IfElse)parent).setFalseBody( head );
             }
             else
             {
-                throw new SAXParseException( "<if> child may be <then> and <else>",
+                throw new SAXParseException( "<if> child may be <then> or <else> not <" + element + ">",
                                              this.locator );
             }
         }

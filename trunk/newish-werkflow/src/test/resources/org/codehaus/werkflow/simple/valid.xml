@@ -16,6 +16,8 @@
             <action id="branch two one"/>
             <action id="branch two two"/>
           </sequence>
+          <satisfaction id="approved"/>
+          <satisfaction id="approved" interval="200000"/>
         </parallel>
       </else>
     </if>

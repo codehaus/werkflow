@@ -67,9 +67,9 @@ public abstract class Engine
     {
         Workflow workflow = getWorkflow( workflowId );
 
-        Instance instance = new Instance( this,
-                                          workflow,
-                                          id );
+        DefaultInstance instance = new DefaultInstance( this,
+                                                        workflow,
+                                                        id );
 
         this.instances.put( id,
                             instance );
@@ -80,97 +80,100 @@ public abstract class Engine
         return instance;
     }
 
-    protected abstract void enqueue(Instance instance,
+    protected abstract void enqueue(RobustInstance instance,
                                     Path path)
         throws InterruptedException;
 
-    protected void run(Instance instance,
+    protected void run(RobustInstance instance,
                        Path path)
         throws InterruptedException
     {
-        //System.err.println( "run(" + path + ")" );
-        Workflow workflow = instance.getWorkflow();
-
-        Component component = workflow.getComponent( path );
-
-        if ( component instanceof Satisfaction )
+        synchronized ( instance )
         {
-            Satisfaction satisfaction = (Satisfaction) component;
-            //System.err.println( "## Satisfaction " + satisfaction.getId() );
-
-            if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
-                                                       instance ) ) 
+            //System.err.println( "run(" + path + ")" );
+            Workflow workflow = instance.getWorkflow();
+            
+            Component component = workflow.getComponent( path );
+            
+            if ( component instanceof Satisfaction )
             {
+                Satisfaction satisfaction = (Satisfaction) component;
+                //System.err.println( "## Satisfaction " + satisfaction.getId() );
+                
+                if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
+                                                           instance ) ) 
+                {
+                    try
+                    {
+                        satisfy( satisfaction.getId(),
+                                 instance.getId() );
+                    }
+                    catch (NoSuchInstanceException e)
+                    {
+                        throw new AssumptionViolationError( "instance does not have its own id" );
+                    }
+                }
+                else
+                {
+                    if ( component instanceof PolledSatisfaction )
+                    {
+                        PolledSatisfaction polledSatisfaction = (PolledSatisfaction) satisfaction;
+                        
+                        
+                        setupSatisfactionPoll( polledSatisfaction,
+                                               instance.getId() );
+                    }
+                }
+            }
+            else if ( component instanceof AsyncComponent )
+            {
+                //System.err.println( "## AsyncComponent" );
+                
+                AsyncComponent asyncComponent = (AsyncComponent) component;
+                
+                Path[] nextPaths = asyncComponent.begin( instance,
+                                                         path );
+                
+                if ( nextPaths != null
+                     &&
+                     nextPaths.length > 0 )
+                {
+                    start( instance,
+                           nextPaths );
+                }
+                else 
+                {
+                    end( instance,
+                         path );
+                }
+            }
+            else if ( component instanceof SyncComponent )
+            {
+                //System.err.println( "## SyncComponent" );
+                SyncComponent syncComponent = (SyncComponent) component;
+                
                 try
                 {
-                    satisfy( satisfaction.getId(),
-                             instance.getId() );
+                    syncComponent.perform( instance );
                 }
-                catch (NoSuchInstanceException e)
+                catch (Exception e)
                 {
-                    throw new AssumptionViolationError( "instance does not have its own id" );
+                    // handle error;
                 }
-            }
-            else
-            {
-                if ( component instanceof PolledSatisfaction )
-                {
-                    PolledSatisfaction polledSatisfaction = (PolledSatisfaction) satisfaction;
-
-
-                    setupSatisfactionPoll( polledSatisfaction,
-                                           instance.getId() );
-                }
-            }
-        }
-        else if ( component instanceof AsyncComponent )
-        {
-            //System.err.println( "## AsyncComponent" );
-
-            AsyncComponent asyncComponent = (AsyncComponent) component;
-
-            Path[] nextPaths = asyncComponent.begin( instance,
-                                                     path );
-
-            if ( nextPaths != null
-                 &&
-                 nextPaths.length > 0 )
-            {
-                start( instance,
-                       nextPaths );
-            }
-            else 
-            {
+                
                 end( instance,
                      path );
             }
-        }
-        else if ( component instanceof SyncComponent )
-        {
-            //System.err.println( "## SyncComponent" );
-            SyncComponent syncComponent = (SyncComponent) component;
-
-            try
+            else
             {
-                syncComponent.perform( instance );
+                throw new RuntimeException( "Unknown component type <" + component.getClass().getName() + ">" );
             }
-            catch (Exception e)
-            {
-                // handle error;
-            }
-
-            end( instance,
-                 path );
+            
+            //System.err.println( "end run(" + path + ")" );
         }
-        else
-        {
-            throw new RuntimeException( "Unknown component type <" + component.getClass().getName() + ">" );
-        }
-
-        //System.err.println( "end run(" + path + ")" );
     }
 
-    void start(Instance instance,
+    void start(RobustInstance instance,
                Path path)
         throws InterruptedException
     {
@@ -180,7 +183,7 @@ public abstract class Engine
                  path );
     }
 
-    void start(Instance instance,
+    void start(RobustInstance instance,
                Path[] paths)
         throws InterruptedException
     {
@@ -194,7 +197,7 @@ public abstract class Engine
         }
     }
 
-    void end(Instance instance,
+    void end(RobustInstance instance,
              Path path)
         throws InterruptedException
     {
@@ -283,7 +286,7 @@ public abstract class Engine
                         String instanceId)
         throws NoSuchInstanceException, InterruptedException
     {
-        Instance instance = getInstance( instanceId );
+        RobustInstance instance = (RobustInstance) getInstance( instanceId );
 
         Workflow workflow = instance.getWorkflow();
 
