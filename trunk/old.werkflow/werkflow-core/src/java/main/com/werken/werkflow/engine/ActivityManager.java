@@ -284,7 +284,7 @@ class ActivityManager
                                 Object message = getEngine().consumeMessage( processCase,
                                                                              transition );
 
-                                System.err.println( "consuming: " + message + " for " + transition.getId() );
+                                System.err.println( "consuming: " + message + " for " + transition.getId() + " bound to " + msgWaiter.getBindingVar() );
 
                                 otherAttrs.put( msgWaiter.getBindingVar(),
                                                 message );
