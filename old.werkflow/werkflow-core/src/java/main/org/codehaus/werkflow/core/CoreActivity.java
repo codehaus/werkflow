@@ -46,7 +46,10 @@ package org.codehaus.werkflow.core;
 
  */
 
+import org.codehaus.werkflow.MutableAttributes;
 import org.codehaus.werkflow.task.Task;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.petri.Transition;
 import org.codehaus.werkflow.service.messaging.Message;
 
 class CoreActivity
@@ -75,7 +78,8 @@ class CoreActivity
 
     void perform(CoreActionInvocation invocation)
     {
-        Task task = getWorkItem().getTransition().getTask();
+        Transition transition = getWorkItem().getTransition();
+        Task       task = transition.getTask();
 
         if ( task == null )
         {
@@ -83,6 +87,18 @@ class CoreActivity
             return;
         }
 
-        getWorkItem().getTransition().getTask().getAction().perform( invocation );
+        Message message = getMessage();
+
+        if ( message != null )
+        {
+            MutableAttributes otherAttrs = invocation.getOtherAttributes();
+
+            MessageWaiter waiter = (MessageWaiter) transition.getWaiter();
+
+            otherAttrs.setAttribute( waiter.getBindingVar(),
+                                     message.getMessage() );
+        }
+
+        task.getAction().perform( invocation );
     }
 }

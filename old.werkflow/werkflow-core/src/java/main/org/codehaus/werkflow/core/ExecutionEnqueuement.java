@@ -78,14 +78,6 @@ class ExecutionEnqueuement
     {
         Map otherAttrs = new HashMap();
 
-        Message message = getActivity().getMessage();
-
-        if ( message != null )
-        {
-            otherAttrs.put( "message",
-                            message.getMessage() );
-        }
-
         Completion completion = new CoreCompletion( getExecutor(),
                                                     getActivity() );
 
