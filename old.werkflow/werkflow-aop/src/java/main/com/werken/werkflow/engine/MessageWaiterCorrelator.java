@@ -3,9 +3,11 @@ package com.werken.werkflow.engine;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -250,6 +252,16 @@ public class MessageWaiterCorrelator
             }
         }
 
+        Transition[] enabledTransitions = processCase.getEnabledTransitions();
+
+        for ( int i = 0 ; i < enabledTransitions.length ; ++i )
+        {
+            if ( enabledTransitions[i].getId().equals( this.transitionId ) )
+            {
+                return;
+            }
+        }
+
         // if not accepted, then it's not correlating or
         // correlatable to anything here, so remove it completely
         // and remove all correlations.
@@ -275,5 +287,37 @@ public class MessageWaiterCorrelator
         }
 
         return false;
+    }
+
+    Object consumeMessage(String processCaseId)
+        throws NoSuchCorrelationException
+    {
+        Iterator    correlationIter = this.correlations.iterator();
+        Correlation eachCorrelation = null;
+
+        while ( correlationIter.hasNext() )
+        {
+            eachCorrelation = (Correlation) correlationIter.next();
+
+            if ( eachCorrelation.getProcessCaseId().equals( processCaseId ) )
+            {
+                try
+                {
+                    Message message = getMessage( eachCorrelation.getMessageId() );
+
+                    removeMessage( message.getId() );
+
+                    return message.getMessage();
+                }
+                catch (NoSuchMessageException e)
+                {
+                    // FIXME
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        throw new NoSuchCorrelationException( processCaseId,
+                                              getTransitionId() );
     }
 }

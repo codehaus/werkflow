@@ -251,4 +251,14 @@ public class WorkflowEngine
     {
         return getServices().getCaseRepository().getCaseState( caseId );
     }
+
+    Object consumeMessage(WorkflowProcessCase processCase,
+                           Transition transition)
+        throws NoSuchCorrelationException, NoSuchProcessException
+    {
+        ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
+        
+        return deployment.consumeMessage( processCase.getId(),
+                                          transition );
+    }
 }
