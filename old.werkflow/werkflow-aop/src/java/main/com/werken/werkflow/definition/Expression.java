@@ -56,6 +56,24 @@ import com.werken.werkflow.Attributes;
  */
 public interface Expression
 {
+    final static Expression TRUE = new Expression()
+        {
+            public boolean evaluate(Attributes attributes)
+                throws Exception
+            {
+                return true;
+            }
+        };
+
+    final static Expression FALSE = new Expression()
+        {
+            public boolean evaluate(Attributes attributes)
+                throws Exception
+            {
+                return false;
+            }
+        };
+
     /** Evaluate this <code>Expression</code> within the context
      *  of some <code>Attributes</code>.
      *
