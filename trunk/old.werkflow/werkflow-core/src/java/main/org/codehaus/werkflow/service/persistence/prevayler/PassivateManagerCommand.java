@@ -71,11 +71,11 @@ class PassivateManagerCommand extends TransactionWithQuery
     {
         if (!(prevalentSystem instanceof ProcessStore))
         {
-            throw new IllegalArgumentException("This command operates on a ProcessStore PrevalentSystem.");
+            throw new IllegalArgumentException( "This command operates on a ProcessStore PrevalentSystem." );
         }
 
         ProcessStore store = (ProcessStore) prevalentSystem;
-        store.passivateManager(_package, _process);
+        store.passivateManager( _package, _process );
 
         return null;
     }

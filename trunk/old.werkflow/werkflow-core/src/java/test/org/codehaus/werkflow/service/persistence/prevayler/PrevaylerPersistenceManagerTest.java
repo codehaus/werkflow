@@ -74,27 +74,27 @@ public class PrevaylerPersistenceManagerTest extends TestCase
      */
     public PrevaylerPersistenceManagerTest(String name)
     {
-        super(name);
+        super( name );
     }
 
     public static void main(String[] args)
     {
-        junit.textui.TestRunner.run(PrevaylerPersistenceManagerTest.class);
+        junit.textui.TestRunner.run( PrevaylerPersistenceManagerTest.class );
     }
 
     public void testActivatePassivate()
     {
-        ProcessInfo info = createInfo("activate-passivate");
+        ProcessInfo info = createInfo( "activate-passivate" );
 
         try
         {
-            ProcessPersistenceManager processManager = _manager.activate(info);
-            assertNotNull(processManager);
+            ProcessPersistenceManager processManager = _manager.activate( info );
+            assertNotNull( processManager );
 
-            _manager.passivate(processManager);
+            _manager.passivate( processManager );
             try
             {
-                processManager.loadCase("test-case");
+                processManager.loadCase( "test-case" );
             }
             catch (PersistenceException pe)
             {
@@ -103,49 +103,49 @@ public class PrevaylerPersistenceManagerTest extends TestCase
                 return;
             }
 
-            fail("Able to execute action on passive manager");
+            fail( "Able to execute action on passive manager" );
         }
         catch (DeploymentException de)
         {
-            fail(de.getMessage());
+            fail( de.getMessage() );
         }
         catch (PersistenceException pe)
         {
-            fail(pe.getMessage());
+            fail( pe.getMessage() );
         }
     }
 
     public void testAdd()
     {
-        ProcessInfo info = createInfo("add-n-get");
+        ProcessInfo info = createInfo( "add-n-get" );
 
         try
         {
-            ProcessPersistenceManager processManager = _manager.activate(info);
-            assertNotNull(processManager);
+            ProcessPersistenceManager processManager = _manager.activate( info );
+            assertNotNull( processManager );
 
-            CaseTransfer newCaseTransfer = processManager.newCase(Attributes.EMPTY_ATTRIBUTES);
+            CaseTransfer newCaseTransfer = processManager.newCase( Attributes.EMPTY_ATTRIBUTES );
 
-            assertNotNull(newCaseTransfer);
-            assertNotNull(newCaseTransfer.getCaseId());
-            assertFalse(newCaseTransfer.getCaseId().length() == 0);
+            assertNotNull( newCaseTransfer );
+            assertNotNull( newCaseTransfer.getCaseId() );
+            assertFalse( newCaseTransfer.getCaseId().length() == 0 );
 
             String caseId = newCaseTransfer.getCaseId();
-            assertTrue(processManager.hasCase(caseId));
+            assertTrue( processManager.hasCase( caseId ) );
 
-            CaseTransfer loadCaseTransfer = processManager.loadCase(caseId);
-            assertNotNull(loadCaseTransfer);
-            assertEquals(caseId, loadCaseTransfer.getCaseId());
+            CaseTransfer loadCaseTransfer = processManager.loadCase( caseId );
+            assertNotNull( loadCaseTransfer );
+            assertEquals( caseId, loadCaseTransfer.getCaseId() );
 
-            _manager.passivate(processManager);
+            _manager.passivate( processManager );
         }
         catch (DeploymentException de)
         {
-            fail(de.getMessage());
+            fail( de.getMessage() );
         }
         catch (PersistenceException pe)
         {
-            fail(pe.getMessage());
+            fail( pe.getMessage() );
         }
     }
 
@@ -184,7 +184,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
          */
         public String getDocumentation()
         {
-            throw new RuntimeException("Unimplemented method");
+            throw new RuntimeException( "Unimplemented method" );
         }
 
         /**
@@ -192,7 +192,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
          */
         public void addAttributeDeclaration(AttributeDeclaration attrDecl)
         {
-            throw new RuntimeException("Unimplemented method");
+            throw new RuntimeException( "Unimplemented method" );
         }
 
         /**
@@ -208,7 +208,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
          */
         public AttributeDeclaration getAttributeDeclaration(String id)
         {
-            throw new RuntimeException("Unimplemented method");
+            throw new RuntimeException( "Unimplemented method" );
         }
 
     }
@@ -216,16 +216,16 @@ public class PrevaylerPersistenceManagerTest extends TestCase
     private PrevaylerPersistenceManager createManager()
     {
         PrevaylerPersistenceManager manager = new PrevaylerPersistenceManager();
-        manager.setTransactionPublisher(new TransientPublisher());
-        manager.setSnapOnStop(false);
-        manager.setStorePath(storePath());
+        manager.setTransactionPublisher( new TransientPublisher() );
+        manager.setSnapOnStop( false );
+        manager.setStorePath( storePath() );
 
         return manager;
     }
 
     private void releaseManager()
     {
-        deleteDirectory(new File(_manager.storePath()));
+        deleteDirectory( new File( _manager.storePath() ) );
         _manager = null;
     }
 
@@ -240,7 +240,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
                 File file = contents[i];
                 if (file.isDirectory())
                 {
-                    deleteDirectory(file);
+                    deleteDirectory( file );
                 }
                 else
                 {
@@ -254,13 +254,13 @@ public class PrevaylerPersistenceManagerTest extends TestCase
 
     private String storePath()
     {
-        String tempDir = System.getProperty("java.io.tmpdir");
-        return (tempDir.endsWith(File.separator) ? tempDir : tempDir + File.separator) + "werkflow-prevayler-test";
+        String tempDir = System.getProperty( "java.io.tmpdir" );
+        return (tempDir.endsWith( File.separator ) ? tempDir : tempDir + File.separator) + "werkflow-prevayler-test";
     }
 
     private ProcessInfo createInfo(String suffix)
     {
-        return new SimpleInfo("test-package-" + suffix, "test-process-" + suffix);
+        return new SimpleInfo( "test-package-" + suffix, "test-process-" + suffix );
     }
 
     private PrevaylerPersistenceManager _manager;

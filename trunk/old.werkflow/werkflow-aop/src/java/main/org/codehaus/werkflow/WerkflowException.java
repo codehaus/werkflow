@@ -75,7 +75,7 @@ public class WerkflowException
 
     public WerkflowException(String message)
     {
-        super(message);
+        super( message );
     }
 
     /** Construct with root cause.

@@ -61,7 +61,7 @@ class ManagerKey implements Serializable
 
     ManagerKey(ProcessInfo info)
     {
-        this(info.getPackageId(), info.getId());
+        this( info.getPackageId(), info.getId() );
     }
 
     ManagerKey(String packageId, String processId)
@@ -69,7 +69,7 @@ class ManagerKey implements Serializable
         if (null == packageId || null == processId
             || processId.length() == 0 || packageId.length() == 0)
         {
-            throw new IllegalArgumentException("The package and process id's can not be null or empty");
+            throw new IllegalArgumentException( "The package and process id's can not be null or empty" );
         }
 
         _package = packageId;
@@ -98,7 +98,7 @@ class ManagerKey implements Serializable
         {
             ManagerKey other = (ManagerKey) obj;
 
-            return _process.equals(other._process) && _package.equals(other._package);
+            return _process.equals( other._process ) && _package.equals( other._package );
         }
 
         return false;

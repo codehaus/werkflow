@@ -61,15 +61,15 @@ import org.codehaus.werkflow.service.persistence.PersistenceException;
 class PassiveDelegate implements MethodDelegate
 {
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#persist(org.codehaus.werkflow.service.persistence.ChangeSet)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#persist(ChangeSet)
      */
     public void persist(ChangeSet changeSet) throws PersistenceException
     {
-        throw new PersistenceException("Operation not allowed on a passivated manager.");
+        throw new PersistenceException( "Operation not allowed on a passivated manager." );
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#hasCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#hasCase(String)
      */
     public boolean hasCase(String caseId)
     {
@@ -78,19 +78,19 @@ class PassiveDelegate implements MethodDelegate
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#newCase(org.codehaus.werkflow.Attributes)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#newCase(Attributes)
      */
     public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
     {
-        throw new PersistenceException("Operation not allowed on a passivated manager.");
+        throw new PersistenceException( "Operation not allowed on a passivated manager." );
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#loadCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#loadCase(String)
      */
     public CaseTransfer loadCase(String caseId) throws PersistenceException
     {
-        throw new PersistenceException("Operation not allowed on a passivated manager.");
+        throw new PersistenceException( "Operation not allowed on a passivated manager." );
     }
 
     /**
@@ -98,7 +98,7 @@ class PassiveDelegate implements MethodDelegate
      */
     public CorrelationTransfer[] getCorrelations() throws PersistenceException
     {
-        throw new PersistenceException("Operation not allowed on a passivated manager.");
+        throw new PersistenceException( "Operation not allowed on a passivated manager." );
     }
 
 }

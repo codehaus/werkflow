@@ -72,56 +72,56 @@ class ActiveDelegate implements MethodDelegate
     private Prevayler _prevayler;
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.prevayler.MethodDelegate#persist(null, org.codehaus.werkflow.service.persistence.ChangeSet)
+     * @see MethodDelegate#persist(ChangeSet)
      */
     public void persist(ChangeSet changeSet) throws PersistenceException
     {
         // @todo - Implement method
-        throw new RuntimeException("Method not implemented");
+        throw new RuntimeException( "Method not implemented" );
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.prevayler.MethodDelegate#hasCase(null, java.lang.String)
+     * @see MethodDelegate#hasCase(String)
      */
     public boolean hasCase(String caseId)
     {
-        return _state.hasCase(caseId);
+        return _state.hasCase( caseId );
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.prevayler.MethodDelegate#newCase(null, org.codehaus.werkflow.Attributes)
+     * @see MethodDelegate#newCase(Attributes)
      */
     public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
     {
         try
         {
             final ManagerKey key = key();
-            NewCaseCommand command = new NewCaseCommand(key.getPackageId(), key.getProcessId(), initialiAttrs);
-            CaseState caseState = (CaseState) command.executeUsing(_prevayler);
+            NewCaseCommand command = new NewCaseCommand( key.getPackageId(), key.getProcessId(), initialiAttrs );
+            CaseState caseState = (CaseState) command.executeUsing( _prevayler );
 
             return caseState;
         }
         catch (Exception e)
         {
-            throw new PersistenceException(e);
+            throw new PersistenceException( e );
         }
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.prevayler.MethodDelegate#loadCase(null, java.lang.String)
+     * @see MethodDelegate#loadCase(String)
      */
     public CaseTransfer loadCase(String caseId) throws PersistenceException
     {
-        return _state.loadCase(caseId);
+        return _state.loadCase( caseId );
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.prevayler.MethodDelegate#getCorrelations(null)
+     * @see MethodDelegate#getCorrelations()
      */
     public CorrelationTransfer[] getCorrelations() throws PersistenceException
     {
         // @todo - Implement method
-        throw new RuntimeException("Method not implemented");
+        throw new RuntimeException( "Method not implemented" );
     }
 
     // --  beyond here be dragons
