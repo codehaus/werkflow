@@ -1,0 +1,55 @@
+<process package="my.pkg" id="my.process3" initiation="call"
+         xmlns="werkflow:basic" 
+         xmlns:jelly="jelly:org.codehaus.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:java="werkflow:java"
+         xmlns:j="jelly:core">         
+
+    <attributes>
+        <attribute id="anObjectId" in="true" out="true"> 
+            <java:attr-type type="java.lang.String"/>
+        </attribute>
+        <attribute id="result" out="true"> 
+            <java:attr-type type="java.lang.String"/>
+        </attribute>
+    </attributes>
+           
+
+    <sequence>    
+        
+        <jelly:log message="started flow : ${anObjectId}"/>        
+        <jelly:log message="being checked : ${result}"/>
+        
+        <jelly:action>
+           <j:set var="result" value="1"/>
+        </jelly:action>            
+        
+        <jelly:log message="result set to : ${result}"/>
+                                
+        <switch>                
+            <case condition="result == '1'">
+                <sequence>
+                    <jelly:action>
+                       <j:set var="result" value="3"/>
+                    </jelly:action>            
+                    <jelly:log message="condition evaluated successfully: ${result}"/>
+                </sequence>
+            </case>                                 
+            <case condition="result == '3'">
+                <sequence>
+                    <jelly:action>
+                       <j:set var="result" value="13"/>
+                    </jelly:action>            
+                    <jelly:log message="condition evaluated NOT successfully: ${result}"/>
+                </sequence>
+            </case>
+            <otherwise>
+                <sequence>                    
+                    <jelly:log message="condition evaluated NOT successfully: ${result}"/>
+                </sequence>
+            </otherwise> 
+        </switch>            
+        
+        <jelly:log message="finished with result : ${result}"/>
+   </sequence>       
+
+</process>

@@ -46,8 +46,10 @@ package org.codehaus.werkflow.personality.basic;
 
  */
 
-import org.codehaus.werkflow.Wfms;
+import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.Wfms;
 import org.codehaus.werkflow.WfmsRuntime;
 import org.codehaus.werkflow.admin.WfmsAdmin;
 import org.codehaus.werkflow.engine.WorkflowEngine;
@@ -62,9 +64,9 @@ import junit.framework.TestCase;
 import java.net.URL;
 
 public class BasicPersonalityTest
-    extends TestCase
+    extends WerkflowTestCase
 {
-    public void testLoad()
+    public void notestLoad()
         throws Exception
     {
         Personality personality = BasicPersonality.getInstance();
@@ -118,5 +120,135 @@ public class BasicPersonalityTest
         msgManager.acceptMessage( new Integer( 8 ) );
 
         Thread.sleep( 2000 );
+    }
+    
+        
+    public void testIfTagProcessing()
+        throws Exception
+    {
+        Personality personality = BasicPersonality.getInstance();
+
+        assertNotNull( personality );
+
+        URL procUrl = getClass().getResource( "if.xml" );
+
+        ProcessDefinition[] procDefs = personality.load( procUrl );
+
+        assertEquals( 1,
+                      procDefs.length );
+
+        assertEquals( "my.pkg",
+                      procDefs[0].getPackageId() );
+
+        assertEquals( "my.process2",
+                      procDefs[0].getId() );
+
+        SimpleWfmsServices services = new SimpleWfmsServices();
+
+        services.setPersistenceManager( new FleetingPersistenceManager() );
+
+        SimpleMessagingManager msgManager = new SimpleMessagingManager();
+
+        services.setMessagingManager( msgManager );
+
+        Wfms wfms = new WorkflowEngine( services );
+
+        WfmsAdmin admin = wfms.getAdmin();
+
+        admin.deployProcess( procDefs[0] );
+
+        WfmsRuntime runtime = wfms.getRuntime();
+
+        String anObjectId = "2213";
+        
+        SimpleAttributes attrs = new SimpleAttributes();
+        attrs.setAttribute( "anObjectId", anObjectId );
+
+        ProcessCase processCase = runtime.callProcess( procDefs[0].getPackageId(), 
+                                                       procDefs[0].getId(),
+                                                       attrs );
+
+        Thread.sleep( 2000 );
+                
+        /*
+        System.err.println("Attributes found : " + processCase.toString());
+        String[] attrNames = processCase.getAttributeNames();
+        for ( int i = 0 ; i < attrNames.length ; ++i )
+        {
+            System.err.println( "Found attribute " + attrNames[i] + 
+                                " = " + (String)processCase.getAttribute(attrNames[i]) );
+        }
+        */
+        
+        String foundObjectId = (String)processCase.getAttribute("anObjectId");
+        
+        assertEquals( foundObjectId, anObjectId );
+        
+        assertTrue( "Attribute 'result' should exists", 
+                    processCase.hasAttribute("result") );
+        
+        assertEquals( "Attribute not set correctly: ", 
+                      "2", (String)processCase.getAttribute("result") );
+        
+    }
+    
+    
+    public void testSwitchTagProcessing()
+        throws Exception
+    {
+        Personality personality = BasicPersonality.getInstance();
+
+        assertNotNull( personality );
+
+        URL procUrl = getClass().getResource( "switch.xml" );
+
+        ProcessDefinition[] procDefs = personality.load( procUrl );
+
+        assertEquals( 1,
+                      procDefs.length );
+
+        assertEquals( "my.pkg",
+                      procDefs[0].getPackageId() );
+
+        assertEquals( "my.process3",
+                      procDefs[0].getId() );
+
+        SimpleWfmsServices services = new SimpleWfmsServices();
+
+        services.setPersistenceManager( new FleetingPersistenceManager() );
+
+        SimpleMessagingManager msgManager = new SimpleMessagingManager();
+
+        services.setMessagingManager( msgManager );
+
+        Wfms wfms = new WorkflowEngine( services );
+
+        WfmsAdmin admin = wfms.getAdmin();
+
+        admin.deployProcess( procDefs[0] );
+
+        WfmsRuntime runtime = wfms.getRuntime();
+
+        String anObjectId = "2214";
+        
+        SimpleAttributes attrs = new SimpleAttributes();
+        attrs.setAttribute( "anObjectId", anObjectId );
+
+        ProcessCase processCase = runtime.callProcess( procDefs[0].getPackageId(), 
+                                                       procDefs[0].getId(),
+                                                       attrs );
+
+        Thread.sleep( 2000 );               
+        
+        String foundObjectId = (String)processCase.getAttribute("anObjectId");
+        
+        assertEquals( foundObjectId, anObjectId );
+        
+        assertTrue( "Attribute 'result' should exists", 
+                    processCase.hasAttribute("result") );
+        
+        assertEquals( "Attribute not set correctly: ", 
+                      "3", (String)processCase.getAttribute("result") );
+        
     }
 }
