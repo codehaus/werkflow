@@ -9,7 +9,7 @@
         <template> 
             <transition id="empty">
                 <input from="in"/>
-                <input to="out"/>
+                <output to="out"/>
             </transition>
         </template> 
     </idiom>

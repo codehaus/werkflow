@@ -1,84 +1,91 @@
 <syntax:syntax uri="werkflow:basic"
                xmlns:syntax="werkflow:syntax"
+               xmlns:fund="werkflow:fundamental"
                xmlns:core="werkflow:core-idioms">
 
     <syntax:import url="../common/core-idioms.xml"/>
 
-    <syntax:tag id="process">
-        <fund:process id="${id}">
+    <syntax:tag name="process">
+        fooo
+        <fund:process id="${id}"
+                      initiation="${initiation}">
+            fooo2
             <syntax:invokeBody/>
+            fooo3
         </fund:process> 
+            fooo4
     </syntax:tag>
 
-    <syntax:tag id="empty">
+    <syntax:tag name="empty">
         <core:empty/>
     </syntax:tag>
 
-    <syntax:tag id="if">
+    <syntax:tag name="if">
         <core:if condition="${condition}">
             <syntax:invokeBody/>
         </core:if>
     </syntax:tag>
 
-    <syntax:tag id="parallel">
+    <syntax:tag name="parallel">
+        parlalel dude
         <core:parallel>
             <syntax:invokeBody/>
-        </core:if>
+        </core:parallel>
     </syntax:tag>
 
-    <syntax:tag id="message-types">
+    <syntax:tag name="message-types">
         <fund:message-types>
             <syntax:invokeBody/>
         </fund:message-types>
     </syntax:tag>
 
-    <syntax:tag id="message-type">
+    <syntax:tag name="message-type">
         <fund:message-types>
             <syntax:invokeBody/>
         </fund:message-types>
     </syntax:tag>
 
-    <syntax:tag id="actions">
+    <syntax:tag name="actions">
         <fund:actions>
             <syntax:invokeBody/>
         </fund:actions>
     </syntax:tag>
 
-    <syntax:tag id="action-definition">
+    <syntax:tag name="action-definition">
         <fund:action-definition id="${id}">
             <syntax:invokeBody/>
         </fund:action-definition>
     </syntax:tag>
 
-    <syntax:tag id="action">
+    <syntax:tag name="action">
         <fund:action id="${id}">
             <syntax:invokeBody/>
         </fund:action>
     </syntax:tag>
 
-    <syntax:tag id="import">
+    <syntax:tag name="import">
         <fund:import url="${url}"/>
     </syntax:tag>
 
-    <syntax:tag id="attributes">
+    <syntax:tag name="attributes">
         <fund:attributes>
             <syntax:invokeBody/>
         </fund:attributes>
     </syntax:tag>
 
-    <syntax:tag id="attribute">
+    <syntax:tag name="attribute">
         <fund:attribute>
             <syntax:invokeBody/>
         </fund:attribute>
     </syntax:tag>
 
-    <syntax:tag id="call">
+    <syntax:tag name="call">
         <fund:call>
             <syntax:invokeBody/>
         </fund:call>
     </syntax:tag>
 
-    <syntax:tag id="in">
+    <syntax:tag name="in">
         <fund:in id="${id}" value="${value}">
             <syntax:invokeBody/>
         </fund:in>

@@ -3,6 +3,8 @@ package com.werken.werkflow.personality;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.jelly.MiscTagSupport;
 import com.werken.werkflow.syntax.Syntax;
+import com.werken.werkflow.syntax.SyntaxLoader;
+import com.werken.werkflow.syntax.fundamental.FundamentalTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;
@@ -17,24 +19,35 @@ import java.util.ArrayList;
 public abstract class AbstractPersonality
     implements Personality
 {
-    private Syntax syntax;
+    private Syntax[] syntaxes;
 
-    public AbstractPersonality(Syntax syntax)
+    public AbstractPersonality(Syntax[] syntaxes)
     {
-        this.syntax = syntax;
+        this.syntaxes = syntaxes;
     }
 
-    public Syntax getSyntax()
+    public Syntax[] getSyntaxes()
     {
-        return this.syntax;
+        return this.syntaxes;
     }
 
-    protected JellyContext newJellyContext()
+    protected JellyContext newJellyContext(JellyContext parent)
     {
-        JellyContext context = new JellyContext();
+        JellyContext context = new JellyContext( parent );
 
-        context.registerTagLibrary( getSyntax().getNamespaceUri(),
-                                    getSyntax().getTagLibrary() );
+        Syntax[] syntaxes = getSyntaxes();
+
+        for ( int i = 0 ; i < syntaxes.length ; ++i )
+        {
+            context.registerTagLibrary( syntaxes[i].getNamespaceUri(),
+                                        syntaxes[i].getTagLibrary() );
+
+            System.err.println( "registered: " + syntaxes[i].getNamespaceUri() );
+            System.err.println( "registered: " + syntaxes[i].getTagLibrary() );
+        }
+
+        context.registerTagLibrary( FundamentalTagLibrary.NS_URI,
+                                    new FundamentalTagLibrary() );
 
         return context;
     }
@@ -56,8 +69,18 @@ public abstract class AbstractPersonality
                                          context );
 
         script.run( context,
-                    XMLOutput.createDummyXMLOutput() );
+                    XMLOutput.createXMLOutput( System.err ) );
 
         return (ProcessDefinition[]) processDefs.toArray( ProcessDefinition.EMPTY_ARRAY );
+    }
+
+    protected static Syntax[] loadSyntaxes(URL url,
+                                           JellyContext context)
+        throws IOException, Exception
+    {
+        SyntaxLoader loader = new SyntaxLoader();
+
+        return loader.load( url,
+                            context );
     }
 }
