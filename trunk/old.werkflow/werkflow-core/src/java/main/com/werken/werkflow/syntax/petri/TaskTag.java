@@ -49,6 +49,7 @@ package com.werken.werkflow.syntax.petri;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.task.DefaultTask;
 import com.werken.werkflow.definition.petri.DefaultTransition;
+import com.werken.werkflow.syntax.fundamental.ActionReceptor;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -74,7 +75,7 @@ import org.apache.commons.jelly.JellyTagException;
  */
 public class TaskTag
     extends PetriTagSupport
-      // implements ActionReceptor
+    implements ActionReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -124,6 +125,8 @@ public class TaskTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        System.err.println( "TASK: " );
+
         DefaultTransition transition = getCurrentTransition();
 
         DefaultTask task = new DefaultTask();
