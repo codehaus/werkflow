@@ -49,11 +49,9 @@ package com.werken.werkflow.syntax.petri;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultArc;
 import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.expression.Expression;
 
 /** Create an output arc for a <code>Transition</code>.
  *
@@ -91,7 +89,7 @@ public class OutputTag
     private String to;
 
     /** Mark-generation test expression. */
-    private Expression testExpr;
+    private String testExpr;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -128,20 +126,20 @@ public class OutputTag
         return this.to;
     }
 
-    /** Set the mark-generation test <code>Expression</code>.
+    /** Set the mark-generation test expression.
      *
      *  @param testExpr The test expression.
      */
-    public void setTest(Expression testExpr)
+    public void setTest(String testExpr)
     {
         this.testExpr = testExpr;
     }
 
-    /** Retrieve the mark-generation test <code>Expression</code>.
+    /** Retrieve the mark-generation test expression.
      *
      *  @return The test expression.
      */
-    public Expression getTest()
+    public String getTest()
     {
         return this.testExpr;
     }
@@ -166,17 +164,17 @@ public class OutputTag
         {
             arc = net.connectTransitionToPlace( transition.getId(),
                                                 getTo() );
+
+            if ( getTest() != null )
+            {
+                arc.setExpression( newExpression( getTest() ) );
+            }
         }
         catch (Exception e)
         {
             throw new JellyTagException( e );
         }
 
-        if ( getTest() != null )
-        {
-            arc.setExpression( new JellyExpression( getTest() ) );
-        }
-        
         invokeBody( output );
     }
 }

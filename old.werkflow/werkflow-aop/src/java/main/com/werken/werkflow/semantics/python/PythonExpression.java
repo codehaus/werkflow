@@ -1,32 +1,27 @@
 package com.werken.werkflow.semantics.python;
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.semantics.jelly.AttributesJellyContext;
+import com.werken.werkflow.bsf.BsfExpression;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.expression.Expression;
 
+import org.apache.bsf.BSFException;
+
 import org.python.core.PyInteger;
 import org.python.core.PyString;
-//import org.apache.commons.jexl.JexlContext;
 
 public class PythonExpression
-    implements com.werken.werkflow.expr.Expression
+    extends BsfExpression
 {
-    private Expression expr;
-
-    public PythonExpression(Expression expr)
+    public PythonExpression(String text)
+        throws BSFException
     {
-        this.expr = expr;
+        super( "jython",
+               text );
     }
 
-    public boolean evaluateAsBoolean(Attributes attrs)
-        throws Exception
+    public boolean asBoolean(Object value)
     {
-        JellyContext context = new AttributesJellyContext( attrs );
-
-        Object value = this.expr.evaluate( context );
-
         if ( value instanceof PyInteger )
         {
             return ( ((PyInteger)value).getValue() != 0 );
@@ -36,20 +31,7 @@ public class PythonExpression
         {
             String str = ((PyString)value).toString();
 
-            if ( str.equals( "true" )
-                 ||
-                 str.equals( "on" )
-                 ||
-                 str.equals( "1" )
-                 ||
-                 str.equals( "yes" ) )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return stringAsBoolean( str );
         }
 
         return false;

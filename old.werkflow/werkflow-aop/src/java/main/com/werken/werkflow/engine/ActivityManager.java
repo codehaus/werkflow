@@ -62,6 +62,8 @@ import com.werken.werkflow.definition.petri.Arc;
 import com.werken.werkflow.definition.petri.NoSuchTransitionException;
 import com.werken.werkflow.definition.petri.NoSuchPlaceException;
 import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionContext;
+import com.werken.werkflow.expr.AttributesExpressionContext;
 import com.werken.werkflow.task.Task;
 import com.werken.werkflow.work.WorkItem;
 
@@ -629,6 +631,8 @@ class ActivityManager
 
         // System.err.println( "produce tokens for : " + transition.getId() );
         
+        ExpressionContext exprContext = new AttributesExpressionContext( processCase );
+
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
             Expression expr = arcs[i].getExpression();
@@ -637,7 +641,7 @@ class ActivityManager
             {
                 try
                 {
-                    if ( ! expr.evaluateAsBoolean( processCase ) )
+                    if ( ! expr.evaluateAsBoolean( exprContext ) )
                     {
                         continue;
                     }

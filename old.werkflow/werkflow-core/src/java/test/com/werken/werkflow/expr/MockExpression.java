@@ -1,28 +1,26 @@
 package com.werken.werkflow.expr;
 
-import com.werken.werkflow.Attributes;
-
 public class MockExpression
     implements Expression
 {
     private boolean result;
-    private Attributes attributes;
+    private ExpressionContext context;
 
     public MockExpression(boolean result)
     {
         this.result = result;
     }
 
-    public boolean evaluateAsBoolean(Attributes attributes)
+    public boolean evaluateAsBoolean(ExpressionContext context)
         throws Exception
     {
-        this.attributes = attributes;
+        this.context = context;
 
         return this.result;
     }
 
-    public Attributes getAttributes()
+    public ExpressionContext getContext()
     {
-        return this.attributes;
+        return this.context;
     }
 }
