@@ -271,6 +271,29 @@ public class WorkflowEngine
         return assumeCase( caseState );
     }
 
+    WorkflowProcessCase newChildProcessCase(WorkflowActivity activity,
+                                            String processId,
+                                            Attributes attributes)
+        throws NoSuchProcessException
+    {
+
+        CaseState caseState = newCaseState( processId,
+                                            attributes );
+
+        notifyCaseInitiated( processId,
+                             caseState.getCaseId() );
+
+        WorkflowProcessCase childCase = assumeCase( caseState,
+                                                    false );
+
+        getActivityManager().newChildProcessCase( activity,
+                                                  childCase );
+
+        evaluateCase( childCase );
+
+        return childCase;
+    }
+
     WorkflowProcessCase newMessageInitiatedProcessCase(ProcessDeployment deployment,
                                                        Transition transition,
                                                        Map attributes,
@@ -473,6 +496,14 @@ public class WorkflowEngine
     WorkflowProcessCase assumeCase(CaseState caseState)
         throws NoSuchProcessException
     {
+        return assumeCase( caseState,
+                           true );
+    }
+
+    WorkflowProcessCase assumeCase(CaseState caseState,
+                                   boolean evaluate)
+        throws NoSuchProcessException
+    {
         ProcessDeployment deployment = getProcessDeployment( caseState.getProcessId() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
@@ -481,7 +512,10 @@ public class WorkflowEngine
         this.cases.put( processCase.getId(),
                         processCase );
 
-        evaluateCase( processCase );
+        if ( evaluate )
+        { 
+            evaluateCase( processCase );
+        }
 
         return processCase;
     }
@@ -595,6 +629,8 @@ public class WorkflowEngine
                 this.cases.remove( processCase.getId() );
                 
                 processCase.getState().store();
+
+                getActivityManager().processCaseComplete( processCase.getId() );
                 
                 return;
             }

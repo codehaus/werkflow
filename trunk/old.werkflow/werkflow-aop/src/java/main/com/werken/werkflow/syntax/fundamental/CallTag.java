@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,26 +46,22 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import org.apache.commons.jelly.TagLibrary;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.action.DefaultCallAction;
 
-/** Jelly tag library providing Jelly semantics.
- *
- *  @see JellyMessageCorrelatorTag
- *  @see JellyActionTag
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class JellyTagLibrary
-    extends TagLibrary
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.MissingAttributeException;
+
+public class CallTag
+    extends AbstractActionTag
 {
     // ----------------------------------------------------------------------
-    //     Constants
+    //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Tag library Namespace URI. */
-    public static final String NS_URI = "werkflow:jelly";
+    /** Process identifier. */
+    private String processId;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -73,16 +69,43 @@ public class JellyTagLibrary
 
     /** Construct.
      */
-    public JellyTagLibrary()
+    public CallTag()
     {
-        registerTag( "correlator",
-                     JellyMessageCorrelatorTag.class );
+        // intentionally left blank
+    }
 
-        registerTag( "action",
-                     JellyActionTag.class );
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
 
-        registerTag( "log",
-                     LogActionTag.class );
+    public void setProcess(String processId)
+    {
+        this.processId = processId;
+    }
+
+    public String getProcess()
+    {
+        return this.processId;
+    }
+
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        if ( getProcess() == null
+             ||
+             getProcess().equals( "" ) )
+        {
+            throw new MissingAttributeException( "process" );
+        }
+
+        Action action = new DefaultCallAction( getProcess() );
+
+        setAction( action );
     }
 }
-

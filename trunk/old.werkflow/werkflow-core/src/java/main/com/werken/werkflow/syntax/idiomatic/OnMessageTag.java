@@ -17,8 +17,8 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
 public class OnMessageTag
-    extends IdiomaticTagSupport
-    implements MessageCorrelatorReceptor, ActionReceptor
+    extends ComplexActionTagSupport
+    implements MessageCorrelatorReceptor
 {
     private String type;
     private String var;
@@ -60,7 +60,7 @@ public class OnMessageTag
         this.messageCorrelator = messageCorrelator;
     }
 
-    public void receiveAction(Action action)
+    public void setReceiverAction(Action action)
     {
         this.action = action;
     }

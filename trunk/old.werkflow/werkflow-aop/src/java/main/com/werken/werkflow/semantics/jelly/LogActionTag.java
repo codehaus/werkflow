@@ -46,26 +46,24 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import org.apache.commons.jelly.TagLibrary;
+import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
 
-/** Jelly tag library providing Jelly semantics.
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.expression.Expression;
+
+/** Jelly <code>Tag</code> for <code>LogAction</code>.
  *
- *  @see JellyMessageCorrelatorTag
- *  @see JellyActionTag
+ *  @see JellyAction
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyTagLibrary
-    extends TagLibrary
+public class LogActionTag
+    extends AbstractActionTag
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    /** Tag library Namespace URI. */
-    public static final String NS_URI = "werkflow:jelly";
+    private Expression message;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -73,16 +71,32 @@ public class JellyTagLibrary
 
     /** Construct.
      */
-    public JellyTagLibrary()
+    public LogActionTag()
     {
-        registerTag( "correlator",
-                     JellyMessageCorrelatorTag.class );
+        // intentionally left blank
+    }
 
-        registerTag( "action",
-                     JellyActionTag.class );
+    public void setMessage(Expression message)
+    {
+        this.message = message;
+    }
 
-        registerTag( "log",
-                     LogActionTag.class );
+    public Expression getMessage()
+    {
+        return this.message;
+    }
+
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        LogAction action = new LogAction( getMessage() );
+
+        setAction( action );
     }
 }
-

@@ -5,47 +5,49 @@
 
     <import url="message-types.xml"/>
 
+    <process id="take to table"
+             initiation="call">
+      <sequence>
+        <jelly:log message="Our special today is a fish flambe"/>
+        <jelly:log message="If there is anything you need, just epp."/>
+      </sequence>
+    </process>
+
     <process id="fortytwo"
              initiation="message">
 
         <sequence>
             <on-message type="reservation.msg" var="theMsg">
-                <jelly:action>
-                    <j:set var="name" value="${theMsg.payload}"/>
-                    reservation request for ${name}
-                </jelly:action>
+                <receiver>
+                    <jelly:action>
+                        <j:set var="name" value="${theMsg.payload}"/>
+                    </jelly:action>
+                </receiver>
+                <sequence>
+                    <jelly:log message="Reservation requested by Mr. ${name}."/>
+                </sequence>
             </on-message>
 
             <if condition="${name == 'mcstrachan'}">
                 <sequence>
-                    <jelly:action>
-                        We do not wish to serve you mr ${name}
-                    </jelly:action>
+                    <jelly:log message="We do not wish to serve you, Mr. ${name}."/>
                     <terminate/>
                 </sequence>
             </if>
 
             <on-message type="table.available.msg" var="theMsg">
                 <jelly:correlator test="${theMsg.payload == name}"/>
-                <jelly:action>
-                    table available for ${name}
-                </jelly:action>
+                <sequence>
+                    <jelly:log message="Table available for the ${name} party."/>
+                </sequence>
             </on-message>
 
             <parallel>
-               <jelly:action>
-                   Please follow me to your table mr ${name}
-                </jelly:action>
-               <jelly:action>
-                   Fetching some rolls
-                </jelly:action>
-               <jelly:action>
-                   Fetching some water glasses
-                </jelly:action>
+                <call process="take to table"/>
+                <jelly:log message="Fetching rolls for the ${name} party."/>
+                <jelly:log message="Fetching water glasses for the ${name} party."/>
             </parallel>
-            <jelly:action>
-                I hope you enjoy your meal.
-            </jelly:action>
+            <jelly:log message="I hope you enjoy your meal Mr. ${name}."/>
         </sequence>
     </process>
 </package>

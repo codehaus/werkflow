@@ -111,7 +111,12 @@ public class JellyAction
                                                                  otherAttrs );
             
             getScript().run( context,
+                             XMLOutput.createDummyXMLOutput() );
+
+            /*
+            getScript().run( context,
                              XMLOutput.createXMLOutput( System.err ) );
+            */
 
             activity.complete();
         }

@@ -83,6 +83,8 @@ class WorkflowActivity
     /** Case attributes. */
     private Map caseAttrs;
 
+    private boolean isCall;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -101,7 +103,8 @@ class WorkflowActivity
                             String caseId,
                             String transitionId,
                             String[] placeIds,
-                            Map caseAttrs)
+                            Map caseAttrs,
+                            boolean isCall)
     {
         this.activityManager = activityManager;
         this.processId       = processId;
@@ -109,6 +112,7 @@ class WorkflowActivity
         this.transitionId    = transitionId;
         this.placeIds        = placeIds;
         this.caseAttrs       = caseAttrs;
+        this.isCall          = isCall;
     }
 
     // ----------------------------------------------------------------------
@@ -160,6 +164,11 @@ class WorkflowActivity
     public Map getCaseAttributes()
     {
         return this.caseAttrs;
+    }
+
+    public boolean isCall()
+    {
+        return this.isCall;
     }
 
     /** @see Activity
