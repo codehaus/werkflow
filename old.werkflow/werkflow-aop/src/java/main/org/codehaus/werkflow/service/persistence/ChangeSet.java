@@ -1,7 +1,5 @@
 package org.codehaus.werkflow.service.persistence;
 
-import java.io.Serializable;
-
 /*
  $Id$
 
@@ -47,6 +45,8 @@ import java.io.Serializable;
  OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
+
+import java.io.Serializable;
 
 public interface ChangeSet extends Serializable
 {

@@ -46,65 +46,68 @@ package org.codehaus.werkflow.example.prevayler;
 
  */
 
+import java.io.File;
+
 import org.codehaus.werkflow.example.BaseExample;
 import org.codehaus.werkflow.example.blog.BlogEntry;
 import org.codehaus.werkflow.example.blog.Command;
 import org.codehaus.werkflow.service.persistence.PersistenceManager;
 import org.codehaus.werkflow.service.persistence.prevayler.PrevaylerPersistenceManager;
 
-import java.io.File;
-
-/**
- * Created by IntelliJ IDEA.
- * User: kevin
- * Date: 8/09/2003
- * Time: 11:30:51
- * To change this template use Options | File Templates.
- */
-public class Example extends BaseExample
+public class Example
+    extends BaseExample
 {
-	public Example()
-	{
+    public Example()
+    {
 
-	}
+    }
 
-	public void defaultExample() throws Exception
-	{
-		deploy("/org/codehaus/werkflow/example/blog/blog.xml");
+    public void defaultExample()
+        throws Exception
+    {
+        deploy( "/org/codehaus/werkflow/example/blog/blog.xml" );
 
-		BlogEntry entry = new BlogEntry();
+        BlogEntry entry = new BlogEntry();
 
-		entry.setTitle("A Tale of Two Cheeses");
-		entry.setAuthor("bob@werken.com");
-		entry.setContent("It was a balmy night when Gouda first considered the proposition...");
+        entry.setTitle( "A Tale of Two Cheeses" );
+        entry.setAuthor( "bob@werken.com" );
+        entry.setContent( "It was a balmy night when Gouda first considered the proposition..." );
 
-		getMessagingManager().acceptMessage(entry);
+        getMessagingManager().acceptMessage( entry );
 
-		entry = new BlogEntry();
+        entry = new BlogEntry();
 
-		entry.setTitle("Bob Considered Harmful");
-		entry.setAuthor("bob@werken.com");
-		entry.setContent("While used by many folks, the practice of Bob has many disadvantages...");
+        entry.setTitle( "Bob Considered Harmful" );
+        entry.setAuthor( "bob@werken.com" );
+        entry.setContent( "While used by many folks, the practice of Bob has many disadvantages..." );
 
-		getMessagingManager().acceptMessage(entry);
+        getMessagingManager().acceptMessage( entry );
 
-		Command command = new Command("publish", "A Tale of Two Cheeses");
+        Command command = new Command( "publish",
+                                       "A Tale of Two Cheeses" );
 
-		getMessagingManager().acceptMessage(command);
+        getMessagingManager().acceptMessage( command );
 
-		command = new Command("reject", "Bob Considered Harmful");
+        command = new Command( "reject",
+                               "Bob Considered Harmful" );
 
-		getMessagingManager().acceptMessage(command);
-	}
+        getMessagingManager().acceptMessage( command );
+    }
 
-	protected PersistenceManager createPersistenceManager()
-	{
-		return new PrevaylerPersistenceManager(tempBase(), true);
-	}
+    protected PersistenceManager createPersistenceManager()
+    {
+        return new PrevaylerPersistenceManager( tempBase(), true );
+    }
 
-	private String tempBase()
-	{
-		return new File(new File(System.getProperty("java.io.tmpdir")), ("werkflow-prevayler-" + System.currentTimeMillis()))
-			.getAbsolutePath();
-	}
+    private String tempBase()
+    {
+        File tmpDir;
+        String dirName;
+        File prevaylerDir;
+
+        tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
+        dirName = "werkflow-prevayler-" + System.currentTimeMillis();
+        prevaylerDir = new File( tmpDir, dirName );
+        return prevaylerDir.getAbsolutePath();
+    }
 }

@@ -74,7 +74,7 @@ class CaseState implements CaseTransfer
         _tokens = new SyncSet( new HashSet(), new WriterPreferenceReadWriteLock() );
         _attributes = new ConcurrentHashMap();
 
-        setAttributes(attributes);
+        setAttributes( attributes );
     }
 
     private final static String[] EMPTY_STRING_ARRAY = {

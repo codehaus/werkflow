@@ -57,7 +57,7 @@ public class DefaultCaseTransfer
 
     private String packageId;
     private String processId;
-	 private String caseId;
+    private String caseId;
     private Map attributes;
     private String[] tokens;
 
@@ -77,13 +77,13 @@ public class DefaultCaseTransfer
                                String[] tokens)
     {
         this.packageId  = packageId;
-	     this.processId  = processId;
-	     this.caseId     = caseId;
+        this.processId  = processId;
+        this.caseId     = caseId;
         this.attributes = new HashMap( attributes );
         this.tokens     = tokens;
     }
 
-	public String getCaseId()
+    public String getCaseId()
     {
         return this.caseId;
     }
@@ -98,13 +98,13 @@ public class DefaultCaseTransfer
         return this.tokens;
     }
 
-	public String getProcessId()
-	{
-		return processId;
-	}
+    public String getProcessId()
+    {
+        return processId;
+    }
 
-	public String getPackageId()
-	{
-		return packageId;
-	}
+    public String getPackageId()
+    {
+        return packageId;
+    }
 }

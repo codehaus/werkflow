@@ -53,8 +53,8 @@ public interface CaseTransfer
     static final CaseTransfer[] EMPTY_ARRAY = new CaseTransfer[0];
 
     String getPackageId();
-	 String getProcessId();
-	 String getCaseId();
+    String getProcessId();
+    String getCaseId();
 
     Map getAttributes();
 

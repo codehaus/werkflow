@@ -71,10 +71,10 @@ class ManagerKey implements Serializable
             throw new IllegalArgumentException( "The package and process id's can not be null" );
         }
 
-	    if (processId.length() == 0 )
-	    {
-		    throw new IllegalArgumentException( "The process id can not be empty" );
-	    }
+        if (processId.length() == 0 )
+        {
+            throw new IllegalArgumentException( "The process id can not be empty" );
+        }
 
         _package = packageId;
         _process = processId;
