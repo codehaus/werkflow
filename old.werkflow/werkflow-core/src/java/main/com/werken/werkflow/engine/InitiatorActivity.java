@@ -60,7 +60,7 @@ import java.util.Map;
  *
  *  @version $Id$
  */
-public class InitiatorActivity
+class InitiatorActivity
     implements Activity
 {
     // ----------------------------------------------------------------------

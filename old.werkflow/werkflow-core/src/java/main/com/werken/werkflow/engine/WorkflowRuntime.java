@@ -65,7 +65,7 @@ import java.util.Map;
  *
  *  @version $Id; $
  */
-public class WorkflowRuntime
+class WorkflowRuntime
     implements WfmsRuntime
 {
     // ----------------------------------------------------------------------

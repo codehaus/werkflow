@@ -80,7 +80,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class ActivityManager
+class ActivityManager
 {
     // ----------------------------------------------------------------------
     //     Constants

@@ -52,7 +52,7 @@ package com.werken.werkflow.engine;
  *
  *  @version $Id$
  */
-public class WorkflowWorkItem
+class WorkflowWorkItem
 {
     // ----------------------------------------------------------------------
     //     Instance members

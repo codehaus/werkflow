@@ -66,7 +66,7 @@ import java.util.HashMap;
  *
  *  @version $Id$
  */
-public class Initiator
+class Initiator
     implements MessageSink
 {
     // ----------------------------------------------------------------------

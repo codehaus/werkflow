@@ -557,7 +557,7 @@ public class WorkflowEngine
      *
      *  @return The activity-manager.
      */
-    protected ActivityManager getActivityManager()
+    ActivityManager getActivityManager()
     {
         return this.activityManager;
     }
@@ -815,10 +815,10 @@ public class WorkflowEngine
      *  @param transitionId The transition identifier.
      *  @param placeIds The identifiers of the places with affect tokens.
      */
-    public void notifyTokensProduced(String processId,
-                                     String caseId,
-                                     String transitionId,
-                                     String[] placeIds)
+    void notifyTokensProduced(String processId,
+                              String caseId,
+                              String transitionId,
+                              String[] placeIds)
     {
         TokensProducedEvent event = new TokensProducedEvent( this,
                                                              processId,
@@ -844,10 +844,10 @@ public class WorkflowEngine
      *  @param transitionId The transition identifier.
      *  @param placeIds The identifiers of the places with affect tokens.
      */
-    public void notifyTokensConsumed(String processId,
-                                     String caseId,
-                                     String transitionId,
-                                     String[] placeIds)
+    void notifyTokensConsumed(String processId,
+                              String caseId,
+                              String transitionId,
+                              String[] placeIds)
     {
         TokensConsumedEvent event = new TokensConsumedEvent( this,
                                                              processId,
@@ -873,10 +873,10 @@ public class WorkflowEngine
      *  @param transitionId The transition identifier.
      *  @param placeIds The identifiers of the places with affect tokens.
      */
-    public void notifyTokensRolledBack(String processId,
-                                       String caseId,
-                                       String transitionId,
-                                       String[] placeIds)
+    void notifyTokensRolledBack(String processId,
+                                String caseId,
+                                String transitionId,
+                                String[] placeIds)
     {
         TokensRolledBackEvent event = new TokensRolledBackEvent( this,
                                                                  processId,

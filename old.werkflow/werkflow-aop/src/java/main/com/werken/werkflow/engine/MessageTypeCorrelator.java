@@ -68,7 +68,7 @@ import java.util.Iterator;
  *
  *  @version $Id$
  */
-public class MessageTypeCorrelator
+class MessageTypeCorrelator
     implements MessageSink
 {
     // ----------------------------------------------------------------------
