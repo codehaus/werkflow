@@ -48,6 +48,7 @@ package com.werken.werkflow.semantics.java;
 
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import com.werken.werkflow.semantics.ognl.OgnlExpressionFactory;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -144,12 +145,11 @@ public class ClassMessageSelectorTag
         {
             Class messageClass = Class.forName( this.className );
 
-            Expression expr = JavaExpressionFactory.getInstance().newExpression( getFilter() );
-            
+            Expression expr = OgnlExpressionFactory.getInstance().newExpression( getFilter() );
+
             ClassMessageSelector selector = new ClassMessageSelector( messageClass,
                                                                       expr );
-            
-            
+
             setMessageSelector( selector );
         }
         catch (Exception e)

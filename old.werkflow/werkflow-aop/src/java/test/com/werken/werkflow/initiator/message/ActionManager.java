@@ -18,6 +18,7 @@ public class ActionManager
         System.out.println( "ACTION-MANAGER: otherAttributes = " + otherAttributes );
 
         Entity entity = (Entity) otherAttributes.get( "message" );
+        entity.touch();
 
         System.out.println( "ACTION-MANAGER: entity = " + entity );
 

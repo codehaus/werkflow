@@ -1,14 +1,12 @@
 package com.werken.werkflow.semantics.ognl;
 
-import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.expr.AbstractExpression;
 import com.werken.werkflow.expr.ExpressionContext;
-
 import ognl.Ognl;
 import ognl.OgnlException;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OgnlExpression
     extends AbstractExpression
@@ -20,6 +18,7 @@ public class OgnlExpression
         throws OgnlException
     {
         this.text = text;
+
         this.ast = Ognl.parseExpression( text );
     }
 
@@ -44,5 +43,8 @@ public class OgnlExpression
         return Ognl.getValue( this.ast,
                               exprContext,
                               (Object) null );
+
+
+
     }
 }
