@@ -5,12 +5,18 @@
          xmlns:wfjelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
-  <message-type id="string.msg">
-    <wfjava:selector type="java.lang.String"/>
+  <message-type id="normal.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
+                     filter="${message.type == 'normal'}"/>
   </message-type>
 
-  <message-initiator id="initMsg" 
-                     type="string.msg"/>
+  <message-type id="init.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage"
+                     filter="${message.type == 'init'}"/>
+  </message-type>
+
+  <message-initiator id="bob" 
+                     type="init.msg"/>
 
   <place id="in">
     <documentation>the in place</documentation>
@@ -43,8 +49,8 @@
     <input from="middle"/>
     <output to="out"/>
 
-    <message id="myMsg" type="string.msg">
-      <wfjelly:correlator test="${myMsg.equals(bob)}"/>
+    <message id="myMsg" type="normal.msg">
+      <wfjelly:correlator test="${myMsg.payload == bob}"/>
     </message>>
 
     <task>

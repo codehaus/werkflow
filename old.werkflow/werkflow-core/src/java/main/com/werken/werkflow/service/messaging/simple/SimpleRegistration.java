@@ -85,7 +85,7 @@ public class SimpleRegistration
     public void consumeMessage(String id)
         throws NoSuchMessageException
     {
-        if ( ! ! this.messages.containsKey( id ) )
+        if ( ! this.messages.containsKey( id ) )
         {
             throw new NoSuchMessageException( id );
         }

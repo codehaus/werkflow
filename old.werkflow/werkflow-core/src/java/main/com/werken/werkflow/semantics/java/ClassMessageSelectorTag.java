@@ -4,11 +4,13 @@ import com.werken.werkflow.definition.fundamental.AbstractMessageSelectorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.expression.Expression;
 
 public class ClassMessageSelectorTag
     extends AbstractMessageSelectorTag
 {
     private String className;
+    private Expression expression;
 
     public ClassMessageSelectorTag()
     {
@@ -24,6 +26,16 @@ public class ClassMessageSelectorTag
         return this.className;
     }
 
+    public void setFilter(Expression expression)
+    {
+        this.expression = expression;
+    }
+
+    public Expression getFilter()
+    {
+        return this.expression;
+    }
+
     public void doTag(XMLOutput output)
         throws Exception
     {
@@ -36,7 +48,9 @@ public class ClassMessageSelectorTag
 
         Class messageClass = Class.forName( this.className );
 
-        ClassMessageSelector selector = new ClassMessageSelector( messageClass );
+        ClassMessageSelector selector = new ClassMessageSelector( messageClass,
+                                                                  getFilter() );
+
 
         setMessageSelector( selector );
     }

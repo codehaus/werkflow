@@ -67,7 +67,6 @@ public class MessageTypeTag
         invokeBody( output );
 
         messageType.setDocumentation( getDocumentation() );
-
         messageType.setMessageSelector( getMessageSelector() );
 
         process.addMessageType( messageType );
