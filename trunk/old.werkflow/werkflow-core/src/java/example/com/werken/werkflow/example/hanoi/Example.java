@@ -20,7 +20,7 @@ public class Example
         SimpleAttributes attrs = new SimpleAttributes();
 
         attrs.setAttribute( "height",
-                            new Integer( 5 ) );
+                            new Integer( 6 ) );
 
         getWfms().getRuntime().callProcess( "hanoi-solver",
                                             attrs );

@@ -16,7 +16,6 @@
         <jelly:action>
             <j:set var="n" value="${1}"/>
         </jelly:action>
-        <jelly:log message="max ${max}"/>
         <while condition="n &lt; (2 ** height)">
             <sequence>
                 <jelly:action>
