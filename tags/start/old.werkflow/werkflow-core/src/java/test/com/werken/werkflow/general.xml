@@ -1,0 +1,43 @@
+
+<process id="general"
+         xmlns="http://werkflow.werken.com/fundamental/1.0/"
+         xmlns:j="jelly:core">
+
+  <place id="in">
+    <documentation>the in place</documentation>
+  </place>
+
+  <place id="middle">
+    <documentation>the middle place</documentation>
+  </place>
+
+  <place id="out">
+    <documentation>the out place</documentation>
+  </place>
+
+  <transition id="transition one" type="or">
+    <documentation>the 1st transition</documentation>
+    <input from="in"/>
+    <output to="middle"/>
+    <task>
+      <action>
+        action 1
+        ${bob}
+        <j:set var="bob" value="mcstrachan"/>
+      </action>
+    </task>
+  </transition>
+
+  <transition id="transition two" type="and">
+    <documentation>the 2nd transition</documentation>
+    <input from="middle"/>
+    <output to="out"/>
+    <task>
+      <action>
+        action 2
+        ${bob}
+      </action>
+    </task>
+  </transition>
+
+</process>
