@@ -65,7 +65,7 @@ public class JavaActionTag
 
         if ( this.className == null )
         {
-            throw new MissingAttributeException( "class" );
+            throw new MissingAttributeException( "className" );
         }
 
         Class beanClass = cl.loadClass( getClassName() );
