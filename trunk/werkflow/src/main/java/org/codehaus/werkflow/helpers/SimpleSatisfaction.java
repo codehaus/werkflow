@@ -5,15 +5,25 @@ import org.codehaus.werkflow.spi.Path;
 import org.codehaus.werkflow.spi.Component;
 import org.codehaus.werkflow.spi.Satisfaction;
 import org.codehaus.werkflow.spi.SatisfactionSpec;
+import org.codehaus.werkflow.spi.Satisfier;
 
 public class SimpleSatisfaction
     implements Satisfaction
 {
     private String id;
+    private Satisfier satisfier;
 
     public SimpleSatisfaction(String id)
     {
         this.id = id;
+        this.satisfier = new ValueCopySatisfier( id );
+    }
+
+    public SimpleSatisfaction(String id,
+                              Satisfier satisfier)
+    {
+        this.id = id;
+        this.satisfier = satisfier;
     }
 
     public String getId()
@@ -24,6 +34,14 @@ public class SimpleSatisfaction
     public Path[] begin(Instance instance,
                         Path thisPath)
     {
+        if ( satisfier != null )
+        {
+            return new Path[]
+                {
+                    thisPath.childPath( 0 )
+                };
+        }
+
         return null;
     }
 
@@ -35,6 +53,14 @@ public class SimpleSatisfaction
 
     public Component[] getChildren()
     {
+        if ( satisfier != null )
+        {
+            return new Component[]
+                {
+                    satisfier
+                };
+        }
+
         return new Component[0];
     }
 
