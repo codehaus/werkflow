@@ -81,31 +81,31 @@ class Scheduler
 
         List activities = new ArrayList();
 
-            CoreChangeSet changeSet = changeSetSource.newChangeSet();
+        CoreChangeSet changeSet = changeSetSource.newChangeSet();
 
-            synchronized ( processCase )
+        synchronized ( processCase )
+        {
+            CoreWorkItem[] workItems = processCase.evaluate( changeSet );
+
+            for ( int i = 0 ; i < workItems.length ; ++i )
             {
-                CoreWorkItem[] workItems = processCase.evaluate( changeSet );
+                CoreActivity activity = workItems[i].satisfy( changeSet );
 
-                for ( int i = 0 ; i < workItems.length ; ++i )
+                if ( activity != null )
                 {
-                    CoreActivity activity = workItems[i].satisfy( changeSet );
-
-                    if ( activity != null )
-                    {
-                        activities.add( activity );
-                    }
+                    activities.add( activity );
                 }
             }
+        }
 
-            try
-            {
-                changeSet.commit();
-            }
-            catch (PersistenceException e)
-            {
-                e.printStackTrace();
-            }
+        try
+        {
+            changeSet.commit();
+        }
+        catch (PersistenceException e)
+        {
+            e.printStackTrace();
+        }
 
         getExecutor().enqueueActivities( (CoreActivity[]) activities.toArray( CoreActivity.EMPTY_ARRAY ) );
     }
