@@ -33,6 +33,10 @@ public class IdiomTag
 
         IdiomDefinition idiomDef = new IdiomDefinition( getId() );
 
+        setCurrentIdiomDefinition( idiomDef );
+
         invokeBody( output );
+
+        setCurrentIdiomDefinition( null );
     }
 }

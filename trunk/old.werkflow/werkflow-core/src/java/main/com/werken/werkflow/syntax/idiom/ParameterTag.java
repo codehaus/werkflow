@@ -1,5 +1,6 @@
 package com.werken.werkflow.syntax.idiom;
 
+import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.IdiomParameter;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -50,6 +51,8 @@ public class ParameterTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        IdiomDefinition idiomDef = getCurrentIdiomDefinition();
+
         requireStringAttribute( "id",
                                 getId() );
 

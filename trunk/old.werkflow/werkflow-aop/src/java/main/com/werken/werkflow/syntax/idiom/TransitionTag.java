@@ -1,5 +1,6 @@
 package com.werken.werkflow.syntax.idiom;
 
+import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.TransitionDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -39,9 +40,16 @@ public class TransitionTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        IdiomDefinition idiomDef = getCurrentIdiomDefinition();
+
+        requireStringAttribute( "id",
+                                getId() );
+
         invokeBody( output );
 
         TransitionDefinition transition = new TransitionDefinition( getId(),
                                                                     getDocumentation() );
+
+        idiomDef.addTransition( transition );
     }
 }

@@ -42,7 +42,14 @@ public class InputTag
         requireStringAttribute( "from",
                                 getFrom() );
 
-        String transId = null;
+        TransitionTag tag = (TransitionTag) findAncestorWithClass( TransitionTag.class );
+
+        if ( tag == null )
+        {
+            throw new JellyTagException( "input only valid within a transition" );
+        }
+
+        String transId = tag.getId();
 
         ArcDefinition arcDef = ArcDefinition.newArcFromPlaceToTransition( getFrom(),
                                                                           transId,
