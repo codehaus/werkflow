@@ -47,16 +47,10 @@ package org.codehaus.werkflow.initiator.message;
  */
 
 import org.codehaus.werkflow.WerkflowTestCase;
-import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.admin.WfmsAdmin;
 import org.codehaus.werkflow.definition.ProcessDefinition;
-import org.codehaus.werkflow.engine.WorkflowEngine;
 import org.codehaus.werkflow.personality.Personality;
 import org.codehaus.werkflow.personality.basic.BasicPersonality;
-import org.codehaus.werkflow.service.SimpleWfmsServices;
-import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
-import org.codehaus.werkflow.service.persistence.PersistenceManager;
-import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -65,34 +59,6 @@ import java.util.Map;
 public class ActivityManagerTest
     extends WerkflowTestCase
 {
-    /** Workflow services. */
-    private SimpleWfmsServices services;
-
-    /** Workflow Persistence Manager. */
-    private PersistenceManager persistenceManager;
-
-    /** Workflow messaging manager. */
-    private SimpleMessagingManager messagingManager;
-
-    /** Workflow engine. */
-    private WorkflowEngine engine;
-
-    public void setUp()
-        throws Exception
-    {
-        services = new SimpleWfmsServices();
-
-        messagingManager = new SimpleMessagingManager();
-
-        persistenceManager = new FleetingPersistenceManager();
-
-        services.setMessagingManager( messagingManager );
-
-        services.setPersistenceManager( persistenceManager );
-
-        engine = new WorkflowEngine( services );
-    }
-
     public void testMessage_Initiated_Flow_With_Entity_Sent_Via_MessagingManager()
         throws Exception
     {

@@ -46,20 +46,6 @@ package org.codehaus.werkflow;
 
  */
 
-import org.codehaus.werkflow.WfmsRuntime;
-import org.codehaus.werkflow.ProcessCase;
-import org.codehaus.werkflow.SimpleAttributes;
-import org.codehaus.werkflow.admin.WfmsAdmin;
-import org.codehaus.werkflow.engine.WorkflowEngine;
-import org.codehaus.werkflow.service.SimpleWfmsServices;
-import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
-import org.codehaus.werkflow.service.persistence.PersistenceManager;
-import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
-import org.codehaus.werkflow.definition.ProcessDefinition;
-import org.codehaus.werkflow.syntax.fundamental.FundamentalDefinitionLoader;
-
-import java.net.URL;
-
 public class WfmsRuntimeTest
     extends WerkflowTestCase
 {        
@@ -67,25 +53,7 @@ public class WfmsRuntimeTest
     public void testSelectCasesNotNull()
         throws Exception
     {
-        SimpleWfmsServices services = new SimpleWfmsServices();
-
-        SimpleMessagingManager messagingManager = new SimpleMessagingManager();
-        PersistenceManager persistenceManager = new FleetingPersistenceManager();
-
-        services.setMessagingManager( messagingManager );
-        services.setPersistenceManager( persistenceManager );
-
-        WorkflowEngine engine = new WorkflowEngine( services );
-
-        URL url = getClass().getResource( "runtime.xml" );
-
-        FundamentalDefinitionLoader loader = new FundamentalDefinitionLoader();
-
-        ProcessDefinition[] processDefs = loader.load( url );
-                
-        WfmsAdmin admin = engine.getAdmin();
-
-        admin.deployProcess( processDefs[0] );
+        deployFundamentalProcess( "runtime.xml", 1 );
 
         WfmsRuntime runtime = engine.getRuntime();
 
@@ -96,8 +64,8 @@ public class WfmsRuntimeTest
         SimpleAttributes attrs = new SimpleAttributes();
         attrs.setAttribute( "anObjectId", anObjectId );
 
-        ProcessCase processCase = runtime.callProcess( processDefs[0].getPackageId(), 
-                                                       processDefs[0].getId(),
+        ProcessCase processCase = runtime.callProcess( "my.pkg", 
+                                                       "my.process2",
                                                        attrs );
         
         assertNotNull( processCase );
@@ -109,8 +77,8 @@ public class WfmsRuntimeTest
         SimpleAttributes attrs2 = new SimpleAttributes();
         attrs2.setAttribute( "anObjectId", anObjectId );
         
-        ProcessCase[] pc = runtime.selectCases( processDefs[0].getPackageId(), 
-                                                processDefs[0].getId(),
+        ProcessCase[] pc = runtime.selectCases( "my.pkg", 
+                                                "my.process2",
                                                 attrs2 );        
         
         assertNotNull( "There should be at least one ProcessCase", pc );
