@@ -165,4 +165,14 @@ public interface CaseState
     /** Store the current state persistently
      */
     void store();
+
+    Correlation[] getCorrelations();
+
+    void addCorrelation(String transitionId,
+                        String messageId);
+
+    void removeCorrelation(String transitionId,
+                           String messageId);
+
+    void removeCorrelations(String transitionId);
 }
