@@ -25,7 +25,8 @@ public class WorkflowProcessCaseTest
                                                       "the process",
                                                       "the docs" );
 
-        CaseState state = this.caseRepo.newCaseState( "the case",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( info,
@@ -58,7 +59,8 @@ public class WorkflowProcessCaseTest
                                                       "the process",
                                                       "the docs" );
 
-        CaseState state = this.caseRepo.newCaseState( "the case",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( info,
@@ -120,7 +122,8 @@ public class WorkflowProcessCaseTest
                                                       "the process",
                                                       "the docs" );
 
-        CaseState state = this.caseRepo.newCaseState( "the case",
+        CaseState state = this.caseRepo.newCaseState( "the package",
+                                                      "the process",
                                                       new SimpleAttributes()  );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( info,

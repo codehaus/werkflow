@@ -10,12 +10,16 @@ public class DefaultCaseStateTest
         MockCaseRepository repo = new MockCaseRepository();
 
         DefaultCaseState state = new DefaultCaseState( "case id",
+                                                       "package id",
                                                        "process id",
                                                        repo );
 
 
         assertEquals( "case id",
                       state.getCaseId() );
+
+        assertEquals( "package id",
+                      state.getPackageId() );
 
         assertEquals( "process id",
                       state.getProcessId() );
@@ -35,6 +39,7 @@ public class DefaultCaseStateTest
         MockCaseRepository repo = new MockCaseRepository();
 
         DefaultCaseState state = new DefaultCaseState( "case id",
+                                                       "package id",
                                                        "process id",
                                                        repo );
         
@@ -73,6 +78,7 @@ public class DefaultCaseStateTest
         MockCaseRepository repo = new MockCaseRepository();
 
         DefaultCaseState state = new DefaultCaseState( "case id",
+                                                       "package id",
                                                        "process id",
                                                        repo );
 
@@ -109,6 +115,7 @@ public class DefaultCaseStateTest
         MockCaseRepository repo = new MockCaseRepository();
 
         DefaultCaseState state = new DefaultCaseState( "case id",
+                                                       "package id",
                                                        "process id",
                                                        repo );
 
