@@ -56,6 +56,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class Idiom
@@ -182,6 +184,7 @@ public class Idiom
 
         if ( getParent() != null )
         {
+            System.err.println( "adding " + this + " to " + getParent() );
             getParent().addComponent( this );
         }
     }
@@ -615,10 +618,68 @@ public class Idiom
         return this.scope;
     }
 
-    /*
     public String toString()
     {
-        return "[Idiom: " + getIdiomDefinition().getId() + "]";
+        return "[Idiom: " + getIdiomDefinition() + "]";
     }
-    */
+
+    public void dump()
+    {
+        Set seen = new HashSet();
+
+        dump( seen,
+              getInPlace(),
+              "" );
+    }
+
+    protected void dump(Set seen,
+                        Place place,
+                        String indent)
+    {
+        System.err.println( indent + place.getId() );
+
+        if ( seen.contains( place ) )
+        {
+            return;
+        }
+
+        seen.add( place );
+
+        Arc[] arcs = place.getArcsToTransitions();
+
+        for ( int i = 0 ; i < arcs.length ; ++i )
+        {
+            //System.err.println( indent + "  " + arcs[i] );
+
+            dump( seen,
+                  arcs[i].getTransition(),
+                  indent + "    " );
+        }
+    }
+
+    protected void dump(Set seen,
+                        Transition transition,
+                        String indent)
+    {
+        System.err.println( indent + transition.getId() );
+
+        if ( seen.contains( transition ) )
+        {
+            return;
+        }
+
+        seen.add( transition );
+
+        Arc[] arcs = transition.getArcsToPlaces();
+
+        for ( int i = 0 ; i < arcs.length ; ++i )
+        {
+            //System.err.println( indent + "  " + arcs[i] );
+
+            dump( seen,
+                  arcs[i].getPlace(),
+                  indent + "    " );
+        }
+
+    }
 }

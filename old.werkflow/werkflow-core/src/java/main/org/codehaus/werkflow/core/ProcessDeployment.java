@@ -103,6 +103,7 @@ class ProcessDeployment
     void initialize()
         throws Exception
     {
+        getProcessDefinition().getNet().dump();
         initializeInitiators();
         initializeMessageWaiters();
     }

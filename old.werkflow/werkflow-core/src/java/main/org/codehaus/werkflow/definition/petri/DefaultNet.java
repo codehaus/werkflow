@@ -286,4 +286,21 @@ public class DefaultNet
                                             id );
         }
     }
+
+    public void dump()
+    {
+        Place[] places = getPlaces();
+
+        for ( int i = 0 ; i < places.length ; ++i )
+        {
+            System.err.println( places[i] );
+        }
+
+        Transition[] transitions = getTransitions();
+
+        for ( int i = 0 ; i < transitions.length ; ++i )
+        {
+            System.err.println( transitions[i] );
+        }
+    }
 }

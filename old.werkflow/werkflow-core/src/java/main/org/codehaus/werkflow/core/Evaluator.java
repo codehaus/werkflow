@@ -57,6 +57,7 @@ import org.codehaus.werkflow.definition.petri.NoSuchPlaceException;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class Evaluator
 //    implements CaseEvaluator
@@ -99,6 +100,7 @@ class Evaluator
                           CoreProcessCase processCase,
                           Transition transition)
     {
+        System.err.println( "evaluate(" + processCase + ", " + transition + ")" );
         List workItems = new ArrayList();
         
         ActivationRule rule = transition.getActivationRule();
@@ -112,9 +114,13 @@ class Evaluator
 
         try
         {
+            System.err.println( "rule: " + rule );
+            System.err.println( "tokens--> " + Arrays.asList( processCase.getTokens() ) );
             tokens = rule.getSatisfyingTokens( transition,
                                                processCase,
                                                processCase.getTokens() );
+
+            System.err.println( "tokens: " + Arrays.asList( tokens ) );
         }
         catch (Exception e)
         {

@@ -20,7 +20,7 @@
         <jelly:log message="being checked : ${result}"/>
         
         <jelly:action>
-           <j:set var="result" value="1"/>
+           <j:set var="result" value="cheese"/>
         </jelly:action>            
         
         <jelly:log message="result set to : ${result}"/>
@@ -31,7 +31,7 @@
             <jelly:log message="parallel activity 3"/>
         </parallel>
                     
-        <if condition="result == '1'">
+        <if condition="result.equals(&quot;cheese&quot;)">
           <sequence>                              
             <jelly:log message="condition evaluated successfully: ${result}"/>
             <jelly:action>
