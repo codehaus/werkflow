@@ -1,7 +1,7 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.definition.ActionLibrary;
+import com.werken.werkflow.action.ActionLibrary;
 import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;

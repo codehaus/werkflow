@@ -104,4 +104,12 @@ public class ProcessException
         return this.processDef;
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see java.lang.Throwable
+     */
+    public String getMessage()
+    {
+        return "process exception: " + getProcess().getId();
+    }
 }
