@@ -5,8 +5,13 @@ import org.apache.commons.jelly.TagLibrary;
 public class IdiomTagLibrary
     extends TagLibrary
 {
+    public static final String NAMESPACE_URI = "werkflow:idiom";
+
     public IdiomTagLibrary()
     {
+        registerTag( "idioms",
+                     IdiomsTag.class );
+
         registerTag( "idiom",
                      IdiomTag.class );
 

@@ -1,0 +1,32 @@
+<idioms xmlns="werkflow:idiom">
+
+  <idiom id="empty">
+    <transition id="empty">
+      <input from="in"/>
+      <output  to="out"/>
+    </transition>
+  </idiom>
+
+  <idiom id="parallel">
+
+    <place id="component:head"/>
+    <place id="component:tail"/>
+
+    <transition id="split">
+      <input from="in"/>
+      <output  to="component:head"/>
+    </transition>
+
+    <transition id="component">
+      <input from="component:head"/>
+      <input from="component:tail"/>
+    </transition>
+
+    <transition id="join">
+      <input from="component:tail"/>
+      <output to="out"/>
+    </transition>
+
+  </idiom>
+
+</idioms>

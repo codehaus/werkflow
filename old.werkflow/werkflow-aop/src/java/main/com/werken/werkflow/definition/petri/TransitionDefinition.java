@@ -38,4 +38,9 @@ public class TransitionDefinition
     {
         return getId().hashCode();
     }
+
+    public String toString()
+    {
+        return "[TransitionDefinition: id=" + this.id + "]";
+    }
 }

@@ -48,6 +48,7 @@ package com.werken.werkflow.jelly;
 
 import org.apache.commons.jelly.Tag;
 import org.apache.commons.jelly.TagSupport;
+import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 
@@ -152,7 +153,7 @@ public abstract class MiscTagSupport
         }
     }
 
-    public String getCollectorName(Class objClass)
+    public static String getCollectorName(Class objClass)
     {
         return objClass.getName() + COLLECTOR_SUFFIX;
     }
@@ -165,7 +166,16 @@ public abstract class MiscTagSupport
     public void installCollector(Class objClass,
                                  Collection collector)
     {
-        getContext().setVariable( getCollectorName( objClass ),
-                                  collector );
+        installCollector( objClass,
+                          collector,
+                          context );
+    }
+
+    public static void installCollector(Class objClass,
+                                        Collection collector,
+                                        JellyContext context)
+    {
+        context.setVariable( getCollectorName( objClass ),
+                             collector );
     }
 }

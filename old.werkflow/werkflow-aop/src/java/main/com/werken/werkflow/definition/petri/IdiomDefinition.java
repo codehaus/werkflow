@@ -47,6 +47,16 @@ public class IdiomDefinition
         this.arcs        = new ArrayList();
     }
 
+    public String toString()
+    {
+        return "[IdiomDefinition: id=" + this.id
+            + "; parameters=" + this.parameters 
+            + "; places=" + this.places.values()
+            + "; transitions=" + this.transitions.values()
+            + "; arcs=" + this.arcs
+            + "]";
+    }
+
     public String getId()
     {
         return this.id;
@@ -199,6 +209,7 @@ public class IdiomDefinition
                 }
                 else
                 {
+                    System.err.println( "A" );
                     idiom.connectTransitionToPlace( arcDefs[i].getTransitionId(),
                                                     arcDefs[i].getPlaceId(),
                                                     expr );
@@ -217,7 +228,8 @@ public class IdiomDefinition
         {
             if ( placeDefs[i].getId().startsWith( COMPONENT_PREFIX ) )
             {
-                String id = placeDefs[i].getId().substring( 1 ) + "(" + component.getIndex() + ")";
+                String id = createId( placeDefs[i].getId(),
+                                      component );
 
                 idiom.addPlace( id,
                                 placeDefs[i].getDocumentation() );
@@ -230,7 +242,8 @@ public class IdiomDefinition
         {
             if ( transitionDefs[i].getId().startsWith( COMPONENT_PREFIX ) )
             {
-                String id = transitionDefs[i].getId().substring( 1 ) + "(" + component.getIndex() + ")";
+                String id = createId( transitionDefs[i].getId(),
+                                      component );
 
                 idiom.addTransition( id,
                                      transitionDefs[i].getDocumentation() );
@@ -241,6 +254,7 @@ public class IdiomDefinition
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
         {
+            System.err.println( "ARC: " + arcDefs[i] );
             if ( arcDefs[i].getTransitionId().equals( COMPONENT ) )
             {
                 String placeId = createId( arcDefs[i].getPlaceId(),
@@ -280,6 +294,8 @@ public class IdiomDefinition
                 }
                 else
                 {
+                    System.err.println( "B" );
+
                     idiom.connectTransitionToPlace( transitionId,
                                                     placeId,
                                                     expr );
@@ -304,6 +320,7 @@ public class IdiomDefinition
                 }
                 else
                 {
+                    System.err.println( "C" );
                     idiom.connectTransitionToPlace( transitionId,
                                                     placeId,
                                                     expr );
@@ -327,9 +344,9 @@ public class IdiomDefinition
     protected String createId(String id,
                               Idiom component)
     {
-        if ( id.startsWith( "*" ) )
+        if ( id.startsWith( COMPONENT_PREFIX ) )
         {
-            return id.substring( 1 ) + "[" + component.getIndex() + "]";
+            return id.substring( COMPONENT_PREFIX.length() ) + "[" + component.getIndex() + "]";
         }
 
         return id;
@@ -339,6 +356,13 @@ public class IdiomDefinition
                                        String exprStr)
         throws NoSuchParameterException
     {
+        if ( exprStr == null
+             ||
+             exprStr.equals( "" ) )
+        {
+            return null;
+        }
+        
         if ( exprStr.startsWith( PARAMETER_PREFIX ) )
         {
             return (Expression) idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) );

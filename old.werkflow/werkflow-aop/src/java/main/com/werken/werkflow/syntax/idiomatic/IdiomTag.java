@@ -4,6 +4,7 @@ import com.werken.werkflow.definition.petri.Idiom;
 import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.IdiomException;
 import com.werken.werkflow.definition.petri.NoSuchParameterException;
+import com.werken.werkflow.definition.petri.InvalidParameterTypeException;
 
 import org.apache.commons.jelly.DynaTagSupport;
 import org.apache.commons.jelly.JellyContext;
@@ -15,6 +16,8 @@ import java.util.Stack;
 public class IdiomTag
     extends DynaTagSupport
 {
+    public static final String ROOT_IDIOM_KEY = "werkflow.root.idiom";
+
     private static final String IDIOM_STACK_KEY = "werkflow.idiom.stack";
 
     private IdiomDefinition idiomDef;
@@ -34,7 +37,19 @@ public class IdiomTag
                              Object value)
         throws JellyTagException
     {
-
+        try
+        {
+            this.idiom.setParameter( id,
+                                     value );
+        }
+        catch (NoSuchParameterException e)
+        {
+            throw new JellyTagException( "no such parameter: " + id );
+        }
+        catch (InvalidParameterTypeException e)
+        {
+            throw new JellyTagException( "invalid type for parameter: " + id );
+        }
     }
 
     public Class getAttributeType(String id)
@@ -62,12 +77,14 @@ public class IdiomTag
         if ( current == null )
         {
             this.idiom = getIdiomDefinition().newIdiom();
+
+            context.setVariable( ROOT_IDIOM_KEY,
+                                 this.idiom );
         }
         else
         {
             this.idiom = current.addComponent( getIdiomDefinition() );
         }
-
     }
 
     public void doTag(XMLOutput output)

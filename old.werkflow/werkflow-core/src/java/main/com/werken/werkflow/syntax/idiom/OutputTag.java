@@ -1,6 +1,7 @@
 package com.werken.werkflow.syntax.idiom;
 
 import com.werken.werkflow.definition.petri.ArcDefinition;
+import com.werken.werkflow.definition.petri.IdiomDefinition;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -39,6 +40,8 @@ public class OutputTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        IdiomDefinition idiomDef = getCurrentIdiomDefinition();
+
         requireStringAttribute( "to",
                                 getTo() );
 
@@ -51,10 +54,12 @@ public class OutputTag
 
         String transId = tag.getId();
 
-        ArcDefinition arcDef = ArcDefinition.newArcFromTransitionToPlace( getTo(),
-                                                                          transId,
+        ArcDefinition arcDef = ArcDefinition.newArcFromTransitionToPlace( transId,
+                                                                          getTo(),
                                                                           getTest() );
 
         invokeBody( output );
+
+        idiomDef.addArc( arcDef );
     }
 }

@@ -150,6 +150,7 @@ public class Idiom
     void addPlace(String id,
                   String documentation)
     {
+        System.err.println( "addPlace( " + id + " )" );
         DefaultPlace place = new DefaultPlace( id );
 
         place.setDocumentation( documentation );
@@ -207,6 +208,7 @@ public class Idiom
     void addTransition(String id,
                        String documentation)
     {
+        System.err.println( "addTransition( " + id + " )" );
         DefaultTransition transition = new DefaultTransition( id );
 
         transition.setDocumentation( documentation );
@@ -262,6 +264,8 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
+        System.err.println( "connect p/t " + placeId + " -> " + transitionId );
+
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -278,6 +282,7 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
+        System.err.println( "connect t/p " + transitionId + " -> " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -295,6 +300,7 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
+        System.err.println( "graft input: " + placeId + " / " + component + " // " + component.getInPlace() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();

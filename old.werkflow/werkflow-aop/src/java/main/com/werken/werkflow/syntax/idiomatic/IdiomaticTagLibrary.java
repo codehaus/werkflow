@@ -8,6 +8,8 @@ import org.apache.commons.jelly.impl.DynamicTagLibrary;
 public class IdiomaticTagLibrary
     extends DynamicTagLibrary
 {
+    public static final String NAMESPACE_URI = "werkflow:idiomatic";
+
     private IdiomDefinitionLibrary idiomDefLib;
 
     public IdiomaticTagLibrary(IdiomDefinitionLibrary idiomDefLib)
