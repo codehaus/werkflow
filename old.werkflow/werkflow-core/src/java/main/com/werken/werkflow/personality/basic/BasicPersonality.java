@@ -40,18 +40,13 @@ public class BasicPersonality
         return INSTANCE;
     }
 
+    protected JellyContext getBaseJellyContext()
+    {
+        return CONTEXT;
+    }
+
     protected BasicPersonality(Syntax[] syntaxes)
     {
         super( syntaxes  );
     }
-
-    public ProcessDefinition[] load(URL url)
-        throws IOException, Exception
-    {
-        JellyContext context = newJellyContext( CONTEXT );
-
-        return load( url,
-                     context );
-    }
-
 }

@@ -32,7 +32,7 @@ public class Bpel4wsPersonality
 
 
                 CONTEXT = JellyUtil.newJellyContext();
-                
+
                 Syntax[] syntaxes = loadSyntaxes( Bpel4wsPersonality.class.getResource( SYNTAX_DEF ),
                                                   CONTEXT );
 
@@ -43,18 +43,13 @@ public class Bpel4wsPersonality
         return INSTANCE;
     }
 
-    protected Bpel4wsPersonality(Syntax[] syntaxes)
+    protected JellyContext getBaseJellyContext()
     {
-        super( syntaxes  );
+        return CONTEXT;
     }
 
-    public ProcessDefinition[] load(URL url)
-        throws IOException, Exception
+    protected Bpel4wsPersonality( Syntax[] syntaxes )
     {
-        JellyContext context = newJellyContext( CONTEXT );
-
-        return load( url,
-                     context );
+        super( syntaxes );
     }
-
 }
