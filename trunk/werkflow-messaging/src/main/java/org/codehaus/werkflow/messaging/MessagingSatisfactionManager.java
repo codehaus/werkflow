@@ -1,5 +1,6 @@
 package org.codehaus.werkflow.messaging;
 
+import org.codehaus.werkflow.Engine;
 import org.codehaus.werkflow.drools.DroolsSatisfactionManager;
 
 import org.drools.RuleBase;
@@ -7,9 +8,10 @@ import org.drools.RuleBase;
 public class MessagingSatisfactionManager
     extends DroolsSatisfactionManager
 {
-    public MessagingSatisfactionManager(RuleBase ruleBase)
+    public MessagingSatisfactionManager(RuleBase ruleBase,
+                                        Engine engine)
     {
-        super( ruleBase );
+        super( ruleBase, engine );
     }
 
     public synchronized void acceptMessage(Object message)
