@@ -5,6 +5,9 @@ import com.werken.werkflow.admin.DeploymentException;
 
 public interface PersistenceManager
 {
+    /** Component role. */
+    public static final String ROLE = PersistenceManager.class.getName();
+
     /** Activate the {@link ProcessPersistenceManager} that will maintain 
      * the {@link com.werken.werkflow.core.CaseState} information for the process.
      * 
