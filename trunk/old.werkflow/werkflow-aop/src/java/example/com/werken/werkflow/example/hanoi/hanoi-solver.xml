@@ -16,7 +16,7 @@
         <jelly:action>
             <j:set var="n" value="${1}"/>
         </jelly:action>
-        <while condition="n &lt; (2 ** height)">
+        <while condition="n &lt; Math.pow(2, height.doubleValue())">
             <sequence>
                 <jelly:action>
                     <j:set var="diskNum" value="1"/>
