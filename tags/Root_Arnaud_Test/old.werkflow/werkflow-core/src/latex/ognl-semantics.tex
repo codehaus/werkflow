@@ -1,0 +1,33 @@
+\chapter{OGNL Semantic Module}
+
+\section{Overview}
+
+OGNL is the \emph{Object Graph Navigation Language}
+created bt OGNL Technology.  It allows complex expressions to
+manipulate objects.  Variables are referenced by prefixing
+names with \verb|#|, such as \verb|#poId|.  More information
+and a complete reference is available at \emph{http://ognl.org}.
+The OGNL tag library is imported using an XML namespace
+declaration with the URI of \verb|werkflow:ognl|.
+
+\begin{codelisting}
+<process \hired{xmlns:ognl="werkflow:ognl"} \dots>
+    \dots
+\end{codelisting}
+
+
+\section{\tag{ognl:correlator}}
+
+The \tag{ognl:correlate} tag takes a single \verb|test| attribute
+that should contain a boolean OGNL expression determining if
+the message matches the process case.
+
+\begin{codelisting}
+<receive \dots>
+    \hired{<ognl:correlator test="#message.poId == #poId"/>}
+</receive>
+\end{codelisting}
+
+\begin{attrDefs}{ognl:correlator}
+test		&	required	&			& OGNL boolean correlation expression \\
+\end{attrDefs}

@@ -1,0 +1,74 @@
+\chapter{Python Semantic Module}
+
+\section{Overview}
+
+The Python semantic module uses the \emph{Jython} package
+available from \emph{http://jython.org/} to allow
+Python expressions and scripts to be used in process definitions.
+The Python tag library is imported using an XML namespace
+declaration with the URI of \verb|werkflow:python|.
+
+\begin{codelisting}
+<process \hired{xmlns:python="werkflow:python"} \dots>
+    \dots
+\end{codelisting}
+
+\section{\tag{python:selector}}
+
+The \tag{python:selector} tag allows selection of messages based
+upon their true Java class and an optional filtering expression.
+This selector only works when the WFMS is configured to use a 
+\verb|SimpleMessagingManager|.  
+
+Each message object received by the messaging manager will subject 
+to an \verb|instanceof| check against the class specified by 
+the \verb|type| attribute.  If an optional filtering expression
+is provided by the \verb|filter| attribute, it is evaluated
+with the message bound to the \verb|message| variable.
+
+\begin{codelisting}
+<message-type \dots>
+    \hired{<python:selector type="com.myco.messages.PoMessage"
+                   filter="message.getType() == 'reject'"/>}
+</message-type>
+\end{codelisting}
+
+\begin{attrDefs}{python:selector}
+type		&	required	&			& Java message class name. \\
+filter		&	optional	&			& Filtering Python expression. \\
+\end{attrDefs}
+
+\section{\tag{python:correlator}}
+
+The \tag{python:correlator} tag takes a single \verb|test| attribute
+that should contain a boolean Python expression determining if
+the message matches the process case.  The containing message-reception
+action may specify that the message is bound to a specific variable
+name.  If not otherwise specified, the message object will be
+bound to the \verb|message| variable. 
+
+\begin{codelisting}
+<receive \dots>
+    \hired{<python:correlator test="message.getPoId() == poId"/>}
+</receive>
+<receive \hired{bind="command"} \dots>
+    \hired{<python:correlator test="command.getAction() == 'accept'"/>}
+</receive>
+\end{codelisting}
+
+\begin{attrDefs}{python:correlator}
+test		&	required	&			& Java boolean correlation expression. \\
+\end{attrDefs}
+
+\section{\tag{python:action}}
+
+The \tag{python:action} tag may contain a block of Python
+to be interpreted as an atomic action.  The process case
+attributes and other action attributes are bound to similarly
+named variables within the block.
+
+\begin{codelisting}
+\hired{<python:action>
+    \dots
+</python:action>}
+\end{codelisting}

@@ -1,0 +1,65 @@
+
+<fund:process id="general"
+         initiation="call"
+         xmlns:fund="werkflow:fundamental"
+         xmlns="werkflow:petri"
+         xmlns:java="werkflow:java"
+         xmlns:jelly="werkflow:jelly"
+         xmlns:jexl="werkflow:jexl"
+         xmlns:j="jelly:core">
+
+  <fund:import url="message-types.xml"/>
+
+    <net>
+        <place id="in">
+            <documentation>the in place</documentation>
+        </place>
+
+        <place id="middle">
+            <documentation>the middle place</documentation>
+        </place>
+
+        <place id="out">
+            <documentation>the out place</documentation>
+        </place>
+
+        <transition id="transition one" type="or">
+            <documentation>the 1st transition</documentation>
+
+            <input from="in"/>
+            <output to="middle"/>
+
+            <task>
+                <jelly:action>
+                    <j:set var="bob" value="mcwhirter"/>
+                    case ${caseId}
+                    action 1
+                    bob = ${bob}
+                    <j:set var="bob" value="mr ${bob}"/>
+                </jelly:action>
+            </task>
+        </transition>
+
+        <transition id="transition two" type="and">
+            <documentation>the 2nd transition</documentation>
+
+            <input from="middle"/>
+            <output to="out"/>
+
+            <message id="message" type="normal.msg">
+              <java:correlator test="myMsg.payload.equals( bob )"/>
+            </message>
+
+            <task>
+                <jelly:action>
+                    ${message.touch()}
+                    case ${caseId}
+                    action 2
+                    bob == ${bob}
+                    message == ${message.type} : ${message.payload}
+                </jelly:action>
+            </task>
+        </transition>
+    </net>
+
+</fund:process>
