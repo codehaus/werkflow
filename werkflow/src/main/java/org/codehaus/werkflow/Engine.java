@@ -244,6 +244,13 @@ public class Engine
                              instance,
                              (Satisfaction) component );
         }
+        else if ( component instanceof Satisfier )
+        {
+            runSatisfier( transaction,
+                          instance,
+                          path,
+                          (Satisfier) component );
+        }
         else if ( component instanceof AsyncComponent )
         {
             runAsyncComponent( transaction,
@@ -277,17 +284,43 @@ public class Engine
                          Satisfaction satisfaction)
         throws NoSuchInstanceException, Exception
     {
-        if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
+        if ( getSatisfactionManager().isSatisfied( transaction,
+                                                   satisfaction.getId(),
                                                    instance,
                                                    new EngineSatisfactionCallback( this,
                                                                                    instance.getId(),
                                                                                    satisfaction.getId() ) ) )
         {
-            satisfy( transaction,
-                     instance.getId(),
-                     satisfaction.getId(),
-                     new DefaultSatisfactionValues() );
+            enqueueSatisfier( transaction,
+                              instance.getId(),
+                              satisfaction.getId() );
         }
+    }
+
+    void runSatisfier(RobustTransaction transaction,
+                      RobustInstance instance,
+                      Path path,
+                      Satisfier satisfier)
+        throws NoSuchInstanceException, Exception
+    {
+        Workflow workflow = instance.getWorkflow();
+        
+        Satisfaction satisfaction = (Satisfaction) workflow.getComponent( path.parentPath() );
+
+        SatisfactionValues values = getSatisfactionManager().getSatisfactionValues( satisfaction.getId(),
+                                                                                    instance );
+        try
+        {
+            satisfier.perform( instance,
+                               values );
+        }
+        catch (Exception e)
+        {
+            // handle error;
+        }
+
+        end( instance,
+             path );
     }
 
     void runAsyncComponent(RobustTransaction transaction,
@@ -330,10 +363,21 @@ public class Engine
              path );
     }
 
-    void satisfy(RobustTransaction transaction,
+    void satisfy(EngineTransaction transaction,
                  String instanceId,
                  String satisfactionId,
                  SatisfactionValues values)
+        throws Exception
+    {
+        getSatisfactionManager().satisfy( transaction,
+                                          instanceId,
+                                          satisfactionId,
+                                          values );
+    }
+
+    void enqueueSatisfier(RobustTransaction transaction,
+                          String instanceId,
+                          String satisfactionId)
         throws NoSuchInstanceException, Exception
     {
         if ( ! getInstanceManager().hasInstance( instanceId ) )
@@ -345,14 +389,6 @@ public class Engine
 
         //System.err.println( "added pending: " + satisfactionId );
         instance.addPendingSatisfactionId( satisfactionId );
-        
-        String[] valueNames = values.getNames();
-        
-        for ( int i = 0 ; i < valueNames.length ; ++i )
-        {
-            instance.put( satisfactionId + "." + valueNames[ i ],
-                          values.getValue( valueNames[ i ] ) );
-        }
         
         Workflow workflow = instance.getWorkflow();
         
