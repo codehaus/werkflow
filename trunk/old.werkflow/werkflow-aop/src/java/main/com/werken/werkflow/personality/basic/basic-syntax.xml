@@ -6,14 +6,10 @@
     <syntax:import url="../common/core-idioms.xml"/>
 
     <syntax:tag name="process">
-        fooo
         <fund:process id="${id}"
                       initiation="${initiation}">
-            fooo2
             <syntax:invokeBody/>
-            fooo3
         </fund:process> 
-            fooo4
     </syntax:tag>
 
     <syntax:tag name="empty">
@@ -27,7 +23,6 @@
     </syntax:tag>
 
     <syntax:tag name="parallel">
-        parlalel dude
         <core:parallel>
             <syntax:invokeBody/>
         </core:parallel>
