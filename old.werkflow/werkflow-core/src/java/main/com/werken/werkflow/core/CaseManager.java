@@ -61,7 +61,7 @@ class CaseManager
     }
 
     synchronized CoreProcessCase getCase(String caseId)
-        throws NoSuchCaseException
+        throws NoSuchCaseException, PersistenceException
     {
         if ( ! this.cases.containsKey( caseId ) )
         {

@@ -54,7 +54,7 @@ class DeploymentManager
             throw new DuplicateProcessException( processDef );
         }
 
-        ProcessPersistenceManager processPersist = getPersistenceManager().deployProcess( processDef );
+        ProcessPersistenceManager processPersist = getPersistenceManager().activate( processDef );
         
         ProcessDeployment deployment = new ProcessDeployment( processDef,
                                                               getScheduler(),

@@ -7,7 +7,8 @@ public interface ProcessPersistenceManager
     void persist(ChangeSet changeSet)
         throws PersistenceException;
 
-    boolean hasCase(String caseId);
+    boolean hasCase(String caseId)
+        throws PersistenceException;
 
     CaseTransfer newCase(Attributes initialiAttrs)
         throws PersistenceException;

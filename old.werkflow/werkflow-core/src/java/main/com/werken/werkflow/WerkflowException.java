@@ -73,6 +73,11 @@ public class WerkflowException
         // intentionally left blank
     }
 
+    public WerkflowException(String message)
+    {
+        super(message);
+    }
+
     /** Construct with root cause.
      *
      *  @param rootCause The root cause.
