@@ -307,12 +307,15 @@ class ProcessDeployment
 
             if ( rule.evaluate( processCase ) )
             {
+                // System.err.println( "rule passes" );
+
                 if ( eachTrans.getExpression() != null )
                 {
                     try
                     {
                         if ( ! eachTrans.getExpression().evaluateAsBoolean( processCase ) )
                         {
+                            // System.err.println( "expr failed" );
                             continue;
                         }
                     }
@@ -323,7 +326,11 @@ class ProcessDeployment
                     }
                 }
 
+                // System.err.println( "expr passes" );
+
                 Waiter waiter = eachTrans.getWaiter();
+
+                // System.err.println( "wait: " + waiter );
 
                 if ( waiter == null )
                 {
@@ -359,18 +366,23 @@ class ProcessDeployment
 
                     if ( shouldCorrelate )
                     { 
+                        // System.err.println( "should correlate" );
+                        
                         if ( getMessageHandler().isCorrelated( processCase.getId(),
                                                                eachTrans ) )
                         {
+                            // System.err.println( "is correlated" );
                             enabledTrans.add( eachTrans );
                         }
                         else
                         {
+                            // System.err.println( "is waiting" );
                             msgWaitingTrans.add( eachTrans.getId() );
                         }
                     }
                     else
                     {
+                        // System.err.println( "enabled w/o correlation" );
                         enabledTrans.add( eachTrans );
                     }
                 }

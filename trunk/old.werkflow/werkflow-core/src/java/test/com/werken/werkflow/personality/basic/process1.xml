@@ -1,6 +1,6 @@
 
 <process id="my.proc1"
-         initiation="call"
+         initiation="message"
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"
          xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
@@ -17,13 +17,44 @@
     <message-type id="str.msg">
         <java:selector type="java.lang.String"/> 
     </message-type>
+    <message-type id="int.msg">
+        <java:selector type="java.lang.Integer"/> 
+    </message-type>
+    <message-type id="bool.msg">
+        <java:selector type="java.lang.Boolean"/> 
+    </message-type>
 </message-types>
 
 <sequence>
+<!--
     <jelly:log message="before receive"/>
-    <receive type="str.msg">
-        <jelly:log message="received ######### ${message} ########"/>
-    </receive>
+-->
+    <pick>
+        <choice>
+            <sequence>
+                <receive type="bool.msg">
+                    <jelly:log message="choice #1 -- ${message}"/>
+                </receive>
+                <jelly:log message="choice #1 stuff"/>
+            </sequence>
+        </choice>
+        <choice>
+            <sequence>
+                <receive type="str.msg">
+                    <jelly:log message="choice #2 -- ${message}"/>
+                </receive>
+                <jelly:log message="choice #2 stuff"/>
+            </sequence>
+        </choice>
+        <choice>
+            <sequence>
+                <receive type="int.msg">
+                    <jelly:log message="choice #3 -- ${message}"/>
+                </receive>
+                <jelly:log message="choice #3 stuff"/>
+            </sequence>
+        </choice>
+    </pick>
     <jelly:log message="after receive"/>
 </sequence>
 

@@ -59,11 +59,16 @@ public class BasicPersonalityTest
         SimpleAttributes attrs = new SimpleAttributes();
 
         
+        /*
         runtime.newProcessCase( "my.proc1",
                                 attrs );
+        */
 
-        Thread.sleep( 2000 );
+        // Thread.sleep( 2000 );
 
         msgManager.acceptMessage( "my message" );
+        msgManager.acceptMessage( Boolean.TRUE );
+
+        Thread.sleep( 2000 );
     }
 }

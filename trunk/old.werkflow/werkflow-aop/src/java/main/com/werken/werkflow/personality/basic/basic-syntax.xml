@@ -41,9 +41,9 @@
     </syntax:tag>
 
     <syntax:tag name="case">
-        <core:choice condition="${condition}">
+        <core:expr-choice condition="${condition}">
             <syntax:invokeBody/>
-        </core:choice>
+        </core:expr-choice>
     </syntax:tag>
 
     <syntax:tag name="receive">
@@ -53,9 +53,19 @@
     </syntax:tag>
 
     <syntax:tag name="otherwise">
-        <core:choice condition="true">
+        <core:choice>
             <syntax:invokeBody/>
         </core:choice>
+    </syntax:tag>
+
+    <syntax:tag name="pick">
+        <core:choose>
+            <syntax:invokeBody/>
+        </core:choose>
+    </syntax:tag>
+
+    <syntax:tag name="choice">
+        <syntax:invokeBody/>
     </syntax:tag>
 
     <syntax:tag name="while">
