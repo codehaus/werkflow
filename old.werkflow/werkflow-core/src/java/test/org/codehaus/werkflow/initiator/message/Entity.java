@@ -60,8 +60,6 @@ public class Entity
 {
     private boolean hasBeenTouched;
 
-    private Map executedActions = new HashMap();
-
     public void touch()
     {
         hasBeenTouched = true;
@@ -75,25 +73,6 @@ public class Entity
     public String toString()
     {
         return "[Entity]::purchaseOrder";
-    }
-
-    public void actionExecuted( String actionId )
-    {
-        executedActions.put( actionId, "true" );
-    }
-
-    public boolean hasActionExecuted( String actionId )
-    {
-        String result = (String) executedActions.get( actionId );
-
-        if ( result != null )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }
 
