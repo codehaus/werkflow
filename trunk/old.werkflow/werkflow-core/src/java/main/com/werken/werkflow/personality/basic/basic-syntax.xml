@@ -35,7 +35,7 @@
             <j:set var="packageAttr" value=""/>
         </j:if>
         <fund:call package="${packageAttr}"
-                   process="${processAttr}">
+                   process="${idAttr}">
             <syntax:invokeBody/>
         </fund:call>
     </syntax:tag>
