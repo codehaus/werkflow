@@ -48,7 +48,7 @@
   <issueTrackingUrl>http://jira.werken.com:8181/secure/BrowseProject.jspa?id=10010&amp;report=roadmap</issueTrackingUrl>
 
   <repository>
-    <connection>scm:cvs::pserver:anonymous@cvs.werken.com:/cvsroot/werkflow:werkflow</connection>
+    <connection>scm:cvs:pserver:anonymous@cvs.werken.com:/cvsroot/werkflow:werkflow</connection>
     <url>http://cvs.werken.com/viewcvs.cgi/?cvsroot=werkflow</url>
   </repository>
 
