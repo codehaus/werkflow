@@ -9,6 +9,13 @@ import org.apache.commons.jexl.ExpressionFactory;
 public class PythonExpressionFactory
     implements com.werken.werkflow.expr.ExpressionFactory
 {
+    private static final PythonExpressionFactory INSTANCE = new PythonExpressionFactory();
+
+    public static PythonExpressionFactory getInstance()
+    {
+        return INSTANCE;
+    }
+
     private BSFExpressionFactory factory;
 
     public PythonExpressionFactory()

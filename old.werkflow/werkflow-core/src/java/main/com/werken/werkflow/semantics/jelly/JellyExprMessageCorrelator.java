@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package com.werken.werkflow.semantics.jelly;
 
 /*
  $Id$
@@ -46,63 +46,84 @@ package com.werken.werkflow;
  
  */
 
-/** Base <code>werkflow</code> exception.
+import com.werken.werkflow.ProcessCase;
+import com.werken.werkflow.definition.MessageCorrelator;
+
+import org.apache.commons.jelly.expression.Expression;
+
+/** Jelly-based <code>MessageCorrelator</code>.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class WerkflowException
-    extends Exception
+public class JellyExprMessageCorrelator
+    implements MessageCorrelator
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Root cause, possibly null. */
-    private Throwable rootCause;
+    /** Message binding variable. */
+    private String messageId;
+
+    /** Correlation expression. */
+    private Expression expression;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
-     */
-    public WerkflowException()
-    {
-        // intentionally left blank
-    }
-
-    /** Construct with root cause.
      *
-     *  @param rootCause The root cause.
+     *  @param messageId The message binding variable identifier.
+     *  @param expression The correlation expression.
      */
-    public WerkflowException(Throwable rootCause)
+    public JellyExprMessageCorrelator(String messageId,
+                                      Expression expression)
     {
-        this.rootCause = rootCause;
+        this.messageId = messageId;
+        this.expression = expression;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the root cause, if any.
+    /** Retrieve the message binding variable identifier.
      *
-     *  @return The root cause or <code>null</code> if none.
+     *  @return The message binding variable identifier.
      */
-    public Throwable getRootCause()
+    public String getMessageId()
     {
-        return this.rootCause;
+        return this.messageId;
     }
 
-    public String getMessage()
+    /** Retrieve the correlation expression.
+     *
+     *  @return The correlation expression.
+     */
+    public Expression getExpression()
     {
-        if ( getRootCause() != null )
-        {
-            return getRootCause().getMessage();
-        }
+        return this.expression;
+    }
 
-        return super.getMessage();
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see MessageCorrelator
+     */
+    public boolean correlates(Object message,
+                              ProcessCase processCase)
+        throws Exception
+    {
+        CaseJellyContext context = new CaseJellyContext( processCase );
+
+        context.setVariable( getMessageId(),
+                             message );
+
+        boolean result = getExpression().evaluateAsBoolean( context );
+
+        return result;
     }
 }
-

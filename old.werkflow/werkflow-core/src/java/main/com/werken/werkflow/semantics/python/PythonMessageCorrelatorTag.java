@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package com.werken.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,21 +46,23 @@ package com.werken.werkflow;
  
  */
 
-/** Base <code>werkflow</code> exception.
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class WerkflowException
-    extends Exception
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionMessageCorrelator;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
+
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.JellyTagException;
+
+public class PythonMessageCorrelatorTag
+    extends AbstractMessageCorrelatorTag
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Root cause, possibly null. */
-    private Throwable rootCause;
+    /** Correelation test expression. */
+    private String test;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -68,41 +70,48 @@ public class WerkflowException
 
     /** Construct.
      */
-    public WerkflowException()
+    public PythonMessageCorrelatorTag()
     {
         // intentionally left blank
-    }
-
-    /** Construct with root cause.
-     *
-     *  @param rootCause The root cause.
-     */
-    public WerkflowException(Throwable rootCause)
-    {
-        this.rootCause = rootCause;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the root cause, if any.
-     *
-     *  @return The root cause or <code>null</code> if none.
-     */
-    public Throwable getRootCause()
+    public void setTest(String test)
     {
-        return this.rootCause;
+        this.test = test;
     }
 
-    public String getMessage()
+    public String getTest()
     {
-        if ( getRootCause() != null )
-        {
-            return getRootCause().getMessage();
-        }
+        return this.test;
+    }
 
-        return super.getMessage();
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        requireStringAttribute( "test",
+                                getTest() );
+
+        try
+        {
+            Expression expr = PythonExpressionFactory.getInstance().newExpression( getTest() );
+            
+            ExpressionMessageCorrelator correlator = new ExpressionMessageCorrelator( getMessageId(),
+                                                                                      expr );
+            
+            setMessageCorrelator( correlator );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }
-
