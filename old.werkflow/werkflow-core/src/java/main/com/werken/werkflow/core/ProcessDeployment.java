@@ -55,7 +55,7 @@ class ProcessDeployment
         this.persistenceManager = persistenceManager;
 
         this.scheduler          = scheduler;
-        this.evaluator          = new Evaluator( processDefinition );
+        this.evaluator          = new Evaluator( this );
         this.messageHandler     = new MessageHandler( messagingManager,
                                                      this );
 
@@ -147,9 +147,11 @@ class ProcessDeployment
         return this.evaluator;
     }
 
-    public CoreWorkItem[] evaluate(CoreProcessCase processCase)
+    public CoreWorkItem[] evaluate(CoreChangeSet changeSet,
+                                   CoreProcessCase processCase)
     {
-        return getEvaluator().evaluate( processCase );
+        return getEvaluator().evaluate( changeSet,
+                                        processCase );
     }
 
     public String getPackageId()
@@ -212,6 +214,15 @@ class ProcessDeployment
     private ProcessPersistenceManager getPersistenceManager()
     {
         return this.persistenceManager;
+    }
+
+    void addCase(CoreChangeSet changeSet,
+                 CoreProcessCase processCase,
+                 String transitionId)
+    {
+        getMessageHandler().addCase( changeSet,
+                                     processCase,
+                                     transitionId );
     }
 
     public void acceptMessage(Message message)

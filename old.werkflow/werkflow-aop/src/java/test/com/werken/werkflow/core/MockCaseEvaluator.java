@@ -16,7 +16,8 @@ class MockCaseEvaluator
         this.workItems = workItems;
     }
 
-    public CoreWorkItem[] evaluate(CoreProcessCase processCase)
+    public CoreWorkItem[] evaluate(CoreChangeSet changeSet,
+                                   CoreProcessCase processCase)
     {
         this.evaluated = processCase;
 

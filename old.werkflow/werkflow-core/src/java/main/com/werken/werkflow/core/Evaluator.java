@@ -14,39 +14,44 @@ import java.util.List;
 import java.util.ArrayList;
 
 class Evaluator
-    implements CaseEvaluator
+//    implements CaseEvaluator
 {
-    private ProcessDefinition processDefinition;
+    private ProcessDeployment processDeployment;
 
-    Evaluator(ProcessDefinition processDefinition)
+    Evaluator(ProcessDeployment processDeployment)
     {
-        this.processDefinition  = processDefinition;
+        this.processDeployment  = processDeployment;
     }
 
-    public CoreWorkItem[] evaluate(CoreProcessCase processCase)
+    public CoreWorkItem[] evaluate(CoreChangeSet changeSet,
+                                   CoreProcessCase processCase)
     {
         synchronized ( processCase )
         {
-            return (CoreWorkItem[]) evaluate( processCase,
+            return (CoreWorkItem[]) evaluate( changeSet,
+                                              processCase,
                                               getPotentialTransitions( processCase ) ).toArray( CoreWorkItem.EMPTY_ARRAY );
         }
     }
 
-    private List evaluate(CoreProcessCase processCase,
+    private List evaluate(CoreChangeSet changeSet,
+                          CoreProcessCase processCase,
                           Transition[] potentials)
     {
         List workItems = new ArrayList();
 
         for ( int i = 0 ; i < potentials.length ; ++i )
         {
-            workItems.addAll( evaluate( processCase,
+            workItems.addAll( evaluate( changeSet,
+                                        processCase,
                                         potentials[i] ) );
         }
 
         return workItems;
     }
     
-    private List evaluate(CoreProcessCase processCase,
+    private List evaluate(CoreChangeSet changeSet,
+                          CoreProcessCase processCase,
                           Transition transition)
     {
         ActivationRule rule = transition.getActivationRule();
@@ -83,6 +88,7 @@ class Evaluator
         if ( waiter == null )
         {
             addNoWaiterWorkItems( workItems,
+                                  changeSet,
                                   processCase,
                                   transition,
                                   tokens );
@@ -92,6 +98,7 @@ class Evaluator
             if ( waiter instanceof MessageWaiter )
             {
                 addMessageWaiterWorkItems( workItems,
+                                           changeSet,
                                            processCase,
                                            transition,
                                            tokens );
@@ -102,6 +109,7 @@ class Evaluator
     }
 
     private void addNoWaiterWorkItems(List workItems,
+                                      CoreChangeSet changeSet,
                                       CoreProcessCase processCase,
                                       Transition transition,
                                       String[] tokens)
@@ -112,10 +120,15 @@ class Evaluator
     }
 
     private void addMessageWaiterWorkItems(List workItems,
+                                           CoreChangeSet changeSet,
                                            CoreProcessCase processCase,
                                            Transition transition,
                                            String[] tokens)
     {
+        getProcessDeployment().addCase( changeSet, 
+                                        processCase,
+                                        transition.getId() );
+
         Correlation[] correlations = processCase.getCorrelations( transition.getId() );
         
         for ( int i = 0 ; i < correlations.length ; ++i )
@@ -161,14 +174,14 @@ class Evaluator
         return (Transition[]) potentials.toArray( Transition.EMPTY_ARRAY );
     }
 
-    private ProcessDefinition getProcessDefinition()
+    private ProcessDeployment getProcessDeployment()
     {
-        return this.processDefinition;
+        return this.processDeployment;
     }
 
     private Place getPlace(String placeId)
         throws NoSuchPlaceException
     {
-        return getProcessDefinition().getNet().getPlace( placeId );
+        return getProcessDeployment().getProcessDefinition().getNet().getPlace( placeId );
     }
 }

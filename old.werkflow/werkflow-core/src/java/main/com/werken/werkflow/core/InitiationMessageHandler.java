@@ -26,4 +26,11 @@ class InitiationMessageHandler
     {
 
     }
+
+    public boolean addCase(CoreChangeSet changeSet,
+                           CoreProcessCase processCase,
+                           String transitionId)
+    {
+        return false;
+    }
 }

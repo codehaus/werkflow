@@ -5,6 +5,7 @@
          xmlns="werkflow:petri"
          xmlns:java="werkflow:java"
          xmlns:jelly="werkflow:jelly"
+         xmlns:jexl="werkflow:jexl"
          xmlns:j="jelly:core">
 
   <fund:import url="message-types.xml"/>
@@ -45,7 +46,7 @@
             <output to="out"/>
 
             <message id="myMsg" type="normal.msg">
-              <jelly:correlator test="myMsg.payload == bob"/>
+              <jexl:correlator test="myMsg.payload == bob"/>
             </message>>
 
             <task>

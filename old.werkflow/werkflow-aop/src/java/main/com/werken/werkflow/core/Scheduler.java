@@ -41,7 +41,7 @@ class Scheduler
 
             synchronized ( processCase )
             {
-                CoreWorkItem[] workItems = processCase.evaluate();
+                CoreWorkItem[] workItems = processCase.evaluate( changeSet );
                 
                 for ( int i = 0 ; i < workItems.length ; ++i )
                 {

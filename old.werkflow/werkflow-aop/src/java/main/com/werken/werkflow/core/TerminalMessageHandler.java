@@ -15,5 +15,10 @@ interface TerminalMessageHandler
                            String messageId)
         throws NoSuchMessageException;
 
+    boolean addCase(CoreChangeSet changeSet,
+                    CoreProcessCase processCase,
+                    String transitionId);
+
     void add(Transition transition);
+
 }

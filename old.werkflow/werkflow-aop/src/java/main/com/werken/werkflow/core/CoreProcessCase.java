@@ -205,9 +205,10 @@ class CoreProcessCase
         getState().addToken( token );
     }
 
-    CoreWorkItem[] evaluate()
+    CoreWorkItem[] evaluate(CoreChangeSet changeSet)
     {
-        return getCaseEvaluator().evaluate( this );
+        return getCaseEvaluator().evaluate( changeSet,
+                                            this );
     }
 
     void addScheduledActivity(CoreActivity activity)

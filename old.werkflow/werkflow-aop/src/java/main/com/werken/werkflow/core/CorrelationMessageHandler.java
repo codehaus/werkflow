@@ -33,6 +33,14 @@ class CorrelationMessageHandler
                                                                   transition ) );
     }
 
+    public boolean addCase(CoreChangeSet changeSet,
+                           CoreProcessCase processCase,
+                           String transitionId)
+    {
+        return getMessageWaiterHandler( transitionId ).addCase( changeSet,
+                                                                processCase );
+    }
+
     public boolean acceptMessage(CoreChangeSet changeSet,
                                  Message message)
     {

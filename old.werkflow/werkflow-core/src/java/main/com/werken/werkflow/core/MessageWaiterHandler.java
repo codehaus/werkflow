@@ -62,6 +62,12 @@ class MessageWaiterHandler
                     CoreProcessCase processCase)
     {
         System.err.println( "MessageWaiterHandler.CASECASECASE( " + processCase.getId() + " )" );
+        
+        if ( this.processCases.contains( processCase ) )
+        {
+            return false;
+        }
+
         this.processCases.add( processCase );
 
         return attemptCorrelation( changeSet,
@@ -136,10 +142,16 @@ class MessageWaiterHandler
 
         MessageCorrelator correlator = waiter.getMessageCorrelator();
 
+        System.err.println( "transition: " + getTransition().getId() + " // " + correlator );
+
         try
         {
-            return correlator.correlates( message,
-                                          processCase );
+            boolean result = correlator.correlates( message.getMessage(),
+                                                    processCase );
+
+            System.err.println( "YO RESULT: " + result );
+
+            return result;
         }
         catch (Exception e)
         {
