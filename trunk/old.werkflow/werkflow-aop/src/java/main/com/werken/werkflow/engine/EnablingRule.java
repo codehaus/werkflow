@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package com.werken.werkflow.engine;
 
 /*
  $Id$
@@ -46,34 +46,82 @@ package com.werken.werkflow.definition;
  
  */
 
-import java.net.URL;
+import com.werken.werkflow.definition.petri.ActivationRule;
+import com.werken.werkflow.definition.petri.Transition;
 
-/** Loader of <code>ProcessDefinition</code>s.
+/** Rule to determine if a transition is enabled.
  *
- *  <p>
- *  Different process definition syntaxes will have
- *  different <code>DefinitionLoader</code> implementations.
- *  </p>
+ *  @see Transition
+ *  @see ActivationRule
  *
- *  @see ProcessDefinition
- * 
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public interface DefinitionLoader
+public class EnablingRule
 {
-    /** Load the <code>ProcessDefinition</code>s contained
-     *  within the URL, according to the syntax's rules.
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Transition. */
+    private Transition transition;
+
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
      *
-     *  @param url The URL to load.
-     *
-     *  @return The possibly empty array of process-definitions
-     *          loaded from the URL.
-     *
-     *  @throws Exception If an error occurs while attempting
-     *          to load the definitions.
+     *  @param transition The transition.
      */
-    ProcessDefinition[] load(URL url)
-        throws Exception;
+    public EnablingRule(Transition transition)
+    {
+        this.transition = transition;
+    }
+
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** Retrieve the <code>Transition</code>.
+     *
+     *  @return The transition.
+     */
+    public Transition getTransition()
+    {
+        return this.transition;
+    }
+
+    /** Evaluate a <code>WorkflowProcessCase</code>.
+     *
+     *  @param processCase The process case.
+     *
+     *  @return <code>true</code> if the transition is enabled
+     *          for the case, otherwise <code>false</code>.
+     */
+    public boolean evaluate(WorkflowProcessCase processCase)
+    {
+        ActivationRule rule = getTransition().getActivationRule();
+
+        if ( rule != null )
+        {
+            try
+            {
+                if ( ! rule.isSatisfied( getTransition(),
+                                         processCase ) )
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                // FIXME: log
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
