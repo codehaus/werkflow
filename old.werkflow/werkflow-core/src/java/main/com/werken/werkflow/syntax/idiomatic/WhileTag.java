@@ -29,25 +29,14 @@ public class WhileTag
         return this.condition;
     }
 
-    public void receiveSegment(Segment segment)
-        throws JellyTagException
-    {
-        if ( this.bodySegment != null )
-        {
-            throw new JellyTagException( "only action allowed as body" );
-        }
-
-        this.bodySegment = segment;
-    }
-
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
 
+        pushSegment( new WhileSegment( new JellyExpression( getCondition() ) ) );
+
         invokeBody( output );
 
-        pushSegment( new WhileSegment( new JellyExpression( getCondition() ),
-                                       this.bodySegment ) );
         popSegment();
     }
 }

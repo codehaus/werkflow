@@ -9,8 +9,7 @@ public class ConditionalSegmentTest
     public void testConnectedness()
         throws Exception
     {
-        ConditionalSegment segment = new ConditionalSegment( Expression.TRUE,
-                                                             new EmptySegment() );
+        ConditionalSegment segment = new ConditionalSegment( Expression.TRUE );
 
         testConnectedness( segment );
     }

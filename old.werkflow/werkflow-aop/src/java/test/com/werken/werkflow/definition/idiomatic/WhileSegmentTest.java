@@ -9,8 +9,7 @@ public class WhileSegmentTest
     public void testConnectedness()
         throws Exception
     {
-        WhileSegment segment = new WhileSegment( Expression.TRUE,
-                                                 new EmptySegment() );
+        WhileSegment segment = new WhileSegment( Expression.TRUE );
 
         testConnectedness( segment );
     }

@@ -9,8 +9,7 @@ public class IfSegmentTest
     public void testConnectedness()
         throws Exception
     {
-        IfSegment segment = new IfSegment( Expression.TRUE,
-                                           new EmptySegment() );
+        IfSegment segment = new IfSegment( Expression.TRUE );
 
         testConnectedness( segment );
     }
