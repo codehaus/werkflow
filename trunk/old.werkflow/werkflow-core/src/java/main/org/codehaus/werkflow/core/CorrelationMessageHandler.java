@@ -93,7 +93,7 @@ class CorrelationMessageHandler
 
     public boolean acceptMessage(Message message)
     {
-        System.err.println( "CorrelationMessageHanderl.acceptMessage( " + message.getMessage() + " )" );
+        System.err.println( "CorrelationMessageHander.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
 
         Iterator waiterIter = this.messageWaiterHandlers.values().iterator();
