@@ -162,6 +162,11 @@ public class InMemoryCaseRepository
 
             if ( eachCase.getProcessId().equals( processId ) )
             {
+                if ( evalQueryByExample( eachCase,
+                                         qbeAttrs ) )
+                {
+                    caseIds.add( eachCase.getCaseId() );
+                }
             }
         }
 
