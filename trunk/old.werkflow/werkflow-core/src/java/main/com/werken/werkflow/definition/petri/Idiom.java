@@ -259,6 +259,8 @@ public class Idiom
     {
         DefaultTransition transition = new DefaultTransition( id );
 
+        transition.setActivationRule( AndInputRule.getInstance() );
+
         transition.setDocumentation( documentation );
 
         this.transitions.put( id,
