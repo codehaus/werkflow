@@ -1,5 +1,7 @@
 package com.werken.werkflow.service.caserepo;
 
+import java.util.Map;
+
 public class MockCaseRepository
     extends AbstractCaseRepository
 {
@@ -53,5 +55,11 @@ public class MockCaseRepository
         }
 
         return new String[0];
+    }
+
+    public String[] selectCases(String processId,
+                                Map qbeAttrs)
+    {
+        return null;
     }
 }
