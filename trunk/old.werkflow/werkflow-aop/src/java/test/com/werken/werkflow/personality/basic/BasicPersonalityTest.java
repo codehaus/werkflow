@@ -6,6 +6,7 @@ import com.werken.werkflow.WfmsRuntime;
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.personality.Personality;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.persistence.PersistenceManager;
@@ -22,7 +23,7 @@ public class BasicPersonalityTest
     public void testLoad()
         throws Exception
     {
-        BasicPersonality personality = BasicPersonality.getInstance();
+        Personality personality = BasicPersonality.getInstance();
 
         assertNotNull( personality );
 

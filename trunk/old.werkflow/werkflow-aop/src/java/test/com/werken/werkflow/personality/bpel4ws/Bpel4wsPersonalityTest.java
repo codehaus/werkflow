@@ -1,6 +1,7 @@
 package com.werken.werkflow.personality.bpel4ws;
 
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.personality.Personality;
 
 import junit.framework.TestCase;
 
@@ -12,7 +13,7 @@ public class Bpel4wsPersonalityTest
     public void testLoad()
         throws Exception
     {
-        Bpel4wsPersonality personality = Bpel4wsPersonality.getInstance();
+        Personality personality = Bpel4wsPersonality.getInstance();
 
         assertNotNull( personality );
 
