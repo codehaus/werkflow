@@ -55,22 +55,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/** Master message correlator.
- *
- *  <p>
- *  Message correlation is a hierarchic affair.  The <code>Correlator</code>
- *  dispatches to a <code>MessageTypeCorrelator</code> which in terms
- *  disptaches to a <code>MessageWaiterCorrelator</code>.
- *  </p>
- *
- *  @see MessageTypeCorrelator
- *  @see MessageWaiterCorrelator
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-class Correlator
+class MessageHandler
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -82,8 +67,8 @@ class Correlator
     /** Owning process deployment. */
     private ProcessDeployment deployment;
 
-    /** Message-type correlators, indexed by message-type id. */
-    private Map msgTypeCorrelators;
+    /** Message-type handlers, indexed by message-type id. */
+    private Map msgTypeHandlers;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -94,12 +79,12 @@ class Correlator
      *  @param engine The workflow engine.
      *  @param deployment The owning process deployment.
      */
-    public Correlator(WorkflowEngine engine,
-                      ProcessDeployment deployment)
+    public MessageHandler(WorkflowEngine engine,
+                          ProcessDeployment deployment)
     {
         this.engine             = engine;
         this.deployment         = deployment;
-        this.msgTypeCorrelators = new HashMap();
+        this.msgTypeHandlers    = new HashMap();
     }
 
     // ----------------------------------------------------------------------
@@ -138,13 +123,25 @@ class Correlator
     {
         MessageType messageType = messageWaiter.getMessageType();
 
-        MessageTypeCorrelator msgTypeCorrelator = getOrCreateMessageTypeCorrelator( messageType );
+        MessageTypeHandler msgTypeHandler = getOrCreateMessageTypeHandler( messageType );
 
-        msgTypeCorrelator.addMessageWaiter( transitionId,
+        msgTypeHandler.addMessageWaiter( transitionId,
                                             messageWaiter );
     }
 
-    /** Retrieve or create a <code>MessageTypeCorrelator</code> for
+    void setMessageInitiator(Transition transition,
+                             MessageWaiter waiter)
+        throws IncompatibleMessageSelectorException
+    {
+        MessageType messageType = waiter.getMessageType();
+
+        MessageTypeHandler msgTypeHandler = getOrCreateMessageTypeHandler( messageType );
+
+        msgTypeHandler.setMessageInitiator( transition,
+                                            waiter );
+    }
+
+    /** Retrieve or create a <code>MessageTypeHandler</code> for
      *  a <code>MessageType</code>.
      *
      *  @param messageType The message type.
@@ -154,33 +151,34 @@ class Correlator
      *  @throws IncompatibleMessageSelectorException If the message-type
      *          uses an incompatible message-selector.
      */
-    MessageTypeCorrelator getOrCreateMessageTypeCorrelator(MessageType messageType)
+    MessageTypeHandler getOrCreateMessageTypeHandler(MessageType messageType)
         throws IncompatibleMessageSelectorException
     {
-        MessageTypeCorrelator correlator = getMessageTypeCorrelator( messageType );
+        MessageTypeHandler correlator = getMessageTypeHandler( messageType );
 
         if ( correlator == null )
         {
-            correlator = new MessageTypeCorrelator( getEngine(),
-                                                    messageType );
+            correlator = new MessageTypeHandler( this.deployment,
+                                                 getEngine(),
+                                                 messageType );
 
-            this.msgTypeCorrelators.put( messageType.getId(),
+            this.msgTypeHandlers.put( messageType.getId(),
                                          correlator );
         }
 
         return correlator;
     }
 
-    /** Retrieve an existing <code>MessageTypeCorrelator</code> for
+    /** Retrieve an existing <code>MessageTypeHandler</code> for
      *  a <code>MessageType</code>.
      *
      *  @param messageType The message type.
      *
      *  @return The message-type correlator or <code>null</code> if none.
      */
-    MessageTypeCorrelator getMessageTypeCorrelator(MessageType messageType)
+    MessageTypeHandler getMessageTypeHandler(MessageType messageType)
     {
-        return (MessageTypeCorrelator) this.msgTypeCorrelators.get( messageType.getId() );
+        return (MessageTypeHandler) this.msgTypeHandlers.get( messageType.getId() );
     }
 
     /** Evaluate a <code>WorkflowProcessCase</code>.
@@ -191,13 +189,13 @@ class Correlator
     void evaluateCase(WorkflowProcessCase processCase,
                       String[] transitionIds)
     {
-        Iterator msgTypeCorrelatorIter = this.msgTypeCorrelators.values().iterator();
+        Iterator msgTypeHandlerIter = this.msgTypeHandlers.values().iterator();
 
-        MessageTypeCorrelator eachMsgTypeCorrelator = null;
+        MessageTypeHandler eachMsgTypeCorrelator = null;
 
-        while ( msgTypeCorrelatorIter.hasNext() )
+        while ( msgTypeHandlerIter.hasNext() )
         {
-            eachMsgTypeCorrelator = (MessageTypeCorrelator) msgTypeCorrelatorIter.next();
+            eachMsgTypeCorrelator = (MessageTypeHandler) msgTypeHandlerIter.next();
 
             eachMsgTypeCorrelator.evaluateCase( processCase,
                                                 transitionIds );
@@ -215,11 +213,11 @@ class Correlator
     boolean isCorrelated(String processCaseId,
                          Transition transition)
     {
-        MessageWaiter msgWaiter = transition.getMessageWaiter();
+        MessageWaiter msgWaiter = (MessageWaiter) transition.getWaiter();
 
-        MessageTypeCorrelator msgTypeCorrelator = getMessageTypeCorrelator( msgWaiter.getMessageType() );
+        MessageTypeHandler msgTypeHandler = getMessageTypeHandler( msgWaiter.getMessageType() );
 
-        return msgTypeCorrelator.isCorrelated( processCaseId,
+        return msgTypeHandler.isCorrelated( processCaseId,
                                                transition.getId() );
     }
 
@@ -236,12 +234,12 @@ class Correlator
                           Transition transition)
         throws NoSuchCorrelationException
     {
-        MessageWaiter msgWaiter = transition.getMessageWaiter();
+        MessageWaiter msgWaiter = (MessageWaiter) transition.getWaiter();
 
-        MessageTypeCorrelator msgTypeCorrelator = getMessageTypeCorrelator( msgWaiter.getMessageType() );
+        MessageTypeHandler msgTypeHandler = getMessageTypeHandler( msgWaiter.getMessageType() );
 
-        return msgTypeCorrelator.consumeMessage( processCaseId,
-                                                 transition.getId() );
+        return msgTypeHandler.consumeMessage( processCaseId,
+                                              transition.getId() );
     }
 }
 

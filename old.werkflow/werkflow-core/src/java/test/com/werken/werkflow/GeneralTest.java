@@ -41,65 +41,24 @@ public class GeneralTest
             admin.deployProcess( defs[i] );
         }
 
-        SimpleAttributes attrs = new SimpleAttributes();
-
-        attrs.setAttribute( "bob",
-                            "mcwhirter" );
-
-        WfmsRuntime runtime = wfms.getRuntime();
-
-        ProcessCase processCase = runtime.newProcessCase( "general",
-                                                          attrs );
-
-        System.err.println( "sleep #1" );
-
-        Thread.sleep( 1000 );
-
-        System.err.println( "sending msg 'mcwhirter'" );
-
-        messagingManager.acceptMessage( new SimpleMessage( "normal",
-                                                           "mcwhirter" ) );
-
-        System.err.println( "sleep #2" );
-
-        Thread.sleep( 1000 );
-
-        System.err.println( "sending msg 'mcstrachan'" );
-
-        messagingManager.acceptMessage( new SimpleMessage( "normal",
-                                                           "mcstrachan" ) );
-
-
-        System.err.println( "sleep #3" );
-
-        Thread.sleep( 1000 );
-
-        SimpleAttributes attrsToo = new SimpleAttributes();
-
-        attrsToo.setAttribute( "bob",
-                               "cheese" );
-
-        ProcessCase caseToo = runtime.newProcessCase( "general",
-                                                      attrsToo ); 
-
-        System.err.println( "sleep #4" );
-
-        Thread.sleep( 1000 );
-        
-        System.err.println( "sending msg 'mcstrachan'" );
-
-        messagingManager.acceptMessage( new SimpleMessage( "normal",
-                                                           "mcstrachan" ) );
-
-        System.err.println( "sleep #5" );
-
-        Thread.sleep( 1000 );
-
         messagingManager.acceptMessage( new SimpleMessage( "init",
                                                            "larry" ) );
 
         messagingManager.acceptMessage( new SimpleMessage( "normal",
                                                            "mcstrachan" ) );
+
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mr mcstrachan" ) );
+
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "larry" ) );
+
+        messagingManager.acceptMessage( new SimpleMessage( "init",
+                                                           "mcstrachan" ) );
+
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mr larry" ) );
+
         Thread.sleep( 1000 );
     }
 }

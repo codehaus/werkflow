@@ -46,7 +46,7 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.AndInputRule;
@@ -128,8 +128,7 @@ public class TransitionTag
     /** Task, possibly null. */
     private Task task;
 
-    /** Message-waiter corresponding to message for firing, possibly null. */
-    private MessageWaiter messageWaiter;
+    private Waiter waiter;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -234,22 +233,22 @@ public class TransitionTag
         return this.task;
     }
 
-    /** Set the <code>MessageWaiter</code>.
+    /** Set the <code>Waiter</code>.
      *
-     *  @param messageWaiter The message-waiter.
+     *  @param waiter The waiter.
      */
-    public void setMessageWaiter(MessageWaiter messageWaiter)
+    public void setWaiter(Waiter waiter)
     {
-        this.messageWaiter = messageWaiter;
+        this.waiter = waiter;
     }
 
-    /** Retrieve the <code>MessageWaiter</code>.
+    /** Retrieve the <code>Waiter</code>.
      *
-     *  @return The message-waiter.
+     *  @return The waiter.
      */
-    public MessageWaiter getMessageWaiter()
+    public Waiter getWaiter()
     {
-        return this.messageWaiter;
+        return this.waiter;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -310,9 +309,9 @@ public class TransitionTag
             transition.setTask( getTask() );
         }
 
-        if ( getMessageWaiter() != null )
+        if ( getWaiter() != null )
         {
-            transition.setMessageWaiter( getMessageWaiter() );
+            transition.setWaiter( getWaiter() );
         }
 
         setGuard( null );

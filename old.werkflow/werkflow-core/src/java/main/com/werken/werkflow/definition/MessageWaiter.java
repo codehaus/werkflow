@@ -64,6 +64,7 @@ package com.werken.werkflow.definition;
  *  @version $Id$
  */
 public class MessageWaiter
+    implements Waiter
 {
     // ----------------------------------------------------------------------
     //     Instance members

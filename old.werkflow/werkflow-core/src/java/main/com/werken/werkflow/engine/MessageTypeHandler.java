@@ -48,6 +48,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.Registration;
@@ -58,17 +59,15 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
-/** Correlator for messages of a paritcular <code>MessageType</code>.
+/** Handler for messages of a paritcular <code>MessageType</code>.
  *
- *  @see Correlator
- *  @see MessageWaiterCorrelator
  *  @see MessageType
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-class MessageTypeCorrelator
+class MessageTypeHandler
     implements MessageSink
 {
     // ----------------------------------------------------------------------
@@ -78,11 +77,15 @@ class MessageTypeCorrelator
     /** Workflow engine. */
     private WorkflowEngine engine;
 
+    private ProcessDeployment deployment;
+
     /** Message type. */
     private MessageType messageType;
 
     /** Message-waitier correlators, indexed by transition id. */
     private Map msgWaiterCorrelators;
+
+    private MessageInitiator messageInitiator;
 
     /** Message-source registration. */
     private Registration registration;
@@ -100,10 +103,12 @@ class MessageTypeCorrelator
      *          uses a message-selector that is incompatible with the
      *          messaging-manager.
      */
-    public MessageTypeCorrelator(WorkflowEngine engine,
-                                 MessageType messageType)
+    public MessageTypeHandler(ProcessDeployment deployment,
+                              WorkflowEngine engine,
+                              MessageType messageType)
         throws IncompatibleMessageSelectorException
     {
+        this.deployment           = deployment;
         this.engine               = engine;
         this.messageType          = messageType;
         this.msgWaiterCorrelators = new HashMap();
@@ -186,19 +191,63 @@ class MessageTypeCorrelator
                                        msgWaiterCorrelator );
     }
 
+    void setMessageInitiator(Transition transition,
+                             MessageWaiter waiter)
+    {
+        this.messageInitiator = new MessageInitiator( transition,
+                                                      waiter.getMessageType(),
+                                                      waiter.getBindingVar() );
+    }
+
     /** @see MessageSink
      */
     public void acceptMessage(Message message)
     {
-        Iterator correlatorIter = this.msgWaiterCorrelators.values().iterator();
-
-        MessageWaiterCorrelator eachCorrelator = null;
-
-        while ( correlatorIter.hasNext() )
+        if ( this.messageInitiator != null )
         {
-            eachCorrelator = (MessageWaiterCorrelator) correlatorIter.next();
+            Registration registration = getRegistration();
 
-            eachCorrelator.acceptMessage( message );
+            try
+            {
+                registration.consumeMessage( message.getId() );
+                
+                Map caseAttrs = new HashMap();
+                Map otherAttrs = new HashMap();
+                
+                caseAttrs.put( this.messageInitiator.getBindingVar(),
+                               message.getMessage() );
+                
+                otherAttrs.put( this.messageInitiator.getBindingVar(),
+                                message.getMessage() );
+                
+                getEngine().newMessageInitiatedProcessCase( this.deployment,
+                                                            this.messageInitiator.getTransition(),
+                                                            caseAttrs,
+                                                            otherAttrs );
+            }
+            catch (NoSuchMessageException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            Iterator                correlatorIter = msgWaiterCorrelators.values().iterator();
+            MessageWaiterCorrelator eachCorrelator = null;
+            
+            while ( correlatorIter.hasNext() )
+            {
+                eachCorrelator = (MessageWaiterCorrelator) correlatorIter.next();
+                
+                eachCorrelator.acceptMessage( message );
+
+                /*
+                if ( eachCorrelator.acceptMessage( message ) )
+                {
+                    break;
+                }
+                */
+            }
         }
     }
 

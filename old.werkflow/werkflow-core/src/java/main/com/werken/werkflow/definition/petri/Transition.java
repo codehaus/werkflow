@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
  
  */
 
-import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.task.Task;
 
@@ -126,15 +126,5 @@ public interface Transition
      */
     Task getTask();
     
-    /** Retrieve the <code>MessageWaiter</code>, if any.
-     *
-     *  <p>
-     *  A <code>MesssageWaiter</code> if present, describes a
-     *  message that must be received and correlated before
-     *  this transition is activable.
-     *  </p>
-     *
-     *  @return The message-waiter, or <code>null</code> if none.
-     */
-    MessageWaiter getMessageWaiter();
+    Waiter getWaiter();
 }

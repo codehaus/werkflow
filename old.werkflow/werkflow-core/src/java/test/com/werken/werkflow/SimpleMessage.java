@@ -21,4 +21,9 @@ public class SimpleMessage
     {
         return this.payload;
     }
+
+   public String toString()
+   {
+       return "[simple-message type=" + getType() + " payload=" + getPayload() + "]";
+   }
 }

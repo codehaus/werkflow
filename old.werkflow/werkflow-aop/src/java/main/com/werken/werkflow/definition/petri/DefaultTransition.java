@@ -47,7 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.definition.Expression;
-import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.task.Task;
 
 /** Default <code>Transition</code> implementation.
@@ -72,8 +72,8 @@ public class DefaultTransition
     /** Activation rule. */
     private ActivationRule activationRule;
 
-    /** Message-waiter, possibly null. */
-    private MessageWaiter messageWaiter;
+    /** Waiter, possibly null. */
+    private Waiter waiter;
 
     /** Task, possibly null. */
     private Task task;
@@ -163,22 +163,22 @@ public class DefaultTransition
         return this.task;
     }
 
-    /** Set the <code>MessageWaiter</code>.
+    /** Set the <code>Waiter</code>.
      *
-     *  @see #getMessageWaiter
+     *  @see #getWaiter
      *
-     *  @param messageWaiter The message-waiter.
+     *  @param waiter The waiter.
      */
-    public void setMessageWaiter(MessageWaiter messageWaiter)
+    public void setWaiter(Waiter waiter)
     {
-        this.messageWaiter = messageWaiter;
+        this.waiter = waiter;
     }
 
     /** @see Transition
      */
-    public MessageWaiter getMessageWaiter()
+    public Waiter getWaiter()
     {
-        return this.messageWaiter;
+        return this.waiter;
     }
 
     public String toString()
