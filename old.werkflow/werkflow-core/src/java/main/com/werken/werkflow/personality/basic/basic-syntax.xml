@@ -1,0 +1,87 @@
+<syntax:syntax uri="werkflow:basic"
+               xmlns:syntax="werkflow:syntax"
+               xmlns:core="werkflow:core-idioms">
+
+    <syntax:import url="../common/core-idioms.xml"/>
+
+    <syntax:tag id="process">
+        <fund:process id="${id}">
+            <syntax:invokeBody/>
+        </fund:process> 
+    </syntax:tag>
+
+    <syntax:tag id="empty">
+        <core:empty/>
+    </syntax:tag>
+
+    <syntax:tag id="if">
+        <core:if condition="${condition}">
+            <syntax:invokeBody/>
+        </core:if>
+    </syntax:tag>
+
+    <syntax:tag id="parallel">
+        <core:parallel>
+            <syntax:invokeBody/>
+        </core:if>
+    </syntax:tag>
+
+    <syntax:tag id="message-types">
+        <fund:message-types>
+            <syntax:invokeBody/>
+        </fund:message-types>
+    </syntax:tag>
+
+    <syntax:tag id="message-type">
+        <fund:message-types>
+            <syntax:invokeBody/>
+        </fund:message-types>
+    </syntax:tag>
+
+    <syntax:tag id="actions">
+        <fund:actions>
+            <syntax:invokeBody/>
+        </fund:actions>
+    </syntax:tag>
+
+    <syntax:tag id="action-definition">
+        <fund:action-definition id="${id}">
+            <syntax:invokeBody/>
+        </fund:action-definition>
+    </syntax:tag>
+
+    <syntax:tag id="action">
+        <fund:action id="${id}">
+            <syntax:invokeBody/>
+        </fund:action>
+    </syntax:tag>
+
+    <syntax:tag id="import">
+        <fund:import url="${url}"/>
+    </syntax:tag>
+
+    <syntax:tag id="attributes">
+        <fund:attributes>
+            <syntax:invokeBody/>
+        </fund:attributes>
+    </syntax:tag>
+
+    <syntax:tag id="attribute">
+        <fund:attribute>
+            <syntax:invokeBody/>
+        </fund:attribute>
+    </syntax:tag>
+
+    <syntax:tag id="call">
+        <fund:call>
+            <syntax:invokeBody/>
+        </fund:call>
+    </syntax:tag>
+
+    <syntax:tag id="in">
+        <fund:in id="${id}" value="${value}">
+            <syntax:invokeBody/>
+        </fund:in>
+    </syntax:tag>
+
+</syntax:syntax>
