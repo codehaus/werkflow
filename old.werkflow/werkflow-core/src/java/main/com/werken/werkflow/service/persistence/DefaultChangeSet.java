@@ -3,17 +3,17 @@ package com.werken.werkflow.service.persistence;
 import java.util.List;
 import java.util.ArrayList;
 
-public class DefaultTransaction
-    implements Transaction
+public class DefaultChangeSet
+    implements ChangeSet
 {
     private List modifiedCases;
     private List correlations;
     private List uncorrelateds;
     private List consumptions;
 
-    public DefaultTransaction()
+    public DefaultChangeSet()
     {
-        this.modifiedCases         = new ArrayList();
+        this.modifiedCases = new ArrayList();
         this.correlations  = new ArrayList();
         this.uncorrelateds = new ArrayList();
         this.consumptions  = new ArrayList();

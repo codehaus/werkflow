@@ -2,7 +2,7 @@ package com.werken.werkflow.service.persistence;
 
 public interface ProcessPersistenceManager
 {
-    void persist(Transaction transaction);
+    void persist(ChangeSet changeSet);
 
     CaseTransfer newCase(String caseId);
 
