@@ -39,6 +39,8 @@ as \verb|werkflow:java|, \verb|werkflow:jelly| and
 
 Each process definition begins with a common prolog that includes
 the \tag{process} tag and attribute definitions for the process.
+Also, any message types that the process expects to receive must
+be declared.
 
 \subsection{\tag{process}}
 
@@ -62,11 +64,48 @@ id			&	required	&			& Unique identifier for the process. \\
 initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
 \end{attrDefs}
 
-\subsection{\tag{attributes}}
+\subsection{\tag{message-types} and \tag{message-type}}
+
+Each process contains an enumeration of the \emph{message types}
+which it expects to receive.  The \tag{message-types} tag is a simple
+container tag for \tag{message-type} tags.
+
+\begin{codelisting}
+<process package="my.package"
+         id="my.process"
+         initiation="message">
+
+    \hired{<message-types>}
+         \dots
+    \hired{</message-types>}
+</process>
+\end{codelisting}
+
+Each message-type that is used by the process is defined using
+a \tag{message-type} tag.  An \verb|id| attribute is required
+to uniquely identify each type.  Each \tag{message-type} 
+contains a \emph{message selector} as its content.  The
+message selector must be one that is appropriate and compatible
+with the \emph{messaging manager} in use, such as
+\tag{java:selector}.
+
+\begin{codelisting}
+<message-types>
+    \hired{<message-type id="publish">}
+        \dots
+    \hired{</message-type>}
+</message-types>
+\end{codelisting}
+
+\begin{attrDefs}
+id		&	required	&			& Unique identifier for the message-type.
+\end{attrDefs}
+
+\subsection{\tag{attributes} and \tag{attribute}}
 
 Each process contains an enumeration of \emph{case attributes} which
 describe the data carried and used by each case.  The \tag{attributes}
-tag is simple a container tag for \tag{attributes} tags.
+tag is simple a container tag for \tag{attribute} tags.
 
 \begin{codelisting}
 <process package="my.package"
@@ -78,8 +117,6 @@ tag is simple a container tag for \tag{attributes} tags.
     \hired{</attributes>}
 </process>
 \end{codelisting}
-
-\subsection{\tag{attribute}}
 
 Each attribute that is maintained for each process case is defined
 using an \tag{attribute} tag.  It requires an \verb|id| attribute to
@@ -300,5 +337,4 @@ For actions beyond \tag{receive}, other semantic modules such
 as \verb|werkflow:jelly| and \verb|werkflow:java| can be used
 to perform the actual work.  Please see their documentation 
 elsewhere.
-
 
