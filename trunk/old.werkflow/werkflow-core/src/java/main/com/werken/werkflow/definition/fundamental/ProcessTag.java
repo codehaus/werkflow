@@ -1,6 +1,7 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
@@ -17,10 +18,12 @@ public class ProcessTag
     private String documentation;
     private DefaultNet net;
     private List messageTypes;
+    private List messageInitiators;
 
     public ProcessTag()
     {
-        this.messageTypes = new ArrayList();
+        this.messageTypes      = new ArrayList();
+        this.messageInitiators = new ArrayList();
     }
 
     public void setId(String id)
@@ -58,6 +61,16 @@ public class ProcessTag
         return (MessageType[]) this.messageTypes.toArray( MessageType.EMPTY_ARRAY );
     }
 
+    public void addMessageInitiator(MessageInitiator initiator)
+    {
+        this.messageInitiators.add( initiator );
+    }
+
+    public MessageInitiator[] getMessageInitiators()
+    {
+        return (MessageInitiator[]) this.messageInitiators.toArray( MessageInitiator.EMPTY_ARRAY );
+    }
+
     public void doTag(XMLOutput output)
         throws Exception
     {
@@ -72,7 +85,8 @@ public class ProcessTag
 
         ProcessDefinition def = new ProcessDefinition( getId(),
                                                        this.net,
-                                                       getMessageTypes() );
+                                                       getMessageTypes(),
+                                                       getMessageInitiators() );
 
         def.setDocumentation( getDocumentation() );
 
