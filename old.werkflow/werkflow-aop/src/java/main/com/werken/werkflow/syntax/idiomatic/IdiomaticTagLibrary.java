@@ -9,6 +9,27 @@ public class IdiomaticTagLibrary
 
     public IdiomaticTagLibrary()
     {
+        registerTag( "package",
+                     com.werken.werkflow.syntax.fundamental.PackageTag.class );
+
+        registerTag( "action-definition",
+                     com.werken.werkflow.syntax.fundamental.ActionDefinitionTag.class );
+
+        registerTag( "message-types",
+                     com.werken.werkflow.syntax.fundamental.MessageTypesTag.class );
+
+        registerTag( "message-type",
+                     com.werken.werkflow.syntax.fundamental.MessageTypeTag.class );
+
+        registerTag( "import",
+                     com.werken.werkflow.syntax.fundamental.ImportTag.class );
+
+        registerTag( "documentation",
+                     com.werken.werkflow.syntax.fundamental.DocumentationTag.class );
+
+        registerTag( "action",
+                     com.werken.werkflow.syntax.fundamental.ActionTag.class );
+
         registerTag( "process",
                      ProcessTag.class );
 
@@ -29,6 +50,9 @@ public class IdiomaticTagLibrary
 
         registerTag( "case",
                      CaseTag.class );
+
+        registerTag( "otherwise",
+                     OtherwiseTag.class );
 
         registerTag( "pick",
                      PickTag.class );

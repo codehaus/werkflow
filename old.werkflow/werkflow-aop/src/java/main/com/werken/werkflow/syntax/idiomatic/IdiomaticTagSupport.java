@@ -3,15 +3,17 @@ package com.werken.werkflow.syntax.idiomatic;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.UnsupportedIdiomException;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.syntax.fundamental.FundamentalTagSupport;
 
 import org.apache.commons.jelly.JellyTagException;
 
+import java.util.Stack;
 
 public abstract class IdiomaticTagSupport
-    extends MiscTagSupport
-    implements SegmentReceptor
+    extends FundamentalTagSupport
 {
+    public static final String SEGMENT_STACK_KEY = "werkflow.segment.stack";
+
     private Segment segment;
 
     public IdiomaticTagSupport()
@@ -19,52 +21,52 @@ public abstract class IdiomaticTagSupport
 
     }
 
-    public void receiveSegment(Segment segment)
-        throws JellyTagException
+    protected Stack getSegmentStack()
     {
-        try
-        {
-            peekSegment().addSegment( segment );
-        }
-        catch (UnsupportedIdiomException e)
-        {
-            throw new JellyTagException( e );
-        }
+        return (Stack) getContext().getVariable( SEGMENT_STACK_KEY );
+    }
+
+    protected void setSegmentStack(Stack stack)
+    {
+        getContext().setVariable( SEGMENT_STACK_KEY,
+                                  stack );
     }
 
     protected Segment peekSegment()
     {
-        return this.segment;
+        return (Segment) getSegmentStack().peek();
     }
 
     protected void pushSegment(Segment segment)
     {
-        this.segment = segment;
+        Stack stack = getSegmentStack();
+
+        if ( stack == null )
+        {
+            stack = new Stack();
+            setSegmentStack( stack );
+        }
+        
+        stack.push( segment );
     }
 
     protected void popSegment()
         throws JellyTagException
     {
-        if ( this instanceof DefinitionRoot )
+        Stack stack = getSegmentStack();
+
+        Segment segment = (Segment) stack.pop();
+
+        if ( ! stack.isEmpty() )
         {
-            this.segment = null;
-            return;
+            try
+            {
+                peekSegment().addSegment( segment );
+            }
+            catch (UnsupportedIdiomException e)
+            {
+                throw new JellyTagException( e );
+            }
         }
-
-        SegmentReceptor tag = (SegmentReceptor) findAncestorWithClass( SegmentReceptor.class );
-
-        if ( tag == null )
-        {
-            throw new JellyTagException( "invalid context");
-        }
-
-        tag.receiveSegment( this.segment );
-
-        this.segment = null;
-    }
-
-    protected MessageType getMessageType(String id)
-    {
-        return null;
     }
 }

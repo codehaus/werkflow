@@ -13,9 +13,10 @@ import org.apache.commons.jelly.JellyTagException;
 
 public class ProcessTag
     extends ComplexActionTagSupport
-    implements SegmentReceptor, DefinitionRoot
+    implements DefinitionRoot
 {
     private String id;
+    private String initiation;
 
     private Segment segment;
 
@@ -34,9 +35,40 @@ public class ProcessTag
         return this.id;
     }
 
+    public void setInitiation(String initiation)
+    {
+        this.initiation = initiation;
+    }
+
+    public String getInitiation()
+    {
+        return this.initiation;
+    }
+
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        requireStringAttribute( "id",
+                                getId() );
+
+        requireStringAttribute( "initiation",
+                                getInitiation() );
+
+        ProcessDefinition.InitiationType initiationType = null;
+
+        if ( getInitiation().equals( "message" ) )
+        {
+            initiationType = ProcessDefinition.InitiationType.MESSAGE;
+        }
+        else if ( getInitiation().equals( "call" ) )
+        {
+            initiationType = ProcessDefinition.InitiationType.CALL;
+        }
+        else
+        {
+            throw new JellyTagException( "initiation attribute must be 'message' or 'other'" );
+        } 
+                                
         this.segment = new SequenceSegment();
 
         pushSegment( this.segment );
@@ -53,7 +85,9 @@ public class ProcessTag
 
             ProcessDefinition processDef = new ProcessDefinition( getId(),
                                                                   net,
-                                                                  null );
+                                                                  initiationType );
+
+            addProcessDefinition( processDef );
         }
         catch (PetriException e)
         {

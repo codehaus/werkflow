@@ -3,6 +3,7 @@ package com.werken.werkflow.syntax.idiomatic;
 import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.MessageConditionalSegment;
 import com.werken.werkflow.definition.idiomatic.SequenceSegment;
@@ -13,7 +14,7 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
 public class OnMessageTag
-    extends IdiomaticTagSupport
+    extends ComplexActionTagSupport
 {
     private String type;
     private String var;
@@ -54,29 +55,6 @@ public class OnMessageTag
         return this.messageCorrelator;
     }
 
-    public void receiveSegment(Segment segment)
-        throws JellyTagException
-    {
-        PickTag tag = (PickTag) findAncestorWithClass( PickTag.class );
-
-        if ( tag == null )
-        {
-            throw new JellyTagException( "not within pick" );
-        }
-
-        MessageType msgType = getMessageType( getType() );
-
-        MessageWaiter msgWaiter = new MessageWaiter( msgType,
-                                                     getVar() );
-
-        msgWaiter.setMessageCorrelator( getMessageCorrelator() );
-        
-        MessageConditionalSegment msgSegment = new MessageConditionalSegment( msgWaiter,
-                                                                              segment );
-        
-        tag.receiveSegment( msgSegment );
-    }
-
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
@@ -85,6 +63,27 @@ public class OnMessageTag
 
         requireStringAttribute( "type",
                                 getType() );
-        invokeBody( output );
+
+        try
+        {
+            MessageType msgType = getCurrentScope().getMessageType( getType() );
+            
+            MessageWaiter msgWaiter = new MessageWaiter( msgType,
+                                                         getVar() );
+            
+            msgWaiter.setMessageCorrelator( getMessageCorrelator() );
+            
+            MessageConditionalSegment msgSegment = new MessageConditionalSegment( msgWaiter );
+            
+            pushSegment( msgSegment );
+            
+            invokeBody( output );
+            
+            popSegment();
+        }
+        catch (NoSuchMessageTypeException e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.definition.petri.AndInputRule;
 import com.werken.werkflow.definition.petri.PetriException;
 
 public class NetBuilder
@@ -56,7 +57,11 @@ public class NetBuilder
     public DefaultTransition newTransition()
         throws PetriException
     {
-        return this.net.addTransition( getNextTransitionId() );
+        DefaultTransition transition = this.net.addTransition( getNextTransitionId() );
+
+        transition.setActivationRule( AndInputRule.getInstance() );
+
+        return transition;
     }
 
     public DefaultPlace newPlace()

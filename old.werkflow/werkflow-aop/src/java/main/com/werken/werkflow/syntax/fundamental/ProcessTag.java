@@ -227,27 +227,7 @@ public class ProcessTag
 
         processDef.setDocumentation( getDocumentation() );
 
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
-
-        if ( pkgTag != null )
-        {
-            pkgTag.addProcessDefinition( processDef );
-        }
-        else
-        {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
-
-            pkg.addProcessDefinition( processDef );
-
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
-        }
-
-        /*
-        List defList = (List) getContext().getVariable( FundamentalDefinitionLoader.FUNDAMENTAL_DEFINITION_LIST );
-
-        defList.add( def );
-        */
+        addProcessDefinition( processDef );
 
         this.net = null;
     }
