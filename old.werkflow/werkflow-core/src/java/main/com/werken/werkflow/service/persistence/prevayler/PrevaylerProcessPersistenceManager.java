@@ -2,6 +2,8 @@ package com.werken.werkflow.service.persistence.prevayler;
 
 import java.io.Serializable;
 
+import org.prevayler.Prevayler;
+
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.ChangeSet;
@@ -9,9 +11,9 @@ import com.werken.werkflow.service.persistence.CorrelationTransfer;
 import com.werken.werkflow.service.persistence.PersistenceException;
 import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 
-class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager, Serializable
+class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
 {
-    public PrevaylerProcessPersistenceManager(ProcessState state)
+    public PrevaylerProcessPersistenceManager(Prevayler prevayler, ProcessState state)
     {
         if (null == state)
         {
@@ -21,8 +23,7 @@ class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager, S
         _key = state.key();
         
         // new process managers are always active
-        _delegate = new ActiveDelegate(state);
-       
+        _delegate = new ActiveDelegate(prevayler, state); 
     }
 
     private MethodDelegate _delegate;
