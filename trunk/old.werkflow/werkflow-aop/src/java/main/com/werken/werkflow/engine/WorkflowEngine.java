@@ -12,6 +12,7 @@ import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.admin.ProcessException;
 import com.werken.werkflow.admin.DuplicateProcessException;
 import com.werken.werkflow.admin.ProcessVerificationException;
+import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Transition;
@@ -20,6 +21,8 @@ import com.werken.werkflow.resource.DuplicateResourceClassException;
 import com.werken.werkflow.resource.NoSuchResourceClassException;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.caserepo.CaseState;
+import com.werken.werkflow.service.messaging.Registration;
+import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.task.Task;
 import com.werken.werkflow.work.WorkItem;
 
@@ -152,8 +155,30 @@ public class WorkflowEngine
     {
         ProcessDeployment deployment = new ProcessDeployment( processDef );
 
-        this.deployments.put( processDef.getId(),
-                              deployment );
+        MessageType[] messageTypes = processDef.getMessageTypes();
+
+        try
+        {
+            for ( int i = 0 ; i < messageTypes.length ; ++i )
+            {
+                Registration reg = getServices().getMessagingManager().register( deployment,
+                                                                                 messageTypes[i] );
+                
+                deployment.addMessagingRegistration( reg );
+            }
+
+            this.deployments.put( processDef.getId(),
+                                  deployment );
+        }
+        catch (IncompatibleMessageSelectorException e)
+        {
+            Registration[] registrations = deployment.getMessagingRegistrations();
+
+            for ( int i = 0 ; i < registrations.length ; ++i )
+            {
+                registrations[i].unregister();
+            }
+        }
     }
 
     ProcessDeployment getProcessDeployment(String processId)

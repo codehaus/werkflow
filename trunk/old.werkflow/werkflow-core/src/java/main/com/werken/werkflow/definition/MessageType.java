@@ -4,6 +4,8 @@ import com.werken.werkflow.service.messaging.MessageSelector;
 
 public class MessageType
 {
+    public static final MessageType[] EMPTY_ARRAY = new MessageType[0];
+
     private String id;
     private String documentation;
     private MessageSelector selector;

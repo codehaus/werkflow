@@ -13,7 +13,8 @@ public class ProcessDefinitionTest
         Net net = new DefaultNet();
 
         ProcessDefinition def = new ProcessDefinition( "the process",
-                                                       net );
+                                                       net,
+                                                       MessageType.EMPTY_ARRAY );
 
         assertEquals( "the process",
                       def.getId() );
@@ -22,6 +23,8 @@ public class ProcessDefinitionTest
                     def.getNet() );
 
         assertNull( def.getDocumentation() );
+
+        assertNotNull( def.getMessageTypes() );
     }
 
     public void testDocumentation()
@@ -29,7 +32,8 @@ public class ProcessDefinitionTest
         Net net = new DefaultNet();
 
         ProcessDefinition def = new ProcessDefinition( "the process",
-                                                       net );
+                                                       net,
+                                                       MessageType.EMPTY_ARRAY );
 
         assertNull( def.getDocumentation() );
 

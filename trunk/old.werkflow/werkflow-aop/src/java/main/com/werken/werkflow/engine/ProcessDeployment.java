@@ -1,6 +1,7 @@
 package com.werken.werkflow.engine;
 
 import com.werken.werkflow.ProcessInfo;
+import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Arc;
@@ -8,24 +9,30 @@ import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.ActivationRule;
 import com.werken.werkflow.engine.rules.EnablingRule;
+import com.werken.werkflow.service.messaging.Registration;
+import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.task.Task;
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ProcessDeployment
-    implements ProcessInfo
+    implements ProcessInfo, MessageSink
 {
     private ProcessDefinition processDef;
 
     private Map rules;
+    private List registrations;
 
     public ProcessDeployment(ProcessDefinition processDef)
     {
         this.processDef = processDef;
+        this.registrations = new ArrayList();
 
         initializeRules();
     }
@@ -48,6 +55,22 @@ public class ProcessDeployment
     {
         this.rules.put( transition,
                         new EnablingRule( transition ) );
+    }
+
+    void addMessagingRegistration(Registration registration)
+    {
+        this.registrations.add( registration );
+    }
+
+    Registration[] getMessagingRegistrations()
+    {
+        return (Registration[]) this.registrations.toArray( Registration.EMPTY_ARRAY );
+    }
+
+    public void acceptMessage(MessageType messageType,
+                              Object message)
+    {
+        // FIXME
     }
 
     public ProcessDefinition getProcessDefinition()

@@ -12,12 +12,15 @@ public class ProcessDefinition
     private String id;
     private String documentation;
     private Net net;
+    private MessageType[] messageTypes;
 
     public ProcessDefinition(String id,
-                             Net net)
+                             Net net,
+                             MessageType[] messageTypes)
     {
         this.id  = id;
         this.net = net;
+        this.messageTypes = messageTypes;
     }
 
     public String getId()
@@ -38,6 +41,11 @@ public class ProcessDefinition
     public Net getNet()
     {
         return this.net;
+    }
+
+    public MessageType[] getMessageTypes()
+    {
+        return this.messageTypes;
     }
 }
 
