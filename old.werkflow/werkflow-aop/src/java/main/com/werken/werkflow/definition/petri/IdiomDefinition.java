@@ -667,10 +667,19 @@ public class IdiomDefinition
 
         MessageType msgType = idiom.getScope().getMessageType( msgTypeStr );
 
-        String corrStr = waiterDef.getCorrelator();
+        String varName = waiterDef.getVar();
+
+        if ( varName == null
+             ||
+             varName.equals( "" ) )
+        {
+            varName = "message";
+        }
 
         MessageWaiter waiter = new MessageWaiter( msgType,
-                                                  waiterDef.getVar() );
+                                                  varName );
+
+        String corrStr = waiterDef.getCorrelator();
 
         if ( corrStr != null )
         {

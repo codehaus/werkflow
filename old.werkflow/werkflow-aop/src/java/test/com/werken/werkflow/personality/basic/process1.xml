@@ -22,7 +22,7 @@
 <sequence>
     <jelly:log message="before receive"/>
     <receive type="str.msg">
-        <jelly:log message="received ${message} foo"/>
+        <jelly:log message="received ######### ${message} ########"/>
     </receive>
     <jelly:log message="after receive"/>
 </sequence>
