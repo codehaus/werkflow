@@ -17,7 +17,7 @@
     </syntax:tag>
 
     <syntax:tag name="process">
-        <syntax:expr-factory type="org.codehaus.werkflow.semantics.java.JavaExpressionFactory"/>
+        <syntax:expr-factory type="org.codehaus.werkflow.semantics.ognl.OgnlExpressionFactory"/>
        <j:if test="${empty(package)}">
          <j:set var="package" value=""/>
        </j:if>
@@ -27,7 +27,7 @@
             <syntax:scope>
                 <syntax:invokeBody/>
             </syntax:scope>
-        </fund:process> 
+        </fund:process>
     </syntax:tag>
 
     <syntax:tag name="call">
@@ -78,7 +78,7 @@
                 <syntax:invokeBody/>
             </syntax:correlator-receptor>
         </syntax:action-receptor>
-        <core:receive type="${type}" 
+        <core:receive type="${type}"
                       correlator="${correlator}"
                       action="${action}"
                       bind="${bind}"/>

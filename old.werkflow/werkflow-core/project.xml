@@ -247,11 +247,10 @@
       <includes>
         <include>**/*Test.java</include>
       </includes>
-<!--
+      
       <excludes>
-        <exclude>**/*.java</exclude>
+        <exclude>**/WfmsRuntimeTest.java</exclude>
       </excludes>
--->
 
     </unitTest>
 
