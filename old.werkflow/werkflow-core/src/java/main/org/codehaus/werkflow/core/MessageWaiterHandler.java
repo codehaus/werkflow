@@ -136,7 +136,7 @@ class MessageWaiterHandler
                                               eachMessage );
 
             if ( correlation != null )
-               {
+            {
                 ChangeSetSource changeSetSource = processCase.getChangeSetSource();
 
                 CoreChangeSet changeSet = changeSetSource.newChangeSet();
@@ -156,8 +156,8 @@ class MessageWaiterHandler
             Iterator      changeSetIter = changeSets.iterator();
             CoreChangeSet eachChangeSet = null;
 
-            while (changeSetIter.hasNext())
-               {
+            while ( changeSetIter.hasNext() )
+            {
                 eachChangeSet = (CoreChangeSet) changeSetIter.next();
 
                 eachChangeSet.commit();
@@ -209,7 +209,7 @@ class MessageWaiterHandler
             Iterator      changeSetIter = changeSets.iterator();
             CoreChangeSet eachChangeSet = null;
 
-            while (changeSetIter.hasNext())
+            while ( changeSetIter.hasNext() )
             {
                 eachChangeSet = (CoreChangeSet) changeSetIter.next();
 
