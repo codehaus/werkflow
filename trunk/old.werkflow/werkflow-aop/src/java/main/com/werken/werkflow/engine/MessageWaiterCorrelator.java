@@ -492,6 +492,8 @@ public class MessageWaiterCorrelator
         Iterator    correlationIter = this.correlations.iterator();
         Correlation eachCorrelation = null;
 
+        Object returnMsg = null;
+
         while ( correlationIter.hasNext() )
         {
             eachCorrelation = (Correlation) correlationIter.next();
@@ -501,10 +503,12 @@ public class MessageWaiterCorrelator
                 try
                 {
                     Message message = getMessage( eachCorrelation.getMessageId() );
-
+                    
                     removeMessage( message.getId() );
+                    
+                    returnMsg = message.getMessage();
 
-                    return message.getMessage();
+                    break;
                 }
                 catch (NoSuchMessageException e)
                 {
@@ -514,7 +518,14 @@ public class MessageWaiterCorrelator
             }
         }
 
-        throw new NoSuchCorrelationException( processCaseId,
-                                              getTransitionId() );
+        if ( returnMsg == null )
+        {
+            throw new NoSuchCorrelationException( processCaseId,
+                                                  getTransitionId() );
+        }
+
+        removeProcessCase( processCaseId );
+
+        return returnMsg;
     }
 }
