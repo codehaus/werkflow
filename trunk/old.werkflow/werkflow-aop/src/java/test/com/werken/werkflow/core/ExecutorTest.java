@@ -95,11 +95,13 @@ public class ExecutorTest
                 "token.2",
             }) ;
 
-        CoreActivity activity = new CoreActivity( workItem,
-                                                  null );
+        CoreActivity[] activities = new CoreActivity[] {
+            new CoreActivity( workItem,
+                              null )
+        };
 
         Executor executor = new Executor();
 
-        executor.execute( activity );
+        executor.enqueueActivities( activities );
     }
 }
