@@ -49,10 +49,10 @@
                 <choice>
                     <sequence>
                         <receive type="publish.cmd" bind="cmd">
-    <!--
                             <python:correlator test="cmd.title == title"/>
-    -->
+    <!--
                             <ognl:correlator test="#cmd.title == #title"/>
+    -->
                             <jelly:action>
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>
@@ -66,10 +66,10 @@
                 <choice>
                     <sequence>
                         <receive type="reject.cmd" bind="cmd">
-    <!--
                             <python:correlator test="cmd.title == title"/>
-    -->
+    <!--
                             <ognl:correlator test="#cmd.title == #title"/>
+    -->
                             <jelly:action>
                                 <j:set var="cmdTitle" value="${cmd.title}"/>
                             </jelly:action>

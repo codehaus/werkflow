@@ -286,6 +286,13 @@ class ProcessDeployment
         return this.persistenceManager;
     }
 
+    public void addCase(CoreProcessCase processCase,
+                        String transitionId)
+    {
+        getMessageHandler().addCase( processCase,
+                                     transitionId );
+    }
+
     public void acceptMessage(Message message)
     {
         System.err.println( "acceptMessage; " + message.getMessage() );
