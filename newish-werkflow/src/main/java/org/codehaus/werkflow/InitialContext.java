@@ -15,6 +15,11 @@ public class InitialContext
         this.context = new HashMap();
     }
 
+    public final String getId()
+    {
+        return "";
+    }
+
     public InitialContext(Properties props)
     {
         this();
