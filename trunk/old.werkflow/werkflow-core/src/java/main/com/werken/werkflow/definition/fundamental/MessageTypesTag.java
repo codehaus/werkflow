@@ -10,7 +10,6 @@ public class MessageTypesTag
 {
     public MessageTypesTag()
     {
-
     }
 
     public void doTag(XMLOutput output)
