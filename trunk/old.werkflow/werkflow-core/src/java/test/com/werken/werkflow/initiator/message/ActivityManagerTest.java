@@ -60,6 +60,9 @@ public class ActivityManagerTest
         Entity entity = new Entity();
         messagingManager.acceptMessage( entity );
 
-        // assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
+        // We need to sleep to let the message processing occur.
+        Thread.sleep( 5000 );
+
+        assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
     }
 }
