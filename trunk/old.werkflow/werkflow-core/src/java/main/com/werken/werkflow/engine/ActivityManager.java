@@ -505,7 +505,6 @@ class ActivityManager
                         Task task,
                         Map otherAttrs)
     {
-
         if ( activity.isCall() )
         {
             CallAction action = (CallAction) task.getAction();
@@ -532,7 +531,7 @@ class ActivityManager
         else
         {
             Action action = task.getAction();
-
+            
             action.perform( activity,
                             activity.getCaseAttributes(),
                             otherAttrs );

@@ -8,6 +8,9 @@ import com.werken.werkflow.definition.petri.IdiomDefinition;
 import com.werken.werkflow.definition.petri.IdiomException;
 import com.werken.werkflow.definition.petri.NoSuchParameterException;
 import com.werken.werkflow.definition.petri.InvalidParameterTypeException;
+import com.werken.werkflow.syntax.fundamental.ActionReceptor;
+import com.werken.werkflow.action.Action;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.DynaTagSupport;
 import org.apache.commons.jelly.JellyContext;
@@ -18,6 +21,7 @@ import java.util.Stack;
 
 public class IdiomImplTag
     extends DynaTagSupport
+    implements ActionReceptor
 {
     public static final String ROOT_IDIOM_KEY = "werkflow.root.idiom";
 
@@ -40,8 +44,6 @@ public class IdiomImplTag
                              Object value)
         throws JellyTagException
     {
-        System.err.println( "id: " + id + " > " + value );
-
         try
         {
             Object finalValue = null;
@@ -84,12 +86,10 @@ public class IdiomImplTag
     public Class getAttributeType(String id)
         throws JellyTagException
     {
-        // System.err.println( "GET ATTR TYPE(" + id + ")" );
         try
         {
             if ( getIdiomDefinition().getParameter( id ).getType().equals( "expr" ) )
             {
-                System.err.println( id + " is an EXPR" );
                 return Expression.class;
             }
         }
@@ -98,7 +98,6 @@ public class IdiomImplTag
             // swallow
         }
 
-        System.err.println( id + " is an OBJ" );
         return Object.class;
     }
     */
@@ -117,10 +116,6 @@ public class IdiomImplTag
             context.setVariable( ROOT_IDIOM_KEY,
                                  this.idiom );
 
-            // System.err.println( "setting net: " + this.idiom + " on " + getContext() );
-            // System.err.println( "parent: " + getContext().getParent() );
-            // System.err.println( "gparent: " + getContext().getParent().getParent() );
-
             context.getParent().setVariable( Net.class.getName(),
                                              this.idiom );
         }
@@ -138,8 +133,15 @@ public class IdiomImplTag
             this.idiom.build();
             
             pushIdiom( this.idiom );
+
+            MiscTagSupport.pushObject( ActionReceptor.class,
+                                       this,
+                                       getContext() );
             
             invokeBody( output );
+
+            MiscTagSupport.popObject( ActionReceptor.class,
+                                      getContext() );
             
             popIdiom();
 
@@ -205,12 +207,27 @@ public class IdiomImplTag
             return null;
         }
 
-        System.err.println( "FACTORY GET: " + getContext() + " -- " + factoryName );
-
         ExpressionFactory factory = (ExpressionFactory) getContext().findVariable( factoryName );
 
-        System.err.println( "FACTORY itself: " + getContext() + " -- " + factory );
-
         return factory;
+    }
+
+    public void receiveAction(Action action)
+        throws JellyTagException
+    {
+        try
+        {
+            Idiom actionIdiom = this.idiom.addComponent( IdiomDefinition.ACTION );
+            
+            actionIdiom.setParameter( "action",
+                                      action );
+            
+            actionIdiom.build();
+            actionIdiom.complete();
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

@@ -51,7 +51,6 @@ public class ParameterTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        System.err.println( "PARAM TAG" );
         IdiomDefinition idiomDef = getCurrentIdiomDefinition();
 
         requireStringAttribute( "id",

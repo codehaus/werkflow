@@ -27,9 +27,6 @@ public class BasicPersonality
             {
                 URL syntaxUrl = BasicPersonality.class.getResource( SYNTAX_DEF );
 
-                System.err.println( "DEF: " + syntaxUrl );
-
-
                 CONTEXT = new JellyContext();
                 
                 Syntax[] syntaxes = loadSyntaxes( BasicPersonality.class.getResource( SYNTAX_DEF ),

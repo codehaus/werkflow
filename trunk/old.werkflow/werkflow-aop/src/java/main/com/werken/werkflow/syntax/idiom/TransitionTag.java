@@ -10,6 +10,7 @@ public class TransitionTag
     extends IdiomTagSupport
 {
     private String id;
+    private String action;
     private String documentation;
 
     public TransitionTag()
@@ -25,6 +26,16 @@ public class TransitionTag
     public String getId()
     {
         return this.id;
+    }
+
+    public void setAction(String action)
+    {
+        this.action = action;
+    }
+
+    public String getAction()
+    {
+        return this.action;
     }
 
     public void setDocumentation(String documentation)
@@ -49,6 +60,8 @@ public class TransitionTag
 
         TransitionDefinition transition = new TransitionDefinition( getId(),
                                                                     getDocumentation() );
+
+        transition.setAction( getAction() );
 
         idiomDef.addTransition( transition );
     }

@@ -125,8 +125,6 @@ public class TaskTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        System.err.println( "TASK: " );
-
         DefaultTransition transition = getCurrentTransition();
 
         DefaultTask task = new DefaultTask();

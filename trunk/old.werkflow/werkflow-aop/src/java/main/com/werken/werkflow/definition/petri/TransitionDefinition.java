@@ -7,11 +7,23 @@ public class TransitionDefinition
     private String id;
     private String documentation;
 
+    private String action;
+
     public TransitionDefinition(String id,
-                                String documentation)
+                                String documentation,
+                                String action)
     {
         this.id            = id;
         this.documentation = documentation;
+        this.action        = action;
+    }
+
+    public TransitionDefinition(String id,
+                                String documentation)
+    {
+        this( id,
+              documentation,
+              null );
     }
 
     public String getId()
@@ -22,6 +34,16 @@ public class TransitionDefinition
     public String getDocumentation()
     {
         return this.documentation;
+    }
+
+    public void setAction(String action)
+    {
+        this.action = action;
+    }
+
+    public String getAction()
+    {
+        return this.action;
     }
 
     public boolean equals(Object that)

@@ -115,6 +115,5 @@ public class NetTag
         invokeBody( output );
 
         setCurrentNet( null );
-        System.err.println( "setting net: " + net + " on " + getContext() );
     }
 }
