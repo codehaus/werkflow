@@ -1,9 +1,3 @@
-/*
- * Created on Mar 14, 2003
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
 package com.werken.werkflow.service.caserepo;
 
 import java.io.Serializable;
@@ -11,49 +5,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Iterator;
 
-/**
- * @author kevin
- *
- * To change this generated comment go to 
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-public abstract class AbstractCaseState implements CaseState, Serializable
+public abstract class AbstractCaseState
+    implements CaseState, Serializable
 {
 
-	public AbstractCaseState(String caseId,
-									String packageId,
-									String processId)
-	{
-		 this.caseId     = caseId;
-		 this.packageId  = packageId;
-		 this.processId  = processId;
-		 this.attributes = new HashMap(); 
-		 this.marks      = new HashSet();
-	}
-
-	public AbstractCaseState(CaseState state)
-	{
-		 this( state.getCaseId(),
-				 state.getPackageId(),
-				 state.getProcessId());
-
-		 String[] attrNames = state.getAttributeNames();
-        
-		 for ( int i = 0 ; i < attrNames.length ; ++i )
-		 {
-			  this.attributes.put( attrNames[i],
-										  state.getAttribute( attrNames[i] ) );
-		 }
-
-		 String[] marks = state.getMarks();
-
-		 for ( int i = 0 ; i < marks.length ; ++i )
-		 {
-			  this.marks.add( marks[i] );
-		 }
-	}
-	
 	/** Empty <code>String</code> array. */
 	protected static final String[] EMPTY_STRING_ARRAY = new String[0];
 
@@ -72,6 +29,43 @@ public abstract class AbstractCaseState implements CaseState, Serializable
 	/** Petri net marks. */
 	protected Set marks;
 
+	/** Message correlations. */
+	protected Set correlations;
+
+	public AbstractCaseState(String caseId,
+                             String packageId,
+                             String processId)
+	{
+		 this.caseId       = caseId;
+		 this.packageId    = packageId;
+		 this.processId    = processId;
+		 this.attributes   = new HashMap(); 
+		 this.marks        = new HashSet();
+         this.correlations = new HashSet();
+	}
+
+	public AbstractCaseState(CaseState state)
+	{
+		 this( state.getCaseId(),
+               state.getPackageId(),
+               state.getProcessId());
+         
+		 String[] attrNames = state.getAttributeNames();
+        
+		 for ( int i = 0 ; i < attrNames.length ; ++i )
+		 {
+             this.attributes.put( attrNames[i],
+                                  state.getAttribute( attrNames[i] ) );
+		 }
+
+		 String[] marks = state.getMarks();
+
+		 for ( int i = 0 ; i < marks.length ; ++i )
+		 {
+			  this.marks.add( marks[i] );
+		 }
+	}
+	
 	/** @see CaseState
 	     */
 	public String getCaseId()
@@ -154,4 +148,40 @@ public abstract class AbstractCaseState implements CaseState, Serializable
 	     return this.marks.contains( placeId );
 	 }
 
+    public void addCorrelation(String transitionId,
+                               String messageId)
+    {
+        this.correlations.add( new DefaultCorrelation( getCaseId(),
+                                                       transitionId,
+                                                       messageId ) );
+    }
+
+    public void removeCorrelation(String transitionId,
+                                  String messageId)
+    {
+        this.correlations.remove( new DefaultCorrelation( getCaseId(),
+                                                          transitionId,
+                                                          messageId ) );
+    }
+
+    public void removeCorrelations(String transitionId)
+    {
+        Iterator    corIter = this.correlations.iterator();
+        Correlation eachCor = null;
+
+        while ( corIter.hasNext() )
+        {
+            eachCor = (Correlation) corIter.next();
+
+            if ( eachCor.getTransitionId().equals( transitionId ) )
+            {
+                corIter.remove();
+            }
+        }
+    }
+
+    public Correlation[] getCorrelations()
+    {
+        return (Correlation[]) this.correlations.toArray( Correlation.EMPTY_ARRAY );
+    }
 }

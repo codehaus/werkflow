@@ -57,23 +57,31 @@ import com.werken.werkflow.service.caserepo.CaseState;
  * @author <a href="mailto:kevin@rocketred.com.au">Kevin O'Neill</a>
  * @version $Revision$ - $Date$
  */
-final class MutableCaseState extends AbstractCaseState
+final class MutableCaseState
+    extends AbstractCaseState
 {
 	
-	MutableCaseState(String caseId, String packageId, String processId, Attributes attributes, String[] marks)
+	MutableCaseState(String caseId,
+                     String packageId,
+                     String processId,
+                     Attributes attributes,
+                     String[] marks)
 	{
-		super(caseId, packageId, processId);
+		super(caseId,
+              packageId,
+              processId);
 
 		String[] attrNames = attributes.getAttributeNames();
 
 		for (int i = 0; i < attrNames.length; ++i)
 		{
-			setAttribute(attrNames[i], attributes.getAttribute(attrNames[i]));
+			setAttribute( attrNames[i],
+                          attributes.getAttribute( attrNames[i] ) );
 		}
 		
 		for (int i = 0; i < marks.length; i++)
 		{
-			addMark(marks[i]);
+			addMark( marks[i] );
 		}
 	}
 

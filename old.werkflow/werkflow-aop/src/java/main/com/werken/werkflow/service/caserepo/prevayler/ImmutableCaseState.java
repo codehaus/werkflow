@@ -50,6 +50,7 @@ import java.io.Serializable;
 
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.service.caserepo.CaseState;
+import com.werken.werkflow.service.caserepo.Correlation;
 
 /**
  * A <code>CaseState</code> that will throw an exception if you attempt to modify it.
@@ -63,17 +64,21 @@ import com.werken.werkflow.service.caserepo.CaseState;
  * @author <a href="mailto:kevin@rocketred.com.au">Kevin O'Neill</a>
  * @version $Revision$ - $Date$
  */
-class ImmutableCaseState implements CaseState, Serializable
+class ImmutableCaseState
+    implements CaseState, Serializable
 {
+	/** Deligate for storage */
+	private MutableCaseState state;
 
-	ImmutableCaseState(String caseId, String packageId, String processId, Attributes attributes, String[] marks)
+	ImmutableCaseState(String caseId,
+                       String packageId,
+                       String processId,
+                       Attributes attributes,
+                       String[] marks)
 	{
-		_state = new MutableCaseState(caseId, packageId, processId, attributes, marks);
+		this.state = new MutableCaseState(caseId, packageId, processId, attributes, marks);
 	}
 
-	/** Deligate for storage */
-	private MutableCaseState _state;
-	
 	public void addMark(String placeId)
 	{
 		throw new IllegalStateException("This the prevayler internal representation.");
@@ -91,52 +96,74 @@ class ImmutableCaseState implements CaseState, Serializable
 
 	public void clearAttribute(String key)
 	{
-		_state.clearAttribute(key);
+		this.state.clearAttribute(key);
 	}
 
 	public Object getAttribute(String key)
 	{
-		return _state.getAttribute(key);
+		return this.state.getAttribute(key);
 	}
 
 	public String[] getAttributeNames()
 	{
-		return _state.getAttributeNames();
+		return this.state.getAttributeNames();
 	}
 
 	public String getCaseId()
 	{
-		return _state.getCaseId();
+		return this.state.getCaseId();
 	}
 
 	public String[] getMarks()
 	{
-		return _state.getMarks();
+		return this.state.getMarks();
 	}
 
 	public String getPackageId()
 	{
-		return _state.getPackageId();
+		return this.state.getPackageId();
 	}
 
 	public String getProcessId()
 	{
-		return _state.getProcessId();
+		return this.state.getProcessId();
 	}
 
 	public boolean hasAttribute(String key)
 	{
-		return _state.hasAttribute(key);
+		return this.state.hasAttribute(key);
 	}
 
 	public boolean hasMark(String placeId)
 	{
-		return _state.hasMark(placeId);
+		return this.state.hasMark(placeId);
 	}
+
+    public Correlation[] getCorrelations()
+    {
+        return this.state.getCorrelations();
+    }
+
+    public void addCorrelation(String transitionId,
+                               String messageId)
+    {
+		throw new IllegalStateException("This the prevayler internal representation.");
+    }
+
+    public void removeCorrelation(String transitionId,
+                                  String messageId)
+    {
+		throw new IllegalStateException("This the prevayler internal representation.");
+    }
+
+    public void removeCorrelations(String transitionId)
+    {
+		throw new IllegalStateException("This the prevayler internal representation.");
+    }
 
 	public void store()
 	{
-		_state.store();
+		this.state.store();
 	}
 
 }

@@ -47,38 +47,45 @@ package com.werken.werkflow.service.caserepo.prevayler;
 
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.service.caserepo.CaseState;
+import com.werken.werkflow.service.caserepo.Correlation;
 
-/**
- * A <code>CaseState</code> implementation that protects the state
- * details retrieved from the <b>prevayler</b> managed <code>CaseStateStore</code> from
- * external modification.
+/** A <code>CaseState</code> implementation that protects the state
+ *  details retrieved from the <b>prevayler</b> managed <code>CaseStateStore</code> from
+ *  external modification.
  *  
- * It does this by maintaining an immutable instance that is copied to a mutable instance
- * if a <code>setter</code> method is called. This state information is also used to side
- * step the <code>store</code> method if the state has not changed.
+ *  It does this by maintaining an immutable instance that is copied to a mutable instance
+ *  if a <code>setter</code> method is called. This state information is also used to side
+ *  step the <code>store</code> method if the state has not changed.
  */
-class PrevaylerCaseState implements CaseState
+class PrevaylerCaseState
+    implements CaseState
 {
-	private PrevaylerCaseRepository _repository;
+	private boolean clean;
+	private CaseState state;
+
+	private PrevaylerCaseRepository repository;
 
 	// intentionally package protected
-	PrevaylerCaseState(ImmutableCaseState initialState, PrevaylerCaseRepository repository)
+	PrevaylerCaseState(ImmutableCaseState initialState,
+                       PrevaylerCaseRepository repository)
 	{
-		_repository = repository;
-		_state = initialState;
-		_clean = true;
+		this.repository = repository;
+		this.state = initialState;
+		this.clean = true;
 	}
 	
-	PrevaylerCaseState(String caseId, String packageId, String processId, Attributes attributes, String[] marks, PrevaylerCaseRepository repository)
+	PrevaylerCaseState(String caseId,
+                       String packageId,
+                       String processId,
+                       Attributes attributes,
+                       String[] marks,
+                       PrevaylerCaseRepository repository)
 	{
-		_repository = repository;
-		_state = new MutableCaseState(caseId, packageId, processId, attributes, marks);
-		_clean = false;
+		this.repository = repository;
+		this.state = new MutableCaseState(caseId, packageId, processId, attributes, marks);
+		this.clean = false;
 	}
 	
-	private boolean _clean;
-	private CaseState _state;
-
 	/**
 	 * @param placeId
 	 */
@@ -86,7 +93,7 @@ class PrevaylerCaseState implements CaseState
 	{
 		mutate();
 		
-		_state.addMark(placeId);
+		this.state.addMark(placeId);
 	}
 
 	/**
@@ -96,7 +103,7 @@ class PrevaylerCaseState implements CaseState
 	{
 		mutate();
 		
-		_state.clearAttribute(key);
+		this.state.clearAttribute(key);
 	}
 
 	/**
@@ -105,7 +112,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public Object getAttribute(String key)
 	{
-		return _state.getAttribute(key);
+		return this.state.getAttribute(key);
 	}
 
 	/**
@@ -113,7 +120,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public String[] getAttributeNames()
 	{
-		return _state.getAttributeNames();
+		return this.state.getAttributeNames();
 	}
 
 	/**
@@ -121,7 +128,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public String getCaseId()
 	{
-		return _state.getCaseId();
+		return this.state.getCaseId();
 	}
 
 	/**
@@ -129,7 +136,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public String[] getMarks()
 	{
-		return _state.getMarks();
+		return this.state.getMarks();
 	}
 
 	/**
@@ -137,7 +144,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public String getPackageId()
 	{
-		return _state.getPackageId();
+		return this.state.getPackageId();
 	}
 
 	/**
@@ -145,7 +152,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public String getProcessId()
 	{
-		return _state.getProcessId();
+		return this.state.getProcessId();
 	}
 
 	/**
@@ -154,7 +161,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public boolean hasAttribute(String key)
 	{
-		return _state.hasAttribute(key);
+		return this.state.hasAttribute(key);
 	}
 
 	/**
@@ -163,7 +170,7 @@ class PrevaylerCaseState implements CaseState
 	 */
 	public boolean hasMark(String placeId)
 	{
-		return _state.hasMark(placeId);
+		return this.state.hasMark(placeId);
 	}
 
 	/**
@@ -173,7 +180,7 @@ class PrevaylerCaseState implements CaseState
 	{
 		mutate();
 		
-		_state.removeMark(placeId);
+		this.state.removeMark(placeId);
 	}
 
 	/**
@@ -184,8 +191,32 @@ class PrevaylerCaseState implements CaseState
 	{
 		mutate();
 		
-		_state.setAttribute(key, value);
+		this.state.setAttribute(key, value);
 	}
+
+    public void addCorrelation(String transitionId,
+                               String messageId)
+    {
+        this.state.addCorrelation( transitionId,
+                                   messageId );
+    }
+
+    public void removeCorrelation(String transitionId,
+                                  String messageId)
+    {
+        this.state.removeCorrelation( transitionId,
+                                      messageId );
+    }
+
+    public void removeCorrelations(String transitionId)
+    {
+        this.state.removeCorrelations( transitionId );
+    }
+
+    public Correlation[] getCorrelations()
+    {
+        return this.state.getCorrelations();
+    }
 
 	public void store()
 	{
@@ -193,7 +224,7 @@ class PrevaylerCaseState implements CaseState
 		{
 			try
 			{
-				_repository.persist(this);
+				this.repository.persist(this);
 			}
 			catch (Exception e)
 			{
@@ -201,14 +232,14 @@ class PrevaylerCaseState implements CaseState
 				throw new RuntimeException("Unable to store state: " + e.getMessage());
 			}
 		}
-	}
+    }
 
 	private void mutate()
 	{
-		if (_clean)
+		if (this.clean)
 		{
-			_state = new MutableCaseState((ImmutableCaseState) _state);
-			_clean = false;
+			this.state = new MutableCaseState((ImmutableCaseState) this.state);
+			this.clean = false;
 		}
 	}
 
@@ -217,6 +248,6 @@ class PrevaylerCaseState implements CaseState
 	 */
 	private boolean isDirty()
 	{
-		return ! _clean;
+		return ! this.clean;
 	}
 }
