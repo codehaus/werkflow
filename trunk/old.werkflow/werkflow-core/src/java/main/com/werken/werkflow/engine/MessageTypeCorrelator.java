@@ -96,7 +96,7 @@ public class MessageTypeCorrelator
      *  @param engine The workflow engine.
      *  @param messageType The message-type.
      *
-     *  @throws IncomaptibleMessageSelectorException If the message-type
+     *  @throws IncompatibleMessageSelectorException If the message-type
      *          uses a message-selector that is incompatible with the
      *          messaging-manager.
      */
