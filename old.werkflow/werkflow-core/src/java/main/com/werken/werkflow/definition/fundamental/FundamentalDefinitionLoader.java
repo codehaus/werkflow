@@ -123,6 +123,9 @@ public class FundamentalDefinitionLoader
         context.registerTagLibrary( JELLY_TAGLIB_NS_URI,
                                     new JellyTagLibrary() );
 
+        context.setVariable( ACTION_LIBRARY_KEY,
+                             actionLib );
+
         context.setVariable( MESSAGE_TYPE_LIBRARY_KEY,
                              msgTypeLib );
 
