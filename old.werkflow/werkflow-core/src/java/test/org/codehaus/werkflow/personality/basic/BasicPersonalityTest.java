@@ -59,8 +59,6 @@ import org.codehaus.werkflow.service.SimpleWfmsServices;
 import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
 
-import junit.framework.TestCase;
-
 import java.net.URL;
 
 public class BasicPersonalityTest
