@@ -228,7 +228,7 @@ public class MessageWaiterCorrelator
 
         String processCaseId = processCase.getId();
 
-        removeProcessCase( processCaseId);
+        removeProcessCase( processCaseId );
     }
 
     boolean isCorrelated(String processCaseId)

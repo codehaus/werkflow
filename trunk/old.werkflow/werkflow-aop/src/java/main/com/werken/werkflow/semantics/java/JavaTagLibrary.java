@@ -7,7 +7,7 @@ public class JavaTagLibrary
 {
     public JavaTagLibrary()
     {
-        registerTag( "class-selector",
+        registerTag( "selector",
                      ClassMessageSelectorTag.class );
     }
 }
