@@ -1,0 +1,38 @@
+<processes
+  xmlns="werkflow:basic"
+  xmlns:java="werkflow:java"
+  xmlns:jelly="werkflow:jelly"
+  xmlns:jexl="werkflow:jexl"
+  xmlns:j="jelly:core">
+
+  <message-types>
+    <j:set var="Entity" value="org.codehaus.werkflow.initiator.message.Entity"/>
+
+    <message-type id="AddEntity">
+      <java:selector type="${Entity}"/>
+    </message-type>
+  </message-types>
+
+  <actions>
+    <action-definition id="default" default="true">
+      <java:action bean="${actionManager}" method="executeAction"/>
+    </action-definition>
+  </actions>
+
+  <process initiation="message" id="entity" package="test">
+    <sequence>
+      <receive type="AddEntity" bind="message">
+        <action actionId="action-1"/>
+      </receive>
+
+      <switch>
+        <case condition='#role == "buyer"'>
+          <sequence>
+            <action actionId="action-2"/>
+          </sequence>
+        </case>
+      </switch>
+    </sequence>
+  </process>
+
+</processes>

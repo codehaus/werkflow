@@ -1,0 +1,140 @@
+\chapter{Java Semantic Module}
+
+\section{Overview}
+
+The Java semantic module uses the BeanShell library to allow
+Java expressions and scripts to be used in process definitions.
+The Java tag library is imported using an XML namespace
+declaration with the URI of \verb|werkflow:java|.
+
+\begin{codelisting}
+<process \hired{xmlns:java="werkflow:java"} \dots>
+    \dots
+\end{codelisting}
+
+\section{\tag{java:selector}}
+
+The \tag{java:selector} tag allows selection of messages based
+upon their true Java class and an optional filtering expression.
+This selector only works when the WFMS is configured to use a 
+\verb|SimpleMessagingManager|.  
+
+Each message object received by the messaging manager will subject 
+to an \verb|instanceof| check against the class specified by 
+the \verb|type| attribute.  If an optional filtering expression
+is provided by the \verb|filter| attribute, it is evaluated
+with the message bound to the \verb|message| variable.
+
+\begin{codelisting}
+<message-type \dots>
+    \hired{<java:selector type="com.myco.messages.PoMessage"
+                   filter="message.getType().equals( &quot;reject&quot; )"/>}
+</message-type>
+\end{codelisting}
+
+\begin{attrDefs}{java:selector}
+type		&	required	&			& Java message class name. \\
+filter		&	optional	&			& Filtering Java expression. \\
+\end{attrDefs}
+
+\section{\tag{java:correlator}}
+
+The \tag{java:correlator} tag takes a single \verb|test| attribute
+that should contain a boolean Java expression determining if
+the message matches the process case.  The containing message-reception
+action may specify that the message is bound to a specific variable
+name.  If not otherwise specified, the message object will be
+bound to the \verb|message| variable. 
+
+\begin{codelisting}
+<receive \dots>
+    \hired{<java:correlator test="message.getPoId().equals( poId )"/>}
+</receive>
+<receive \hired{bind="command"} \dots>
+    \hired{<java:correlator test="command.getAction().equals( &quot;accept&quot; )"/>}
+</receive>
+\end{codelisting}
+
+\begin{attrDefs}{java:correlator}
+test		&	required	&			& Java boolean correlation expression. \\
+\end{attrDefs}
+
+\section{\tag{java:action}}
+
+The \tag{java:action} tag allows for Java logic to be used
+as an action in several ways.
+
+\subsection{Inline Java}
+
+The \tag{java:action} tag may contain a block of BeanShell Java
+to be interpreted as an atomic action.  The process case attributes
+and other action attributes are bound to similarly named variables
+within the block.
+
+The language dialect used in that which is supported by BeanShell
+and thus is not pure Java.  BeanShell provides various syntactic
+additions to make scripting easier.  \emph{http://beanshell.org/}
+provides a complete reference.
+
+\begin{codelisting}
+\hired{<java:action>}
+    import java.util.Date;
+
+    System.err.println( new Date() + " :: accepted po:" + poId );
+\hired{</java:action>}
+\end{codelisting}
+
+\subsection{JavaBeans}
+
+The \tag{java:action} tag may also be used to invoke a method
+on typical Java class. It may invoke any method with two
+\verb|Map| parameters on any accessible Java class.  When
+used this way, the tag requires a \verb|type| attribute
+that names the class to be used as the action.  The class
+must contain a public default constructor.  An optional
+\verb|method| attribute may specify the name of the method 
+to invoke.  If not otherwise specified, the default method 
+name is \verb|execute|.
+
+\begin{codelisting}
+package com.myco.actions;
+
+import java.util.Map;
+
+public class MyRandomBean
+\{
+    public void execute(Map caseAttrs,
+                        Map otherAttrs)
+        throws Exception
+    \{
+        \dots
+    \}
+
+    public void doIt(Map caseAttrs,
+                     Map otherAttrs)
+        throws MySpecialException
+    \{
+        \dots
+    \}
+\}
+\end{codelisting}
+
+This \tag{java:action} invoked the 
+\verb|execute(...)| method on the \verb|MyRandomBean|:
+
+\begin{codelisting}
+\hired{<java:action type="com.myco.actions.MyRandomBean"/>}
+\end{codelisting}
+
+This \tag{java:action} invoked the 
+\verb|doIt(...)| method on the \verb|MyRandomBean|:
+
+\begin{codelisting}
+\hired{<java:action type="com.myco.actions.MyRandomBean"
+             method="doIt"/>}
+\end{codelisting}
+
+\begin{attrDefs}{java:action}
+type		&	required	&			& Java class name. \\
+method		&	optional	& ``execute'' & Method name to invoke. \\
+\end{attrDefs}
