@@ -95,7 +95,11 @@ public class ActionManager
 
         if ( actionId.equals( "action-1" ) )
         {
+            System.out.println( "we are firing action-1!!!!" );
+
             actionExecuted( "action-1" );
+
+            caseAttributes.put( "role", "buyer" );
         }
         else if ( actionId.equals( "action-2" ) )
         {
