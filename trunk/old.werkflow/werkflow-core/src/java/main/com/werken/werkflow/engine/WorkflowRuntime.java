@@ -138,6 +138,7 @@ class WorkflowRuntime
                                    Attributes attributes)
         throws ProcessException
     {
+        System.err.println( "runtime: " + packageId + " " + processId );
         return getEngine().callProcess( packageId,
                                         processId,
                                         attributes );

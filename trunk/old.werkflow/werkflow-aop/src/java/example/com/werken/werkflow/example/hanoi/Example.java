@@ -22,7 +22,8 @@ public class Example
         attrs.setAttribute( "height",
                             new Integer( 6 ) );
 
-        getWfms().getRuntime().callProcess( "hanoi-solver",
+        getWfms().getRuntime().callProcess( "",
+                                            "hanoi-solver",
                                             attrs );
     }
 }
