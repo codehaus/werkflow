@@ -222,20 +222,13 @@ public class MessageWaiterCorrelator
             }
         }
 
+        // if not accepted, then it's not correlating or
+        // correlatable to anything here, so remove it completely
+        // and remove all correlations.
+
         String processCaseId = processCase.getId();
 
-        Iterator    correlationIter = this.correlations.iterator();
-        Correlation eachCorrelation = null;
-        
-        while ( correlationIter.hasNext() )
-        {
-            eachCorrelation = (Correlation) correlationIter.next();
-
-            if ( eachCorrelation.getProcessCaseId().equals( processCaseId ) )
-            {
-                correlationIter.remove();
-            }
-        }
+        removeProcessCase( processCaseId);
     }
 
     boolean isCorrelated(String processCaseId)
