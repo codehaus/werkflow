@@ -34,7 +34,7 @@ public class RobustInstanceState
     {
         this.context                = new HashMap();
         this.scope                  = new Scope( 0 );
-        this.queue                  = new HashSet();
+        this.queue                  = Collections.synchronizedSet( new HashSet() );
         this.pendingSatisfactionIds = new HashSet();
     }
 
@@ -126,7 +126,7 @@ public class RobustInstanceState
             + "  id: " + this.id + "\n"
             + "  context: " + this.context + "\n"
             + "  scope: " + this.scope + "\n"
-            + "  queue: " + Collections.synchronizedSet(this.queue) + "\n"
+            + "  queue: " + this.queue + "\n"
             + "  complete: " + this.complete + "]";
     }
 
