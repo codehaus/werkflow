@@ -50,6 +50,7 @@ public class SimpleMessage
 {
     private String type;
     private String payload;
+    private boolean hasBeenTouched;
 
     public SimpleMessage(String type,
                          String payload)
@@ -68,8 +69,19 @@ public class SimpleMessage
         return this.payload;
     }
 
-   public String toString()
-   {
-       return "[simple-message type=" + getType() + " payload=" + getPayload() + "]";
-   }
+    public void touch()
+    {
+        hasBeenTouched = true;
+    }
+
+    public boolean hasBeenTouched()
+    {
+        return hasBeenTouched;
+    }
+
+    public String toString()
+    {
+        return "[simple-message" + (hasBeenTouched? "*" : "")
+                + " type=" + getType() + " payload=" + getPayload() + "]";
+    }
 }
