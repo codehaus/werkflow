@@ -65,6 +65,15 @@
         <role>Founder</role>
       </roles>
     </developer>
+    <developer>
+      <name>Kevin O'Neill</name>
+      <id>kevin</id>
+      <email>kevin@rocketred.com.au</email>
+      <organization>rocketred pty ltd</organization>
+      <roles>
+        <role>Code Monkey</role>
+      </roles>
+    </developer>
   </developers>
 
   <contributors>
