@@ -76,11 +76,11 @@ public class ActivateManagerCommand extends TransactionWithQuery
     {
       if (!(prevalentSystem instanceof ProcessStore))
       {
-          throw new IllegalArgumentException("This command operates on a ProcessStore PrevalentSystem.");
+          throw new IllegalArgumentException( "This command operates on a ProcessStore PrevalentSystem." );
       }
 
       ProcessStore store = (ProcessStore) prevalentSystem;
-      ProcessState state = store.activateManager(_package, _process, _attributes);
+      ProcessState state = store.activateManager( _package, _process, _attributes );
 
       return state;
     }

@@ -122,7 +122,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     // -- PersistenceManager implementation
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#deployProcess(org.codehaus.werkflow.definition.ProcessDefinition)
+     * @see PrevaylerPersistenceManager#activate(ProcessInfo)
      */
     public ProcessPersistenceManager activate(ProcessInfo processInfo) throws DeploymentException
     {
@@ -135,31 +135,31 @@ public class PrevaylerPersistenceManager implements PersistenceManager
                 new ActivateManagerCommand(
                     processInfo.getPackageId(),
                     processInfo.getId(),
-                    processInfo.getAttributeDeclarations());
+                    processInfo.getAttributeDeclarations() );
 
-            ProcessState state = (ProcessState) command.executeUsing(_prevayler);
+            ProcessState state = (ProcessState) command.executeUsing( _prevayler );
 
-            return new PrevaylerProcessPersistenceManager(_prevayler, state);
+            return new PrevaylerProcessPersistenceManager( _prevayler, state );
         }
         catch (IOException e)
         {
             // @todo - handle exception
-            throw new RuntimeException("Unhandled Exception: " + e.getMessage());
+            throw new RuntimeException( "Unhandled Exception: " + e.getMessage() );
         }
         catch (ClassNotFoundException e)
         {
             // @todo - handle exception
-            throw new RuntimeException("Unhandled Exception: " + e.getMessage());
+            throw new RuntimeException( "Unhandled Exception: " + e.getMessage() );
         }
         catch (Exception e)
         {
             // @todo - handle exception
-            throw new RuntimeException("Unhandled Exception: " + e.getMessage());
+            throw new RuntimeException( "Unhandled Exception: " + e.getMessage() );
         }
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#passivate(org.codehaus.werkflow.ProcessInfo)
+     * @see PersistenceManager#passivate(ProcessInfo)
      */
     public void passivate(ProcessPersistenceManager manager) throws PersistenceException
     {
@@ -168,7 +168,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
             throw new PersistenceException(
                 "ProcessManagers of class "
                 + manager.getClass().getName()
-                + " are not handled by this PeristenceManager");
+                + " are not handled by this PeristenceManager" );
         }
 
         try
@@ -180,8 +180,8 @@ public class PrevaylerPersistenceManager implements PersistenceManager
                 PrevaylerProcessPersistenceManager pppm =(PrevaylerProcessPersistenceManager) manager;
                 ManagerKey key = pppm.key();
 
-                PassivateManagerCommand command = new PassivateManagerCommand(key.getPackageId(), key.getProcessId());
-                command.executeUsing(_prevayler);
+                PassivateManagerCommand command = new PassivateManagerCommand( key.getPackageId(), key.getProcessId() );
+                command.executeUsing( _prevayler );
 
                 pppm.passivate();
             }
@@ -190,11 +190,11 @@ public class PrevaylerPersistenceManager implements PersistenceManager
         }
         catch (IOException ioe)
         {
-            throw new PersistenceException(ioe);
+            throw new PersistenceException( ioe );
         }
         catch (ClassNotFoundException cnfe)
         {
-            throw new PersistenceException(cnfe);
+            throw new PersistenceException( cnfe );
         }
         catch (PersistenceException pe)
         {
@@ -202,7 +202,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
         }
         catch (Exception e)
         {
-            throw new PersistenceException(e);
+            throw new PersistenceException( e );
         }
     }
 
@@ -222,7 +222,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     {
         if (null == _prevayler)
         {
-            throw new IllegalStateException("The persistence manager hasn't been started.");
+            throw new IllegalStateException( "The persistence manager hasn't been started." );
         }
 
         if (store().activeManagerCount() < 1)
@@ -237,10 +237,10 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
         TransactionPublisher publisher =
             null == _transactionPublisher
-                ? new TransactionLogger(_storePath)
+                ? new TransactionLogger( _storePath )
                 : _transactionPublisher;
 
-        _prevayler = new SnapshotPrevayler(new ProcessStore(), new SnapshotManager(_storePath), publisher);
+        _prevayler = new SnapshotPrevayler( new ProcessStore(), new SnapshotManager( _storePath ), publisher );
     }
 
     private synchronized void stop() throws IOException
@@ -258,7 +258,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
         if (null == _storePath)
         {
             // @todo - a more specific exception type
-            throw new RuntimeException("The path to the snapshot file has not been set.");
+            throw new RuntimeException( "The path to the snapshot file has not been set." );
         }
     }
 

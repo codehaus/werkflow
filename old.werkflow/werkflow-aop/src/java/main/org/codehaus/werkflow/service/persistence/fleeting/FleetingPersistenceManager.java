@@ -68,7 +68,7 @@ public class FleetingPersistenceManager
     }
 
     /**
-     * @see org.codehaus.werkflow.service.persistence.PersistenceManager#passivate(org.codehaus.werkflow.service.persistence.ProcessPersistenceManager)
+     * @see PersistenceManager#passivate(ProcessPersistenceManager)
      */
     public void passivate(ProcessPersistenceManager manager) throws PersistenceException
     {

@@ -71,7 +71,7 @@ class NewCaseCommand extends TransactionWithQuery
         for (int i = 0; i < names.length; i++)
         {
             String name = names[i];
-            _attributes.put(name, (Serializable) attributes.getAttribute(name));
+            _attributes.put( name, (Serializable) attributes.getAttribute( name ) );
         }
     }
 
@@ -86,11 +86,11 @@ class NewCaseCommand extends TransactionWithQuery
     {
         if (!(prevalentSystem instanceof ProcessStore))
         {
-            throw new IllegalArgumentException("This command operates on a ProcessStore PrevalentSystem.");
+            throw new IllegalArgumentException( "This command operates on a ProcessStore PrevalentSystem." );
         }
 
         ProcessStore store = (ProcessStore) prevalentSystem;
-        return store.createCase(_packageId, _processId, _attributes);
+        return store.createCase( _packageId, _processId, _attributes );
     }
 
 }

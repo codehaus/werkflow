@@ -61,13 +61,13 @@ class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
     {
         if (null == state)
         {
-            throw new IllegalArgumentException("The supplied ProcessState can not be null.");
+            throw new IllegalArgumentException( "The supplied ProcessState can not be null." );
         }
 
         _key = state.key();
 
         // new process managers are always active
-        _delegate = new ActiveDelegate(prevayler, state);
+        _delegate = new ActiveDelegate( prevayler, state );
     }
 
     private MethodDelegate _delegate;
@@ -77,22 +77,22 @@ class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
 
     public void persist(ChangeSet changeSet) throws PersistenceException
     {
-        _delegate.persist(changeSet);
+        _delegate.persist( changeSet );
     }
 
     public boolean hasCase(String caseId)
     {
-        return _delegate.hasCase(caseId);
+        return _delegate.hasCase( caseId );
     }
 
     public CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException
     {
-        return _delegate.newCase(initialiAttrs);
+        return _delegate.newCase( initialiAttrs );
     }
 
     public CaseTransfer loadCase(String caseId) throws PersistenceException
     {
-        return _delegate.loadCase(caseId);
+        return _delegate.loadCase( caseId );
     }
 
     public CorrelationTransfer[] getCorrelations() throws PersistenceException

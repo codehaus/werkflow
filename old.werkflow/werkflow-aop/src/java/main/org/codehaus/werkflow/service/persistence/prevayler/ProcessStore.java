@@ -91,21 +91,21 @@ class ProcessStore implements Externalizable
 
             try
             {
-                ManagerKey key = new ManagerKey(packageId, processId);
+                ManagerKey key = new ManagerKey( packageId, processId );
 
-                if (_activeProcesses.containsKey(key))
+                if (_activeProcesses.containsKey( key ))
                 {
-                    throw new PersistenceException("Manager (" + key + ") is already active");
+                    throw new PersistenceException( "Manager (" + key + ") is already active" );
                 }
 
-                ProcessState result = (ProcessState) _passiveProcesses.remove(key);
+                ProcessState result = (ProcessState) _passiveProcesses.remove( key );
 
                 if (null == result)
                 {
-                    result = new ProcessState(packageId, processId, attributes);
+                    result = new ProcessState( packageId, processId, attributes );
                 }
 
-                _activeProcesses.put(key, result);
+                _activeProcesses.put( key, result );
 
                 return result;
             }
@@ -116,7 +116,7 @@ class ProcessStore implements Externalizable
         }
         catch (InterruptedException e)
         {
-            throw new PersistenceException("Unable to acquire write lock");
+            throw new PersistenceException( "Unable to acquire write lock" );
         }
     }
 
@@ -134,16 +134,16 @@ class ProcessStore implements Externalizable
 
             try
             {
-                ManagerKey key = new ManagerKey(packageId, processId);
+                ManagerKey key = new ManagerKey( packageId, processId );
 
-                ProcessState state = (ProcessState) _activeProcesses.remove(key);
+                ProcessState state = (ProcessState) _activeProcesses.remove( key );
 
                 if (null == state)
                 {
-                    throw new PersistenceException("Manager (" + key + ") is not active");
+                    throw new PersistenceException( "Manager (" + key + ") is not active" );
                 }
 
-                _passiveProcesses.put(key, state);
+                _passiveProcesses.put( key, state );
             }
             finally
             {
@@ -152,7 +152,7 @@ class ProcessStore implements Externalizable
         }
         catch (InterruptedException e)
         {
-            throw new PersistenceException("Unable to acquire write lock");
+            throw new PersistenceException( "Unable to acquire write lock" );
         }
     }
 
@@ -160,12 +160,12 @@ class ProcessStore implements Externalizable
 
     CaseState fetchCase(String packageId, String processId, String caseId) throws PersistenceException
     {
-        return activeProcessState(packageId, processId).loadCase(caseId);
+        return activeProcessState( packageId, processId ).loadCase( caseId );
     }
 
     CaseState createCase(String packageId, String processId, Map attributes) throws PersistenceException
     {
-        return activeProcessState(packageId, processId).addCase(attributes);
+        return activeProcessState( packageId, processId ).addCase( attributes );
     }
 
 
@@ -188,8 +188,8 @@ class ProcessStore implements Externalizable
      */
     public void writeExternal(ObjectOutput out) throws IOException
     {
-        out.writeObject(_activeProcesses);
-        out.writeObject(_passiveProcesses);
+        out.writeObject( _activeProcesses );
+        out.writeObject( _passiveProcesses );
     }
 
     // -- beyond here be dragons
@@ -201,13 +201,13 @@ class ProcessStore implements Externalizable
 
     private ProcessState activeProcessState(String packageId, String processId) throws PersistenceException
     {
-        ManagerKey key = new ManagerKey(packageId, processId);
+        ManagerKey key = new ManagerKey( packageId, processId );
 
-        ProcessState processState = (ProcessState) _activeProcesses.get(key);
+        ProcessState processState = (ProcessState) _activeProcesses.get( key );
 
         if (null == processState)
         {
-            throw new PersistenceException("Manager (" + key + ") is not active");
+            throw new PersistenceException( "Manager (" + key + ") is not active" );
         }
 
         return processState;

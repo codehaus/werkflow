@@ -63,7 +63,7 @@ class ProcessState implements Serializable
 {
     public ProcessState(String packageId, String processId, AttributeDeclaration[] attributes)
     {
-        _key = new ManagerKey(packageId, processId);
+        _key = new ManagerKey( packageId, processId );
         _cases = new ConcurrentHashMap();
     }
 
@@ -78,20 +78,20 @@ class ProcessState implements Serializable
 
     public boolean hasCase(String caseId)
     {
-        return _cases.containsKey(caseId);
+        return _cases.containsKey( caseId );
     }
 
     public CaseState loadCase(String caseId)
     {
-        return (CaseState) _cases.get(caseId);
+        return (CaseState) _cases.get( caseId );
     }
 
     public CaseState addCase(Map attributes)
     {
-        String id = String.valueOf(nextId());
+        String id = String.valueOf( nextId() );
 
-        CaseState state = new CaseState(id, attributes);
-        _cases.put(id, state);
+        CaseState state = new CaseState( id, attributes );
+        _cases.put( id, state );
 
         return state;
     }

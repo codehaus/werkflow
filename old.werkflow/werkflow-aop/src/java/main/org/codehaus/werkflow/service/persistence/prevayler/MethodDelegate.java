@@ -63,19 +63,19 @@ import org.codehaus.werkflow.service.persistence.PersistenceException;
 interface MethodDelegate extends Serializable
 {
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#persist(org.codehaus.werkflow.service.persistence.ChangeSet)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#persist(ChangeSet)
      */
     void persist(ChangeSet changeSet) throws PersistenceException;
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#hasCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#hasCase(String)
      */
     boolean hasCase(String caseId);
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#newCase(org.codehaus.werkflow.Attributes)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#newCase(Attributes)
      */
     CaseTransfer newCase(Attributes initialiAttrs) throws PersistenceException;
     /**
-     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#loadCase(java.lang.String)
+     * @see org.codehaus.werkflow.service.persistence.ProcessPersistenceManager#loadCase(String)
      */
     CaseTransfer loadCase(String caseId) throws PersistenceException;
     /**

@@ -70,14 +70,14 @@ class CaseState implements CaseTransfer
     CaseState(String caseId, Map attributes) throws ClassCastException
     {
         _id = caseId;
-        _tokens = new SyncSet(new HashSet(), new WriterPreferenceReadWriteLock());
+        _tokens = new SyncSet( new HashSet(), new WriterPreferenceReadWriteLock() );
         _attributes = new ConcurrentHashMap();
 
         Iterator attributeIterator = attributes.entrySet().iterator();
         while (attributeIterator.hasNext())
         {
             Map.Entry entry = (Map.Entry) attributeIterator.next();
-            _attributes.put((String) entry.getKey(), (Serializable) entry.getValue());
+            _attributes.put( (String) entry.getKey(), (Serializable) entry.getValue() );
         }
     }
 
@@ -101,7 +101,7 @@ class CaseState implements CaseTransfer
      */
     public Map getAttributes()
     {
-        return Collections.unmodifiableMap(_attributes);
+        return Collections.unmodifiableMap( _attributes );
     }
 
     /**
@@ -109,27 +109,27 @@ class CaseState implements CaseTransfer
      */
     public String[] getTokens()
     {
-        return (String[]) _tokens.toArray(EMPTY_STRING_ARRAY);
+        return (String[]) _tokens.toArray( EMPTY_STRING_ARRAY );
     }
 
     void addToken(String token)
     {
-        _tokens.add(token);
+        _tokens.add( token );
     }
 
     void setAttribute(String name, Serializable value)
     {
-        _attributes.put(name, value);
+        _attributes.put( name, value );
     }
 
     Serializable getAttribute(String name)
     {
-        return (Serializable) _attributes.get(name);
+        return (Serializable) _attributes.get( name );
     }
 
     boolean hasAttribute(String name)
     {
-        return _attributes.containsKey(name);
+        return _attributes.containsKey( name );
     }
 
 }
