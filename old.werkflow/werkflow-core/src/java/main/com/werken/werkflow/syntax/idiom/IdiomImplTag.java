@@ -59,8 +59,6 @@ public class IdiomImplTag
                     {
                         ExpressionFactory exprFactory = getExpressionFactory();
 
-                        System.err.println( "expr factory: " + exprFactory );
-                        
                         finalValue = exprFactory.newExpression( value.toString() );
                     }
                 }

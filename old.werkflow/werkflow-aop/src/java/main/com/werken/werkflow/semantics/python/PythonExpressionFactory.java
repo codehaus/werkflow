@@ -20,11 +20,6 @@ public class PythonExpressionFactory
     public Expression newExpression(String exprStr)
         throws Exception
     {
-        //return new JexlExpression( ExpressionFactory.createExpression( expr ) );
-        Expression expr = new PythonExpression( this.factory.createExpression( exprStr ) );
-
-        System.err.println( "new expr [" + exprStr + "] " + expr );
-
-        return expr;
+        return new PythonExpression( this.factory.createExpression( exprStr ) );
     }
 }
