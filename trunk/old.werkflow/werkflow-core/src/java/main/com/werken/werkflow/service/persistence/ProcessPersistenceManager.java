@@ -2,11 +2,15 @@ package com.werken.werkflow.service.persistence;
 
 public interface ProcessPersistenceManager
 {
-    void persist(ChangeSet changeSet);
+    void persist(ChangeSet changeSet)
+        throws PersistenceException;
 
-    CaseTransfer newCase(String caseId);
+    CaseTransfer newCase(String caseId)
+        throws PersistenceException;
 
-    CaseTransfer loadCase(String caseId);
+    CaseTransfer loadCase(String caseId)
+        throws PersistenceException;
 
-    CorrelationTransfer[] getCorrelations();
+    CorrelationTransfer[] getCorrelations()
+        throws PersistenceException;
 }
