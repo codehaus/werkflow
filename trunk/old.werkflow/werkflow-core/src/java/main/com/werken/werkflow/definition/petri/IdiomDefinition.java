@@ -23,6 +23,7 @@ public class IdiomDefinition
     public static final String PARAMETER_PREFIX = "parameter:";
     public static final String STASHED_PREFIX = "stashed:";
     public static final String COMPLETE_PREFIX = "complete:";
+    public static final String GLOBAL_OUT = "global:out";
 
     public static final IdiomDefinition ACTION = new IdiomDefinition( "werkflow:internal-idioms",
                                                                       "werkflow.action" );
@@ -470,7 +471,9 @@ public class IdiomDefinition
     {
         if ( IN_PLACE.equals( id )
              ||
-             OUT_PLACE.equals( id ) )
+             OUT_PLACE.equals( id )
+             ||
+             GLOBAL_OUT.equals( id ) )
         {
             return id;
         }

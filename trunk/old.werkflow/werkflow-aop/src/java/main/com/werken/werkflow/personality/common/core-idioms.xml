@@ -119,4 +119,18 @@
 
         </template>
     </idiom>
+
+    <!--
+      ||     TERMINATE
+      -->
+
+    <idiom id="terminate">
+        <template>
+            <transition id="terminate">
+                <input from="in"/>
+                <output  to="global:out"/>
+            </transition>
+        </template>
+    </idiom>
 </idioms>
+

@@ -221,6 +221,17 @@ public class Idiom
 
     DefaultPlace getMutablePlace(String id)
     {
+        if ( id.equals( IdiomDefinition.GLOBAL_OUT ) )
+        {
+            if ( getParent() != null )
+            {
+                return getParent().getMutablePlace( id );
+            }
+            else
+            {
+                return getOutPlace();
+            }
+        }
         return (DefaultPlace) this.places.get( id );
     }
 
