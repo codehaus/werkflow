@@ -54,12 +54,8 @@ import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.QueryException;
 import com.werken.werkflow.activity.Activity;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.service.WfmsServices;
-import com.werken.werkflow.service.caserepo.CaseState;
 
 import java.util.Map;
-import java.util.HashMap;
 
 /** <code>WfmsRuntime</code> facade for the <code>WorkflowEngine</code>.
  *
@@ -86,7 +82,7 @@ public class WorkflowRuntime
     
     /** Constrct a new wrapper for a <code>WorkflowEngine</code>.
      *
-     *  @paramengine The engine to wrap.
+     *  @param engine The engine to wrap.
      */
     public WorkflowRuntime(WorkflowEngine engine)
     {
