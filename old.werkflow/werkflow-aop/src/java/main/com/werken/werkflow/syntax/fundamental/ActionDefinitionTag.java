@@ -47,14 +47,9 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionLibrary;
 import com.werken.werkflow.work.DuplicateActionException;
-import com.werken.werkflow.work.NoSuchActionException;
-import com.werken.werkflow.jelly.MiscTagSupport;
-
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.XMLOutput;
 
 public class ActionDefinitionTag
     extends FundamentalTagSupport
@@ -153,13 +148,17 @@ public class ActionDefinitionTag
     {
         requireStringAttribute( "id",
                                 getId() );
+
+        pushObject( ActionReceptor.class, this );
+
         invokeBody( output );
-        
+
+        popObject( ActionReceptor.class, getContext() );
+
         if ( getAction() == null )
         {
             throw new JellyTagException( "no action defined in body" );
         }
-        
         
         try
         {

@@ -99,6 +99,8 @@ public class GeneralTest
                                                        "general",
                                                        attrs );
 
+
+
         assertNotNull( processCase );
 
         messagingManager.acceptMessage( new SimpleMessage( "normal",

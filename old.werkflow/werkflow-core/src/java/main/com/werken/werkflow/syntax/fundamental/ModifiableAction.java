@@ -133,8 +133,7 @@ public class ModifiableAction
 
     /** Perform modification script.
      *
-     *  @param caseAttrs The original case attributes.
-     *  @param otherAttrs The original other attributes.
+     *  @param invocation
      *
      *  @throws Exception If an error occurs while attempting
      *          to evaluate the modification script.
