@@ -188,7 +188,7 @@ public class MessageWaiterCorrelator
      *
      *  @param message The message.
      */
-    public void acceptMessage(Message message)
+    public synchronized void acceptMessage(Message message)
     {
         addMessage( message.getId() );
 
@@ -281,7 +281,7 @@ public class MessageWaiterCorrelator
      *
      *  @param processCase The process case.
      */
-    public void acceptProcessCase(WorkflowProcessCase processCase)
+    public synchronized void acceptProcessCase(WorkflowProcessCase processCase)
     {
         if ( containsProcessCase( processCase.getId() ) )
         {
@@ -419,8 +419,8 @@ public class MessageWaiterCorrelator
      *  @param processCase The process case.
      *  @param transitionIds The activated transition identifiers.
      */
-    void evaluateCase(WorkflowProcessCase processCase,
-                      String[] transitionIds)
+    synchronized void evaluateCase(WorkflowProcessCase processCase,
+                                   String[] transitionIds)
     {
         for ( int i = 0 ; i < transitionIds.length ; ++i )
         {
@@ -486,7 +486,7 @@ public class MessageWaiterCorrelator
      *  @throws NoSuchCorrelationException If no message correlates
      *          with the process case.
      */
-    Object consumeMessage(String processCaseId)
+    synchronized Object consumeMessage(String processCaseId)
         throws NoSuchCorrelationException
     {
         Iterator    correlationIter = this.correlations.iterator();

@@ -179,4 +179,9 @@ public class DefaultTransition
     {
         return this.messageWaiter;
     }
+
+    public String toString()
+    {
+        return "[transition id=" + getId() + "]";
+    }
 }

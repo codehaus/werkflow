@@ -56,6 +56,7 @@ import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -255,7 +256,7 @@ public class ProcessDeployment
         Set potentialTrans  = getPotentialTransitions( processCase );
         Set enabledTrans    = new HashSet();
         Set msgWaitingTrans = new HashSet();
-        
+
         Iterator   transIter = potentialTrans.iterator();
         Transition eachTrans = null;
         EnablingRule rule = null;

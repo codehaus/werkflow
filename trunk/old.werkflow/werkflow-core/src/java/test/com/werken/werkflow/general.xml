@@ -27,6 +27,7 @@
     
     <task>
       <jelly:action>
+        case ${caseId}
         action 1
         bob = ${bob}
         <j:set var="bob" value="mcstrachan"/>
@@ -45,6 +46,7 @@
 
     <task>
       <jelly:action>
+        case ${caseId}
         action 2
         bob == ${bob}
         myMsg == ${myMsg.type} : ${myMsg.payload} 

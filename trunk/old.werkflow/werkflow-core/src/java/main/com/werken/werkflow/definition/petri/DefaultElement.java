@@ -46,6 +46,9 @@ package com.werken.werkflow.definition.petri;
  
  */
 
+import java.util.Map;
+import java.util.HashMap;
+
 /** Base of all elements in a Petri net.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
@@ -53,6 +56,7 @@ package com.werken.werkflow.definition.petri;
  *  @version $Id$
  */
 public class DefaultElement
+    implements Annotated
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -60,6 +64,9 @@ public class DefaultElement
     
     /** Documentation. */
     private String documentation;
+
+    /** Arbitrary element annotations. */
+    private Map annotations;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -69,7 +76,7 @@ public class DefaultElement
      */
     public DefaultElement()
     {
-        // intentionally left blank.
+        this.annotations = new HashMap();
     }
 
     // ----------------------------------------------------------------------
@@ -92,5 +99,24 @@ public class DefaultElement
     public String getDocumentation()
     {
         return this.documentation;
+    }
+
+    /** Set an arbitrary annotation.
+     *
+     *  @param id The annotation id.
+     *  @param value The annotation value.
+     */
+    public void setAnnotation(String id,
+                              String value)
+    {
+        this.annotations.put( id,
+                              value );
+    }
+
+    /** @see Annotated
+     */
+    public String getAnnotation(String id)
+    {
+        return (String) this.annotations.get( id );
     }
 }

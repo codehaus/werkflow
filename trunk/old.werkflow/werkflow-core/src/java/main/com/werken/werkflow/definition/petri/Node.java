@@ -57,16 +57,11 @@ package com.werken.werkflow.definition.petri;
  *  @version $Id$
  */
 public interface Node
+    extends Element
 {
     /** Retrieve the identifier.
      *
      *  @return The identifier.
      */
     String getId();
-
-    /** Retrieve the documentation.
-     *
-     *  @return The documentation.
-     */
-    String getDocumentation();
 }
