@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.persistence.ChangeSet;
-import com.werken.werkflow.service.persistence.CaseTransfer;
-import com.werken.werkflow.service.persistence.CorrelationTransfer;
-import com.werken.werkflow.service.persistence.UncorrelatedTransfer;
-import com.werken.werkflow.service.persistence.ConsumptionTransfer;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.persistence.ChangeSet;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.CorrelationTransfer;
+import org.codehaus.werkflow.service.persistence.UncorrelatedTransfer;
+import org.codehaus.werkflow.service.persistence.ConsumptionTransfer;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.DefaultCallAction;
-import com.werken.werkflow.expr.Expression;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.DefaultCallAction;
+import org.codehaus.werkflow.expr.Expression;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

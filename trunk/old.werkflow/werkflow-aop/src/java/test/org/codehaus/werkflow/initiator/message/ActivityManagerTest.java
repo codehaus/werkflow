@@ -1,4 +1,4 @@
-package com.werken.werkflow.initiator.message;
+package org.codehaus.werkflow.initiator.message;
 
 /*
  $Id$
@@ -46,16 +46,16 @@ package com.werken.werkflow.initiator.message;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.admin.WfmsAdmin;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.engine.WorkflowEngine;
-import com.werken.werkflow.personality.Personality;
-import com.werken.werkflow.personality.basic.BasicPersonality;
-import com.werken.werkflow.service.SimpleWfmsServices;
-import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.admin.WfmsAdmin;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.engine.WorkflowEngine;
+import org.codehaus.werkflow.personality.Personality;
+import org.codehaus.werkflow.personality.basic.BasicPersonality;
+import org.codehaus.werkflow.service.SimpleWfmsServices;
+import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 
 import java.net.URL;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -48,7 +48,7 @@ package com.werken.werkflow.service.persistence.prevayler;
 
 import org.prevayler.util.TransactionWithQuery;
 
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 /**
  * @author kevin

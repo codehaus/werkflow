@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.definition;
 
  */
 
-import com.werken.werkflow.definition.petri.Net;
+import org.codehaus.werkflow.definition.petri.Net;
 
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.AttributeDeclaration;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.AttributeDeclaration;
 
 import java.util.Map;
 import java.util.HashMap;

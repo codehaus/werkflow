@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jexl;
+package org.codehaus.werkflow.semantics.jexl;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.semantics.jexl;
 
  */
 
-import com.werken.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.Expression;
 
 import org.apache.commons.jexl.ExpressionFactory;
 
 public class JexlExpressionFactory
-    implements com.werken.werkflow.expr.ExpressionFactory
+    implements org.codehaus.werkflow.expr.ExpressionFactory
 {
     private static final JexlExpressionFactory INSTANCE = new JexlExpressionFactory();
 

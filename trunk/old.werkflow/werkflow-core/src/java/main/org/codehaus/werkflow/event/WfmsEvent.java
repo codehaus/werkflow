@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -46,14 +46,14 @@ package com.werken.werkflow.event;
 
  */
 
-import com.werken.werkflow.Wfms;
+import org.codehaus.werkflow.Wfms;
 
 import java.util.EventObject;
 
 /** Base event.
  *
  *  @see WfmsEventListener
- *  @see com.werken.werkflow.admin#addEventListener
+ *  @see org.codehaus.werkflow.admin#addEventListener
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

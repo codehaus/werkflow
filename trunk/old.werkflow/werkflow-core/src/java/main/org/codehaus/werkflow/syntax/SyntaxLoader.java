@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax;
+package org.codehaus.werkflow.syntax;
 
 /*
  $Id$
@@ -46,11 +46,11 @@ package com.werken.werkflow.syntax;
 
  */
 
-import com.werken.werkflow.jelly.MiscTagSupport;
-import com.werken.werkflow.jelly.JellyUtil;
-import com.werken.werkflow.syntax.fundamental.FundamentalTagLibrary;
-import com.werken.werkflow.syntax.idiom.IdiomTagLibrary;
-import com.werken.werkflow.syntax.petri.PetriTagLibrary;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.syntax.fundamental.FundamentalTagLibrary;
+import org.codehaus.werkflow.syntax.idiom.IdiomTagLibrary;
+import org.codehaus.werkflow.syntax.petri.PetriTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,15 +46,15 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.NoSuchProcessException;
-import com.werken.werkflow.admin.DeploymentException;
-import com.werken.werkflow.admin.DuplicateProcessException;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.service.messaging.MessagingManager;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.NoSuchProcessException;
+import org.codehaus.werkflow.admin.DeploymentException;
+import org.codehaus.werkflow.admin.DuplicateProcessException;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.service.messaging.MessagingManager;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.Map;
 import java.util.HashMap;

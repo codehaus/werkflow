@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence;
+package org.codehaus.werkflow.service.persistence;
 
 /*
  $Id$

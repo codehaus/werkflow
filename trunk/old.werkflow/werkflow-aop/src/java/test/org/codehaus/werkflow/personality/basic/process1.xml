@@ -4,9 +4,9 @@
          initiation="message"
          xmlns="werkflow:basic"
          xmlns:j="jelly:core"
-         xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
-         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
-         xmlns:jexl="jelly:com.werken.werkflow.semantics.jexl.JexlTagLibrary">
+         xmlns:java="jelly:org.codehaus.werkflow.semantics.java.JavaTagLibrary"
+         xmlns:jelly="jelly:org.codehaus.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:jexl="jelly:org.codehaus.werkflow.semantics.jexl.JexlTagLibrary">
 
 
 <!--

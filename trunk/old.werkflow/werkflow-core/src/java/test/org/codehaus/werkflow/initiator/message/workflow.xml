@@ -6,7 +6,7 @@
   xmlns:j="jelly:core">
 
   <message-types>
-    <j:set var="Entity" value="com.werken.werkflow.initiator.message.Entity"/>
+    <j:set var="Entity" value="org.codehaus.werkflow.initiator.message.Entity"/>
 
     <message-type id="AddEntity">
       <java:selector type="${Entity}"/>

@@ -1,4 +1,4 @@
-package com.werken.werkflow.bsf;
+package org.codehaus.werkflow.bsf;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.bsf;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.expr.ExpressionContext;
 
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.BSFException;

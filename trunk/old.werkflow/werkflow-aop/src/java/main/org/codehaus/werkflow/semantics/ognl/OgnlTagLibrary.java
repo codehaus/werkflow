@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.ognl;
+package org.codehaus.werkflow.semantics.ognl;
 
 /*
  $Id$

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.AttributeType;
+import org.codehaus.werkflow.AttributeType;
 
 public class ClassAttributeType
     implements AttributeType

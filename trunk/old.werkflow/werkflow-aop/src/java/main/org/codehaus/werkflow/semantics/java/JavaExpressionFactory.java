@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.Expression;
 
 public class JavaExpressionFactory
-    implements com.werken.werkflow.expr.ExpressionFactory
+    implements org.codehaus.werkflow.expr.ExpressionFactory
 {
     private static final JavaExpressionFactory INSTANCE = new JavaExpressionFactory();
 

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.task.Task;
-import com.werken.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.task.Task;
+import org.codehaus.werkflow.service.messaging.Message;
 
 class CoreActivity
 {

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -48,14 +48,14 @@ package com.werken.werkflow.core;
 
 import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
 import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.definition.petri.Arc;
-import com.werken.werkflow.definition.petri.Place;
-import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.expr.AttributesExpressionContext;
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionContext;
-import com.werken.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.definition.petri.Arc;
+import org.codehaus.werkflow.definition.petri.Place;
+import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.expr.AttributesExpressionContext;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 class Executor
     implements ActivityCompleter

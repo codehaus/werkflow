@@ -1,4 +1,4 @@
-package com.werken.werkflow.expr;
+package org.codehaus.werkflow.expr;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.expr;
 
  */
 
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.definition.MessageCorrelator;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.ProcessCase;
+import org.codehaus.werkflow.definition.MessageCorrelator;
 
 public class ExpressionMessageCorrelator
     implements MessageCorrelator

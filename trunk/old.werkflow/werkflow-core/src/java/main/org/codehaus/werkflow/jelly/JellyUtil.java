@@ -1,4 +1,4 @@
-package com.werken.werkflow.jelly;
+package org.codehaus.werkflow.jelly;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.jelly;
 
  */
 
-import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
-import com.werken.werkflow.semantics.java.JavaTagLibrary;
-import com.werken.werkflow.semantics.jexl.JexlTagLibrary;
-import com.werken.werkflow.semantics.ognl.OgnlTagLibrary;
-import com.werken.werkflow.semantics.python.PythonTagLibrary;
-import com.werken.werkflow.syntax.petri.PetriTagLibrary;
+import org.codehaus.werkflow.semantics.jelly.JellyTagLibrary;
+import org.codehaus.werkflow.semantics.java.JavaTagLibrary;
+import org.codehaus.werkflow.semantics.jexl.JexlTagLibrary;
+import org.codehaus.werkflow.semantics.ognl.OgnlTagLibrary;
+import org.codehaus.werkflow.semantics.python.PythonTagLibrary;
+import org.codehaus.werkflow.syntax.petri.PetriTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 

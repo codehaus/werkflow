@@ -61,7 +61,7 @@
 
   <goal name="werkflow:run-example">
     <echo>running ${exPkg} ${exName}</echo>
-    <java classname="com.werken.werkflow.example.Example" fork="true">
+    <java classname="org.codehaus.werkflow.example.Example" fork="true">
       <arg value="${exPkg}"/>
       <arg value="${exName}"/>
       <classpath>

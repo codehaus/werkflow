@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.syntax.petri;
 
  */
 
-import com.werken.werkflow.expr.ExpressionFactory;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultArc;
-import com.werken.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.expr.ExpressionFactory;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultArc;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

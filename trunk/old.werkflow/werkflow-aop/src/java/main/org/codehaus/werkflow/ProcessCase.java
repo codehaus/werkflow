@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package org.codehaus.werkflow;
 
 /*
  $Id$
@@ -51,10 +51,10 @@ package com.werken.werkflow;
  *  <p>
  *  The <code>ProcessCase</code> interface provides a read-only view
  *  of a running process instance.  Any mutation activities are performed
- *  within the realm of an {@link com.werken.werkflow.action.Action}.
+ *  within the realm of an {@link org.codehaus.werkflow.action.Action}.
  *  </p>
  *
- *  @see com.werken.werkflow.action.Action
+ *  @see org.codehaus.werkflow.action.Action
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

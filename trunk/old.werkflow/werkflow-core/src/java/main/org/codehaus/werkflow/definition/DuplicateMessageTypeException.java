@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package org.codehaus.werkflow.definition;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.definition;
 
  */
 
-import com.werken.werkflow.WerkflowException;
+import org.codehaus.werkflow.WerkflowException;
 
 /** Indicates an attempt to add a duplicate <code>MessageType</code>.
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.event;
+package org.codehaus.werkflow.event;
 
 /*
  $Id$
@@ -46,14 +46,14 @@ package com.werken.werkflow.event;
 
  */
 
-import com.werken.werkflow.Wfms;
+import org.codehaus.werkflow.Wfms;
 
 /** Indicates a <code>Transition</code> initated for a <code>ProcessCase</code>.
  *
- *  @see com.werken.werkflow.ProcessCase
- *  @see com.werken.werkflow.definition.ProcessDefinition
- *  @see com.werken.werkflow.definition.petri.Net
- *  @see com.werken.werkflow.definition.petri.Transition
+ *  @see org.codehaus.werkflow.ProcessCase
+ *  @see org.codehaus.werkflow.definition.ProcessDefinition
+ *  @see org.codehaus.werkflow.definition.petri.Net
+ *  @see org.codehaus.werkflow.definition.petri.Transition
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

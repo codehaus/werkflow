@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionMessageCorrelator;
-import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionMessageCorrelator;
+import org.codehaus.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.MockProcessInfo;
-import com.werken.werkflow.NoSuchCaseException;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.MockProcessInfo;
+import org.codehaus.werkflow.NoSuchCaseException;
 
 public class CaseManagerTest
     extends WerkflowTestCase

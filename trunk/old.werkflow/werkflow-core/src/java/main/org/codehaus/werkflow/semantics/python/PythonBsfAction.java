@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.bsf.BeanShellBSFEngine;
-import com.werken.werkflow.bsf.BsfAction;
+import org.codehaus.werkflow.bsf.BeanShellBSFEngine;
+import org.codehaus.werkflow.bsf.BsfAction;
 
 import org.apache.bsf.BSFException;
 

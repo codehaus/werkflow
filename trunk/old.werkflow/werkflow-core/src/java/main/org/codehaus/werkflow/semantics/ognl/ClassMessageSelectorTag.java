@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.ognl;
+package org.codehaus.werkflow.semantics.ognl;
 
 /*
  $Id$
@@ -50,9 +50,9 @@ import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.XMLOutput;
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.semantics.java.ClassMessageSelector;
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.semantics.java.ClassMessageSelector;
+import org.codehaus.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
 
 /** Jelly <code>Tag</code> for <code>ClassMessageSelector</code>.
  *

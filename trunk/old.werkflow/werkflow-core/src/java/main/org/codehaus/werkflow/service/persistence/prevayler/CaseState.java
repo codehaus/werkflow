@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -57,7 +57,7 @@ import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
 import EDU.oswego.cs.dl.util.concurrent.SyncSet;
 import EDU.oswego.cs.dl.util.concurrent.WriterPreferenceReadWriteLock;
 
-import com.werken.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
 
 /**
  * @author kevin
@@ -89,7 +89,7 @@ class CaseState implements CaseTransfer
     private Map _attributes;
 
     /**
-     * @see com.werken.werkflow.service.persistence.CaseTransfer#getCaseId()
+     * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getCaseId()
      */
     public String getCaseId()
     {
@@ -97,7 +97,7 @@ class CaseState implements CaseTransfer
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.CaseTransfer#getAttributes()
+     * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getAttributes()
      */
     public Map getAttributes()
     {
@@ -105,7 +105,7 @@ class CaseState implements CaseTransfer
     }
 
     /**
-     * @see com.werken.werkflow.service.persistence.CaseTransfer#getTokens()
+     * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getTokens()
      */
     public String[] getTokens()
     {

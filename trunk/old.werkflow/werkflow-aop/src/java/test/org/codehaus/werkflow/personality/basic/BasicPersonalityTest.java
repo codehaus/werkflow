@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.basic;
+package org.codehaus.werkflow.personality.basic;
 
 /*
  $Id$
@@ -46,18 +46,18 @@ package com.werken.werkflow.personality.basic;
 
  */
 
-import com.werken.werkflow.Wfms;
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.WfmsRuntime;
-import com.werken.werkflow.admin.WfmsAdmin;
-import com.werken.werkflow.engine.WorkflowEngine;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.personality.Personality;
-import com.werken.werkflow.service.WfmsServices;
-import com.werken.werkflow.service.SimpleWfmsServices;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
-import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
+import org.codehaus.werkflow.Wfms;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.WfmsRuntime;
+import org.codehaus.werkflow.admin.WfmsAdmin;
+import org.codehaus.werkflow.engine.WorkflowEngine;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.personality.Personality;
+import org.codehaus.werkflow.service.WfmsServices;
+import org.codehaus.werkflow.service.SimpleWfmsServices;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
+import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
 
 import junit.framework.TestCase;
 

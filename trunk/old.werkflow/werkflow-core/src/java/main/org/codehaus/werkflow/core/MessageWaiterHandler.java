@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.definition.MessageCorrelator;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.service.messaging.Message;
-import com.werken.werkflow.service.messaging.Registration;
-import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import org.codehaus.werkflow.ProcessCase;
+import org.codehaus.werkflow.definition.MessageCorrelator;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.service.messaging.Message;
+import org.codehaus.werkflow.service.messaging.Registration;
+import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 
 import java.util.Map;
 import java.util.HashMap;

@@ -8,14 +8,14 @@
 
     <message-types>
         <message-type id="blog.entry">
-            <python:selector type="com.werken.werkflow.example.blog.BlogEntry"/>
+            <python:selector type="org.codehaus.werkflow.example.blog.BlogEntry"/>
         </message-type>
         <message-type id="publish.cmd">
-            <python:selector type="com.werken.werkflow.example.blog.Command" 
+            <python:selector type="org.codehaus.werkflow.example.blog.Command" 
                            filter="message.getType() == 'publish'"/>
         </message-type>
         <message-type id="reject.cmd">
-            <python:selector type="com.werken.werkflow.example.blog.Command" 
+            <python:selector type="org.codehaus.werkflow.example.blog.Command" 
                              filter="message.getType() == 'reject'"/>
         </message-type>
     </message-types>

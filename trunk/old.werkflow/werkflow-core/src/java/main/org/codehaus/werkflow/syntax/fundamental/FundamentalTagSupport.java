@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.definition.Scope;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionFactory;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.definition.Scope;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.MessageTypeLibrary;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionFactory;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.JellyException;

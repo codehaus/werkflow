@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.bsf.BeanShellBSFEngine;
-import com.werken.werkflow.bsf.BsfAction;
+import org.codehaus.werkflow.bsf.BeanShellBSFEngine;
+import org.codehaus.werkflow.bsf.BsfAction;
 
 import org.apache.bsf.BSFException;
 

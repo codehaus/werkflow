@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -51,7 +51,7 @@ import java.util.HashMap;
 
 import org.prevayler.util.TransactionWithQuery;
 
-import com.werken.werkflow.Attributes;
+import org.codehaus.werkflow.Attributes;
 
 /**
  * @author kevin

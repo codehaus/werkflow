@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.ognl;
+package org.codehaus.werkflow.semantics.ognl;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.semantics.ognl;
 
  */
 
-import com.werken.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.Expression;
 
 public class OgnlExpressionFactory
-    implements com.werken.werkflow.expr.ExpressionFactory
+    implements org.codehaus.werkflow.expr.ExpressionFactory
 {
     private static final OgnlExpressionFactory INSTANCE = new OgnlExpressionFactory();
 

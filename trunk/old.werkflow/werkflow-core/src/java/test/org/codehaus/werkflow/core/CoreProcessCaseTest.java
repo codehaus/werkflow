@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,11 +46,11 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.MockProcessInfo;
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
-import com.werken.werkflow.service.persistence.fleeting.FleetingProcessPersistenceManager;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.MockProcessInfo;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingProcessPersistenceManager;
 
 public class CoreProcessCaseTest
     extends WerkflowTestCase

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence.prevayler;
+package org.codehaus.werkflow.service.persistence.prevayler;
 
 /*
  $Id$
@@ -52,7 +52,7 @@ import java.util.Map;
 
 import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
 
-import com.werken.werkflow.AttributeDeclaration;
+import org.codehaus.werkflow.AttributeDeclaration;
 
 /**
  * @author kevin

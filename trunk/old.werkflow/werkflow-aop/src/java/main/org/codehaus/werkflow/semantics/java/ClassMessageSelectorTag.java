@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package org.codehaus.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.semantics.java;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

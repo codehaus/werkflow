@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax;
+package org.codehaus.werkflow.syntax;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.syntax;
 
  */
 
-import com.werken.werkflow.expr.ExpressionFactory;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.expr.ExpressionFactory;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

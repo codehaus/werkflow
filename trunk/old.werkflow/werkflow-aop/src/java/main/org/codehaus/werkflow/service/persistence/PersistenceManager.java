@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence;
+package org.codehaus.werkflow.service.persistence;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.service.persistence;
 
  */
 
-import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.admin.DeploymentException;
+import org.codehaus.werkflow.ProcessInfo;
+import org.codehaus.werkflow.admin.DeploymentException;
 
 public interface PersistenceManager
 {
@@ -55,7 +55,7 @@ public interface PersistenceManager
     public static final String ROLE = PersistenceManager.class.getName();
 
     /** Activate the {@link ProcessPersistenceManager} that will maintain
-     * the {@link com.werken.werkflow.core.CaseState} information for the process.
+     * the {@link org.codehaus.werkflow.core.CaseState} information for the process.
      *
      * <p>
      * This method may be called for new processes and processes that have been activated before.
@@ -75,7 +75,7 @@ public interface PersistenceManager
      *     the process or the process is already active
      *
      * @see ProcessPersistenceManager
-     * @see com.werken.werkflow.engine.WorkflowEngine
+     * @see org.codehaus.werkflow.engine.WorkflowEngine
      */
     ProcessPersistenceManager activate(ProcessInfo processInfo) throws DeploymentException;
 
@@ -98,7 +98,7 @@ public interface PersistenceManager
      *     PersistenceManager.
      *
      * @see ProcessPersistenceManager
-     * @see com.werken.werkflow.engine.WorkflowEngine
+     * @see org.codehaus.werkflow.engine.WorkflowEngine
      */
     void passivate(ProcessPersistenceManager manager) throws PersistenceException;
 }

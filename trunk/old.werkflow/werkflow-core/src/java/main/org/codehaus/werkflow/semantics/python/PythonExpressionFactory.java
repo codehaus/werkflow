@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,10 +46,10 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.Expression;
 
 public class PythonExpressionFactory
-    implements com.werken.werkflow.expr.ExpressionFactory
+    implements org.codehaus.werkflow.expr.ExpressionFactory
 {
     private static final PythonExpressionFactory INSTANCE = new PythonExpressionFactory();
 

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.persistence;
+package org.codehaus.werkflow.service.persistence;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.service.persistence;
 
  */
 
-import com.werken.werkflow.WerkflowException;
+import org.codehaus.werkflow.WerkflowException;
 
 public class PersistenceException
     extends WerkflowException

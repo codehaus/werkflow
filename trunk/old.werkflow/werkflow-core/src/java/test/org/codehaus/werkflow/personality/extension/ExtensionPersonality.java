@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.extension;
+package org.codehaus.werkflow.personality.extension;
 
 /*
  $Id$
@@ -48,10 +48,10 @@ package com.werken.werkflow.personality.extension;
 
 import org.apache.commons.jelly.JellyContext;
 
-import com.werken.werkflow.jelly.JellyUtil;
-import com.werken.werkflow.personality.AbstractPersonality;
-import com.werken.werkflow.personality.Personality;
-import com.werken.werkflow.personality.basic.BasicPersonality;
+import org.codehaus.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.personality.AbstractPersonality;
+import org.codehaus.werkflow.personality.Personality;
+import org.codehaus.werkflow.personality.basic.BasicPersonality;
 
 /**
  * Extend <code>BasicPersonality</code> by adding

@@ -1,4 +1,4 @@
-package com.werken.werkflow.work;
+package org.codehaus.werkflow.work;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.work;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.ProcessCase;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.ProcessCase;
 
 public interface CallAction
     extends Action

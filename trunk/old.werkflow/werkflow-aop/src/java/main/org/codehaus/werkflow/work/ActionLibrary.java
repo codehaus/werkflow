@@ -1,4 +1,4 @@
-package com.werken.werkflow.work;
+package org.codehaus.werkflow.work;
 
 /*
  $Id$

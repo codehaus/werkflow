@@ -1,4 +1,4 @@
-package com.werken.werkflow.task;
+package org.codehaus.werkflow.task;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.task;
 
  */
 
-import com.werken.werkflow.work.Action;
+import org.codehaus.werkflow.work.Action;
 
 /** Default <code>Task</code> implementation.
  *

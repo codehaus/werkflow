@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,15 +46,15 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.petri.Arc;
-import com.werken.werkflow.definition.petri.Place;
-import com.werken.werkflow.definition.petri.Transition;
-import com.werken.werkflow.definition.petri.ActivationRule;
-import com.werken.werkflow.definition.petri.AndInputRule;
-import com.werken.werkflow.definition.petri.NoSuchPlaceException;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.petri.Arc;
+import org.codehaus.werkflow.definition.petri.Place;
+import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.definition.petri.ActivationRule;
+import org.codehaus.werkflow.definition.petri.AndInputRule;
+import org.codehaus.werkflow.definition.petri.NoSuchPlaceException;
 
 import java.util.List;
 import java.util.ArrayList;

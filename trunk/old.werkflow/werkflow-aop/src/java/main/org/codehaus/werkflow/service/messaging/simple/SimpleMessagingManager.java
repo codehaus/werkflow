@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging.simple;
+package org.codehaus.werkflow.service.messaging.simple;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.service.messaging.simple;
 
  */
 
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.service.messaging.MessagingManager;
-import com.werken.werkflow.service.messaging.MessageSink;
-import com.werken.werkflow.service.messaging.MessageSelector;
-import com.werken.werkflow.service.messaging.Registration;
-import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.service.messaging.MessagingManager;
+import org.codehaus.werkflow.service.messaging.MessageSink;
+import org.codehaus.werkflow.service.messaging.MessageSelector;
+import org.codehaus.werkflow.service.messaging.Registration;
+import org.codehaus.werkflow.service.messaging.IncompatibleMessageSelectorException;
 
 import java.util.List;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,17 +46,17 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.WerkflowTestCase;
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.MockProcessInfo;
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
-import com.werken.werkflow.service.persistence.fleeting.FleetingProcessPersistenceManager;
-import com.werken.werkflow.task.DefaultTask;
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.work.ActionInvocation;
+import org.codehaus.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.MockProcessInfo;
+import org.codehaus.werkflow.definition.petri.DefaultNet;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingProcessPersistenceManager;
+import org.codehaus.werkflow.task.DefaultTask;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.work.ActionInvocation;
 
 public class ExecutorTest
     extends WerkflowTestCase

@@ -1,4 +1,4 @@
-package com.werken.werkflow.work;
+package org.codehaus.werkflow.work;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.work;
 
  */
 
-import com.werken.werkflow.Attributes;
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.ProcessCase;
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.expr.ExpressionContext;
-import com.werken.werkflow.expr.AttributesExpressionContext;
-import com.werken.werkflow.semantics.jelly.CaseJellyContext;
+import org.codehaus.werkflow.Attributes;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.ProcessCase;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.expr.ExpressionContext;
+import org.codehaus.werkflow.expr.AttributesExpressionContext;
+import org.codehaus.werkflow.semantics.jelly.CaseJellyContext;
 
 import java.util.Map;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.python;
+package org.codehaus.werkflow.semantics.python;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.semantics.python;
 
  */
 
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
-import com.werken.werkflow.semantics.java.ClassMessageSelector;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.syntax.fundamental.AbstractMessageSelectorTag;
+import org.codehaus.werkflow.semantics.java.ClassMessageSelector;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;

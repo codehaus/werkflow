@@ -1,4 +1,4 @@
-package com.werken.werkflow.admin;
+package org.codehaus.werkflow.admin;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.admin;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.ProcessDefinition;
 
 /** Indicates an attempt to deploy a duplicate <code>ProcessDefinition</code>.
  *

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality;
+package org.codehaus.werkflow.personality;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.personality;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.jelly.MiscTagSupport;
-import com.werken.werkflow.jelly.JellyUtil;
-import com.werken.werkflow.syntax.Syntax;
-import com.werken.werkflow.syntax.SyntaxLoader;
-import com.werken.werkflow.syntax.fundamental.FundamentalTagLibrary;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.syntax.Syntax;
+import org.codehaus.werkflow.syntax.SyntaxLoader;
+import org.codehaus.werkflow.syntax.fundamental.FundamentalTagLibrary;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;

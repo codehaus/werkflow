@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package org.codehaus.werkflow.semantics.jelly;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.semantics.jelly;
 
  */
 
-import com.werken.werkflow.Attributes;
+import org.codehaus.werkflow.Attributes;
 
 import org.apache.commons.jelly.JellyContext;
 

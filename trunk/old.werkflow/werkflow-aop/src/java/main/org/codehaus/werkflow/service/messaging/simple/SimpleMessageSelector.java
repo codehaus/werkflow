@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging.simple;
+package org.codehaus.werkflow.service.messaging.simple;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.service.messaging.simple;
 
  */
 
-import com.werken.werkflow.service.messaging.MessageSelector;
+import org.codehaus.werkflow.service.messaging.MessageSelector;
 
 /** Simple, self-contained <code>MessageSelector</code> implementation.
  *

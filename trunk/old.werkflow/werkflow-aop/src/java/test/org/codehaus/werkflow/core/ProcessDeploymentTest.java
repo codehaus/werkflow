@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,14 +46,14 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.service.messaging.MessagingManager;
-import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.persistence.PersistenceException;
-import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.service.messaging.MessagingManager;
+import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.persistence.PersistenceException;
+import org.codehaus.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 
-import com.werken.werkflow.WerkflowTestCase;
+import org.codehaus.werkflow.WerkflowTestCase;
 
 public class ProcessDeploymentTest
     extends WerkflowTestCase

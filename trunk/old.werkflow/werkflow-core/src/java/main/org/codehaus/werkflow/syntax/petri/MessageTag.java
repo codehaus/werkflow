@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.petri;
+package org.codehaus.werkflow.syntax.petri;
 
 /*
  $Id$
@@ -46,12 +46,12 @@ package com.werken.werkflow.syntax.petri;
 
  */
 
-import com.werken.werkflow.definition.MessageCorrelator;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.petri.DefaultTransition;
-import com.werken.werkflow.definition.NoSuchMessageTypeException;
-import com.werken.werkflow.syntax.fundamental.MessageCorrelatorReceptor;
+import org.codehaus.werkflow.definition.MessageCorrelator;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.definition.petri.DefaultTransition;
+import org.codehaus.werkflow.definition.NoSuchMessageTypeException;
+import org.codehaus.werkflow.syntax.fundamental.MessageCorrelatorReceptor;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -75,7 +75,7 @@ import org.apache.commons.jelly.JellyTagException;
  *
  *  @see TransitionTag
  *  @see MessageTypeTag
- *  @see com.werken.werkflow.semantics.jelly.JellyMessageCorrelatorTag
+ *  @see org.codehaus.werkflow.semantics.jelly.JellyMessageCorrelatorTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

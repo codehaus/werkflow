@@ -1,4 +1,4 @@
-package com.werken.werkflow.service.messaging.simple;
+package org.codehaus.werkflow.service.messaging.simple;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.service.messaging.simple;
 
  */
 
-import com.werken.werkflow.service.messaging.MockMessageSink;
+import org.codehaus.werkflow.service.messaging.MockMessageSink;
 
 import junit.framework.TestCase;
 

@@ -1,4 +1,4 @@
-package com.werken.werkflow.service;
+package org.codehaus.werkflow.service;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.service;
 
  */
 
-import com.werken.werkflow.service.persistence.PersistenceManager;
-import com.werken.werkflow.service.messaging.MessagingManager;
+import org.codehaus.werkflow.service.persistence.PersistenceManager;
+import org.codehaus.werkflow.service.messaging.MessagingManager;
 
 /** Simple <code>WfmsServices</code> implementation.
  *

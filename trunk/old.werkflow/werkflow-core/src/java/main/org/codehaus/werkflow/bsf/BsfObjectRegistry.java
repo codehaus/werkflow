@@ -1,4 +1,4 @@
-package com.werken.werkflow.bsf;
+package org.codehaus.werkflow.bsf;
 
 /*
  $Id$

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.bpel4ws;
+package org.codehaus.werkflow.personality.bpel4ws;
 
 /*
  $Id$
@@ -46,8 +46,8 @@ package com.werken.werkflow.personality.bpel4ws;
 
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.personality.Personality;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.personality.Personality;
 
 import junit.framework.TestCase;
 

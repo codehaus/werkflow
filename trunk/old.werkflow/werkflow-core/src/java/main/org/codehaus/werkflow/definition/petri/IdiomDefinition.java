@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package org.codehaus.werkflow.definition.petri;
 
 /*
  $Id$
@@ -46,13 +46,13 @@ package com.werken.werkflow.definition.petri;
 
  */
 
-import com.werken.werkflow.work.Action;
-import com.werken.werkflow.expr.Expression;
-import com.werken.werkflow.definition.Waiter;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.MessageCorrelator;
-import com.werken.werkflow.definition.NoSuchMessageTypeException;
+import org.codehaus.werkflow.work.Action;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.definition.MessageType;
+import org.codehaus.werkflow.definition.MessageWaiter;
+import org.codehaus.werkflow.definition.MessageCorrelator;
+import org.codehaus.werkflow.definition.NoSuchMessageTypeException;
 
 import java.util.Map;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.werken.werkflow.core;
+package org.codehaus.werkflow.core;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.core;
 
  */
 
-import com.werken.werkflow.service.persistence.CaseTransfer;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
 
 import java.util.Set;
 import java.util.HashSet;

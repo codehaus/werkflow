@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.extension;
+package org.codehaus.werkflow.personality.extension;
 
 /*
  $Id$

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package org.codehaus.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,14 +46,14 @@ package com.werken.werkflow.syntax.fundamental;
 
  */
 
-import com.werken.werkflow.work.ActionLibrary;
-import com.werken.werkflow.definition.Scope;
-import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.semantics.java.JavaTagLibrary;
-import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
-import com.werken.werkflow.jelly.JellyUtil;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import org.codehaus.werkflow.work.ActionLibrary;
+import org.codehaus.werkflow.definition.Scope;
+import org.codehaus.werkflow.definition.ProcessDefinition;
+import org.codehaus.werkflow.definition.MessageTypeLibrary;
+import org.codehaus.werkflow.semantics.java.JavaTagLibrary;
+import org.codehaus.werkflow.semantics.jelly.JellyTagLibrary;
+import org.codehaus.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;

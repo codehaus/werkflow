@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax;
+package org.codehaus.werkflow.syntax;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.syntax;
 
  */
 
-import com.werken.werkflow.jelly.JellyUtil;
+import org.codehaus.werkflow.jelly.JellyUtil;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.Script;

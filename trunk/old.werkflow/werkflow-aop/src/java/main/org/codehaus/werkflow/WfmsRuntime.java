@@ -1,4 +1,4 @@
-package com.werken.werkflow;
+package org.codehaus.werkflow;
 
 /*
  $Id$
@@ -64,7 +64,7 @@ import java.util.Map;
  *
  *  @see ProcessCase
  *  @see ProcessInfo
- *  @see com.werken.werkflow.admin.WfmsAdmin
+ *  @see org.codehaus.werkflow.admin.WfmsAdmin
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  */

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.extension;
+package org.codehaus.werkflow.personality.extension;
 
 /*
  $Id$
@@ -50,7 +50,7 @@ import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.XMLOutput;
 
-import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
+import org.codehaus.werkflow.syntax.fundamental.AbstractActionTag;
 
 /**
  * Sample werkflow action tag.

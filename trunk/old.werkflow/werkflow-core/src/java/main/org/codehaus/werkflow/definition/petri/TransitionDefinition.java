@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition.petri;
+package org.codehaus.werkflow.definition.petri;
 
 /*
  $Id$
@@ -46,7 +46,7 @@ package com.werken.werkflow.definition.petri;
 
  */
 
-import com.werken.werkflow.definition.Waiter;
+import org.codehaus.werkflow.definition.Waiter;
 
 public class TransitionDefinition
 {

@@ -1,4 +1,4 @@
-package com.werken.werkflow.example.hanoi;
+package org.codehaus.werkflow.example.hanoi;
 
 /*
  $Id$
@@ -46,9 +46,9 @@ package com.werken.werkflow.example.hanoi;
 
  */
 
-import com.werken.werkflow.Wfms;
-import com.werken.werkflow.SimpleAttributes;
-import com.werken.werkflow.example.BaseExample;
+import org.codehaus.werkflow.Wfms;
+import org.codehaus.werkflow.SimpleAttributes;
+import org.codehaus.werkflow.example.BaseExample;
 
 public class Example
     extends BaseExample
