@@ -1,7 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.RobustTransaction;
 import org.codehaus.werkflow.spi.SatisfactionCallback;
-import org.codehaus.werkflow.spi.SatisfactionValues;
 
 class EngineSatisfactionCallback
     implements SatisfactionCallback
@@ -19,12 +19,11 @@ class EngineSatisfactionCallback
         this.satisfactionId = satisfactionId;
     }
 
-    public void notifySatisfied(SatisfactionValues values)
+    public void notifySatisfied(Transaction transaction)
         throws Exception
     {
-        this.engine.satisfy( null,
-                             this.instanceId,
-                             this.satisfactionId,
-                             values );
+        this.engine.enqueueSatisfier( (RobustTransaction) transaction,
+                                      this.instanceId,
+                                      this.satisfactionId );
     }
 }
