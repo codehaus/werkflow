@@ -10,6 +10,8 @@ import java.util.Collections;
 
 public class IdiomDefinition
 {
+    public static final IdiomDefinition[] EMPTY_ARRAY = new IdiomDefinition[0];
+
     public static final String IN_PLACE = "in";
     public static final String OUT_PLACE = "out";
 

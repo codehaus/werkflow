@@ -34,4 +34,9 @@ public class IdiomDefinitionLibrary
 
         return (IdiomDefinition) this.idiomDefs.get( id );
     }
+
+    public IdiomDefinition[] getIdiomDefinitions()
+    {
+        return (IdiomDefinition[]) this.idiomDefs.values().toArray( IdiomDefinition.EMPTY_ARRAY );
+    }
 }
