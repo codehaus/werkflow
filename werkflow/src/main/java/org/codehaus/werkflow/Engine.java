@@ -656,11 +656,6 @@ public class Engine
                               transaction.getInstanceId() );
     }
 
-    protected void initializeThreadPoolThread()
-    {
-        initializeThread();
-    }
-
     public void initializeThread()
     {
         setThreadEngine( this );
