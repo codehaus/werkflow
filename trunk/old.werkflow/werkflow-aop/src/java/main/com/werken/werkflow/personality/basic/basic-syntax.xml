@@ -170,16 +170,4 @@
         </fund:attribute>
     </syntax:tag>
 
-    <syntax:tag name="call">
-        <fund:call>
-            <syntax:invokeBody/>
-        </fund:call>
-    </syntax:tag>
-
-    <syntax:tag name="in">
-        <fund:in id="${id}" value="${value}">
-            <syntax:invokeBody/>
-        </fund:in>
-    </syntax:tag>
-
 </syntax:syntax>
