@@ -48,7 +48,7 @@
   <issueTrackingUrl>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10010&amp;report=roadmap</issueTrackingUrl>
 
   <repository>
-    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow:werkflow</connection>
+    <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:werkflow/werkflow-core</connection>
     <url>http://cvs.werkflow.codehaus.org/werkflow/</url>
   </repository>
 
