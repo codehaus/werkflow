@@ -8,20 +8,32 @@ import org.apache.commons.jelly.JellyException;
 public abstract class AbstractActionTag
     extends TagSupport
 {
+    private String id;
+
     public AbstractActionTag()
     {
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    public String getId()
+    {
+        return this.id;
     }
 
     public void setAction(Action action)
         throws Exception
     {
-        TaskTag task = (TaskTag) findAncestorWithClass( TaskTag.class );
+        ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
 
-        if ( task == null )
+        if ( receptor == null )
         {
-            throw new JellyException( "not within <task>" );
+            throw new JellyException( "invalid context for <action>" );
         }
 
-        task.setAction( action );
+        receptor.setAction( action );
     }
 }

@@ -3,6 +3,7 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.definition.DefinitionLoader;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.ActionLibrary;
 import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
@@ -25,8 +26,10 @@ public class FundamentalDefinitionLoader
     public static final String JAVA_TAGLIB_NS_URI = "werkflow:java";
     public static final String JELLY_TAGLIB_NS_URI = "werkflow:jelly";
     public static final String MESSAGE_TYPES_FILENAME = "message-types.xml";
+    public static final String ACTIONS_FILENAME = "actions.xml";
 
     static final String MESSAGE_TYPE_LIBRARY_KEY = "werkflow.msg.type.lib";
+    static final String ACTION_LIBRARY_KEY = "werkflow.action.lib";
     static final String FUNDAMENTAL_DEFINITION_LIST = "werkflow.fundamental.definition-list";
 
     public FundamentalDefinitionLoader()
@@ -47,22 +50,15 @@ public class FundamentalDefinitionLoader
     public ProcessDefinition[] loadDirectoryFlowArchive(File archiveDir)
         throws Exception
     {
+        File actionsXml = new File( archiveDir,
+                                    ACTIONS_FILENAME );
+
+        ActionLibrary globalActionLib = loadOptionalActionLibrary( actionsXml.toURL() );
+
         File messageTypesXml = new File( archiveDir,
                                          MESSAGE_TYPES_FILENAME );
 
-        MessageTypeLibrary globalMsgTypeLib = null;
-
-        try
-        {
-            if ( messageTypesXml.exists() )
-            {
-                globalMsgTypeLib = loadMessageTypeLibrary( messageTypesXml.toURL() );
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            globalMsgTypeLib = new MessageTypeLibrary();
-        }
+        MessageTypeLibrary globalMsgTypeLib = loadOptionalMessageTypeLibrary( messageTypesXml.toURL() );
 
         File[] children = archiveDir.listFiles();
 
@@ -75,6 +71,7 @@ public class FundamentalDefinitionLoader
                 ProcessDefinition[] scriptDefs = null;
 
                 scriptDefs = load( children[i].toURL(),
+                                   new ActionLibrary( globalActionLib ),
                                    new MessageTypeLibrary( globalMsgTypeLib ) );
 
                 for ( int j = 0 ; j < scriptDefs.length ; ++j )
@@ -96,23 +93,19 @@ public class FundamentalDefinitionLoader
     public ProcessDefinition[] load(URL url)
         throws Exception
     {
-        MessageTypeLibrary msgTypeLib = null;
+        ActionLibrary actionLib = loadOptionalActionLibrary( new URL( url,
+                                                                      ACTIONS_FILENAME ) );
 
-        try
-        {
-            msgTypeLib = loadMessageTypeLibrary( new URL( url,
-                                                          MESSAGE_TYPES_FILENAME ) );
-        }
-        catch (FileNotFoundException e)
-        {
-            msgTypeLib = new MessageTypeLibrary();
-        }
-        
+        MessageTypeLibrary msgTypeLib = loadOptionalMessageTypeLibrary( new URL( url,
+                                                                                 MESSAGE_TYPES_FILENAME ) );
+
         return load( url,
+                     actionLib,
                      msgTypeLib );
     }
 
     public ProcessDefinition[] load(URL url,
+                                    ActionLibrary actionLib,
                                     MessageTypeLibrary msgTypeLib)
         throws Exception
     {
@@ -174,5 +167,61 @@ public class FundamentalDefinitionLoader
                     XMLOutput.createDummyXMLOutput() );
 
         return msgTypeLib;
+    }
+
+    public MessageTypeLibrary loadOptionalMessageTypeLibrary(URL url)
+        throws Exception
+    {
+        try
+        {
+            return loadMessageTypeLibrary( url );
+        }
+        catch (FileNotFoundException e)
+        {
+            return new MessageTypeLibrary();
+        }
+    }
+
+    public ActionLibrary loadActionLibrary(URL url)
+        throws Exception
+    {
+        XMLParser    parser  = new XMLParser();
+        JellyContext context = new JellyContext();
+        
+        context.registerTagLibrary( FUNDAMENTAL_TAGLIB_NS_URI,
+                                    new FundamentalTagLibrary() );
+        
+        context.registerTagLibrary( JAVA_TAGLIB_NS_URI,
+                                    new JavaTagLibrary() );
+        
+        context.registerTagLibrary( JELLY_TAGLIB_NS_URI,
+                                    new JellyTagLibrary() );
+        
+        ActionLibrary actionLib = new ActionLibrary();
+
+        context.setVariable( ACTION_LIBRARY_KEY,
+                             actionLib );
+
+        parser.setContext( context );
+
+        Script script = parser.parse( url.toExternalForm() );
+
+        script.run( context,
+                    XMLOutput.createDummyXMLOutput() );
+
+        return actionLib;
+    }
+
+    public ActionLibrary loadOptionalActionLibrary(URL url)
+        throws Exception
+    {
+        try
+        {
+            return loadActionLibrary( url );
+        }
+        catch (FileNotFoundException e)
+        {
+            return new ActionLibrary();
+        }
     }
 }

@@ -11,6 +11,7 @@ public class ActionLibrary
 
     private ActionLibrary parent;
     private Map actions;
+    private Action defaultAction;
 
     public ActionLibrary()
     {
@@ -70,5 +71,25 @@ public class ActionLibrary
         }
         
         return (Action) this.actions.get( id );
+    }
+
+    public void setDefaultAction(Action defaultAction)
+    {
+        this.defaultAction = defaultAction;
+    }
+
+    public Action getDefaultAction()
+    {
+        if ( this.defaultAction != null )
+        {
+            return this.defaultAction;
+        }
+
+        if ( this.parent != null )
+        {
+            return this.parent.getDefaultAction();
+        }
+
+        return null;
     }
 }

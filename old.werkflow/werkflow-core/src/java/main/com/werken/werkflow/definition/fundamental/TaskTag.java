@@ -7,6 +7,7 @@ import org.apache.commons.jelly.XMLOutput;
 
 public class TaskTag
     extends FundamentalTagSupport
+    implements ActionReceptor
 {
     private Action action;
 
