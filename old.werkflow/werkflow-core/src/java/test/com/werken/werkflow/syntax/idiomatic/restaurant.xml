@@ -1,15 +1,21 @@
 <package id="mypkg"
          xmlns="werkflow:idiomatic"
          xmlns:jelly="werkflow:jelly"
+         xmlns:java="werkflow:java"
          xmlns:j="jelly:core">
 
     <import url="message-types.xml"/>
 
     <process id="take to table"
              initiation="call">
+      <attributes>
+        <attribute id="name" in="true">
+            <java:attr-type type="java.lang.String"/>
+        </attribute>
+      </attributes>
       <sequence>
-        <jelly:log message="Our special today is a fish flambe."/>
-        <jelly:log message="If there is anything you need, just epp."/>
+        <jelly:log message="Our special today is a fish flambe, Mr ${name}."/>
+        <jelly:log message="If there is anything you need, just epp, Mr ${name}."/>
       </sequence>
     </process>
 
@@ -43,7 +49,9 @@
             </on-message>
 
             <parallel>
-                <call process="take to table"/>
+                <call process="take to table">
+                    <in id="name" value="${name}"/>
+                </call>
                 <jelly:log message="Fetching rolls for the ${name} party."/>
                 <jelly:log message="Fetching water glasses for the ${name} party."/>
             </parallel>

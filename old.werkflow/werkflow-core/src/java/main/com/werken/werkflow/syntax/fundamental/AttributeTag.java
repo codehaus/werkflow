@@ -1,4 +1,4 @@
-package com.werken.werkflow.admin;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,70 +46,83 @@ package com.werken.werkflow.admin;
  
  */
 
+import com.werken.werkflow.AttributeType;
+import com.werken.werkflow.SimpleAttributeDeclaration;
 import com.werken.werkflow.definition.ProcessDefinition;
 
-/** Base administrative process-deployment exception.
- *
- *  @see WfmsAdmin
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class ProcessException
-    extends AdminException
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
+
+public class AttributeTag
+    extends FundamentalTagSupport
+    implements AttributeTypeReceptor
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
+    private String id;
+    private boolean isIn;
+    private boolean isOut;
+    private AttributeType attrType;
 
-    /** Offending process definition. */
-    private ProcessDefinition processDef;
-    
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-
-    /** Construct.
-     *
-     *  @param processDef The offending process-defintiion.
-     */
-    public ProcessException(ProcessDefinition processDef)
+    public AttributeTag()
     {
-        this.processDef = processDef;
+        // intentionally left blank
     }
 
-    /** Construct with root cause..
-     *
-     *  @param processDef The offending process-defintiion.
-     *  @param rootCause The root cause.
-     */
-    public ProcessException(ProcessDefinition processDef,
-                            Throwable rootCause)
+    public void setId(String id)
     {
-        super( rootCause );
-        this.processDef = processDef;
+        this.id = id;
     }
 
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    /** Retrieve the offending <code>ProcessDefinition</code>.
-     *
-     *  @return The offending process-definition.
-     */
-    public ProcessDefinition getProcess()
+    public String getId()
     {
-        return this.processDef;
+        return this.id;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see java.lang.Throwable
-     */
-    public String getMessage()
+    public void setIn(boolean isIn)
     {
-        return "process exception: " + getProcess().getId();
+        this.isIn = isIn;
+    }
+
+    public boolean isIn()
+    {
+        return this.isIn;
+    }
+
+    public void setOut(boolean isOut)
+    {
+        this.isOut = isOut;
+    }
+
+    public boolean isOut()
+    {
+        return this.isOut;
+    }
+
+    public void receiveAttributeType(AttributeType attrType)
+    {
+        this.attrType = attrType;
+    }
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        requireStringAttribute( "id",
+                                getId() );
+
+        invokeBody( output );
+
+        if ( this.attrType == null )
+        {
+            throw new JellyTagException( "no type specified" );
+        }
+
+        ProcessDefinition processDef = getCurrentProcess();
+
+        SimpleAttributeDeclaration attrDecl = new SimpleAttributeDeclaration( getId(),
+                                                                              this.attrType,
+                                                                              isIn(),
+                                                                              isOut() );
+        processDef.addAttributeDeclaration( attrDecl );
     }
 }

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow;
 
 /*
  $Id$
@@ -46,84 +46,44 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
-
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
-
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public class InvalidAttributesException
+    extends ProcessException
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
-
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
-
+    
+    private Attributes attributes;
+    
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
-
+    
     /** Construct.
+     *
+     *  @param id The offending process identifier.
      */
-    public CallTag()
+    public InvalidAttributesException(String id,
+                                      Attributes attributes)
     {
-        // intentionally left blank
+        super( id );
+
+        this.attributes = attributes;
+    }
+
+    public Attributes getAttributes()
+    {
+        return this.attributes;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    public void setProcess(String processId)
-    {
-        this.processId = processId;
-    }
-
-    public String getProcess()
-    {
-        return this.processId;
-    }
-
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
+    /** @see java.lang.Throwable
      */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
+    public String getMessage()
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
-        {
-            throw new MissingAttributeException( "process" );
-        }
-
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+        return "Invalid attributes for process: " + getId();
     }
-}
+} 

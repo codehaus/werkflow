@@ -80,5 +80,8 @@ public class JavaTagLibrary
 
         registerTag( "action",
                      JavaActionTag.class );
+
+        registerTag( "attr-type",
+                     ClassAttributeTypeTag.class );
     }
 }

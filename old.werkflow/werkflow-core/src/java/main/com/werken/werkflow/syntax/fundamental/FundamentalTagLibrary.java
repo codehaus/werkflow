@@ -118,5 +118,14 @@ public class FundamentalTagLibrary
 
         registerTag( "call",
                      CallTag.class );
+
+        registerTag( "attributes",
+                     AttributesTag.class );
+
+        registerTag( "attribute",
+                     AttributeTag.class );
+
+        registerTag( "in",
+                     InTag.class );
     }
 }

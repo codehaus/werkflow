@@ -215,15 +215,17 @@ public class ProcessTag
 
         setDocumentation( null );
 
+        ProcessDefinition processDef = new ProcessDefinition( getId(),
+                                                              this.net,
+                                                              initiationType );
+
+        setCurrentProcess( processDef );
+
         pushScope();
 
         invokeBody( output );
 
         popScope();
-
-        ProcessDefinition processDef = new ProcessDefinition( getId(),
-                                                              this.net,
-                                                              initiationType );
 
         processDef.setDocumentation( getDocumentation() );
 

@@ -47,83 +47,24 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.task.DefaultTask;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public class AttributesTag
+    extends FundamentalTagSupport
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
-
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-
-    /** Construct.
-     */
-    public CallTag()
+    public AttributesTag()
     {
         // intentionally left blank
     }
-
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    public void setProcess(String processId)
-    {
-        this.processId = processId;
-    }
-
-    public String getProcess()
-    {
-        return this.processId;
-    }
-
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
-        {
-            throw new MissingAttributeException( "process" );
-        }
-
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
         invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
     }
 }

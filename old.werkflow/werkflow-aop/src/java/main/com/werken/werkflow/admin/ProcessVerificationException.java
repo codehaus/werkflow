@@ -57,7 +57,7 @@ import com.werken.werkflow.definition.ProcessDefinition;
  *  @version $Id$
  */
 public class ProcessVerificationException
-    extends ProcessException
+    extends DeploymentException
 {
     // ----------------------------------------------------------------------
     //     Constructors

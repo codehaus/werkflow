@@ -54,10 +54,12 @@ import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.WfmsRuntime;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
+import com.werken.werkflow.ProcessException;
+import com.werken.werkflow.ProcessNotCallableException;
 import com.werken.werkflow.QueryException;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.admin.WfmsAdmin;
-import com.werken.werkflow.admin.ProcessException;
+import com.werken.werkflow.admin.DeploymentException;
 import com.werken.werkflow.admin.DuplicateProcessException;
 import com.werken.werkflow.admin.ProcessVerificationException;
 import com.werken.werkflow.definition.Expression;
@@ -271,6 +273,61 @@ public class WorkflowEngine
         return assumeCase( caseState );
     }
 
+    WorkflowProcessCase callProcess(String processId,
+                                    Attributes attributes)
+        throws NoSuchProcessException, ProcessException
+    {
+        ProcessDeployment deployment = getProcessDeployment( processId );
+
+        if ( ! deployment.isCallable() )
+        {
+            throw new ProcessNotCallableException( processId );
+        }
+
+        deployment.verifyCallParameters( attributes );
+
+        CaseState caseState = newCaseState( processId,
+                                            attributes );
+
+        notifyCaseInitiated( processId,
+                             caseState.getCaseId() );
+
+        return assumeCase( caseState );
+    }
+
+    WorkflowProcessCase callChildProcess(WorkflowActivity activity,
+                                         String processId,
+                                         Attributes attributes)
+        throws NoSuchProcessException, ProcessException
+    {
+
+        ProcessDeployment deployment = getProcessDeployment( processId );
+
+        if ( ! deployment.isCallable() )
+        {
+            throw new ProcessNotCallableException( processId );
+        }
+
+        deployment.verifyCallParameters( attributes );
+
+        CaseState caseState = newCaseState( processId,
+                                            attributes );
+
+        notifyCaseInitiated( processId,
+                             caseState.getCaseId() );
+
+        WorkflowProcessCase childCase = assumeCase( caseState,
+                                                    false );
+
+        getActivityManager().newChildProcessCase( activity,
+                                                  childCase );
+
+        evaluateCase( childCase );
+
+        return childCase;
+    }
+
+    /*
     WorkflowProcessCase newChildProcessCase(WorkflowActivity activity,
                                             String processId,
                                             Attributes attributes)
@@ -293,6 +350,7 @@ public class WorkflowEngine
 
         return childCase;
     }
+    */
 
     WorkflowProcessCase newMessageInitiatedProcessCase(ProcessDeployment deployment,
                                                        Transition transition,
@@ -446,7 +504,7 @@ public class WorkflowEngine
     }
 
     void deployProcessPackage(ProcessPackage pkg)
-        throws ProcessException
+        throws DeploymentException
     {
         ProcessDefinition[] defs = pkg.getProcessDefinitions();
 
@@ -461,11 +519,11 @@ public class WorkflowEngine
      *
      *  @param processDef The process definition to deploy.
      *
-     *  @throws ProcessException If an error occurs while attempting to
+     *  @throws DeploymentException If an error occurs while attempting to
      *          deploy the process.
      */
     void deployProcess(ProcessDefinition processDef)
-        throws ProcessException
+        throws DeploymentException
     {
         String processId = processDef.getId();
 
@@ -541,7 +599,7 @@ public class WorkflowEngine
      *          deploy the process.
      */
     void deployVerifiedProcess(ProcessDefinition processDef)
-        throws ProcessException
+        throws DeploymentException
     {
         try
         {
@@ -553,8 +611,8 @@ public class WorkflowEngine
         }
         catch (ProcessDeploymentException e)
         {
-            throw new ProcessException( processDef,
-                                        e );
+            throw new DeploymentException( processDef,
+                                           e );
         }
     }
 

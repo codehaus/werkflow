@@ -70,11 +70,11 @@ public interface WfmsAdmin
      *
      *  @param pkg The process package to deploy.
      *
-     *  @throws ProcessException If unable to completely successfully
+     *  @throws DeploymentException If unable to completely successfully
      *          deploy the process package.
      */
     void deployProcessPackage(ProcessPackage pkg)
-        throws ProcessException;
+        throws DeploymentException;
 
     /** Attach a <code>WfmsEventListener</code>.
      *
