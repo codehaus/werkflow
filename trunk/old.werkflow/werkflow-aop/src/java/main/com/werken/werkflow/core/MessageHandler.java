@@ -92,6 +92,15 @@ class MessageHandler
                                                                      messageId );
     }
 
+    boolean addCase(CoreChangeSet changeSet,
+                    CoreProcessCase processCase,
+                    String transitionId)
+    {
+        return getMessageTypeHandler( transitionId ).addCase( changeSet,
+                                                              processCase,
+                                                              transitionId );
+    }
+
     private MessageTypeHandler getMessageTypeHandler(MessageType messageType)
     {
         return (MessageTypeHandler) this.messageTypeHandlers.get( messageType );

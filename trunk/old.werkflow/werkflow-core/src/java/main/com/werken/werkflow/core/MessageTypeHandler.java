@@ -44,6 +44,15 @@ class MessageTypeHandler
                                                           message );
     }
 
+    boolean addCase(CoreChangeSet changeSet,
+                    CoreProcessCase processCase,
+                    String transitionId)
+    {
+        return getTerminalMessageHandler().addCase( changeSet,
+                                                    processCase,
+                                                    transitionId );
+    }
+
     Message consumeMessage(CoreChangeSet changeSet,
                            CoreProcessCase processCase,
                            String transitionId,

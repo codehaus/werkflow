@@ -2,5 +2,6 @@ package com.werken.werkflow.core;
 
 interface CaseEvaluator
 {
-    CoreWorkItem[] evaluate(CoreProcessCase processCase);
+    CoreWorkItem[] evaluate(CoreChangeSet changeSet,
+                            CoreProcessCase processCase);
 }
