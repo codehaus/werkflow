@@ -16,13 +16,13 @@
         <jelly:action>
             <j:set var="n" value="${1}"/>
         </jelly:action>
-        <while condition="n &lt; Math.pow(2, height.doubleValue())">
+        <while condition="#n &lt; @java.lang.Math@pow(2,#height)">
             <sequence>
                 <jelly:action>
                     <j:set var="diskNum" value="1"/>
                     <j:set var="m" value="${n}"/>
                 </jelly:action>
-                <while condition="(int(m) % 2) == 0">
+                <while condition="(#m % 2) == 0">
                     <sequence>
                         <jelly:action>
                             <j:set var="diskNum" value="${diskNum+1}"/>
@@ -31,16 +31,16 @@
                     </sequence>
                 </while>
                 <switch>
-                    <case condition="(int(diskNum) % 2) == 1">
+                    <case condition="(#diskNum % 2) == 1">
                         <sequence>
                             <jelly:log message="move disk ${diskNum} clockwise"/>
                         </sequence>
-                    </case> 
+                    </case>
                     <otherwise>
                         <sequence>
                             <jelly:log message="move disk ${diskNum} counter-clockwise"/>
                         </sequence>
-                    </otherwise> 
+                    </otherwise>
                 </switch>
                 <jelly:action>
                     <j:set var="n" value="${n+1}"/>
