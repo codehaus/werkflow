@@ -25,4 +25,9 @@ class CoreActivity
     {
         return this.message;
     }
+
+    void perform(CoreActionInvocation invocation)
+    {
+        getWorkItem().getTransition().getTask().getAction().perform( invocation );
+    }
 }

@@ -176,7 +176,14 @@ class ProcessDeployment
 
         CoreProcessCase[] modifiedCases = changeSet.getCoreModifiedCases();
 
-        getScheduler().schedule( modifiedCases );
+        try
+        {
+            getScheduler().schedule( modifiedCases );
+        }
+        catch (InterruptedException e)
+        {
+            // swallow
+        }
     }
 
     private ProcessPersistenceManager getPersistenceManager()
@@ -221,7 +228,14 @@ class ProcessDeployment
             }
         }
 
-        getScheduler().schedule( (CoreProcessCase[]) schedCases.toArray( CoreProcessCase.EMPTY_ARRAY ) );
+        try
+        {
+            getScheduler().schedule( (CoreProcessCase[]) schedCases.toArray( CoreProcessCase.EMPTY_ARRAY ) );
+        }
+        catch (InterruptedException e)
+        {
+            // swallow
+        }
     }
 
     /** @see MessageConsumer

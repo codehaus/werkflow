@@ -141,9 +141,9 @@ class Evaluator
                 
                 Arc[] arcs = place.getArcsToTransitions();
                 
-                for ( int j = 0 ; j < tokens.length ; ++j )
+                for ( int j = 0 ; j < arcs.length ; ++j )
                 {
-                    Transition trans = arcs[i].getTransition();
+                    Transition trans = arcs[j].getTransition();
                     
                     if ( ! potentials.contains( trans ) )
                     {
