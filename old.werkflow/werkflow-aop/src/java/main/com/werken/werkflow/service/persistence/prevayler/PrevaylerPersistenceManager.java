@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -22,7 +22,7 @@ import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class PrevaylerPersistenceManager implements PersistenceManager
@@ -38,7 +38,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
         _snapOnStop = DEFAULT_SNAP_ON_STOP;
     }
 
-    // -- properties 
+    // -- properties
 
     private String _storePath;
     private boolean _snapOnStop;
@@ -51,7 +51,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
     /**
      * Does the respoistory take a snapshot of the state when it's stopped.
-     * 
+     *
      * @return true if the a snaphot is taken
      */
     public boolean snapOnStop()
@@ -63,7 +63,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     {
         _storePath = storePath;
     }
-    
+
     public void setTransactionPublisher(TransactionPublisher publisher)
     {
         _transactionPublisher = publisher;
@@ -71,7 +71,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
     /**
      * Get the path of the directory used to store the persistant information.
-     * 
+     *
      * @return the path
      */
     public String storePath()
@@ -98,7 +98,7 @@ public class PrevaylerPersistenceManager implements PersistenceManager
                     processInfo.getAttributeDeclarations());
 
             ProcessState state = (ProcessState) command.executeUsing(_prevayler);
-            
+
             return new PrevaylerProcessPersistenceManager(_prevayler, state);
         }
         catch (IOException e)
@@ -134,18 +134,18 @@ public class PrevaylerPersistenceManager implements PersistenceManager
         try
         {
             checkRunning();
-            
+
             synchronized (manager)
             {
-                PrevaylerProcessPersistenceManager pppm =(PrevaylerProcessPersistenceManager) manager; 
+                PrevaylerProcessPersistenceManager pppm =(PrevaylerProcessPersistenceManager) manager;
                 ManagerKey key = pppm.key();
-                
+
                 PassivateManagerCommand command = new PassivateManagerCommand(key.getPackageId(), key.getProcessId());
                 command.executeUsing(_prevayler);
-                
+
                 pppm.passivate();
             }
-            
+
             checkStop();
         }
         catch (IOException ioe)
@@ -194,12 +194,12 @@ public class PrevaylerPersistenceManager implements PersistenceManager
     private synchronized void start() throws IOException, ClassNotFoundException
     {
         checkConfig();
-        
-        TransactionPublisher publisher = 
+
+        TransactionPublisher publisher =
             null == _transactionPublisher
                 ? new TransactionLogger(_storePath)
                 : _transactionPublisher;
-        
+
         _prevayler = new SnapshotPrevayler(new ProcessStore(), new SnapshotManager(_storePath), publisher);
     }
 

@@ -20,7 +20,7 @@ public class CoreProcessCaseTest
         MockProcessInfo       processInfo     = new MockProcessInfo( "the.pkg",
                                                                      "the.process",
                                                                      "the docs" );
-        
+
         CoreProcessCase processCase = new CoreProcessCase( persistManager,
                                                            changeSetSource,
                                                            caseEvaluator,
@@ -232,7 +232,7 @@ public class CoreProcessCaseTest
                 cor3,
             },
                        processCase.getCorrelations( "trans.2" ) );
-        
+
 
         processCase.removeCorrelationsByMessage( "message.1" );
 
@@ -269,7 +269,7 @@ public class CoreProcessCaseTest
         MockProcessInfo       processInfo     = new MockProcessInfo( "the.pkg",
                                                                      "the.process",
                                                                      "the docs" );
-        
+
         return new CoreProcessCase( persistManager,
                                     changeSetSource,
                                     caseEvaluator,

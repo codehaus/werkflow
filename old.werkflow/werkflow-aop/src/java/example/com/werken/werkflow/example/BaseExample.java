@@ -28,10 +28,10 @@ public class BaseExample
         if ( this.wfms == null )
         {
             SimpleWfmsServices services = new SimpleWfmsServices();
-            
+
             services.setMessagingManager( getMessagingManager() );
             services.setPersistenceManager( getPersistenceManager() );
-            
+
             this.wfms = new WorkflowEngine( services );
         }
 

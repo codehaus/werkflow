@@ -72,7 +72,7 @@ public class ArcDefinition
                                   placeId,
                                   transitionId,
                                   expression );
-                                  
+
     }
 
     public static ArcDefinition newArcFromTransitionToPlace(String transitionId,

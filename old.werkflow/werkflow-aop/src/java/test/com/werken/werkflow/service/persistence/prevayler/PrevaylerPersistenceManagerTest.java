@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -23,7 +23,7 @@ import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class PrevaylerPersistenceManagerTest extends TestCase
@@ -50,7 +50,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         {
             ProcessPersistenceManager processManager = _manager.activate(info);
             assertNotNull(processManager);
-            
+
             _manager.passivate(processManager);
             try
             {
@@ -89,15 +89,15 @@ public class PrevaylerPersistenceManagerTest extends TestCase
             assertNotNull(newCaseTransfer);
             assertNotNull(newCaseTransfer.getCaseId());
             assertFalse(newCaseTransfer.getCaseId().length() == 0);
-            
+
             String caseId = newCaseTransfer.getCaseId();
             assertTrue(processManager.hasCase(caseId));
-            
+
             CaseTransfer loadCaseTransfer = processManager.loadCase(caseId);
             assertNotNull(loadCaseTransfer);
             assertEquals(caseId, loadCaseTransfer.getCaseId());
 
-            _manager.passivate(processManager);            
+            _manager.passivate(processManager);
         }
         catch (DeploymentException de)
         {
@@ -109,7 +109,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
     }
 
-    
+
 
     private class SimpleInfo implements ProcessInfo
     {
@@ -188,13 +188,13 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         deleteDirectory(new File(_manager.storePath()));
         _manager = null;
     }
-    
+
     private void deleteDirectory(File directory)
     {
         if (directory.isDirectory())
         {
             File[] contents = directory.listFiles();
-            
+
             for (int i = 0; i < contents.length; i++)
             {
                 File file = contents[i];
@@ -204,10 +204,10 @@ public class PrevaylerPersistenceManagerTest extends TestCase
                 }
                 else
                 {
-                    file.delete();            
+                    file.delete();
                 }
             }
-            
+
             directory.delete();
         }
     }
@@ -222,7 +222,7 @@ public class PrevaylerPersistenceManagerTest extends TestCase
     {
         return new SimpleInfo("test-package-" + suffix, "test-process-" + suffix);
     }
-    
+
     private PrevaylerPersistenceManager _manager;
 
     protected void setUp() throws Exception

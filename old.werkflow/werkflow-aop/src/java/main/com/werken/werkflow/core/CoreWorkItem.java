@@ -38,7 +38,7 @@ class CoreWorkItem
     {
         return this.processCase;
     }
-    
+
     Transition getTransition()
     {
         return this.transition;
@@ -97,7 +97,7 @@ class CoreWorkItem
         }
 
         processCase.consumeTokens( getTokens() );
-        
+
         changeSet.addModifiedCase( processCase );
 
         CoreActivity activity = new CoreActivity( this,

@@ -39,16 +39,16 @@ public class ExprFactoryTag
             try
             {
                 ClassLoader cl = Thread.currentThread().getContextClassLoader();
-                
+
                 if ( cl == null )
                 {
                     cl = getClass().getClassLoader();
                 }
-                
+
                 Class factoryClass = cl.loadClass( getType() );
-                
+
                 factory = (ExpressionFactory) factoryClass.newInstance();
-                
+
                 getContext().setVariable( getType(),
                                           factory );
             }

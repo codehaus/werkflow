@@ -1,7 +1,7 @@
 /*
  * Created on Apr 6, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -19,7 +19,7 @@ import com.werken.werkflow.service.persistence.PersistenceException;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 class ActiveDelegate implements MethodDelegate
@@ -60,7 +60,7 @@ class ActiveDelegate implements MethodDelegate
             final ManagerKey key = key();
             NewCaseCommand command = new NewCaseCommand(key.getPackageId(), key.getProcessId(), initialiAttrs);
             CaseState caseState = (CaseState) command.executeUsing(_prevayler);
-            
+
             return caseState;
         }
         catch (Exception e)
@@ -85,12 +85,12 @@ class ActiveDelegate implements MethodDelegate
         // @todo - Implement method
         throw new RuntimeException("Method not implemented");
     }
-    
+
     // --  beyond here be dragons
-    
+
     private ManagerKey key()
     {
         return _state.key();
     }
-    
+
 }

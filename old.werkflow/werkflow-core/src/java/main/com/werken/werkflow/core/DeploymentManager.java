@@ -55,16 +55,16 @@ class DeploymentManager
         }
 
         ProcessPersistenceManager processPersist = getPersistenceManager().activate( processDef );
-        
+
         ProcessDeployment deployment = new ProcessDeployment( processDef,
                                                               getScheduler(),
                                                               processPersist,
                                                               getMessagingManager() );
-        
+
         try
         {
             deployment.initialize();
-            
+
             this.deployments.put( new DeploymentKey( processDef.getPackageId(),
                                                      processDef.getId() ),
                                   deployment );
@@ -75,7 +75,7 @@ class DeploymentManager
                                            e );
         }
     }
-    
+
     ProcessDeployment getDeployment(String packageId,
                                     String processId)
         throws NoSuchProcessException
@@ -88,7 +88,7 @@ class DeploymentManager
             throw new NoSuchProcessException( packageId,
                                               processId );
         }
-        
+
         return (ProcessDeployment) this.deployments.get( key );
     }
 

@@ -26,7 +26,7 @@ class MessageWaiterHandler
                          Transition transition)
     {
         this.registration = registration;
-        this.transition   = transition; 
+        this.transition   = transition;
         this.messages     = new HashMap();
         this.processCases = new ArrayList();
     }
@@ -59,7 +59,7 @@ class MessageWaiterHandler
     boolean addCase(CoreProcessCase processCase)
     {
         System.err.println( "MessageWaiterHandler.CASECASECASE( " + processCase.getId() + " )" );
-        
+
         if ( this.processCases.contains( processCase ) )
         {
             return false;
@@ -120,7 +120,7 @@ class MessageWaiterHandler
                                Message message)
     {
         MessageWaiter waiter = (MessageWaiter) getTransition().getWaiter();
-        
+
         MessageCorrelator correlator = waiter.getMessageCorrelator();
 
         System.err.println( "transition: " + getTransition().getId() + " // " + correlator );

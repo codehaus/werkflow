@@ -82,5 +82,5 @@ class CorrelationMessageHandler
     {
         return (MessageWaiterHandler) this.messageWaiterHandlers.get( transitionId );
     }
-        
+
 }

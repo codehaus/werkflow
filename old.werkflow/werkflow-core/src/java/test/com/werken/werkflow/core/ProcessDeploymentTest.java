@@ -79,9 +79,9 @@ public class ProcessDeploymentTest
             };
 
         CoreChangeSet changeSet = deployment.newChangeSet();
-        
+
         assertNotNull( changeSet );
-        
+
         assertNull( commits.getValue() );
 
         changeSet.commit();

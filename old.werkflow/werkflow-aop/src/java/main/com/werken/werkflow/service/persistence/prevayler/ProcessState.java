@@ -1,7 +1,7 @@
 /*
  * Created on Apr 6, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -17,7 +17,7 @@ import com.werken.werkflow.AttributeDeclaration;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 class ProcessState implements Serializable
@@ -27,16 +27,16 @@ class ProcessState implements Serializable
         _key = new ManagerKey(packageId, processId);
         _cases = new ConcurrentHashMap();
     }
-    
+
     private int _id;
     private Map _cases;
     private ManagerKey _key;
-    
+
     public ManagerKey key()
     {
-        return _key;    
+        return _key;
     }
-    
+
     public boolean hasCase(String caseId)
     {
         return _cases.containsKey(caseId);
@@ -46,17 +46,17 @@ class ProcessState implements Serializable
     {
         return (CaseState) _cases.get(caseId);
     }
-    
+
     public CaseState addCase(Map attributes)
     {
         String id = String.valueOf(nextId());
-        
+
         CaseState state = new CaseState(id, attributes);
         _cases.put(id, state);
-        
+
         return state;
     }
-    
+
     private synchronized int nextId()
     {
         return _id++;

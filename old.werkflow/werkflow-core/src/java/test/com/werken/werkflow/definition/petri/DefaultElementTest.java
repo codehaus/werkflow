@@ -14,7 +14,7 @@ public class DefaultElementTest
 
     public void testDocumentation()
     {
-        DefaultElement node = new DefaultElement(); 
+        DefaultElement node = new DefaultElement();
 
         assertNull( node.getDocumentation() );
 

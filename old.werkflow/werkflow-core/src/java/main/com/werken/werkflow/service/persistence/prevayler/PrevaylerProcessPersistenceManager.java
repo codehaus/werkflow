@@ -19,11 +19,11 @@ class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
         {
             throw new IllegalArgumentException("The supplied ProcessState can not be null.");
         }
-       
+
         _key = state.key();
-        
+
         // new process managers are always active
-        _delegate = new ActiveDelegate(prevayler, state); 
+        _delegate = new ActiveDelegate(prevayler, state);
     }
 
     private MethodDelegate _delegate;
@@ -57,12 +57,12 @@ class PrevaylerProcessPersistenceManager implements ProcessPersistenceManager
     }
 
     // -- for my "friends"
-    
+
     ManagerKey key()
     {
-        return _key;        
+        return _key;
     }
-    
+
     void passivate()
     {
         _delegate = new PassiveDelegate();

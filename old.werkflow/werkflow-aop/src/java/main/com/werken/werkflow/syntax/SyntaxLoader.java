@@ -61,14 +61,14 @@ public class SyntaxLoader
         evalContext.setCurrentURL( new URL( url,
                                             "url:." )  );
 
-        
+
         List syntaxes = new ArrayList();
 
         MiscTagSupport.installCollector( Syntax.class,
                                          syntaxes,
                                          evalContext );
 
-        
+
         script.run( evalContext,
                     output );
 

@@ -40,7 +40,7 @@ class DeploymentKey
 
         return false;
     }
-    
+
     public int hashCode()
     {
         return getPackageId().hashCode() + getId().hashCode();

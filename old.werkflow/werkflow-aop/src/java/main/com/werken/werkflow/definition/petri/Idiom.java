@@ -104,7 +104,7 @@ public class Idiom
         // just call to see if no-such should throw.
 
         getIdiomDefinition().getParameter( name );
-        
+
         return this.parameters.get( name );
     }
 
@@ -168,7 +168,7 @@ public class Idiom
     {
         Idiom idiom = idiomDef.newIdiom( this,
                                          this.components.size() );
-        
+
         this.components.add( idiom );
 
         return idiom;
@@ -274,9 +274,9 @@ public class Idiom
             if ( action != null )
             {
                 DefaultTask task = new DefaultTask();
-                
+
                 task.setAction( action );
-                
+
                 transition.setTask( task );
             }
         }
@@ -364,7 +364,7 @@ public class Idiom
         place.addInboundArc( arc );
 
         arc.setExpression( expression );
-                                              
+
     }
 
     void graftComponentInput(String placeId,
@@ -384,10 +384,10 @@ public class Idiom
         for ( int i = 0 ; i < componentArcs.length ; ++i )
         {
             componentTransition = (DefaultTransition) componentArcs[i].getTransition();
-            
+
             graftArc = new DefaultArc( place,
                                        componentTransition );
-            
+
             graftArc.setExpression( componentArcs[i].getExpression() );
 
             componentIn.removeOutboundArc( componentArcs[i] );
@@ -411,19 +411,19 @@ public class Idiom
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentOut = component.getOutPlace();
-        
+
         Arc[] componentArcs = componentOut.getArcsFromTransitions();
         DefaultTransition componentTransition = null;
-        
+
         DefaultArc graftArc = null;
-        
+
         for ( int i = 0 ; i < componentArcs.length ; ++i )
         {
             componentTransition = (DefaultTransition) componentArcs[i].getTransition();
-            
+
             graftArc = new DefaultArc( place,
                                        componentTransition );
-            
+
             graftArc.setExpression( componentArcs[i].getExpression() );
 
             componentOut.removeInboundArc( componentArcs[i] );

@@ -50,7 +50,7 @@ public abstract class AbstractExpression
         {
             return true;
         }
-        
+
         return false;
     }
 }

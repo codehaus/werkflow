@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -21,7 +21,7 @@ import com.werken.werkflow.AttributeDeclaration;
 import com.werken.werkflow.service.persistence.PersistenceException;
 
 /**
- * 
+ *
  * <p>
  * This class relies on the surrounding code to provide synchronisation.
  * </p>
@@ -29,7 +29,7 @@ import com.werken.werkflow.service.persistence.PersistenceException;
 class ProcessStore implements Externalizable
 {
     static final long serialVersionUID = 4470892709583036561L;
-    
+
     public ProcessStore()
     {
         _activeProcesses = new ConcurrentReaderHashMap();
@@ -95,14 +95,14 @@ class ProcessStore implements Externalizable
             try
             {
                 ManagerKey key = new ManagerKey(packageId, processId);
-    
+
                 ProcessState state = (ProcessState) _activeProcesses.remove(key);
 
                 if (null == state)
                 {
                     throw new PersistenceException("Manager (" + key + ") is not active");
                 }
-    
+
                 _passiveProcesses.put(key, state);
             }
             finally
@@ -127,8 +127,8 @@ class ProcessStore implements Externalizable
     {
         return activeProcessState(packageId, processId).addCase(attributes);
     }
-    
-    
+
+
 
     //  - Externalizable implementation
 
@@ -151,25 +151,25 @@ class ProcessStore implements Externalizable
         out.writeObject(_activeProcesses);
         out.writeObject(_passiveProcesses);
     }
-    
+
     // -- beyond here be dragons
-    
+
     private ReadWriteLock createLock()
     {
         return new WriterPreferenceReadWriteLock();
     }
-    
+
     private ProcessState activeProcessState(String packageId, String processId) throws PersistenceException
     {
         ManagerKey key = new ManagerKey(packageId, processId);
-        
+
         ProcessState processState = (ProcessState) _activeProcesses.get(key);
-        
+
         if (null == processState)
         {
             throw new PersistenceException("Manager (" + key + ") is not active");
         }
-        
+
         return processState;
     }
 }

@@ -18,7 +18,7 @@ public abstract class BsfExpression
 
     private BSFManager manager;
     private BSFEngine engine;
-    
+
     public BsfExpression(String language,
                          String text)
         throws BSFException
@@ -65,10 +65,10 @@ public abstract class BsfExpression
                               context );
 
             result = this.engine.eval( text, 0, 0, text );
-            
+
             BsfUtil.unpopulate( this.manager,
                                 context );
-            
+
         }
 
         return result;

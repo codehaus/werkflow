@@ -59,5 +59,5 @@ public class MockRegistration
 
         return message;
     }
-    
+
 }

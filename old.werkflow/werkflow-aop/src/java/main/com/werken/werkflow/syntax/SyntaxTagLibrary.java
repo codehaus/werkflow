@@ -27,7 +27,7 @@ public class SyntaxTagLibrary
 
         registerTag( "action-receptor",
                      ActionReceptorTag.class );
-        
+
         registerTag( "correlator-receptor",
                      CorrelatorReceptorTag.class );
 

@@ -79,14 +79,14 @@ class CaseManager
                                           getProcessInfo(),
                                           caseId ) );
         }
-        
+
         return (CoreProcessCase) this.cases.get( caseId );
     }
 
     synchronized CoreProcessCase newCase(Attributes attributes)
         throws PersistenceException
     {
-        CaseTransfer caseTransfer = getPersistenceManager().newCase( attributes ); 
+        CaseTransfer caseTransfer = getPersistenceManager().newCase( attributes );
 
         CoreProcessCase processCase = new CoreProcessCase( getPersistenceManager(),
                                                            getChangeSetSource(),
@@ -99,7 +99,7 @@ class CaseManager
 
         return processCase;
     }
-    
+
     private void addCase(CoreProcessCase processCase)
     {
         this.cases.put( processCase.getId(),

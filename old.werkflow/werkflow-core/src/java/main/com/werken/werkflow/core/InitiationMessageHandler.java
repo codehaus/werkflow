@@ -29,7 +29,7 @@ class InitiationMessageHandler
         {
             ProcessCase newCase = this.deployment.initiate( this.transition,
                                                             message.getId() );
-            
+
             return ( newCase != null );
         }
         catch (PersistenceException e)

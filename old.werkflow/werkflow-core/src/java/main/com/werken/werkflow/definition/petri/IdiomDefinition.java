@@ -38,7 +38,7 @@ public class IdiomDefinition
     public static final IdiomDefinition ACTION_IDIOM = new IdiomDefinition( "werkflow:internal-idioms",
                                                                             "werkflow.action",
                                                                             CONTAINS_ONE_ACTION );
-    
+
     static
     {
         /*
@@ -54,14 +54,14 @@ public class IdiomDefinition
             System.exit( 1 );
         }
         */
-        
+
         ACTION_IDIOM.addTransition( new TransitionDefinition( "action",
                                                               "action" ) );
-        
+
         ACTION_IDIOM.addArc( ArcDefinition.newArcFromPlaceToTransition( "in",
                                                                         "action",
                                                                         null ) );
-        
+
         ACTION_IDIOM.addArc( ArcDefinition.newArcFromTransitionToPlace( "action",
                                                                         "out",
                                                                         null ) );
@@ -104,7 +104,7 @@ public class IdiomDefinition
     public String toString()
     {
         return "[IdiomDefinition: id=" + this.id
-            + "; parameters=" + this.parameters 
+            + "; parameters=" + this.parameters
             + "; places=" + this.places.values()
             + "; transitions=" + this.transitions.values()
             + "; arcs=" + this.arcs
@@ -212,7 +212,7 @@ public class IdiomDefinition
 
         return idiom;
     }
-    
+
     protected void buildStatic(Idiom idiom)
         throws IdiomException
     {
@@ -238,7 +238,7 @@ public class IdiomDefinition
                                            idiom ),
 
                                 placeDefs[i].getDocumentation() );
-                
+
                 if ( placeDefs[i].getStashId() != null )
                 {
                     idiom.stash( placeDefs[i].getStashId(),
@@ -246,9 +246,9 @@ public class IdiomDefinition
                 }
             }
         }
-        
+
         TransitionDefinition[] transitionDefs = getTransitions();
-        
+
         for ( int i = 0 ; i < transitionDefs.length ; ++i )
         {
             if ( ! ( transitionDefs[i].getId().equals( ACTION )
@@ -273,7 +273,7 @@ public class IdiomDefinition
                 }
             }
         }
-        
+
         ArcDefinition[] arcDefs = getArcs();
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
@@ -493,7 +493,7 @@ public class IdiomDefinition
         for ( int i = 0 ; i < arcDefs.length ; ++i )
         {
             String useId = arcDefs[i].getPlaceId();
-            
+
             if ( useId.startsWith( STASHED_PREFIX ) )
             {
                 useId = idiom.getStashed( useId.substring( STASHED_PREFIX.length() ) );
@@ -545,7 +545,7 @@ public class IdiomDefinition
         }
 
         idiom.stashAll( stashings );
-        
+
         /*
           for ( int i = 0 ; i < placeDefs.length ; ++i )
           {
@@ -599,7 +599,7 @@ public class IdiomDefinition
         {
             return null;
         }
-        
+
         if ( exprStr.startsWith( PARAMETER_PREFIX ) )
         {
             return (Expression) idiom.getParameter( exprStr.substring( PARAMETER_PREFIX.length() ) );

@@ -12,7 +12,7 @@ public class ParameterTag
     private String id;
     private String type;
     private boolean required;
-    
+
     public ParameterTag()
     {
         // intentionally left blank

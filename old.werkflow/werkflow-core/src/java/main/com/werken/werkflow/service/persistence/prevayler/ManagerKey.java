@@ -1,7 +1,7 @@
 /*
  * Created on Apr 5, 2003
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package com.werken.werkflow.service.persistence.prevayler;
@@ -13,7 +13,7 @@ import com.werken.werkflow.ProcessInfo;
 /**
  * @author kevin
  *
- * To change this generated comment go to 
+ * To change this generated comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 class ManagerKey implements Serializable
@@ -29,26 +29,26 @@ class ManagerKey implements Serializable
         if (null == packageId || null == processId
             || processId.length() == 0 || packageId.length() == 0)
         {
-            throw new IllegalArgumentException("The package and process id's can not be null or empty");            
+            throw new IllegalArgumentException("The package and process id's can not be null or empty");
         }
-        
+
         _package = packageId;
         _process = processId;
     }
 
     private String _process;
     private String _package;
-    
+
     String getProcessId()
     {
         return _process;
     }
-    
+
     String getPackageId()
     {
         return _package;
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -57,10 +57,10 @@ class ManagerKey implements Serializable
         if (obj instanceof ManagerKey)
         {
             ManagerKey other = (ManagerKey) obj;
-            
+
             return _process.equals(other._process) && _package.equals(other._package);
         }
-        
+
         return false;
     }
 

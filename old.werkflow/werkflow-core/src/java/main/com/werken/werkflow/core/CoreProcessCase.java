@@ -182,7 +182,7 @@ class CoreProcessCase
             {
                 corIter.remove();
             }
-        }     
+        }
     }
 
     void consumeTokens(String[] tokens)

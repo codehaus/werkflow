@@ -123,7 +123,7 @@ class ProcessDeployment
         // If the process is not callable, then any transition
         // connected to (in) will be dealt with as an initiation
         // waiter instead of a correlation waiter.
-        
+
         if ( ( ! isCallable() )
              &&
              isAttachedToIn( transition ) )
@@ -161,7 +161,7 @@ class ProcessDeployment
 
     private boolean isCallable()
     {
-        return ( getProcessDefinition().getInitiationType() 
+        return ( getProcessDefinition().getInitiationType()
                  ==
                  ProcessDefinition.InitiationType.CALL );
     }

@@ -72,6 +72,6 @@ class MessageTypeHandler
                                                            processCase,
                                                            transitionId,
                                                            messageId );
-                                                           
+
     }
 }
