@@ -376,6 +376,8 @@ class ProcessDeployment
             }
         }
 
+        // System.err.println( "ENABLED: " + enabledTrans );
+
         processCase.setEnabledTransitions( (Transition[]) enabledTrans.toArray( Transition.EMPTY_ARRAY ) );
 
         getMessageHandler().evaluateCase( processCase,

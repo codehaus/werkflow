@@ -44,6 +44,37 @@
     </idiom>
 
     <!--
+      ||     CHOICE
+      -->
+
+    <idiom id="choose">
+        <template> 
+            <transition id="component">
+                <input from="in"/>
+                <output  to="out"/>
+            </transition>
+        </template> 
+    </idiom>
+
+    <idiom id="choice">
+        <parameter id="condition" type="expr"/>
+        <template>
+            <place id="component:head"/>
+
+            <transition id="match">
+                <input from="in" filter="parameter:condition"/>
+                <output to="component:head"/>
+            </transition>
+
+            <transition id="component">
+                <input from="component:head"/>
+                <output  to="out"/>
+            </transition>
+
+        </template>
+    </idiom> 
+
+    <!--
       ||     IF
       -->
 

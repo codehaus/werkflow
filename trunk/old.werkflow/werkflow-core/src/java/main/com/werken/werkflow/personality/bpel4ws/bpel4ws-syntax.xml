@@ -28,4 +28,17 @@
         </core:parallel>
     </syntax:tag>
 
+    <syntax:tag name="sequence">
+        <core:sequence>
+            <syntax:invokeBody/>
+        </core:sequence>
+    </syntax:tag>
+
+    <syntax:tag name="terminate">
+        <core:terminate>
+            <syntax:invokeBody/>
+        </core:terminate>
+    </syntax:tag>
+
+
 </syntax:syntax>
