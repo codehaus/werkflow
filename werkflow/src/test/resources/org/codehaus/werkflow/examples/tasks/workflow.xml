@@ -1,0 +1,10 @@
+<workflow xmlns="http://werkflow.codehaus.org/simple" id="article">
+    <action id="set_state" state="requested"/>
+    <task id="WriteArticle" taskDescription="Please write article" assignee="writer"/>
+    <parallel>
+        <task id="ReviewArticle1" taskDescription="Please review this article" assignee="reviewer1"/>
+        <task id="ReviewArticle2" taskDescription="Please review this article" assignee="reviewer2"/>
+    </parallel>
+    <task id="ApproveArticle" taskDescription="Please approve this article" assignee="approver"/>
+    <action id="set_state" state="finished"/>
+</workflow>
