@@ -135,6 +135,15 @@ public class BlogWorkflowTest extends TestCase
         tx.satisfy("approval", sv);
         tx.commit();
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }        
+
         showInstance(i);
 
         RobustInstance ii = engine.getInstanceManager().getInstance("een");
