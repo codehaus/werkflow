@@ -67,7 +67,7 @@ public class FundamentalDefinitionLoader
         for ( int i = 0 ; i < children.length ; ++i )
         {
             if (  ( ! children[i].getName().equals( MESSAGE_TYPES_FILENAME ) )
-                  ||
+                  &&
                   ( ! children[i].getName().equals( ACTIONS_FILENAME ) ) )
             {
                 ProcessDefinition[] scriptDefs = null;
