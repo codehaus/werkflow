@@ -3,12 +3,12 @@
 
   <message-type id="normal.msg">
     <wfjava:selector type="com.werken.werkflow.SimpleMessage"
-                     filter="message.type == 'normal'"/>
+                     filter="message.type.equals( &quot;normal&quot; )"/>
   </message-type>
 
   <message-type id="init.msg">
     <wfjava:selector type="com.werken.werkflow.SimpleMessage"
-                     filter="message.type == 'init'"/>
+                     filter="message.type.equals( &quot;init&quot; )"/>
   </message-type>
   
   <!-- -->
