@@ -1,11 +1,56 @@
 package com.werken.werkflow.engine;
 
+/*
+ $Id$
+
+ Copyright 2003 (C) The Werken Company. All Rights Reserved.
+ 
+ Redistribution and use of this software and associated documentation
+ ("Software"), with or without modification, are permitted provided
+ that the following conditions are met:
+
+ 1. Redistributions of source code must retain copyright
+    statements and notices.  Redistributions must also contain a
+    copy of this document.
+ 
+ 2. Redistributions in binary form must reproduce the
+    above copyright notice, this list of conditions and the
+    following disclaimer in the documentation and/or other
+    materials provided with the distribution.
+ 
+ 3. The name "werkflow" must not be used to endorse or promote
+    products derived from this Software without prior written
+    permission of The Werken Company.  For written permission,
+    please contact bob@werken.com.
+ 
+ 4. Products derived from this Software may not be called "werkflow"
+    nor may "werkflow" appear in their names without prior written
+    permission of The Werken Company. "werkflow" is a registered
+    trademark of The Werken Company.
+ 
+ 5. Due credit should be given to The Werken Company.
+    (http://werkflow.werken.com/).
+ 
+ THIS SOFTWARE IS PROVIDED BY THE WERKEN COMPANY AND CONTRIBUTORS
+ ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
+ NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ THE WERKEN COMPANY OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+ */
+
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.engine.ProcessDeployment;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
@@ -20,23 +65,54 @@ import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/** Manager of <code>Activity</code> execution.
+ *
+ *  @see Action
+ *  @see Activity
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *
+ *  @version $Id$
+ */
 public class ActivityManager
 {
+    // ----------------------------------------------------------------------
+    //     Constants
+    // ----------------------------------------------------------------------
+
+    /** Empty <code>String</code> array. */
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Workflow engine.*/
     private WorkflowEngine engine;
+
+    /** In-flight activities. */
     private Set activities;
 
+    /** Thread pool. */
     private PooledExecutor pool;
+
+    /** Queue feeding the thread pool. */
     private LinkedQueue queue;
 
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
+     *
+     *  @param engine The workflow engine.
+     */
     public ActivityManager(WorkflowEngine engine)
     {
         this.engine     = engine;
@@ -51,11 +127,23 @@ public class ActivityManager
         this.pool.createThreads( 2 );
     }
 
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** Retrieve the <code>WorkflowEngine</code>.
+     *
+     *  @return The engine.
+     */
     private WorkflowEngine getEngine()
     {
         return this.engine;
     }
 
+    /** Schedule a case for execution.
+     *
+     *  @param processCase The case to schedule.
+     */
     public void scheduleCase(final WorkflowProcessCase processCase)
     {
         Transition[] transitions = processCase.getEnabledTransitions();
@@ -104,6 +192,16 @@ public class ActivityManager
         }
     }
 
+    /** Verify that a case's transition may execute.
+     *
+     *  @param processCase The case to verify.
+     *  @param transition The candidate transition.
+     *
+     *  @return The map of additional execution attributes.
+     *
+     *  @throws VerificationException If the case's transition
+     *          is not verified to be acceptable for execution.
+     */
     protected Map verify(WorkflowProcessCase processCase,
                           Transition transition)
         throws VerificationException
@@ -157,6 +255,14 @@ public class ActivityManager
         return otherAttrs;
     }
 
+    /** Satisfy the execution of a case's transition by
+     *  consuming marks.
+     *
+     *  @param processCase The case.
+     *  @param transition The transition.
+     *
+     *  @return The identifiers of places from which marks were consumed.
+     */
     protected String[] satisfy(WorkflowProcessCase processCase,
                                Transition transition)
     {
@@ -164,6 +270,15 @@ public class ActivityManager
                                                        processCase );
     }
 
+    /** Fire the execution of a case's transition.
+     *
+     *  @param processCase The case.
+     *  @param transition The transition.
+     *
+     *  @todo throw an exception
+     *
+     *  @return The activity handle or <code>null</code> if unsuccessful.
+     */
     protected Activity fire(WorkflowProcessCase processCase,
                             Transition transition)
     {
@@ -191,8 +306,17 @@ public class ActivityManager
         return null;
     }
 
+    /** Fire a <code>WorkItem</code>.
+     *
+     *  @param workItem The work-item to fire.
+     *
+     *  @return The activity handle.
+     *
+     *  @throws NoSuchProcessException If the case's process is not current deployed.
+     *  @throws NoSuchCaseException If the case cannot be located.
+     */
     protected Activity fire(WorkItem workItem)
-        throws Exception
+        throws NoSuchProcessException, NoSuchCaseException
     {
         WorkflowProcessCase processCase = getEngine().getProcessCase( workItem.getCaseId() );
 
@@ -212,6 +336,15 @@ public class ActivityManager
         return null;
     }
 
+    /** Fire an activity.
+     *
+     *  @param processCase The process case.
+     *  @param transition The transition.
+     *  @param placeIds The identifiers of the places from which marks were consumed.
+     *  @param otherAttrs Additional context attributes.
+     *
+     *  @return The activity handle.
+     */
     protected Activity fire(WorkflowProcessCase processCase,
                             Transition transition,
                             String[] placeIds,
@@ -252,6 +385,13 @@ public class ActivityManager
         return activity;
     }
 
+    /** Perform an activity.
+     *
+     *  @param activity The activity to perform.
+     *  @param processCase The processCase.
+     *  @param task The task.
+     *  @param otherAttrs Additional context attributes.
+     */
     protected void fire(WorkflowActivity activity,
                         WorkflowProcessCase processCase,
                         Task task,
@@ -265,6 +405,10 @@ public class ActivityManager
     }
 
 
+    /** Receive completion notification.
+     *
+     *  @param activity The completed activity.
+     */
     protected void complete(WorkflowActivity activity)
     {
         try
@@ -330,6 +474,11 @@ public class ActivityManager
         }
     }
 
+    /** Receive completion-with-error notification.
+     *
+     *  @param activity The completed activity.
+     *  @param error The error
+     */
     protected void completeWithError(WorkflowActivity activity,
                                      Throwable error)
     {
@@ -361,6 +510,16 @@ public class ActivityManager
         }
     }
 
+    /** Create a new activity handle.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *  @param placeIds The identifiers of the places from which marks were consumed.
+     *  @param caseAttrs Case attributes.
+     *
+     *  @return The new activity handle.
+     */
     protected WorkflowActivity newActivity(String processId,
                                            String caseId,
                                            String transitionId,
@@ -379,6 +538,13 @@ public class ActivityManager
         return activity;
     }
 
+    /** Retrieve an activity.
+     *
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *
+     *  @return The activity handle.
+     */
     protected WorkflowActivity getActivity(String caseId,
                                            String transitionId)
     {
@@ -400,22 +566,12 @@ public class ActivityManager
         return null;
     }
 
-    /*
-    protected WorkflowProcessCase getNextCase()
-        throws InterruptedException
-    {
-        synchronized ( this.cases )
-        {
-            while ( this.cases.isEmpty() )
-            {
-                this.cases.wait();
-            }
-
-            return (WorkflowProcessCase) this.cases.removeFirst();
-        }
-    }
-    */
-
+    /** Retrieve the in-progress activities for a case.
+     *
+     *  @param caseId The case identifier.
+     *
+     *  @return The possibly empty array of in-progress activities.
+     */
     Activity[] getActivitiesForProcessCase(String caseId)
     {
         List caseActivities = new ArrayList();
