@@ -157,7 +157,8 @@ public class WorkflowEngine
     {
         try
         {
-            ProcessDeployment deployment = new ProcessDeployment( processDef );
+            ProcessDeployment deployment = new ProcessDeployment( this,
+                                                                  processDef );
             
             this.deployments.put( processDef.getId(),
                                   deployment );

@@ -51,4 +51,9 @@ public class MessageType
 
         return false;
     }
+
+    public int hashCode()
+    {
+        return getId().hashCode() + getMessageSelector().hashCode();
+    }
 }

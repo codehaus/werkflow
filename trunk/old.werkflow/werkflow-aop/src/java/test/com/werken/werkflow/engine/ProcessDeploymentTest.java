@@ -19,6 +19,7 @@ import java.util.Set;
 public class ProcessDeploymentTest
     extends TestCase
 {
+    private WorkflowEngine engine;
     private DefaultNet net;
     private ProcessDefinition def;
     private CaseRepository caseRepo;
@@ -27,6 +28,8 @@ public class ProcessDeploymentTest
     public void setUp()
         throws Exception
     {
+        this.engine = new WorkflowEngine( null );
+
         this.net = new DefaultNet();
 
         this.transition = this.net.addTransition( "transition" );
@@ -58,7 +61,8 @@ public class ProcessDeploymentTest
     public void testConstruct()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         assertEquals( "the process",
                       deployment.getId() );
@@ -73,7 +77,8 @@ public class ProcessDeploymentTest
     public void testGetPotentialTransitions()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes() );
@@ -95,7 +100,8 @@ public class ProcessDeploymentTest
     public void testEvalaute_None()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes() );
@@ -112,7 +118,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_And_One()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes() );
@@ -133,7 +140,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_And_Other()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes() );
@@ -154,7 +162,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_And_Both()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes() );
@@ -179,7 +188,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_Or_One()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes()  );
@@ -203,7 +213,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_Or_Other()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes()  );
@@ -227,7 +238,8 @@ public class ProcessDeploymentTest
     public void testEvaluate_Or_Both()
         throws Exception
     {
-        ProcessDeployment deployment = new ProcessDeployment( this.def );
+        ProcessDeployment deployment = new ProcessDeployment( this.engine,
+                                                              this.def );
 
         CaseState state = this.caseRepo.newCaseState( "the process",
                                                       new SimpleAttributes()  );
