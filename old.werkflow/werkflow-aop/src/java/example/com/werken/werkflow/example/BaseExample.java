@@ -7,6 +7,7 @@ import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
 import com.werken.werkflow.service.persistence.PersistenceManager;
 import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
+import com.werken.werkflow.personality.Personality;
 import com.werken.werkflow.personality.basic.BasicPersonality;
 
 import java.net.URL;
@@ -60,7 +61,7 @@ public class BaseExample
     public void deploy(String name)
         throws Exception
     {
-        BasicPersonality personality = BasicPersonality.getInstance();
+        Personality personality = BasicPersonality.getInstance();
 
         URL url = getClass().getResource( name );
 
