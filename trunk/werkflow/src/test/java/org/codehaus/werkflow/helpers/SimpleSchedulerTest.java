@@ -73,6 +73,8 @@ public class SimpleSchedulerTest extends TestCase
             throws Exception
     {
 
+        boolean satisifiedPickColor = false;
+
         Engine engine = createEngine();
         Workflow workflow = SimpleWorkflowReader.read(this,this,getClass().getResource("workflow.xml"));
         assertNotNull(workflow);
@@ -94,18 +96,14 @@ public class SimpleSchedulerTest extends TestCase
 
         showInstance(instance);
 
-        while (instance.getEligibleSatisfactions().length < 2 && !instance.isComplete())
+        while (this.scheduler.runTask())
         {
-            this.scheduler.runTask();
+
         }
 
-        showInstance(instance);
         System.out.println("Eligible satisfactions: " + Arrays.asList(instance.getEligibleSatisfactions()));
-
-        RobustInstance i = engine.getInstanceManager().getInstance("een");
-
         // new user action
-        Transaction tx = engine.beginTransaction(i.getId());
+        Transaction tx = engine.beginTransaction(instance.getId());
         // provide user choices
         DefaultSatisfactionValues sv = new DefaultSatisfactionValues();
         sv.setValue("choice", "green");
@@ -114,19 +112,16 @@ public class SimpleSchedulerTest extends TestCase
         System.out.println("About to satisfy pick_color...");
         tx.satisfy("pick_color", sv);
         tx.commit();
-        showInstance(i);
+        showInstance(instance);
 
-        while (i.getEligibleSatisfactions().length < 1 && !instance.isComplete())
+        while (this.scheduler.runTask())
         {
-            this.scheduler.runTask();
+
         }
 
         System.out.println("Eligible satisfactions: " + Arrays.asList(instance.getEligibleSatisfactions()));
-
-        showInstance(i);
-
         // new user action
-        tx = engine.beginTransaction(i.getId());
+        tx = engine.beginTransaction(instance.getId());
         // provide more user choices
         sv = new DefaultSatisfactionValues();
         sv.setValue("choice", "reject");
@@ -135,18 +130,15 @@ public class SimpleSchedulerTest extends TestCase
         System.out.println("About to satisfy approval...");
         tx.satisfy("approval", sv);
         tx.commit();
+        showInstance(instance);
 
-        showInstance(i);
 
-        while (!instance.isComplete())
+        while (this.scheduler.runTask())
         {
-            this.scheduler.runTask();
+
         }
-
-        showInstance(i);
-
-        RobustInstance ii = engine.getInstanceManager().getInstance("een");
-        assertTrue(ii.isComplete());
+        
+        assertTrue(instance.isComplete());
 
         engine.stop();
     }
