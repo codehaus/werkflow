@@ -121,7 +121,9 @@ public class Correlator
                         if ( messageCorrelator.correlates( message,
                                                            processCase ) )
                         {
-                            // FIXME MATCH!
+                            notifyCorrelation( eachTransId,
+                                               processCase,
+                                               message );
                             return true;
                         }
                     }
@@ -167,8 +169,9 @@ public class Correlator
                 if ( messageCorrelator.correlates( eachMessage,
                                                    processCase ) )
                 {
-                    // FIXME MATCH!
-
+                    notifyCorrelation( transitionId,
+                                       processCase,
+                                       eachMessage );
                     return true;
                 }
             }
@@ -180,6 +183,13 @@ public class Correlator
         }
 
         return false;
+    }
+
+    protected void notifyCorrelation(String transitionId,
+                                     WorkflowProcessCase processCase,
+                                     Object message)
+    {
+
     }
 
     public void addMessageWaiter(String transitionId,

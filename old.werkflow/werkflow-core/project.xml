@@ -170,6 +170,11 @@
       <url>http://jakarta.apache.org/log4j/</url>
     </dependency>
 
+    <dependency>
+      <id>plexus</id>
+      <version>0.1</version>
+    </dependency>
+
 
   </dependencies>
 

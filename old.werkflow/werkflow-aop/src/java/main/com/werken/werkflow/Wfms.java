@@ -19,6 +19,10 @@ import com.werken.werkflow.admin.WfmsAdmin;
  */
 public interface Wfms
 {
+    /** Component role.
+     */
+    public static final String ROLE = Wfms.class.getName();
+
     /** Retrieve the administration interface.
      *
      *  @return The administration interface.
