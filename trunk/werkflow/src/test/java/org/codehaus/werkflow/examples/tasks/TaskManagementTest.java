@@ -146,6 +146,15 @@ public class TaskManagementTest extends TestCase
         userInput.setValue("approver", "piet");
         finishTask(i, "ApproveArticle", userInput);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }        
+
         showWaitingTasks(instance);
 
         RobustInstance ii = engine.getInstanceManager().getInstance("request1");
