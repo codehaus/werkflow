@@ -28,6 +28,7 @@ class CoreActivity
 
     void perform(CoreActionInvocation invocation)
     {
+        System.err.println( "action to perform: " + getWorkItem().getTransition().getTask().getAction() );
         getWorkItem().getTransition().getTask().getAction().perform( invocation );
     }
 }
