@@ -21,15 +21,11 @@ class CoreChangeSet
     private ChangeSetSource changeSetSource;
 
     private Set modifiedCases;
-    private List correlations;
-    private List consumedMessages;
 
     CoreChangeSet(ChangeSetSource changeSourceSet)
     {
         this.changeSetSource  = changeSourceSet;
-        this.correlations     = new ArrayList();
         this.modifiedCases    = new HashSet();
-        this.consumedMessages = new ArrayList();
     }
 
     void addModifiedCase(CoreProcessCase processCase)
@@ -40,31 +36,6 @@ class CoreChangeSet
     CoreProcessCase[] getCoreModifiedCases()
     {
         return (CoreProcessCase[]) this.modifiedCases.toArray( CoreProcessCase.EMPTY_ARRAY );
-    }
-
-    void addConsumption(String messageId)
-    {
-        this.consumedMessages.add( messageId );
-    }
-
-    String[] getCoreConsumptions()
-    {
-        return (String[]) this.consumedMessages.toArray( EMPTY_STRING_ARRAY );
-    }
-
-    void addCorrelation(Correlation correlation)
-    {
-        this.correlations.add( correlation );
-    }
-
-    Correlation[] getCoreCorrelations()
-    {
-        return (Correlation[]) this.correlations.toArray( Correlation.EMPTY_ARRAY );
-    }
-
-    void addUncorrelated(Message message)
-    {
-
     }
 
     ChangeSetSource getChangeSetSource()
@@ -82,20 +53,4 @@ class CoreChangeSet
     {
         return null;
     }
-
-    public CorrelationTransfer[] getCorrelations()
-    {
-        return null;
-    }
-
-    public UncorrelatedTransfer[] getUncorrelateds()
-    {
-        return null;
-    }
-
-    public ConsumptionTransfer[] getConsumptions()
-    {
-        return null;
-    }
-    
 }

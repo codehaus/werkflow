@@ -6,8 +6,7 @@ import com.werken.werkflow.service.messaging.NoSuchMessageException;
 
 interface TerminalMessageHandler
 {
-    boolean acceptMessage(CoreChangeSet changeSet,
-                          Message message);
+    boolean acceptMessage(Message message);
 
     Message consumeMessage(CoreChangeSet changeSet,
                            CoreProcessCase processCase,
@@ -15,8 +14,7 @@ interface TerminalMessageHandler
                            String messageId)
         throws NoSuchMessageException;
 
-    boolean addCase(CoreChangeSet changeSet,
-                    CoreProcessCase processCase,
+    boolean addCase(CoreProcessCase processCase,
                     String transitionId);
 
     void removeCase(CoreProcessCase processCase,

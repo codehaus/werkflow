@@ -44,7 +44,8 @@ class MessageHandler
         return this.messageSink;
     }
 
-    void add(Transition transition)
+    void add(Transition transition,
+             ProcessDeployment deployment)
         throws IncompatibleMessageSelectorException
     {
         MessageWaiter waiter = (MessageWaiter) transition.getWaiter();
@@ -69,15 +70,14 @@ class MessageHandler
                                                         handler );
         }
 
-        handler.add( transition );
+        handler.add( transition,
+                     deployment );
     }
 
-    boolean acceptMessage(CoreChangeSet changeSet,
-                          Message message)
+    boolean acceptMessage(Message message)
     {
         System.err.println( "MessageHandler.acceptMessage( " + message.getMessage() + " )" );
-        return getMessageTypeHandler( message.getMessageType() ).acceptMessage( changeSet,
-                                                                                message );
+        return getMessageTypeHandler( message.getMessageType() ).acceptMessage( message );
     }
 
     Message consumeMessage(CoreChangeSet changeSet,
@@ -92,12 +92,10 @@ class MessageHandler
                                                                      messageId );
     }
 
-    boolean addCase(CoreChangeSet changeSet,
-                    CoreProcessCase processCase,
+    boolean addCase(CoreProcessCase processCase,
                     String transitionId)
     {
-        return getMessageTypeHandler( transitionId ).addCase( changeSet,
-                                                              processCase,
+        return getMessageTypeHandler( transitionId ).addCase( processCase,
                                                               transitionId );
     }
 

@@ -1,16 +1,43 @@
 package com.werken.werkflow.core;
 
+import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.Message;
+import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import com.werken.werkflow.service.persistence.PersistenceException;
 
 class InitiationMessageHandler
     implements TerminalMessageHandler
 {
-    public boolean acceptMessage(CoreChangeSet changeSet,
-                                 Message message)
+    private Registration registration;
+    private Transition transition;
+    private ProcessDeployment deployment;
+
+    public InitiationMessageHandler(Registration registration,
+                                    Transition transition,
+                                    ProcessDeployment deployment)
     {
-        return true;
+        this.registration = registration;
+        this.transition   = transition;
+        this.deployment   = deployment;
+    }
+
+    public boolean acceptMessage(Message message)
+    {
+        try
+        {
+            ProcessCase newCase = this.deployment.initiate( this.transition,
+                                                            message.getId() );
+            
+            return ( newCase != null );
+        }
+        catch (PersistenceException e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public Message consumeMessage(CoreChangeSet changeSet,
@@ -19,7 +46,7 @@ class InitiationMessageHandler
                                   String messageId)
         throws NoSuchMessageException
     {
-        return null;
+        return this.registration.consumeMessage( messageId );
     }
 
     public void add(Transition transition)
@@ -27,8 +54,7 @@ class InitiationMessageHandler
 
     }
 
-    public boolean addCase(CoreChangeSet changeSet,
-                           CoreProcessCase processCase,
+    public boolean addCase(CoreProcessCase processCase,
                            String transitionId)
     {
         return false;
@@ -38,6 +64,6 @@ class InitiationMessageHandler
                            String transitionId)
 
     {
-
+        // intentionally left blank
     }
 }

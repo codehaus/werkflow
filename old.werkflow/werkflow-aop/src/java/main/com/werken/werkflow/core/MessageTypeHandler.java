@@ -21,14 +21,20 @@ class MessageTypeHandler
         return this.registration;
     }
 
-    void add(Transition transition)
+    void add(Transition transition,
+             ProcessDeployment deployment)
     {
-        if ( this.terminalMessageHandler == null )
+        if ( deployment != null )
+        {
+            this.terminalMessageHandler = new InitiationMessageHandler( getRegistration(),
+                                                                        transition,
+                                                                        deployment );
+        }
+        else
         {
             this.terminalMessageHandler = new CorrelationMessageHandler( getRegistration() );
+            this.terminalMessageHandler.add( transition );
         }
-
-        this.terminalMessageHandler.add( transition );
     }
 
     private TerminalMessageHandler getTerminalMessageHandler()
@@ -36,20 +42,16 @@ class MessageTypeHandler
         return this.terminalMessageHandler;
     }
 
-    boolean acceptMessage(CoreChangeSet changeSet,
-                          Message message)
+    boolean acceptMessage(Message message)
     {
         System.err.println( "MessageTypeHandler.acceptMessage( " + message.getMessage() + " )" );
-        return getTerminalMessageHandler().acceptMessage( changeSet,
-                                                          message );
+        return getTerminalMessageHandler().acceptMessage( message );
     }
 
-    boolean addCase(CoreChangeSet changeSet,
-                    CoreProcessCase processCase,
+    boolean addCase(CoreProcessCase processCase,
                     String transitionId)
     {
-        return getTerminalMessageHandler().addCase( changeSet,
-                                                    processCase,
+        return getTerminalMessageHandler().addCase( processCase,
                                                     transitionId );
     }
 
