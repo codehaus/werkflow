@@ -17,6 +17,13 @@
         <core:empty/>
     </syntax:tag>
 
+
+    <syntax:tag name="terminate">
+        <core:terminate>
+            <invokeBody/>
+        </core:terminate>
+    </syntax:tag>
+
     <syntax:tag name="if">
         <core:if condition="${condition}">
             <syntax:invokeBody/>
