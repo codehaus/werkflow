@@ -5,8 +5,8 @@ import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
-import com.werken.werkflow.service.caserepo.CaseRepository;
-import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
+import com.werken.werkflow.service.persistence.PersistenceManager;
+import com.werken.werkflow.service.persistence.fleeting.FleetingPersistenceManager;
 import com.werken.werkflow.personality.basic.BasicPersonality;
 
 import java.net.URL;
@@ -15,7 +15,7 @@ public class BaseExample
 {
     private Wfms wfms;
     private SimpleMessagingManager messagingManager;
-    private CaseRepository caseRepository;
+    private PersistenceManager persistenceManager;
 
     public BaseExample()
     {
@@ -29,7 +29,7 @@ public class BaseExample
             SimpleWfmsServices services = new SimpleWfmsServices();
             
             services.setMessagingManager( getMessagingManager() );
-            services.setCaseRepository( getCaseRepository() );
+            services.setPersistenceManager( getPersistenceManager() );
             
             this.wfms = new WorkflowEngine( services );
         }
@@ -47,14 +47,14 @@ public class BaseExample
         return this.messagingManager;
     }
 
-    public CaseRepository getCaseRepository()
+    public PersistenceManager getPersistenceManager()
     {
-        if ( this.caseRepository == null )
+        if ( this.persistenceManager == null )
         {
-            this.caseRepository = new InMemoryCaseRepository();
+            this.persistenceManager = new FleetingPersistenceManager();
         }
 
-        return this.caseRepository;
+        return this.persistenceManager;
     }
 
     public void deploy(String name)
