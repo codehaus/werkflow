@@ -6,7 +6,7 @@ public class TransitionDefinition
 
     private String id;
     private String documentation;
-
+    private String waiter;
     private String action;
 
     public TransitionDefinition(String id,
@@ -44,6 +44,16 @@ public class TransitionDefinition
     public String getAction()
     {
         return this.action;
+    }
+
+    public void setWaiter(String waiter)
+    {
+        this.waiter = waiter;
+    }
+
+    public String getWaiter()
+    {
+        return this.waiter;
     }
 
     public boolean equals(Object that)
