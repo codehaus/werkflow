@@ -115,10 +115,12 @@ class WorkflowRuntime
 
     /** @see WfmsRuntime
      */
-    public ProcessInfo getProcess(String processId)
+    public ProcessInfo getProcess(String packageId,
+                                  String processId)
         throws NoSuchProcessException
     {
-        return getEngine().getProcess( processId );
+        return getEngine().getProcess( packageId,
+                                       processId );
     }
 
     /** @see WfmsRuntime
@@ -131,11 +133,13 @@ class WorkflowRuntime
 
     /** @see WfmsRuntime
      */
-    public ProcessCase callProcess(String processId,
+    public ProcessCase callProcess(String packageId,
+                                   String processId,
                                    Attributes attributes)
         throws ProcessException
     {
-        return getEngine().callProcess( processId,
+        return getEngine().callProcess( packageId,
+                                        processId,
                                         attributes );
     }
 

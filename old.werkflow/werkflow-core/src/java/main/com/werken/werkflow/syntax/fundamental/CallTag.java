@@ -64,6 +64,9 @@ public class CallTag
     //     Instance members
     // ----------------------------------------------------------------------
 
+    /** Package identifier. */
+    private String packageId;
+
     /** Process identifier. */
     private String processId;
 
@@ -83,6 +86,16 @@ public class CallTag
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
+
+    public void setPackage(String packageId)
+    {
+        this.packageId = packageId;
+    }
+
+    public String getPackage()
+    {
+        return this.packageId;
+    }
 
     public void setProcess(String processId)
     {
@@ -109,6 +122,13 @@ public class CallTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        String pkgId = getPackage();
+
+        if ( pkgId == null )
+        {
+            pkgId = "";
+        }
+        
         if ( getProcess() == null
              ||
              getProcess().equals( "" ) )
@@ -116,7 +136,8 @@ public class CallTag
             throw new MissingAttributeException( "process" );
         }
 
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
+        DefaultCallAction action = new DefaultCallAction( pkgId,
+                                                          getProcess() );
 
         this.attrs = new HashMap();
 

@@ -14,12 +14,20 @@ import java.util.Iterator;
 public class DefaultCallAction
     implements CallAction
 {
+    private String packageId;
     private String processId;
     private Map attrExprs;
 
-    public DefaultCallAction(String processId)
+    public DefaultCallAction(String packageId,
+                             String processId)
     {
+        this.packageId = packageId;
         this.processId = processId;
+    }
+
+    public String getPackageId()
+    {
+        return this.packageId;
     }
 
     public String getProcessId()

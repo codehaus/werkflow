@@ -82,13 +82,16 @@ public interface CaseRepository
     /** Create a new persistent case state for a given process
      *  with initial attribute values.
      *
+     *  @param packageId The identifier of the package for which to
+     *         instantiate and store a new case-state.
      *  @param processId The identifier of the process for which to
      *         instantiate and store a new case-state.
      *  @param attributes The case's initial attributes to be stored.
      *
      *  @return The new case state.
      */
-    CaseState newCaseState(String processId,
+    CaseState newCaseState(String packageId,
+                           String processId,
                            Attributes attributes);
 
     /** Retrieve a case's state by identifier.

@@ -247,7 +247,8 @@ class ActivityManager
 
                         try
                         {
-                            ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
+                            ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getPackageId(),
+                                                                                             processCase.getProcessInfo().getId() );
                             
                             ProcessDefinition processDef = deployment.getProcessDefinition(); 
                             
@@ -319,6 +320,9 @@ class ActivityManager
                                     WorkflowProcessCase processCase,
                                     Transition transition)
     {
+
+        otherAttrs.put( "packageId",
+                        processCase.getProcessInfo().getPackageId() );
 
         otherAttrs.put( "processId",
                         processCase.getProcessInfo().getId() );
@@ -471,7 +475,8 @@ class ActivityManager
             isCall = ( task.getAction() instanceof CallAction );
         }
 
-        WorkflowActivity activity = newActivity( processCase.getProcessInfo().getId(),
+        WorkflowActivity activity = newActivity( processCase.getProcessInfo().getPackageId(),
+                                                 processCase.getProcessInfo().getId(),
                                                  processCase.getId(),
                                                  transition.getId(),
                                                  placeIds,
@@ -519,6 +524,7 @@ class ActivityManager
         {
             CallAction action = (CallAction) task.getAction();
             
+            String packageId = action.getPackageId();
             String processId = action.getProcessId();
 
             Attributes attrs = action.getAttributes( processCase );
@@ -526,6 +532,7 @@ class ActivityManager
             try
             {
                 getEngine().callChildProcess( activity,
+                                              packageId,
                                               processId,
                                               attrs );
             }
@@ -569,7 +576,8 @@ class ActivityManager
             {
                 processCase.mergeCaseAttributes( activity.getCaseAttributes() );
 
-                ProcessDeployment deployment = getEngine().getProcessDeployment( activity.getProcessId() );
+                ProcessDeployment deployment = getEngine().getProcessDeployment( activity.getPackageId(),
+                                                                                 activity.getProcessId() );
                 ProcessDefinition processDef = deployment.getProcessDefinition();
 
                 Transition transition = processDef.getNet().getTransition( activity.getTransitionId() );
@@ -724,6 +732,7 @@ class ActivityManager
 
     /** Create a new activity handle.
      *
+     *  @param processId The package identifier.
      *  @param processId The process identifier.
      *  @param caseId The case identifier.
      *  @param transitionId The transition identifier.
@@ -732,7 +741,8 @@ class ActivityManager
      *
      *  @return The new activity handle.
      */
-    protected WorkflowActivity newActivity(String processId,
+    protected WorkflowActivity newActivity(String packageId,
+                                           String processId,
                                            String caseId,
                                            String transitionId,
                                            String[] placeIds,
@@ -740,6 +750,7 @@ class ActivityManager
                                            boolean isCall)
     {
         WorkflowActivity activity = new WorkflowActivity( this,
+                                                          packageId,
                                                           processId,
                                                           caseId,
                                                           transitionId,

@@ -239,6 +239,7 @@ public class WorkflowEngine
     /** Retrieve the <code>ProcessInfo</code> descriptor for
      *  a specific process.
      *
+     *  @param packageId The package id.
      *  @param processId The process id.
      *
      *  @return The process-info descriptor.
@@ -246,15 +247,18 @@ public class WorkflowEngine
      *  @throws NoSuchProcessException If the <code>processId</code>
      *          does not refer to a valid deployed process.
      */
-    ProcessInfo getProcess(String processId)
+    ProcessInfo getProcess(String packageId,
+                           String processId)
         throws NoSuchProcessException
     {
-        return getProcessDeployment( processId );
+        return getProcessDeployment( packageId,
+                                     processId );
     }
     
     /** Create a new <code>ProcessCase</code> for a particular process.
      *
-     *  @param processId The id of the process.
+     *  @param packageId The package id.
+     *  @param processId The process id.
      *  @param attributes The initial attributes for the case.
      *
      *  @return The newly created process case.
@@ -263,11 +267,13 @@ public class WorkflowEngine
      *          not refer to a currently deployed process definition.
      */
 
-    WorkflowProcessCase callProcess(String processId,
+    WorkflowProcessCase callProcess(String packageId,
+                                    String processId,
                                     Attributes attributes)
         throws NoSuchProcessException, ProcessException
     {
-        ProcessDeployment deployment = getProcessDeployment( processId );
+        ProcessDeployment deployment = getProcessDeployment( packageId,
+                                                             processId );
 
         if ( ! deployment.isCallable() )
         {
@@ -279,7 +285,8 @@ public class WorkflowEngine
 
         deployment.verifyCallParameters( realAttrs );
 
-        CaseState caseState = newCaseState( processId,
+        CaseState caseState = newCaseState( packageId,
+                                            processId,
                                             realAttrs );
 
         notifyCaseInitiated( processId,
@@ -289,11 +296,13 @@ public class WorkflowEngine
     }
 
     WorkflowProcessCase callChildProcess(WorkflowActivity activity,
+                                         String packageId,
                                          String processId,
                                          Attributes attributes)
         throws NoSuchProcessException, ProcessException
     {
-        ProcessDeployment deployment = getProcessDeployment( processId );
+        ProcessDeployment deployment = getProcessDeployment( packageId,
+                                                             processId );
 
         if ( ! deployment.isCallable() )
         {
@@ -305,7 +314,8 @@ public class WorkflowEngine
 
         deployment.verifyCallParameters( realAttrs );
 
-        CaseState caseState = newCaseState( processId,
+        CaseState caseState = newCaseState( packageId,
+                                            processId,
                                             realAttrs );
 
         notifyCaseInitiated( processId,
@@ -332,7 +342,8 @@ public class WorkflowEngine
         Attributes realAttrs = fleshOutAttributes( deployment,
                                                    tmpAttrs );
                                                    
-        CaseState caseState = newCaseState( deployment.getId(),
+        CaseState caseState = newCaseState( deployment.getPackageId(),
+                                            deployment.getId(),
                                             realAttrs );
 
         notifyCaseInitiated( deployment.getId(),
@@ -537,7 +548,8 @@ public class WorkflowEngine
                                    boolean evaluate)
         throws NoSuchProcessException
     {
-        ProcessDeployment deployment = getProcessDeployment( caseState.getProcessId() );
+        ProcessDeployment deployment = getProcessDeployment( caseState.getPackageId(),
+                                                             caseState.getProcessId() );
 
         WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
                                                                    caseState );
@@ -581,7 +593,10 @@ public class WorkflowEngine
             ProcessDeployment deployment = new ProcessDeployment( this,
                                                                   processDef );
             
-            this.deployments.put( processDef.getId(),
+            ProcessKey key = new ProcessKey( processDef.getPackageId(),
+                                             processDef.getId() );
+
+            this.deployments.put( key,
                                   deployment );
         }
         catch (ProcessDeploymentException e)
@@ -622,6 +637,7 @@ public class WorkflowEngine
     /** Retrieve the <code>ProcessDeployemtn</code> for
      *  a specific process.
      *
+     *  @param packageId The package id.
      *  @param processId The process id.
      *
      *  @return The process-deployment.
@@ -629,10 +645,14 @@ public class WorkflowEngine
      *  @throws NoSuchProcessException If the <code>processId</code>
      *          does not refer to a valid deployed process.
      */
-    ProcessDeployment getProcessDeployment(String processId)
+    ProcessDeployment getProcessDeployment(String packageId,
+                                           String processId)
         throws NoSuchProcessException
     {
-        ProcessDeployment deployment = (ProcessDeployment) this.deployments.get( processId );
+        ProcessKey key = new ProcessKey( packageId,
+                                         processId );
+
+        ProcessDeployment deployment = (ProcessDeployment) this.deployments.get( key );
 
         if ( deployment == null )
         {
@@ -669,7 +689,8 @@ public class WorkflowEngine
                 return;
             }
             
-            ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
+            ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getPackageId(),
+                                                                 processCase.getProcessInfo().getId() );
             
             deployment.evaluateCase( processCase );
             
@@ -729,10 +750,12 @@ public class WorkflowEngine
      *
      *  @return The new case state.
      */
-    CaseState newCaseState(String processId,
+    CaseState newCaseState(String packageId,
+                           String processId,
                            Attributes attributes)
     {
-        return getServices().getCaseRepository().newCaseState( processId,
+        return getServices().getCaseRepository().newCaseState( packageId,
+                                                               processId,
                                                                attributes );
     }
 
@@ -764,7 +787,8 @@ public class WorkflowEngine
                           Transition transition)
         throws NoSuchCorrelationException, NoSuchProcessException
     {
-        ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getId() );
+        ProcessDeployment deployment = getProcessDeployment( processCase.getProcessInfo().getPackageId(),
+                                                             processCase.getProcessInfo().getId() );
         
         return deployment.consumeMessage( processCase.getId(),
                                           transition );
