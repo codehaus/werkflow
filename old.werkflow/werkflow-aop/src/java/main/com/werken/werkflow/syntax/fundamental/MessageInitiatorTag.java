@@ -161,6 +161,13 @@ public class MessageInitiatorTag
         this.action = action;
     }
 
+    /** @see ActionReceptor
+     */
+    public void receiveAction(Action action)
+    {
+        setAction( action );
+    }
+
     /** Retrieve the initialization action.
      *
      *  @return The initialization action.

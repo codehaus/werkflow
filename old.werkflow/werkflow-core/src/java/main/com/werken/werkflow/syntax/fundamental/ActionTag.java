@@ -56,36 +56,8 @@ import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Define an action.
- *
- *  <p>
- *  The &lt;action&gt; tag may be used within two contexts.  When
- *  used as a child of a &lt;task&gt; tag, it retrieves an action
- *  from the <code>ActionLibrary</code>.
- *  </p>
- *
- *  <p>
- *  The body of the &lt;action&gt; tag, when used within the
- *  &lt;task&gt; context is arbitrary jelly-script which may be
- *  used to set attributes in map <code>Map</code> of <code>otherAttrs</code>
- *  passed to the <code>Action</code> at runtime.  
- *  </p>
- *
- *  <p>
- *  Otherwise, it defines a new <code>Action</code> within an 
- *  <code>ActionLibrary</code>.
- *  </p>
- *
- *  @see AbstractActionTag
- *  @see com.werken.werkflow.action.Action
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
 public class ActionTag
     extends MiscTagSupport
-    implements ActionReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -173,79 +145,41 @@ public class ActionTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        TaskTag task = (TaskTag) findAncestorWithClass( TaskTag.class );
-
-        if ( task == null )
+        ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
+        
+        JellyContext context = getContext();
+        
+        ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
+        
+        if ( actionLib == null )
         {
-            requireStringAttribute( "id",
-                                    getId() );
-            invokeBody( output );
-            
-            if ( getAction() == null )
-            {
-                throw new JellyTagException( "no action defined in body" );
-            }
-            
-            JellyContext context = getContext();
-            
-            ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
-            
-            if ( actionLib == null )
-            {
-                throw new JellyTagException( "no action library" );
-            }
-            
-            try
-            {
-                actionLib.addAction( getId(),
-                                     getAction() );
-            }
-            catch (DuplicateActionException e)
-            {
-                throw new JellyTagException( e );
-            }
-
-            if ( isDefault() )
-            {
-                actionLib.setDefaultAction( getAction() );
-            }
+            throw new JellyTagException( "no action library" );
         }
-        else
+
+        Action action = null;
+        
+        try
         {
-            JellyContext context = getContext();
-            
-            ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
-            
-            if ( actionLib == null )
+            if ( getId() == null )
             {
-                throw new JellyTagException( "no action library" );
-            }
-
-            Action action = null;
-
-            try
-            {
-                if ( getId() == null )
+                action = actionLib.getDefaultAction();
+                
+                if ( action == null )
                 {
-                    action = actionLib.getDefaultAction();
-                    
-                    if ( action == null )
-                    {
-                        throw new JellyTagException( "no default action defined" );
-                    }
-                }
-                else
-                {
-                    action = actionLib.getAction( getId() );
+                    throw new JellyTagException( "no default action defined" );
                 }
             }
-            catch (NoSuchActionException e)
+            else
             {
-                throw new JellyTagException( e );
+                action = actionLib.getAction( getId() );
             }
-
-            task.setAction( new ModifiableAction( getBody(),
-                                                  action ) );
         }
+        catch (NoSuchActionException e)
+        {
+            throw new JellyTagException( e );
+        }
+        
+        receptor.receiveAction( new ModifiableAction( getBody(),
+                                                      action ) );
     }
 }

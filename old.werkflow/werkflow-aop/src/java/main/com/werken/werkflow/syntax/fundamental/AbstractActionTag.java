@@ -107,6 +107,6 @@ public abstract class AbstractActionTag
             throw new JellyTagException( "invalid context for <action>" );
         }
 
-        receptor.setAction( action );
+        receptor.receiveAction( action );
     }
 }

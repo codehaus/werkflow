@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.idiomatic;
 
+import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.PetriException;
 
@@ -10,5 +11,4 @@ public interface Segment
 
     DefaultTransition[] build(NetBuilder builder)
         throws PetriException;
-        
 }

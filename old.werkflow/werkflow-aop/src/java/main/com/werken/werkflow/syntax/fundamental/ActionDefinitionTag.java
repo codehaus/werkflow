@@ -47,48 +47,39 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.task.DefaultTask;
+import com.werken.werkflow.action.ActionLibrary;
+import com.werken.werkflow.action.DuplicateActionException;
+import com.werken.werkflow.action.NoSuchActionException;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
+import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Define a <code>Task</code> for a <code>Transition</code>.
- *
- *  <p>
- *  A &lt;task&gt; must contain some addition tag to specify
- *  the concrete action that represents the task.  A useful
- *  example is the {@link ActionTag} used to reference actions
- *  defined in <code>actions.xml</code>.  Alternatively, an
- *  in-line concrete action using the <code>JellyAction</code>
- *  or <code>JavaAction</code> is possible.
- *  </p>
- *
- *  @see ActionTag
- *  @see com.werken.werkflow.semantics.java.JavaActionTag;
- *  @see com.werken.werkflow.semantics.jelly.JellyActionTag;
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class TaskTag
-    extends FundamentalTagSupport
+public class ActionDefinitionTag
+    extends MiscTagSupport
     implements ActionReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Action. */
+    /** Identifier. */
+    private String id;
+
+    /** Action definition, possibly null. */
     private Action action;
 
+    /** Is the default action? */
+    private boolean isDefault;
+
     // ----------------------------------------------------------------------
-    //     Constructors
+    //      Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
      */
-    public TaskTag()
+    public ActionDefinitionTag()
     {
         // intentionally left blank
     }
@@ -97,13 +88,34 @@ public class TaskTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the <code>Action</code>.
+    /** Set the identifier.
      *
-     *  @param action The action.
+     *  @param id The identifier.
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    /** Retrieve the identifier.
+     *
+     *  @return The identifier.
+     */
+    public String getId()
+    {
+        return this.id;
+    }
+
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
+
+    /** @see ActionReceptor
      */
     public void receiveAction(Action action)
     {
-        this.action = action;
+        setAction( action );
     }
 
     /** Retrieve the <code>Action</code>.
@@ -115,28 +127,61 @@ public class TaskTag
         return this.action;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    /** Set the default flag.
+     *
+     *  @param isDefault Flag indicating if this is the default action.
+     */
+    public void setDefault(boolean isDefault)
+    {
+        this.isDefault = isDefault;
+    }
+
+    /** Get the default flag.
+     *
+     *  @return <code>true</code> if this is the default action,
+     *          otherwise <code>false</code>.
+     */
+    public boolean isDefault()
+    {
+        return this.isDefault;
+    }
 
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
-                                                                     TransitionTag.class );
-
-        DefaultTask task = new DefaultTask();
-
+        requireStringAttribute( "id",
+                                getId() );
         invokeBody( output );
-
-        if ( getAction() != null )
+        
+        if ( getAction() == null )
         {
-            task.setAction( getAction() );
-
-            transition.setTask( task );
+            throw new JellyTagException( "no action defined in body" );
         }
-
-        this.action = null;
+        
+        JellyContext context = getContext();
+        
+        ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
+        
+        if ( actionLib == null )
+        {
+            throw new JellyTagException( "no action library" );
+        }
+        
+        try
+        {
+            actionLib.addAction( getId(),
+                                 getAction() );
+        }
+        catch (DuplicateActionException e)
+        {
+            throw new JellyTagException( e );
+        }
+        
+        if ( isDefault() )
+        {
+            actionLib.setDefaultAction( getAction() );
+        }
     }
 }

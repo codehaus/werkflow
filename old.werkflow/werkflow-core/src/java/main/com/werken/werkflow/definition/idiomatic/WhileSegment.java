@@ -11,18 +11,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class WhileSegment
-    extends SequenceSegment
+    extends ConditionalSegment
 {
-    private Expression expr;
-
-    public WhileSegment(Expression expr)
+    public WhileSegment(Expression condition,
+                        Segment segment)
     {
-        this.expr = expr;
-    }
-
-    public Expression getExpression()
-    {
-        return this.expr;
+        super( condition,
+               segment );
     }
 
     public DefaultTransition[] build(NetBuilder builder)
@@ -31,42 +26,30 @@ public class WhileSegment
         DefaultTransition[] ends  = super.build( builder );
 
         DefaultTransition firstTransition = builder.newTransition();
-        DefaultPlace      inPlace         = builder.newPlace();
+        DefaultPlace      in              = builder.newPlace();
 
         builder.connect( firstTransition,
-                         inPlace );
+                         in );
 
-        DefaultPlace      outPlace       = builder.newPlace();
+        DefaultPlace      out            = builder.newPlace();
         DefaultTransition lastTransition = builder.newTransition();
 
-        builder.connect( outPlace,
+        builder.connect( out,
                          lastTransition );
 
-        DefaultTransition trueTransition = builder.newTransition();
-
-        builder.connect( inPlace,
-                         trueTransition );
-
-        trueTransition.setExpression( getExpression() );
-
-        DefaultPlace connectingPlace = builder.newPlace();
-
-        builder.connect( trueTransition,
-                         connectingPlace );
-
-        builder.connect( connectingPlace,
+        builder.connect( in,
                          ends[0] );
 
         builder.connect( ends[1],
-                         outPlace );
+                         in );
 
         DefaultTransition falseTransition = builder.newTransition();
 
-        builder.connect( inPlace,
+        builder.connect( in,
                          falseTransition );
 
         builder.connect( falseTransition,
-                         outPlace );
+                         out );
 
         return new DefaultTransition[]
             {

@@ -101,7 +101,7 @@ public class TaskTag
      *
      *  @param action The action.
      */
-    public void setAction(Action action)
+    public void receiveAction(Action action)
     {
         this.action = action;
     }

@@ -1,11 +1,13 @@
-package com.werken.werkflow.syntax.bpel4ws;
+package com.werken.werkflow.syntax.idiomatic;
 
 import org.apache.commons.jelly.TagLibrary;
 
-public class Bpel4wsTagLibrary
+public class IdiomaticTagLibrary
     extends TagLibrary
 {
-    public Bpel4wsTagLibrary()
+    public static final String NS_URI = "werkflow:idiomatic";
+
+    public IdiomaticTagLibrary()
     {
         registerTag( "process",
                      ProcessTag.class );
@@ -13,15 +15,10 @@ public class Bpel4wsTagLibrary
         registerTag( "sequence",
                      SequenceTag.class );
 
-        registerTag( "flow",
-                     FlowTag.class );
+        registerTag( "parallel",
+                     ParallelTag.class );
 
-        registerTag( "empty",
-                     EmptyTag.class );
-
-        /*
         registerTag( "while",
                      WhileTag.class );
-        */
     }
 }
