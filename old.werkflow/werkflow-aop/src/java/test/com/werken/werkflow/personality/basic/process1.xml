@@ -1,15 +1,11 @@
 
-<process id="proc1"
+<process id="my.proc1"
          initiation="call"
          xmlns="werkflow:basic">
 
-two
-
     <parallel>
-three
         <empty/>
         <empty/>
     </parallel>
-four
 
 </process>

@@ -1,4 +1,4 @@
-package com.werken.werkflow.personality.basic;
+package com.werken.werkflow.personality.bpel4ws;
 
 import com.werken.werkflow.definition.ProcessDefinition;
 
@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 import java.net.URL;
 
-public class BasicPersonalityTest
+public class Bpel4wsPersonalityTest
     extends TestCase
 {
     public void testLoad()
         throws Exception
     {
-        BasicPersonality personality = BasicPersonality.getInstance();
+        Bpel4wsPersonality personality = Bpel4wsPersonality.getInstance();
 
         assertNotNull( personality );
 
@@ -23,7 +23,7 @@ public class BasicPersonalityTest
         assertEquals( 1,
                       procDefs.length );
 
-        assertEquals( "my.proc1",
+        assertEquals( "http://myco.com/#my.proc1",
                       procDefs[0].getId() );
     }
 }
