@@ -95,10 +95,4 @@ public interface Net
      */
     Transition getTransitionById(String id)
         throws NoSuchTransitionException;
-
-    /** Retrieve all <code>Arc</code>s.
-     *
-     *  @return The arcs.
-     */
-    Arc[] getArcs();
 }

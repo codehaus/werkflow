@@ -116,6 +116,14 @@ public class DefaultNode
         return (Arc[]) this.inboundArcs.toArray( Arc.EMPTY_ARRAY );
     }
 
+    void removeInboundArc(Arc arc)
+    {
+        while ( this.inboundArcs.remove( arc ) )
+        {
+            // intentionally left blank
+        }
+    }
+
     /** Add an outbound <code>Arc</code>.
      *
      *  @param arc The arc.
@@ -123,6 +131,14 @@ public class DefaultNode
     void addOutboundArc(Arc arc)
     {
         this.outboundArcs.add( arc );
+    }
+
+    void removeOutboundArc(Arc arc)
+    {
+        while( this.outboundArcs.remove( arc ) )
+        {
+            // intentionally left blank
+        }
     }
 
     /** Return all outbound <code>Arc</code>s.
