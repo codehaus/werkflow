@@ -1,0 +1,23 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <name>Werkflow</name>
+  <groupId>werkflow</groupId>
+  <artifactId>werkflow</artifactId>
+  <version>2.0-alpha-1</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>concurrent</groupId>
+      <artifactId>concurrent</artifactId>
+      <version>1.3.4</version>
+    </dependency>
+-->
+  </dependencies>
+
+</project>
