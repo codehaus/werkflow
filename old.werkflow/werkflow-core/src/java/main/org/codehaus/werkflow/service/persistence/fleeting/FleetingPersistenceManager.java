@@ -57,7 +57,6 @@ public class FleetingPersistenceManager
 {
     public FleetingPersistenceManager()
     {
-
     }
 
     public ProcessPersistenceManager activate(ProcessInfo processDef)

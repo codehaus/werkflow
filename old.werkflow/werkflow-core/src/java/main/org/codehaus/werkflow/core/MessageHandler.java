@@ -106,8 +106,6 @@ class MessageHandler
 
             handler = new MessageTypeHandler( registration );
 
-            System.err.println( "new message type handle: " + handler + " // " + registration );
-
             this.messageTypeHandlers.put( messageType,
                                           handler );
 
@@ -121,7 +119,6 @@ class MessageHandler
 
     boolean acceptMessage(Message message)
     {
-        System.err.println( "MessageHandler.acceptMessage( " + message.getMessage() + " )" );
         return getMessageTypeHandler( message.getMessageType() ).acceptMessage( message );
     }
 
@@ -140,7 +137,6 @@ class MessageHandler
     boolean addCase(CoreProcessCase processCase,
                     String transitionId)
     {
-        System.err.println( "MessageHandler.addCase( " + processCase.getId() + ", " + transitionId + ")" );
         return getMessageTypeHandler( transitionId ).addCase( processCase,
                                                               transitionId );
     }

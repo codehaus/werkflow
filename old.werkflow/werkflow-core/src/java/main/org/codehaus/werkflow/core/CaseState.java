@@ -87,8 +87,6 @@ class CaseState
 
     void consumeTokens(String[] consumed)
     {
-        System.err.println( "consuming " + Arrays.asList( consumed ) + " from " + this.tokens );
-
         for ( int i = 0 ; i < consumed.length ; ++i )
         {
             if ( ! this.tokens.remove( consumed[i] ) )

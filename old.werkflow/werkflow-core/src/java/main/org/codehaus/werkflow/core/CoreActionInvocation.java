@@ -138,14 +138,11 @@ class CoreActionInvocation
 
     public void complete()
     {
-        System.err.println( "complete()" );
-        System.err.println( "completion -->" + this.completion );
         this.completion.complete( caseAttrs );
     }
 
     public void completeWithError(Throwable error)
     {
-        System.err.println( "completeWithError(" + error + ")" );
         this.completion.completeWithError( error );
     }
 }

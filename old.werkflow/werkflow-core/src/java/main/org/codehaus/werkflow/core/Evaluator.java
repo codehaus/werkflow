@@ -46,18 +46,17 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.definition.Waiter;
 import org.codehaus.werkflow.definition.MessageWaiter;
-import org.codehaus.werkflow.definition.petri.Arc;
-import org.codehaus.werkflow.definition.petri.Place;
-import org.codehaus.werkflow.definition.petri.Transition;
+import org.codehaus.werkflow.definition.Waiter;
 import org.codehaus.werkflow.definition.petri.ActivationRule;
 import org.codehaus.werkflow.definition.petri.AndInputRule;
+import org.codehaus.werkflow.definition.petri.Arc;
 import org.codehaus.werkflow.definition.petri.NoSuchPlaceException;
+import org.codehaus.werkflow.definition.petri.Place;
+import org.codehaus.werkflow.definition.petri.Transition;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 class Evaluator
 //    implements CaseEvaluator
@@ -100,7 +99,6 @@ class Evaluator
                           CoreProcessCase processCase,
                           Transition transition)
     {
-        System.err.println( "evaluate(" + processCase + ", " + transition + ")" );
         List workItems = new ArrayList();
         
         ActivationRule rule = transition.getActivationRule();
@@ -114,13 +112,9 @@ class Evaluator
 
         try
         {
-            System.err.println( "rule: " + rule );
-            System.err.println( "tokens--> " + Arrays.asList( processCase.getTokens() ) );
             tokens = rule.getSatisfyingTokens( transition,
                                                processCase,
                                                processCase.getTokens() );
-
-            System.err.println( "tokens: " + Arrays.asList( tokens ) );
         }
         catch (Exception e)
         {

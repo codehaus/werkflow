@@ -74,14 +74,6 @@ class ExecutionEnqueuement
         return this.activity;
     }
 
-    /*
-    public void run()
-    {
-        System.err.println( "RUNNING " + this );
-        getExecutor().execute( getActivity() );
-    }
-    */
-
     public void run()
     {
         Map otherAttrs = new HashMap();

@@ -46,19 +46,19 @@ package org.codehaus.werkflow.definition.petri;
 
  */
 
-import org.codehaus.werkflow.work.Action;
-import org.codehaus.werkflow.expr.Expression;
-import org.codehaus.werkflow.task.DefaultTask;
 import org.codehaus.werkflow.definition.Scope;
 import org.codehaus.werkflow.definition.Waiter;
+import org.codehaus.werkflow.expr.Expression;
+import org.codehaus.werkflow.task.DefaultTask;
+import org.codehaus.werkflow.work.Action;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Idiom
     implements Net
@@ -184,7 +184,6 @@ public class Idiom
 
         if ( getParent() != null )
         {
-            System.err.println( "adding " + this + " to " + getParent() );
             getParent().addComponent( this );
         }
     }
@@ -238,7 +237,6 @@ public class Idiom
     void addPlace(String id,
                   String documentation)
     {
-        // System.err.println( getId() + " addPlace(" + id + ")" );
         DefaultPlace place = new DefaultPlace( id );
 
         place.setDocumentation( documentation );
@@ -320,7 +318,6 @@ public class Idiom
                        Action action,
                        Waiter waiter)
     {
-        // System.err.println( getId() + " addTransition(" + id + ")" );
         DefaultTransition transition = new DefaultTransition( id );
 
         transition.setActivationRule( AndInputRule.getInstance() );
@@ -396,7 +393,6 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
-        // System.err.println( getId() + " p/t " + placeId + " > " + transitionId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -413,7 +409,6 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
-        // System.err.println( getId() + " t/p " + transitionId + " > " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -431,7 +426,6 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
-        // System.err.println( getId() + " graft in  || " + placeId + " to " + component.getId() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();
@@ -466,8 +460,6 @@ public class Idiom
                               String placeId,
                               Expression expression)
     {
-        // System.err.println( getId() + " graft out || " + component.getId() + " to " + placeId );
-
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentOut = component.getOutPlace();
@@ -524,15 +516,12 @@ public class Idiom
     void replaceIn(DefaultPlace newIn,
                    DefaultTransition transition)
     {
-        // System.err.println( "replace in with " + newIn + " for " + transition );
-
         Arc[] arcs = null;
 
         arcs = transition.getInboundArcs();
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
-            // System.err.println( "test : " + arcs[i] );
             if ( arcs[i].getPlace().getId().equals( getInPlace().getId() ) )
             {
                 DefaultArc newArc = new DefaultArc( newIn,
@@ -549,7 +538,6 @@ public class Idiom
 
         for ( int i = 0 ; i < arcs.length ; ++i )
         {
-            // System.err.println( "test : " + arcs[i] );
             if ( arcs[i].getPlace().getId().equals( getInPlace().getId() ) )
             {
                 DefaultArc newArc = new DefaultArc( newIn,

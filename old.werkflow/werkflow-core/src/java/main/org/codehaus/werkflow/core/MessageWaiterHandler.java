@@ -88,7 +88,6 @@ class MessageWaiterHandler
 
     boolean acceptMessage(Message message)
     {
-        System.err.println( "MessageWaiterHandler.acceptMessage( " + message.getMessage() + " )" );
         boolean result = false;
 
         this.messages.put( message.getId(),
@@ -96,15 +95,11 @@ class MessageWaiterHandler
 
         result = attemptCorrelation( message );
 
-
-        System.err.println( "RESULT: " +  result );
         return result;
     }
 
     boolean addCase(CoreProcessCase processCase)
     {
-        System.err.println( "### MessageWaiterHandler.addCase( " + processCase.getId() + " )" );
-
         if ( this.processCases.contains( processCase ) )
         {
             return false;
@@ -117,7 +112,6 @@ class MessageWaiterHandler
 
     void removeCase(CoreProcessCase processCase)
     {
-        System.err.println( "### MessageWaiterHandler.removeCase( " + processCase.getId() + " )" );
         processCase.removeCorrelationsByTransition( transition.getId() );
         this.processCases.remove( processCase );
     }
@@ -144,7 +138,6 @@ class MessageWaiterHandler
 
     boolean attemptCorrelation(Message message)
     {
-        System.err.println( "attemptCorrelation(" + message.getMessage() + ") @ " + getTransition().getId() );
         boolean result = false;
 
         Iterator        caseIter = this.processCases.iterator();
@@ -166,19 +159,14 @@ class MessageWaiterHandler
     boolean attemptCorrelation(CoreProcessCase processCase,
                                Message message)
     {
-        System.err.println( "attemptCorrelation(" + processCase + ", " + message.getMessage() + ") @ " + getTransition().getId() );
         MessageWaiter waiter = (MessageWaiter) getTransition().getWaiter();
 
         MessageCorrelator correlator = waiter.getMessageCorrelator();
-
-        System.err.println( "transition: " + getTransition().getId() + " // " + correlator );
 
         try
         {
             boolean result = correlator.correlates( message.getMessage(),
                                                     processCase );
-
-            System.err.println( "YO RESULT: " + result );
 
             return result;
         }

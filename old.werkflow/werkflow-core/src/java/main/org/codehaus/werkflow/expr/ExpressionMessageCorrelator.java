@@ -109,8 +109,6 @@ public class ExpressionMessageCorrelator
                               ProcessCase processCase)
         throws Exception
     {
-        System.err.println( "message--->" + message );
-
         AttributesExpressionContext exprContext = new AttributesExpressionContext( processCase );
 
         exprContext.setValue( getMessageId(),
