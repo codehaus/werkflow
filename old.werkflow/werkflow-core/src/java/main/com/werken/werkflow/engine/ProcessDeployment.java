@@ -105,39 +105,34 @@ public class ProcessDeployment
     private void buildMessagingRule(Transition transition)
         throws IncompatibleMessageSelectorException
     {
-        MessageWaiter waiter = transition.getMessageWaiter();
+        MessageWaiter messageWaiter = transition.getMessageWaiter();
 
-        if ( waiter == null )
+        if ( messageWaiter == null )
         {
             return;
         }
 
-        MessageType messageType = getMessageType( waiter.getMessageTypeId() );
+        MessageType messageType = getMessageType( messageWaiter.getMessageTypeId() );
 
-        if ( ! this.correlators.containsKey( messageType ) )
+        Correlator correlator = (Correlator) this.correlators.get( messageType );
+
+        if ( correlator == null )
         {
-            Correlator correlator = new Correlator( messageType );
-
-            Registration registration = getEngine().register( this,
-                                                              messageType );
-
-            correlator.setRegistration( registration );
+            correlator = new Correlator( getEngine(),
+                                         messageType );
 
             this.correlators.put( messageType,
-                                  correlators );
+                                  correlator );
         }
+
+        correlator.addMessageWaiter( transition.getId(),
+                                     messageWaiter );
     }
 
     public void acceptMessage(MessageType messageType,
                               Object message)
     {
         Correlator correlator = (Correlator) this.correlators.get( messageType );
-
-        if ( correlator == null )
-        {
-            // FIXME complain
-            return;
-        }
 
         correlator.addMessage( message );
     }
