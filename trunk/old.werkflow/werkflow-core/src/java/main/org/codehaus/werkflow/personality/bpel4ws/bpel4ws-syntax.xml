@@ -1,0 +1,44 @@
+<syntax:syntax uri="http://schemas.xmlsoap.org/ws/2002/07/business-process/"
+               xmlns:syntax="werkflow:syntax"
+               xmlns:fund="werkflow:fundamental"
+               xmlns:core="werkflow:core-idioms">
+
+    <syntax:import url="../common/core-idioms.xml"/>
+
+    <syntax:tag name="process">
+        <fund:process id="${targetNamespace}#${name}"
+                      initiation="message">
+            <syntax:invokeBody/>
+        </fund:process> 
+    </syntax:tag>
+
+    <syntax:tag name="empty">
+        <core:empty/>
+    </syntax:tag>
+
+    <syntax:tag name="if">
+        <core:if condition="${condition}">
+            <syntax:invokeBody/>
+        </core:if>
+    </syntax:tag>
+
+    <syntax:tag name="flow">
+        <core:parallel>
+            <syntax:invokeBody/>
+        </core:parallel>
+    </syntax:tag>
+
+    <syntax:tag name="sequence">
+        <core:sequence>
+            <syntax:invokeBody/>
+        </core:sequence>
+    </syntax:tag>
+
+    <syntax:tag name="terminate">
+        <core:terminate>
+            <syntax:invokeBody/>
+        </core:terminate>
+    </syntax:tag>
+
+
+</syntax:syntax>
