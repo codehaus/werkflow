@@ -477,6 +477,8 @@ public class ActivityManager
                                                         activity.getCaseId(),
                                                         activity.getTransitionId() );
 
+                processCase.getState().store();
+
                 getEngine().evaluateCase( processCase );
             }
         }
