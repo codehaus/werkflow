@@ -124,10 +124,10 @@ class ActivityManager
         this.queue = new LinkedQueue();
 
         this.pool = new PooledExecutor( this.queue );
-        this.pool.setMinimumPoolSize( 2 );
+        this.pool.setMinimumPoolSize( 10 );
         this.pool.setKeepAliveTime( -1 );
         this.pool.waitWhenBlocked();
-        this.pool.createThreads( 2 );
+        this.pool.createThreads( 10 );
     }
 
     // ----------------------------------------------------------------------
@@ -379,6 +379,7 @@ class ActivityManager
                                                      Transition transition,
                                                      Map otherAttrs)
     {
+
         synchronized ( processCase )
         {
             getEngine().notifyTransitionInitiated( processCase.getProcessInfo().getId(),

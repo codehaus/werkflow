@@ -13,6 +13,7 @@ public class MessageConditionalSegment
 {
     private MessageWaiter messageWaiter;
     private Segment bodySegment;
+    private Action action;
 
     public MessageConditionalSegment(MessageWaiter messageWaiter)
     {
@@ -20,6 +21,10 @@ public class MessageConditionalSegment
         this.bodySegment = bodySegment;
     }
 
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
 
     public void addSegment(Segment segment)
         throws UnsupportedIdiomException
@@ -39,6 +44,16 @@ public class MessageConditionalSegment
         throws PetriException
     {
         DefaultTransition msgTrans = builder.newTransition();
+
+        if ( this.action != null )
+        {
+            DefaultTask task = new DefaultTask();
+
+            task.setAction( this.action );
+
+            msgTrans.setTask( task );
+        }
+
         msgTrans.setWaiter( this.messageWaiter );
 
         builder.connect( in,
@@ -49,7 +64,12 @@ public class MessageConditionalSegment
         builder.connect( msgTrans,
                          msgPlace );
 
-        return this.bodySegment.append( msgPlace,
-                                        builder );
+        if ( this.bodySegment != null )
+        {
+            return this.bodySegment.append( msgPlace,
+                                            builder );
+        }
+
+        return msgPlace;
     }
 }

@@ -81,6 +81,7 @@ import org.apache.commons.jelly.JellyTagException;
  */
 public class MessageTag
     extends FundamentalTagSupport
+    implements MessageCorrelatorReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -146,11 +147,16 @@ public class MessageTag
         return this.id;
     }
 
-    /** Set the <code>MessageCorrelator</code>.
-     *
-     *  @param correlator The message-correlator.
+    /** @see MessageCorrelatorReceptor
      */
-    public void setMessageCorrelator(MessageCorrelator correlator)
+    public String getMessageId()
+    {
+        return getId();
+    }
+
+    /** @see MessageCorrelatorReceptor
+     */
+    public void receiveMessageCorrelator(MessageCorrelator correlator)
     {
         this.correlator = correlator;
     }

@@ -112,24 +112,36 @@ public class CaseJellyContext
      */
     public Object getVariable(String key)
     {
+        Object value = null;
+
         if ( getProcessCase().hasAttribute( key ) )
         {
-            return getProcessCase().getAttribute( key );
+            value = getProcessCase().getAttribute( key );
+        }
+        else
+        {
+            value = super.getVariable( key );
         }
 
-        return super.getVariable( key );
+        return value;
     }
 
     /** @see JellyContext
      */
     public Object findVariable(String key)
     {
+        Object value = null;
+
         if ( getProcessCase().hasAttribute( key ) )
         {
-            return getProcessCase().getAttribute( key );
+            value = getProcessCase().getAttribute( key );
+        }
+        else
+        {
+            value = super.findVariable( key );
         }
 
-        return super.findVariable( key );
+        return value;
     }
 
     /** @see JellyContext

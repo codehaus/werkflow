@@ -5,4 +5,11 @@
     <wfjava:selector type="java.lang.Number"/>
   </message-type>
 
+  <message-type id="reservation.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage" filter="${message.type == 'reservation'}"/>
+  </message-type>
+  <message-type id="table.available.msg">
+    <wfjava:selector type="com.werken.werkflow.SimpleMessage" filter="${message.type == 'table.available'}"/>
+  </message-type>
+
 </message-types>

@@ -382,9 +382,9 @@ class MessageWaiterCorrelator
             if ( msgCorrelator != null )
             {
                 doesCorrelate = msgCorrelator.correlates( message.getMessage(),
-                                                   processCase );
+                                                          processCase );
             }
-            
+
             if ( doesCorrelate )
             {
                 notifyCorrelation( message,

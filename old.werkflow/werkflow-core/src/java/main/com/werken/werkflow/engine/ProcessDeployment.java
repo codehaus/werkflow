@@ -318,6 +318,7 @@ class ProcessDeployment
                 {
                     enabledTrans.add( eachTrans );
                 }
+
                 else if ( waiter instanceof MessageWaiter )
                 {
                     boolean shouldCorrelate = true;
