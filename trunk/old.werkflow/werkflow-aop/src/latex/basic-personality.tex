@@ -32,6 +32,37 @@ as \verb|werkflow:java|, \verb|werkflow:jelly| and
 \verb|werkflow:python|
 
 % ----------------------------------------------------------------------
+%     Organization
+% ----------------------------------------------------------------------
+
+\section{Organization}
+
+\subsection{\tag{processes}}
+
+The \tag{processes} tag allows several processes to be defined
+within a single XML file.  When used as the root tag, it provides
+a convenient location for XML Namespace declarations for the semantic
+modules or syntaxes used.
+
+The \tag{processes} tag has no attributes. It may hold as content a 
+\tag{message-types} block and one or more \tag{process} blocks to
+define processes.  
+
+\begin{codelisting}
+<processes>
+    <message-types>
+        \dots
+    </message-types>
+    <process \dots>
+        \dots
+    </process>
+    <process \dots>
+        \dots
+    </process>
+</processes>
+\end{codelisting}
+
+% ----------------------------------------------------------------------
 %     Prolog
 % ----------------------------------------------------------------------
 
@@ -41,8 +72,6 @@ Each process definition begins with a common prolog that includes
 the \tag{process} tag and attribute definitions for the process.
 Also, any message types that the process expects to receive must
 be declared.
-
-\clearpage
 
 \subsection{\tag{process}}
 
@@ -60,7 +89,7 @@ required in order to specify how new cases are initiated.
 \hired{</process>}
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{process}
 package		&	optional	&			& Package scope identifier. \\
 id			&	required	&			& Unique identifier for the process. \\
 initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
@@ -68,9 +97,13 @@ initiation	&	required	&			& Initiation type. \verb|call| or \verb|message|.
 
 \subsection{\tag{message-types} and \tag{message-type}}
 
-Each process contains an enumeration of the \emph{message types}
+A \tag{message-types} block may appear as content of both
+\tag{processes} and \tag{process} blocks.  They are hierarchic, with
+local definitions taking precendence.
+
+Each process may contain an enumeration of the \emph{message types}
 which it expects to receive.  The \tag{message-types} tag is a simple
-container tag for \tag{message-type} tags.
+container tag for \tag{message-type} tags.  
 
 \begin{codelisting}
 <process package="my.package"
@@ -99,7 +132,7 @@ with the \emph{messaging manager} in use, such as
 </message-types>
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{message-type}
 id		&	required	&			& Unique identifier for the message-type.
 \end{attrDefs}
 
@@ -134,7 +167,7 @@ and/or output parameter passing.
 </attributes>
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{attribute}
 id			&	required	&			& Unique identifier for the attributes. \\
 in			&	optional	& ``false''	& Input parameter flag. \verb|true| or \verb|false| \\
 out			&	optional	& ``false''	& Output parameter flag. \verb|true| or \verb|false| \\
@@ -147,8 +180,6 @@ as the content, such as \tag{java:attr-type}.
 % ----------------------------------------------------------------------
 %     Flow-Control Structures
 % ----------------------------------------------------------------------
-
-\clearpage
 
 \section{Flow-Control Structures}
 
@@ -202,7 +233,7 @@ evaluated within the context of the case's attributes.
 \hired{</while>}
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{while}
 condition	&	required	&			& Python loop expression. \\
 \end{attrDefs}
 
@@ -221,7 +252,7 @@ evaluated within the context of the case's attributes.
 \hired{</if>}
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{if}
 condition	&	required	&			& Python loop expression. \\
 \end{attrDefs}
 
@@ -254,9 +285,7 @@ were selected.
 </switch>}
 \end{codelisting}
 
-\subsubsection{\tag{case} attributes}
-
-\begin{attrDefs}
+\begin{attrDefs}{case}
 condition	&	required	&			& Python loop expression. \\
 \end{attrDefs}
 
@@ -305,8 +334,6 @@ either a \tag{receive} or a \tag{wait}.
 %     Actions
 % ----------------------------------------------------------------------
 
-\clearpage
-
 \section{Atomic Actions}
 
 \subsection{\tag{receive}}
@@ -333,9 +360,63 @@ the body may also contain a \emph{correlator} such as
 \hired{</receive>}
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{receive}
 type	&	required	&				& Message type identifier \\
 bind	&	optional	& ``message''	& Message binding variable \\
+\end{attrDefs}
+
+\subsection{\tag{call} and \tag{in}}
+
+The \tag{call} tag is used to explicitly invoke another 
+process.  The called process must be callable by specifying
+the value \verb|call| for the \verb|initiaton| attribute of
+it's \tag{process} tag.  The \tag{call} tag requires a
+\verb|process| attribute to specify the called process.
+The \verb|package| attribute is required if calling a process
+not in the global package.
+
+Initial attributes are passed to the called process using
+the \tag{in} tag which requires both an \verb|id| attribute
+specifying the attribute identifier and a \verb|value| 
+attribute to specify the valeu to be passed.  The \verb|value|
+attribute specifies a Python expression to determine the value.
+Care should be taken when intending to pass string literals
+as the value, as the attribute should contain a Python quoted
+string literal.
+
+\emph{FIXME:} should we maybe add a mutually exclusive
+@literal-value to make pushing in literal strings/ints easier?
+Should folks be using literals?
+
+\begin{codelisting}
+<processes>
+    <process id="master">
+        \dots
+        <sequence>
+            \hired{<call process="call.me">
+                <in id="username" value="userId"/>
+            </call>}
+        </sequence>
+    </process>
+
+    <process id="call.me">
+        <attributes>
+            \hired{<attribute id="username" in="true">}
+                \dots
+            </attribute>
+        </attributes>
+    </process>
+</processes>
+\end{codelisting}
+
+\begin{attrDefs}{call}
+package	&	optional	&				& Package of the called process.\\
+id		&	required	&				& Id of the called process.\\
+\end{attrDefs}
+
+\begin{attrDefs}{in}
+id		&	required	&				& Id of the input attribute.\\
+value	&	required	&				& Python expression producing the value.\\
 \end{attrDefs}
 
 \subsection{\tag{terminate}}

@@ -20,21 +20,25 @@
 %%
 %% Extra Commands and Evironments
 %%
+\newcommand{\werkflow}{{\textsf{werkflow}}}
+\newcommand{\hired}[1]{\textcolor{red}{#1}}
+\newcommand{\tag}[1]{\texttt{<#1>}}
 
 \newenvironment{codelisting}%
         {\bigskip\begin{minipage}{250pt}\footnotesize\begin{alltt}}%
         {\end{alltt}\end{minipage}\bigskip}
 
-\newenvironment{attrDefs}%
-	{\bigskip\begin{tabular}{l|c|c|l}%
+\newenvironment{attrDefs}[1]%
+	{\bigskip
+     \begin{minipage}{250pt}
+     \textbf{\tag{#1}} \textsl{attributes}\\
+     \begin{tabular}{l|c|c|l}%
 		\hline
         \textbf{attribute}   &	\textbf{type}		&	\textbf{default}	& \textbf{description} \\
 		\hline}%
-	{\end{tabular}\medskip}
-
-\newcommand{\werkflow}{{\textsf{werkflow}}}
-\newcommand{\hired}[1]{\textcolor{red}{#1}}
-\newcommand{\tag}[1]{\texttt{<#1>}}
+	{\end{tabular}
+     \end{minipage}
+     \medskip}
 
 \definecolor{light}{rgb}{0.4,0.4,0.4}
 
