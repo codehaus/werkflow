@@ -3,7 +3,7 @@ package org.codehaus.werkflow.spi;
 public interface Satisfaction
     extends AsyncComponent
 {
-    public String getId();
+    String getId();
 
-    public abstract SatisfactionSpec getSatisfactionSpec();
+    SatisfactionSpec getSatisfactionSpec();
 }
