@@ -29,7 +29,9 @@ class MessageHandler
     {
         this.messagingManager    = messagingManager;
         this.messageSink         = messageSink;
-        this.messageTypeHandlers = new HashMap();
+
+        this.messageTypeHandlers               = new HashMap();
+        this.messageTypeHandlersByTransitionId = new HashMap();
     }
 
     MessagingManager getMessagingManager()
@@ -57,6 +59,7 @@ class MessageHandler
                                                                         messageType );
 
             handler = new MessageTypeHandler( registration );
+
             this.messageTypeHandlers.put( messageType,
                                           handler );
 
