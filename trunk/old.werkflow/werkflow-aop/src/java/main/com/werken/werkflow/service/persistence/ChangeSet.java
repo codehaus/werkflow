@@ -1,6 +1,6 @@
 package com.werken.werkflow.service.persistence;
 
-public interface Transaction
+public interface ChangeSet
 {
     CaseTransfer[] getModifiedCases();
 
