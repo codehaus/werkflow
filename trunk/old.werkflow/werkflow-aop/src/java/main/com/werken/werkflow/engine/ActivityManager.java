@@ -289,8 +289,18 @@ public class ActivityManager
                 Map otherAttrs = verify( processCase,
                                          transition);
                 
+                getEngine().notifyTransitionInitiated( processCase.getProcessInfo().getId(),
+                                                       processCase.getId(),
+                                                       transition.getId() );
+
                 String[] placeIds = satisfy( processCase,
                                              transition );
+
+                getEngine().notifyTokensConsumed( processCase.getProcessInfo().getId(),
+                                                  processCase.getId(),
+                                                  transition.getId(),
+                                                  placeIds );
+
                 
                 return fire( processCase,
                              transition,
@@ -426,6 +436,8 @@ public class ActivityManager
                 Transition transition = processDef.getNet().getTransitionById( activity.getTransitionId() );
                 
                 Arc[] arcs = transition.getArcsToPlaces();
+
+                List placeIds = new ArrayList();
                 
                 for ( int i = 0 ; i < arcs.length ; ++i )
                 {
@@ -450,10 +462,21 @@ public class ActivityManager
                     Place place = arcs[i].getPlace();
                     
                     processCase.addMark( place.getId() );
+
+                    placeIds.add( place.getId() );
                 }
+
+                getEngine().notifyTokensProduced( activity.getProcessId(),
+                                                  activity.getCaseId(),
+                                                  activity.getTransitionId(),
+                                                  (String[]) placeIds.toArray( EMPTY_STRING_ARRAY ) );
                 
                 this.activities.remove( activity );
-                
+
+                getEngine().notifyTransitionTerminated( activity.getProcessId(),
+                                                        activity.getCaseId(),
+                                                        activity.getTransitionId() );
+
                 getEngine().evaluateCase( processCase );
             }
         }
