@@ -1,7 +1,7 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.jelly.JellyAction;
+import com.werken.werkflow.semantics.jelly.JellyAction;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyException;

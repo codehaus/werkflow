@@ -1,4 +1,4 @@
-package com.werken.werkflow.jelly;
+package com.werken.werkflow.semantics.jelly;
 
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.action.MutableProcessCase;
