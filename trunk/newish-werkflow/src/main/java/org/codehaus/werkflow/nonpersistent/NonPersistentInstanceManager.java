@@ -48,7 +48,7 @@ public class NonPersistentInstanceManager
     }
 
     public RobustInstance getInstance(String id)
-        throws NoSuchInstanceException
+        throws NoSuchInstanceException, Exception
     {
         if ( this.instances.containsKey( id ) )
         {

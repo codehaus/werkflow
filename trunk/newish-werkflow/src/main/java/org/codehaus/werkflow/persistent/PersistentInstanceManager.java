@@ -26,8 +26,29 @@ public class PersistentInstanceManager
         throws Exception
     {
         return new PersistentInstance( new File( getRoot(),
-                                                 "" + id.hashCode()),
+                                                 id ),
                                        new DefaultInstance( workflow,
                                                             id ) );
+    }
+
+    public RobustInstance getInstance(String id)
+        throws NoSuchInstanceException, Exception
+    {
+        try
+        {
+            return super.getInstance( id );
+        }
+        catch (NoSuchInstanceException e)
+        {
+            File instanceFile = new File( getRoot(),
+                                          id );
+
+            if ( ! instanceFile.exists() )
+            {
+                throw new NoSuchInstanceException( id );
+            }
+
+            return new PersistentInstance( instanceFile );
+        }
     }
 }

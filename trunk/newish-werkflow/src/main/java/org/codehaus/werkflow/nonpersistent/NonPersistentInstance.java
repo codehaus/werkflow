@@ -36,5 +36,4 @@ public class NonPersistentInstance
         setInstance( this.backup );
         this.backup = null;
     }
-    
 }

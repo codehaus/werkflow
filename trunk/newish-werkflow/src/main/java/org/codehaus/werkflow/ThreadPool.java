@@ -1,6 +1,8 @@
 package org.codehaus.werkflow;
 
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 
 class ThreadPool
@@ -9,6 +11,7 @@ class ThreadPool
     private int numThreads;
     private Thread[] threads;
     private LinkedList queue;
+    private Set active;
 
     ThreadPool(Engine engine,
                int numThreads)
@@ -16,6 +19,7 @@ class ThreadPool
         this.engine     = engine;
         this.numThreads = numThreads;
         this.queue      = new LinkedList();
+        this.active     = new HashSet();
     }
 
     Engine getEngine()
@@ -37,12 +41,32 @@ class ThreadPool
             wait();
         }
 
-        return (InstanceTask) this.queue.removeFirst();
+        InstanceTask task = (InstanceTask) this.queue.removeFirst();
+
+        this.active.add( task );
+
+        return task;
+    }
+
+    synchronized void isComplete(InstanceTask task)
+    {
+        this.active.remove( task );
     }
 
     synchronized boolean isActive(Instance instance)
     {
         for ( Iterator taskIter = this.queue.iterator();
+              taskIter.hasNext(); )
+        {
+            InstanceTask task = (InstanceTask) taskIter.next();
+
+            if ( task.getInstance().getId().equals( instance.getId() ) )
+            {
+                return true;
+            }
+        }
+
+        for ( Iterator taskIter = this.active.iterator();
               taskIter.hasNext(); )
         {
             InstanceTask task = (InstanceTask) taskIter.next();
@@ -69,9 +93,11 @@ class ThreadPool
                       LOOP:
                         while ( true )
                         {
+                            InstanceTask task = null;
+
                             try
                             {
-                                InstanceTask task = dequeue();
+                                task = dequeue();
                                 getEngine().run( task.getInstance(),
                                                  task.getPath() );
                             }
@@ -82,6 +108,13 @@ class ThreadPool
                             catch (Exception e)
                             {
                                 e.printStackTrace();
+                            }
+                            finally
+                            {
+                                if ( task != null )
+                                {
+                                    isComplete( task );
+                                }
                             }
                         }
                     }

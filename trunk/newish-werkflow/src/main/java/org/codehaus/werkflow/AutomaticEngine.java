@@ -43,24 +43,11 @@ public class AutomaticEngine
         setSatisfactionManager( satisfactionManager );
     }
 
-    public synchronized Instance getInstance(String id)
-        throws NoSuchInstanceException, Exception
+    protected boolean isActive(RobustInstance instance)
     {
-        RobustInstance instance = (RobustInstance) super.getInstance( id );
-
-        if ( ! this.pool.isActive( instance ) )
-        {
-            Path[] paths = instance.getQueue();
-
-            for ( int i = 0 ; i < paths.length ; ++i )
-            {
-                enqueue( instance,
-                         paths[ i ] );
-            }
-        }
-
-        return instance;
+        return this.pool.isActive( instance );
     }
+
     protected void enqueue(RobustInstance instance,
                            Path path)
         throws InterruptedException

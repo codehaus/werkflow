@@ -46,8 +46,9 @@ public class PersistentInstance
     protected void commitTransaction()
         throws Exception
     {
+        writeInstance( (DefaultInstance) getInstance(),
+                       getFile() );
         super.commitTransaction();
-
     }
 
     protected void abortTransaction()
