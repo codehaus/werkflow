@@ -5,6 +5,33 @@
          xmlns:j="jelly:core"
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
+
+<sequence>
+  <jelly:action>
+      <j:set var="i" value="23"/>
+  </jelly:action>
+  <jelly:log message="i is ${i}"/>
+  <if condition="i == 1">
+    <jelly:log message="if 1"/>
+  </if>
+  <if condition="i == 2">
+    <jelly:log message="if 2"/>
+  </if>
+  <switch>
+    <case condition="i == 1">
+      <jelly:log message="choice 1"/>
+    </case>
+    <case condition="i == 2">
+      <jelly:log message="choice 2"/>
+    </case>
+    <otherwise>
+      <jelly:log message="choice otherwise"/>
+    </otherwise>
+  </switch>
+  <jelly:log message="after switch"/>
+</sequence>
+
+
 <!--
 <sequence>
   <empty/>
@@ -31,6 +58,7 @@
    </while>
 </sequence>
 -->
+<!--
     <parallel>
         <parallel>
             <jelly:log message="I like foo #1"/>
@@ -72,5 +100,7 @@
             <jelly:log message="I like cheese #3"/>
         </sequence>
     </parallel>
+
+-->
 
 </process>

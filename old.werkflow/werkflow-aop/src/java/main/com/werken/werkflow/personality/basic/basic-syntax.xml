@@ -30,6 +30,24 @@
         </core:if>
     </syntax:tag>
 
+    <syntax:tag name="switch">
+        <core:choose>
+            <syntax:invokeBody/>
+        </core:choose>
+    </syntax:tag>
+
+    <syntax:tag name="case">
+        <core:choice condition="${condition}">
+            <syntax:invokeBody/>
+        </core:choice>
+    </syntax:tag>
+
+    <syntax:tag name="otherwise">
+        <core:choice condition="true">
+            <syntax:invokeBody/>
+        </core:choice>
+    </syntax:tag>
+
     <syntax:tag name="while">
         <core:while condition="${condition}">
             <syntax:invokeBody/>
