@@ -12,19 +12,26 @@
             <on-message type="reservation.msg" var="theMsg">
                 <jelly:action>
                     <j:set var="name" value="${theMsg.payload}"/>
-                    the msg ${theMsg}
-                    reservation for ${name}
+                    reservation request for ${name}
                 </jelly:action>
             </on-message>
-            <jelly:action>
-                Please wait for a table mr ${name}
-            </jelly:action>
+
+            <if condition="${name == 'mcstrachan'}">
+                <sequence>
+                    <jelly:action>
+                        We do not wish to serve you mr ${name}
+                    </jelly:action>
+                    <terminate/>
+                </sequence>
+            </if>
+
             <on-message type="table.available.msg" var="theMsg">
                 <jelly:correlator test="${theMsg.payload == name}"/>
                 <jelly:action>
                     table available for ${name}
                 </jelly:action>
             </on-message>
+
             <parallel>
                <jelly:action>
                    Please follow me to your table mr ${name}
