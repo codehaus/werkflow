@@ -1,9 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
   <name>Werkflow</name>
   <groupId>werkflow</groupId>
   <artifactId>werkflow</artifactId>
   <version>2.0-alpha-1</version>
+
+  <description>Not a rewritten petri-net-based workflow engine</description>
+  <shortDescription>Werkflow</shortDescription>
+  <url>http://werkflow.codehaus.org</url>
+
+  <organization>
+    <name>CodeHaus</name>
+    <url>http://www.codehaus.org/</url>
+    <logo>/codehaus-small.png</logo>
+  </organization>
+
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>Maven Central Repository at Ibiblio</name>
+      <!-- TODO: should this be scp:://login.ibiblio.org:/public/html/maven? Or should we even use url?
+           How about protocol, host, directory, etc? -->
+      <url>scp://login.ibiblio.org//public/html/maven</url>
+    </repository>
+  </distributionManagement>
+
+  <ciManagement>
+    <nagEmailAddress>dev@werkflow.codehaus.org</nagEmailAddress>
+  </ciManagement>
+
+  <scm>
+    <connection>scm:cvs:pserver:anoncvs@cvs.werkflow.codehaus.org:/home/projects/werkflow/scm:werkflow/</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.werkflow.codehaus.org:/home/projects/werkflow/scm:werkflow/</developerConnection>
+    <url>http://cvs.werkflow.codehaus.org/viewrep/werkflow/werkflow</url>
+  </scm>
+
+  <issueManagement>
+    <system>jira</system>
+    <url>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10010</url>
+  </issueManagement>
+
+  <mailingLists>
+    <mailingList>
+      <name>Werkflow User List</name>
+      <subscribe>mailto:user-subscribe@werkflow.codehaus.org</subscribe>
+      <unsubscribe>mailto:user-unsubscribe@werkflow.codehaus.org</unsubscribe>
+      <archive>http://archive.werkflow.codehaus.org/user/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Werkflow Developer List</name>
+      <subscribe>mailto:dev-subscribe@werkflow.codehaus.org</subscribe>
+      <unsubscribe>mailto:dev-unsubscribe@werkflow.codehaus.org</unsubscribe>
+      <archive>http://archive.werkflow.codehaus.org/dev/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <developers>
+    <developer>
+      <name>Bob McWhirter</name>
+      <id>bob</id>
+      <email>bob@codehaus.org</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Architect</role>
+        <role>Release Manager</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Mark H. Wilkinson</name>
+      <id>mhw</id>
+      <email>mhw@codehaus.org</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Saimon Moore</name>
+      <id>saimonm</id>
+      <email>saimonm@codehaus.org</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
 
   <dependencies>
     <dependency>
@@ -24,5 +106,4 @@
       <version>1.0.1</version>
     </dependency>
   </dependencies>
-
 </project>
