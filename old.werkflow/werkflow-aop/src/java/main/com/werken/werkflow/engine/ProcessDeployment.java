@@ -269,6 +269,22 @@ public class ProcessDeployment
 
             if ( rule.evaluate( processCase ) )
             {
+                if ( eachTrans.getExpression() != null )
+                {
+                    try
+                    {
+                        if ( ! eachTrans.getExpression().evaluate( processCase ) )
+                        {
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        // FIXME
+                        e.printStackTrace();
+                    }
+                }
+
                 if ( eachTrans.getMessageWaiter() == null )
                 {
                     enabledTrans.add( eachTrans );
