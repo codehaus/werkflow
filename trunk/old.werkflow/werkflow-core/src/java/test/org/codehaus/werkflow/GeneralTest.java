@@ -56,7 +56,7 @@ public class GeneralTest
         throws Exception
     {
         deployFundamentalProcess( "general.xml", 1 );
-        
+
         SimpleMessage initMessage = new SimpleMessage( "init",
                                                        "mcwhirter" );
 
