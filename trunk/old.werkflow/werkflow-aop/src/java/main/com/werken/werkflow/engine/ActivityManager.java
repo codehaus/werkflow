@@ -6,6 +6,7 @@ import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.engine.ProcessDeployment;
+import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.definition.petri.Arc;
@@ -135,8 +136,40 @@ public class ActivityManager
 
     protected void verify(WorkflowProcessCase processCase,
                           Transition transition)
+        throws VerificationException
     {
-        // FIXME: implement
+        Transition[] enabledTrans = processCase.getEnabledTransitions();
+
+        for ( int i = 0 ; i < enabledTrans.length ; ++i )
+        {
+            if ( enabledTrans[i] == transition )
+            {
+                MessageWaiter waiter = transition.getMessageWaiter();
+
+                if ( waiter != null )
+                {
+                    try
+                    {
+                        Object message = getEngine().consumeMessage( processCase,
+                                                                     transition );
+                        
+                        processCase.setAttribute( waiter.getBindingVar(),
+                                                  message );
+                    }
+                    catch (NoSuchCorrelationException e)
+                    {
+                        e.printStackTrace();
+                        throw new VerificationException( processCase );
+                    }
+                    catch (NoSuchProcessException e)
+                    {
+                        e.printStackTrace();
+                        throw new VerificationException( processCase,
+                                                         e );
+                    }
+                }
+            }
+        }
     }
 
     protected String[] satisfy(WorkflowProcessCase processCase,
@@ -149,15 +182,27 @@ public class ActivityManager
     protected Activity fire(WorkflowProcessCase processCase,
                             Transition transition)
     {
-        verify( processCase,
-                transition);
+        synchronized ( processCase )
+        {
+            try
+            {
+                verify( processCase,
+                        transition);
+                
+                String[] placeIds = satisfy( processCase,
+                                             transition );
+                
+                return fire( processCase,
+                             transition,
+                             placeIds );
+            }
+            catch (VerificationException e)
+            {
+                // swallow
+            }
+        }
 
-        String[] placeIds = satisfy( processCase,
-                                     transition );
-        
-        return fire( processCase,
-                     transition,
-                     placeIds );
+        return null;
     }
 
     protected Activity fire(WorkItem workItem)
@@ -166,9 +211,9 @@ public class ActivityManager
         WorkflowProcessCase processCase = getEngine().getProcessCase( workItem.getCaseId() );
 
         Transition[] enabledTrans = processCase.getEnabledTransitions();
-
+        
         String transId = workItem.getTransitionId();
-
+        
         for ( int i = 0 ; i < enabledTrans.length ; ++i )
         {
             if ( enabledTrans[i].getId().equals( transId ) )
@@ -177,7 +222,7 @@ public class ActivityManager
                              enabledTrans[i] );
             }
         }
-
+        
         return null;
     }
 
@@ -241,43 +286,46 @@ public class ActivityManager
         try
         {
             WorkflowProcessCase processCase = getEngine().getProcessCase( activity.getCaseId() );
-            
-            ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
-            
-            ProcessDefinition processDef = deployment.getProcessDefinition();
-            
-            Transition transition = processDef.getNet().getTransitionById( activity.getTransitionId() );
-            
-            Arc[] arcs = transition.getArcsToPlaces();
-            
-            for ( int i = 0 ; i < arcs.length ; ++i )
+
+            synchronized ( processCase )
             {
-                Expression expr = arcs[i].getExpression();
+                ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
                 
-                if ( expr != null )
+                ProcessDefinition processDef = deployment.getProcessDefinition();
+                
+                Transition transition = processDef.getNet().getTransitionById( activity.getTransitionId() );
+                
+                Arc[] arcs = transition.getArcsToPlaces();
+                
+                for ( int i = 0 ; i < arcs.length ; ++i )
                 {
-                    try
+                    Expression expr = arcs[i].getExpression();
+                    
+                    if ( expr != null )
                     {
-                        if ( ! expr.evaluate( processCase ) )
+                        try
                         {
-                            continue;
+                            if ( ! expr.evaluate( processCase ) )
+                            {
+                                continue;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            // FIXME
+                            e.printStackTrace();
                         }
                     }
-                    catch (Exception e)
-                    {
-                        // FIXME
-                        e.printStackTrace();
-                    }
+                    
+                    Place place = arcs[i].getPlace();
+                    
+                    processCase.addMark( place.getId() );
                 }
                 
-                Place place = arcs[i].getPlace();
+                this.activities.remove( activity );
                 
-                processCase.addMark( place.getId() );
+                getEngine().evaluateCase( processCase );
             }
-
-            this.activities.remove( activity );
-
-            getEngine().evaluateCase( processCase );
         }
         catch (NoSuchTransitionException e)
         {

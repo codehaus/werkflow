@@ -180,6 +180,14 @@ public class ProcessDeployment
                                       (String[]) msgWaitingTrans.toArray( EMPTY_STRING_ARRAY ) );
     }
 
+    Object consumeMessage(String processCaseId,
+                          Transition transition)
+        throws NoSuchCorrelationException
+    {
+        return getCorrelator().consumeMessage( processCaseId,
+                                               transition );
+    }
+
     Set getPotentialTransitions(WorkflowProcessCase processCase)
     {
         String[] marks = processCase.getMarks();

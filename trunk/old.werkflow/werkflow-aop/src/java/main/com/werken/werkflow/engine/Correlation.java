@@ -40,4 +40,9 @@ public class Correlation
 
         return false;
     }
+
+    public String toString()
+    {
+        return "[Correlation: pid=" + this.processCaseId + "; mid=" + this.messageId + "]";
+    }
 }

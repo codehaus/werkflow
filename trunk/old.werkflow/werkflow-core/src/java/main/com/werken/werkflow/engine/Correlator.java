@@ -104,5 +104,17 @@ public class Correlator
         return msgTypeCorrelator.isCorrelated( processCaseId,
                                                transition.getId() );
     }
+
+    Object consumeMessage(String processCaseId,
+                          Transition transition)
+        throws NoSuchCorrelationException
+    {
+        MessageWaiter msgWaiter = transition.getMessageWaiter();
+
+        MessageTypeCorrelator msgTypeCorrelator = getMessageTypeCorrelator( msgWaiter.getMessageTypeId() );
+
+        return msgTypeCorrelator.consumeMessage( processCaseId,
+                                                 transition.getId() );
+    }
 }
 

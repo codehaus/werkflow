@@ -41,7 +41,7 @@
     <output to="out"/>
 
     <message id="myMsg" type="string.msg">
-      <wfjelly:correlator test="${myMsg == bob}"/>
+      <wfjelly:correlator test="${myMsg.equals(bob)}"/>
     </message>>
 
     <task>

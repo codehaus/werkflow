@@ -70,5 +70,26 @@ public class GeneralTest
         System.err.println( "sleep #3" );
 
         Thread.sleep( 1000 );
+
+        SimpleAttributes attrsToo = new SimpleAttributes();
+
+        attrsToo.setAttribute( "bob",
+                               "cheese" );
+
+        ProcessCase caseToo = runtime.newProcessCase( "general",
+                                                      attrsToo ); 
+
+        System.err.println( "sleep #4" );
+
+        Thread.sleep( 1000 );
+        
+        System.err.println( "sending msg 'mcstrachan'" );
+
+        messagingManager.acceptMessage( "mcstrachan" );
+
+        System.err.println( "sleep #5" );
+
+        Thread.sleep( 1000 );
+        
     }
 }
