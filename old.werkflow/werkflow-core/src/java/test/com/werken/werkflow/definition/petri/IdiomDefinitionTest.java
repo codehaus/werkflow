@@ -113,20 +113,20 @@ public class IdiomDefinitionTest
         assertContainsPlace( "out",
                              idiom.getPlaces() );
 
-        assertContainsPlace( "my.place",
+        assertContainsPlace( "/idiom:my.place",
                              idiom.getPlaces() );
 
         assertEquals( 1,
                       idiom.getTransitions().length );
 
-        Place place = idiom.getPlace( "my.place" );
+        Place place = idiom.getPlace( "/idiom:my.place" );
 
         assertEquals( 1,
                       place.getArcsToTransitions().length );
 
         Transition transition = idiom.getTransitions()[0];
 
-        assertEquals( "my.transition",
+        assertEquals( "/idiom:my.transition",
                       transition.getId() );
 
         assertEquals( 1,
@@ -182,34 +182,34 @@ public class IdiomDefinitionTest
         Place place = null;
         Arc[] arcs = null;
 
-        place = parentIdiom.getPlace( "head" );
+        place = parentIdiom.getPlace( "/parent:head" );
 
         arcs = place.getArcsToTransitions();
 
         assertEquals( 1,
                       arcs.length );
 
-        assertEquals( "trans",
+        assertEquals( "/parent/child[0]:trans",
                       arcs[0].getTransition().getId() );
 
-        place = parentIdiom.getPlace( "tail" );
+        place = parentIdiom.getPlace( "/parent:tail" );
 
         arcs = place.getArcsFromTransitions();
 
         assertEquals( 1,
                       arcs.length );
 
-        assertEquals( "trans",
+        assertEquals( "/parent/child[0]:trans",
                       arcs[0].getTransition().getId() );
 
-        Transition trans = parentIdiom.getTransition( "trans" );
+        Transition trans = parentIdiom.getTransition( "/parent/child[0]:trans" );
 
         arcs = trans.getArcsFromPlaces();
 
         assertEquals( 1,
                       arcs.length );
 
-        assertEquals( "head",
+        assertEquals( "/parent:head",
                       arcs[0].getPlace().getId() );
 
         arcs = trans.getArcsToPlaces();
@@ -217,7 +217,7 @@ public class IdiomDefinitionTest
         assertEquals( 1,
                       arcs.length );
 
-        assertEquals( "tail",
+        assertEquals( "/parent:tail",
                       arcs[0].getPlace().getId() );
     }
 
