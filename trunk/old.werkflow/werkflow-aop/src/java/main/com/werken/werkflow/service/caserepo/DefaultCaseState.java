@@ -46,10 +46,6 @@ package com.werken.werkflow.service.caserepo;
  
  */
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
 
 /** Default <code>CaseState</code> implementation.
  *
@@ -59,42 +55,15 @@ import java.util.HashSet;
  *
  *  @version $Id$
  */
-public class DefaultCaseState
-    implements CaseState
+public class DefaultCaseState extends AbstractCaseState
 {
     // ----------------------------------------------------------------------
     //     Constants
     // ----------------------------------------------------------------------
 
-    /** Empty <code>String</code> array. */
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-    
     /** Owning repository. */
     private transient AbstractCaseRepository repo;
 
-    /** Case identifier. */
-    private String caseId;
-
-    /** Package identifier. */
-    private String packageId;
-
-    /** Process identifier. */
-    private String processId;
-
-    /** Attributes. */
-    private Map attributes;
-
-    /** Petri net marks. */
-    private Set marks;
-
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-    
     /** Construct.
      *
      *  @param caseId The case identifier.
@@ -106,12 +75,8 @@ public class DefaultCaseState
                             String processId,
                             AbstractCaseRepository repo)
     {
-        this.caseId     = caseId;
-        this.packageId  = packageId;
-        this.processId  = processId;
-        this.repo       = repo;
-        this.attributes = new HashMap(); 
-        this.marks      = new HashSet();
+        super(caseId, packageId, processId);
+        this.repo = repo;
     }
 
     /** Copy construct.
@@ -122,114 +87,13 @@ public class DefaultCaseState
     public DefaultCaseState(CaseState state,
                             AbstractCaseRepository repo)
     {
-        this( state.getCaseId(),
-              state.getPackageId(),
-              state.getProcessId(),
-              repo );
-
-        String[] attrNames = state.getAttributeNames();
-        
-        for ( int i = 0 ; i < attrNames.length ; ++i )
-        {
-            this.attributes.put( attrNames[i],
-                                 state.getAttribute( attrNames[i] ) );
-        }
-
-        String[] marks = state.getMarks();
-
-        for ( int i = 0 ; i < marks.length ; ++i )
-        {
-            this.marks.add( marks[i] );
-        }
+    	super(state);
+    	this.repo = repo;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
-
-    /** @see CaseState
-     */
-    public String getCaseId()
-    {
-        return this.caseId;
-    }
-
-    public String getPackageId()
-    {
-        return this.packageId;
-    }
-
-    /** @see CaseState
-     */
-    public String getProcessId()
-    {
-        return this.processId;
-    }
-
-    /** @see CaseState
-     */
-    public void setAttribute(String key,
-                             Object value)
-    {
-        this.attributes.put( key,
-                             value );
-    }
-
-    /** @see CaseState
-     */
-    public Object getAttribute(String key)
-    {
-        return this.attributes.get( key );
-    }
-
-    /** @see CaseState
-     */
-    public String[] getAttributeNames()
-    {
-        return (String[]) this.attributes.keySet().toArray( EMPTY_STRING_ARRAY );
-    }
-
-    /** @see CaseState
-     */
-    public boolean hasAttribute(String key)
-    {
-        return this.attributes.containsKey( key );
-    }
-
-    /** @see CaseState
-     */
-    public void clearAttribute(String key)
-    {
-        this.attributes.remove( key );
-    }
-
-    /** @see CaseState
-     */
-    public void addMark(String placeId)
-    {
-        this.marks.add( placeId );
-    }
-
-    /** @see CaseState
-     */
-    public void removeMark(String placeId)
-    {
-        this.marks.remove( placeId );
-    }
-
-    /** @see CaseState
-     */
-    public String[] getMarks()
-    {
-        return (String[]) this.marks.toArray( EMPTY_STRING_ARRAY );
-    }
-
-    /** @see CaseState
-     */
-    public boolean hasMark(String placeId)
-    {
-        return this.marks.contains( placeId );
-    }
 
     /** Retrieve the owning repository.
      *
