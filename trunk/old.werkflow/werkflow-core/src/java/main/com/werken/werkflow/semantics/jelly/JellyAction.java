@@ -7,6 +7,8 @@ import com.werken.werkflow.activity.Activity;
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 
+import java.util.Map;
+
 public class JellyAction
     implements Action
 {
@@ -23,7 +25,8 @@ public class JellyAction
     }
 
     public void perform(Activity activity,
-                        MutableProcessCase processCase)
+                        MutableProcessCase processCase,
+                        Map otherAttrs)
         throws Exception
     {
         MutableCaseJellyContext context = new MutableCaseJellyContext( processCase );

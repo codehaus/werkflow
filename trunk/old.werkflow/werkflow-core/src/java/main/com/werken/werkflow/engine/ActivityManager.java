@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class ActivityManager
@@ -266,10 +268,19 @@ public class ActivityManager
     {
         Action action = task.getAction();
 
+        Map otherAttrs = new HashMap();
+
+        otherAttrs.put( "transitionId",
+                        activity.getTransitionId() );
+
+        otherAttrs.put( "caseId",
+                        processCase.getId() );
+
         try
         {
             action.perform( activity,
-                            processCase );
+                            processCase,
+                            otherAttrs );
 
             activity.complete();
         }

@@ -154,7 +154,8 @@ public class JavaAction
     /** @see Action
      */
     public void perform(Activity activity,
-                        MutableProcessCase processCase)
+                        MutableProcessCase processCase,
+                        Map otherAttrs)
     {
         Map caseMap = new HashMap();
 
@@ -165,16 +166,6 @@ public class JavaAction
             caseMap.put( attrNames[i],
                          processCase.getAttribute( attrNames[i] ) );
         }
-
-        Map otherAttrs = new HashMap();
-
-        otherAttrs.put( "caseId",
-                        activity.getCaseId() );
-
-        otherAttrs.put( "transitionId",
-                        activity.getTransitionId() );
-
-        
         
         try
         {
