@@ -62,15 +62,19 @@ class Scope
 
         for ( int i = 0 ; i < children.length ; ++i )
         {
-            if ( children[ i ].getSegment() == segment )
+            for ( int j = 0 ; j < segments.length ; ++j )
             {
-                throw new AssumptionViolationError( "child of <" + segment +"> already exists in " + this + " :: " + this.children );
+                if ( children[ i ].getSegment() == segments[ j ] )
+                {
+                    throw new AssumptionViolationError( "child of <" + segments[ j ] +"> already exists in " + this + " :: " + this.children );
+                }
             }
         }
 
         for ( int i = 0 ; i < segments.length ; ++i )
         {
-            Scope child = new Scope( segments[ i ] );
+            Scope child = new Scope( this,
+                                     segments[ i ] );
             
             this.children.add( child );
         }
