@@ -1,0 +1,47 @@
+\chapter{The Jelly Semantic Module}
+
+\section{Overview}
+
+Jelly is an XML scripting framework originally created by
+James Strachan and maintained by The Apache Software Foundation's
+Jakarta project.  The Jelly language is infinitely extendable
+through custom \emph{tag libraries}.  Many tag libraries
+already exist for a variety of activities, such as a database
+manipulation, sending email, manipulating JMS topics, invoking
+web services, and even executing jakarta-ant tasks.
+
+It is simple to add additional libraries at runtime using
+\emph{XML Namespace} declarations.  The Jelly semantic
+module itself is imported into process definitions using
+the \verb|werkflow:jelly| namespace URI.
+
+Jelly uses \verb|\$\{...\}| notation to signal expressions
+to be evaluated, typically using the Jexl expression language.
+
+\begin{codelisting}
+<process \hired{xmlns:jelly="werkflow:jelly"} \dots>
+    \dots
+\end{codelisting}
+
+
+\section{\tag{jelly:action}}
+
+The \tag{jelly:action} tag defines a block of Jelly script
+to be executed \emph{atomically} and thus can be used
+as the action for message reception.  It may also be used
+in any context that other constructs are allowed.
+
+\begin{codelisting}
+<sequence>
+    <receive \dots>
+        \hired{<jelly:action xmlns:j="jelly:core" 
+                      xmlns:http="jelly:http">
+            <j:set var="caseAttrOne" value="\$\{message.propOne\}"/>
+            <j:set var="caseAttrTwo" value="\$\{message.propTwo\}"/>
+            <http:get \dots/>
+        </jelly:action>}
+    </receive>
+</sequence>
+\end{codelisting}
+
+
