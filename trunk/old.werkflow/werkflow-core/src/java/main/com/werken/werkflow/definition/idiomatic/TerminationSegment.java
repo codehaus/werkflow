@@ -16,29 +16,26 @@ public class TerminationSegment
     {
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition firstTransition = builder.newTransition();
-        DefaultTransition lastTransition  = builder.newTransition();
+        DefaultPlace out = builder.getOut();
 
-        builder.connect( firstTransition,
-                         builder.getOut() );
+        builder.connect( in,
+                         out );
 
-        DefaultPlace connectingPlace = builder.newPlace();
+        DefaultPlace falseOut = builder.newPlace();
+        DefaultTransition falseTrans = builder.newTransition();
 
-        DefaultArc falseArc = builder.connect( firstTransition,
-                                               connectingPlace );
+        falseTrans.setExpression( Expression.FALSE );
 
-        falseArc.setExpression( Expression.FALSE );
+        builder.connect( in,
+                         falseTrans );
 
-        builder.connect( connectingPlace,
-                         lastTransition );
+        builder.connect( falseTrans,
+                         falseOut );
 
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        return falseOut;
     }
 }

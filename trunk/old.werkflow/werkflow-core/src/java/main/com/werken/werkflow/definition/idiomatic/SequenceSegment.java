@@ -24,64 +24,23 @@ public class SequenceSegment
         this.segments.add( segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        if ( this.segments.isEmpty() )
-        {
-            DefaultTransition noOp = builder.newTransition();
-
-            return new DefaultTransition[]
-                {
-                    noOp,
-                    noOp
-                };
-        }
+        DefaultPlace cur = in;
 
         Iterator segmentIter = this.segments.iterator();
         Segment  eachSegment = null;
-
-        DefaultTransition firstTransition = null;
-        DefaultTransition lastTransition  = null;
-
-        DefaultTransition currentTransition = null;
 
         while ( segmentIter.hasNext() )
         {
             eachSegment = (Segment) segmentIter.next();
 
-            DefaultTransition[] ends = eachSegment.build( builder );
-
-            if ( currentTransition != null )
-            {
-                DefaultPlace connectingPlace = builder.newPlace();
-
-                builder.connect( currentTransition,
-                                 connectingPlace );
-
-                builder.connect( connectingPlace,
-                                 ends[0] );
-            }
-
-            if ( firstTransition == null )
-            {
-                firstTransition = ends[0];
-            }
-
-            if ( ! segmentIter.hasNext() )
-            {
-                lastTransition = ends[1];
-            }
-            else
-            {
-                currentTransition = ends[1];
-            }
+            cur = eachSegment.append( cur,
+                                      builder );
         }
 
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        return cur;
     }
 }

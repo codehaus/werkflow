@@ -420,9 +420,9 @@ public class WorkflowEngine
     WorkflowProcessCase assumeCase(CaseState caseState)
         throws NoSuchProcessException
     {
-        ProcessInfo info = getProcess( caseState.getProcessId() );
+        ProcessDeployment deployment = getProcessDeployment( caseState.getProcessId() );
 
-        WorkflowProcessCase processCase = new WorkflowProcessCase( info,
+        WorkflowProcessCase processCase = new WorkflowProcessCase( deployment,
                                                                    caseState );
 
         this.cases.put( processCase.getId(),

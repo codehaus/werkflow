@@ -24,41 +24,41 @@ public class ParallelSegment
         this.segments.add( segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
+        DefaultTransition splitTrans = builder.newTransition();
+
+        builder.connect( in,
+                         splitTrans );
+
+        DefaultTransition joinTrans  = builder.newTransition();
+
         Iterator segmentIter = this.segments.iterator();
         Segment  eachSegment = null;
-
-        DefaultTransition firstTransition = builder.newTransition();
-        DefaultTransition lastTransition = builder.newTransition();
 
         while ( segmentIter.hasNext() )
         {
             eachSegment = (Segment) segmentIter.next();
 
-            DefaultTransition[] ends = eachSegment.build( builder );
+            DefaultPlace head = builder.newPlace();
 
-            DefaultPlace in  = builder.newPlace();
-            DefaultPlace out = builder.newPlace();
+            builder.connect( splitTrans,
+                             head );
 
-            builder.connect( in,
-                             ends[0] );
+            DefaultPlace tail = eachSegment.append( head,
+                                                    builder );
 
-            builder.connect( ends[1],
-                             out );
-
-            builder.connect( firstTransition,
-                             in );
-
-            builder.connect( out,
-                             lastTransition );
+            builder.connect( tail,
+                             joinTrans );
         }
 
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        DefaultPlace out = builder.newPlace();
+
+        builder.connect( joinTrans,
+                         out );
+
+        return out;
     }
 }

@@ -86,7 +86,7 @@ public class ProcessDefinition
     public static final class InitiationType
     {
         public static final InitiationType MESSAGE = new InitiationType();
-        public static final InitiationType OTHER   = new InitiationType();
+        public static final InitiationType INVOKE  = new InitiationType();
 
         private InitiationType()
         {
@@ -113,7 +113,10 @@ public class ProcessDefinition
     private Map attrDecls;
 
     private String[] inParameters;
+
     private String[] outParameters;
+
+    private InitiationType initiationType;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -140,9 +143,28 @@ public class ProcessDefinition
         this.outParameters = EMPTY_STRING_ARRAY;
     }
 
+    public ProcessDefinition(String id,
+                             Net net,
+                             InitiationType initiationType)
+    {
+        this.id  = id;
+        this.net = net;
+
+        this.attrDecls = new HashMap();
+
+        this.initiationType = initiationType;
+        this.inParameters   = EMPTY_STRING_ARRAY;
+        this.outParameters  = EMPTY_STRING_ARRAY;
+    }
+
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
+
+    public InitiationType getInitiationType()
+    {
+        return this.initiationType;
+    }
 
     /** @see ProcessInfo
      */

@@ -20,41 +20,23 @@ public class WhileSegment
                segment );
     }
 
-    public DefaultTransition[] build(NetBuilder builder)
+    public DefaultPlace append(DefaultPlace in,
+                               NetBuilder builder)
         throws PetriException
     {
-        DefaultTransition[] ends  = super.build( builder );
+        DefaultPlace tail = super.append( in,
+                                          builder );
 
-        DefaultTransition firstTransition = builder.newTransition();
-        DefaultPlace      in              = builder.newPlace();
 
-        builder.connect( firstTransition,
+        builder.connect( tail,
                          in );
 
-        DefaultPlace      out            = builder.newPlace();
-        DefaultTransition lastTransition = builder.newTransition();
-
-        builder.connect( out,
-                         lastTransition );
+        DefaultPlace out = builder.newPlace();
 
         builder.connect( in,
-                         ends[0] );
-
-        builder.connect( ends[1],
-                         in );
-
-        DefaultTransition falseTransition = builder.newTransition();
-
-        builder.connect( in,
-                         falseTransition );
-
-        builder.connect( falseTransition,
                          out );
+        
 
-        return new DefaultTransition[]
-            {
-                firstTransition,
-                lastTransition
-            };
+        return out;
     }
 }

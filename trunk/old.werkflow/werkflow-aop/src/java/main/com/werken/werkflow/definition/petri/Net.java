@@ -81,6 +81,9 @@ public interface Net
      */
     Transition[] getTransitions();
 
+    Place getPlaceById(String id)
+        throws NoSuchPlaceException;
+
     /** Retrieve a <code>Transition</code> by id.
      *
      *  @param id The id.

@@ -177,6 +177,36 @@ class ProcessDeployment
     private void initializeMessagingRules()
         throws ProcessDeploymentException
     {
+        /*
+        if ( getProcessDefinition().getInitiationType() == ProcessDefinition.InitiationType.MESSAGE )
+        {
+            try
+            {
+                Net net = getProcessDefinition().getNet();
+                
+                Place in = net.getPlaceById();
+
+                Arc[] arcs = in.getArcsToTransitions();
+
+                for ( int i = 0 ; i < arcs.length ; ++i )
+                {
+                    Transition transition = arcs[i].getTransition();
+
+                    Waiter waiter = transition.getWaiter();
+
+                    if ( waiter instanceof MessageWaiter )
+                    {
+
+                    }
+                }
+            }
+            catch (PetriException e)
+            {
+
+            }
+        }
+        */
+
         MessageInitiator[] msgInitiators = getProcessDefinition().getMessageInitiators();
 
         getInitiator().addMessageInitiators( msgInitiators );
