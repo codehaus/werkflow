@@ -117,9 +117,9 @@ public interface WfmsRuntime
      *  @throws NoSuchProcessException If the process identifier does
      *          not refer to a currently deployed process definition.
      */
-    ProcessCase newProcessCase(String processId,
-                               Attributes attributes)
-        throws NoSuchProcessException;
+    ProcessCase callProcess(String processId,
+                            Attributes attributes)
+        throws ProcessException;
     
     /** Retrieve the in-progress <code>Activity</code> handles
      *  for a given case.

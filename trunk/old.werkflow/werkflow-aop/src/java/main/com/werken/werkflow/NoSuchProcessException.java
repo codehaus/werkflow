@@ -57,15 +57,8 @@ package com.werken.werkflow;
  *  @version $Id$
  */
 public class NoSuchProcessException
-    extends WerkflowException
+    extends ProcessException
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-
-    /** Offending process identifier. */
-    private String id;
-
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -76,23 +69,12 @@ public class NoSuchProcessException
      */
     public NoSuchProcessException(String id)
     {
-        this.id = id;
+        super( id );
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
-
-    /** Retrieve the offending process identifier.
-     *
-     *  @return The offending process identifier.
-     */
-    public String getId()
-    {
-        return this.id;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
     /** @see java.lang.Throwable
      */

@@ -50,6 +50,7 @@ import com.werken.werkflow.Attributes;
 import com.werken.werkflow.WfmsRuntime;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
+import com.werken.werkflow.ProcessException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.QueryException;
@@ -130,12 +131,12 @@ class WorkflowRuntime
 
     /** @see WfmsRuntime
      */
-    public ProcessCase newProcessCase(String processId,
-                                      Attributes attributes)
-        throws NoSuchProcessException
+    public ProcessCase callProcess(String processId,
+                                   Attributes attributes)
+        throws ProcessException
     {
-        return getEngine().newProcessCase( processId,
-                                           attributes );
+        return getEngine().callProcess( processId,
+                                        attributes );
     }
 
     /** @see WfmsRuntime
