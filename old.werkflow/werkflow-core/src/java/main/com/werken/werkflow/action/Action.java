@@ -48,6 +48,8 @@ package com.werken.werkflow.action;
 
 import com.werken.werkflow.activity.Activity;
 
+import java.util.Map;
+
 /** Unit of work for a process.
  *
  *  <p>
@@ -81,6 +83,7 @@ public interface Action
      *          signalled to the core engine to take corrective action.
      */
     void perform(Activity activity,
-                 MutableProcessCase processCase)
+                 MutableProcessCase processCase,
+                 Map otherAttrs)
         throws Exception;
 }

@@ -109,7 +109,9 @@ public class ActionTag
             {
                 action = actionLib.getAction( getId() );
             }
-            
+
+            task.setAction( new ModifiableAction( getBody(),
+                                                  action ) );
         }
     }
 }
