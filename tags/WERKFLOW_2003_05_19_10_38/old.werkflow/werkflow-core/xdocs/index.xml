@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<document>
+
+  <properties>
+    <title>werkflow</title>
+    <author email="bob@eng.werken.com">bob mcwhirter</author>
+  </properties>
+
+  <body>
+
+  <section name="Overview">
+    <p>
+    <code>werkflow</code> is a flexible, extensible process- and 
+    state-based workflow engine.  It aims to satisfy a myriad of
+    possible workflow scenarios, from enterprise-scale business
+    processes to small-scale user-interaction processes.  Using
+    a pluggable and layered architecture, workflows with varying
+    semantics can easily be accomodated.  Processes can revolve
+    around documents, objects or any other entity.  The core
+    <code>werkflow</code> engine can be accessed through a
+    Java API, EJB, JMS, SOAP and other conduits.
+    </p>
+
+  </section>
+
+  <section name="Funding">
+    <p>
+    The current development of <code>werkflow</code> is being funded
+    by <a href="http://www.zenplex.com/">Zenplex</a>.
+    We're appreciative of Zenplex for consistently funding open-source
+    software projects.
+    </p>
+
+  </section>
+
+</body>
+</document>
+

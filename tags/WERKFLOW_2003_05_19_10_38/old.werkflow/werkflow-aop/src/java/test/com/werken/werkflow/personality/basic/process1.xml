@@ -1,0 +1,143 @@
+
+<process package="my.pkg"
+         id="my.proc1"
+         initiation="message"
+         xmlns="werkflow:basic"
+         xmlns:j="jelly:core"
+         xmlns:java="jelly:com.werken.werkflow.semantics.java.JavaTagLibrary"
+         xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:jexl="jelly:com.werken.werkflow.semantics.jexl.JexlTagLibrary">
+
+
+<!--
+<sequence>
+  <jelly:log message="foo"/>
+</sequence>
+-->
+
+<message-types>
+    <message-type id="str.msg">
+        <java:selector type="java.lang.String"/> 
+    </message-type>
+    <message-type id="int.msg">
+        <java:selector type="java.lang.Integer"/> 
+    </message-type>
+    <message-type id="bool.msg">
+        <java:selector type="java.lang.Boolean"/> 
+    </message-type>
+</message-types>
+
+<sequence>
+    <receive type="str.msg" bind="message">
+        <jelly:action>
+            <j:set var="len" value="${message.length()}"/>
+        </jelly:action>
+    </receive>
+    <jelly:log message="Will now wait for int with value ${len}"/>
+    <receive type="int.msg" bind="message">
+        <jexl:correlator test="message == len"/>
+        <jelly:log message="received ${message}"/>
+    </receive>
+    
+</sequence>
+
+<!--
+<sequence>
+  <jelly:action>
+      <j:set var="i" value="23"/>
+  </jelly:action>
+  <jelly:log message="i is ${i}"/>
+  <if condition="i == 1">
+    <jelly:log message="if 1"/>
+  </if>
+  <if condition="i == 2">
+    <jelly:log message="if 2"/>
+  </if>
+  <switch>
+    <case condition="i == 1">
+      <jelly:log message="choice 1"/>
+    </case>
+    <case condition="i == 2">
+      <jelly:log message="choice 2"/>
+    </case>
+    <otherwise>
+      <jelly:log message="choice otherwise"/>
+    </otherwise>
+  </switch>
+  <jelly:log message="after switch"/>
+</sequence>
+-->
+
+
+<!--
+<sequence>
+  <empty/>
+  <while condition="false">
+    <empty/>
+  </while> 
+  <empty/>
+</sequence>
+-->
+
+<!--
+<sequence>
+    <jelly:action>
+       <j:set var="i" value="10"/>
+    </jelly:action>
+    <jelly:log message="i is originally ${i}"/>
+    <while condition="!(i == 0)">
+        <sequence>
+            <jelly:action>
+                <j:set var="i" value="${i - 1}"/>
+            </jelly:action>
+            <jelly:log message="countdown: ${i}"/>
+        </sequence>
+   </while>
+</sequence>
+-->
+<!--
+    <parallel>
+        <parallel>
+            <jelly:log message="I like foo #1"/>
+            <jelly:log message="I like foo #2"/>
+            <jelly:log message="I like foo #3"/>
+        </parallel>
+        <parallel>
+            <jelly:log message="I like taco #1"/>
+            <jelly:log message="I like taco #2"/>
+            <jelly:log message="I like taco #3"/>
+            <parallel>
+                <jelly:log message="I like goober #1"/>
+                <jelly:log message="I like goober #2"/>
+                <jelly:log message="I like goober #3"/>
+            </parallel>
+        </parallel>
+        <sequence>
+            <jelly:action>
+                <j:set var="name" value="james"/>
+                <j:set var="i" value="10"/>
+                <j:set var="i" value="${i - 1}"/>
+            </jelly:action>
+            <jelly:log message="I like cheese #1"/>
+            <jelly:log message="I like cheese #2 ${name} ${i}"/>
+            <while condition="!(i == 0)">
+                <sequence>
+                    <jelly:action>
+                        <j:set var="i" value="${i - 1}"/>
+                    </jelly:action>
+                    <jelly:log message="countdown: ${i}"/>
+                </sequence>
+           </while>
+            <if condition="name == 'bob'">
+                <jelly:log message="You are bob"/>
+            </if>
+            <if condition="name == 'james'">
+                <jelly:log message="You are james"/>
+            </if>
+            <jelly:log message="I like cheese #3"/>
+        </sequence>
+    </parallel>
+
+-->
+
+</process>

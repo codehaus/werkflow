@@ -1,0 +1,96 @@
+
+<project default="java:jar"
+         xmlns:j="jelly:core">
+
+  <postGoal name="clover">
+    <copy tofile="${basedir}/target/docs/clover/style.css"
+          file="${basedir}/xdocs/stylesheets/clover-style.css"
+          overwrite="true"/>
+    <copy tofile="${basedir}/target/docs/clover/pkgs-summary"
+          file="${basedir}/target/docs/clover/pkgs-summary.html"/>
+  </postGoal>
+
+  <preGoal name="site:generate">
+    <attainGoal name="clover"/>
+  </preGoal>
+
+  <goal name="werkflow:compile-examples" prereqs="java:jar,werkflow:example.resources">
+
+<!--
+  <goal name="werkflow:compile-examples">
+-->
+    <echo>compiling examples</echo>
+    <mkdir dir="${werkflow.examples.dest.dir}"/>
+    <javac srcdir="${werkflow.examples.src.dir}"
+           destdir="${werkflow.examples.dest.dir}"
+           debug="on">
+      <classpath>
+        <path refid="maven.dependency.classpath"/>
+        <path location="target/${maven.final.name}.jar"/>
+      </classpath>
+    </javac>
+    <echo>done?</echo>
+  </goal>
+
+  <goal name="werkflow:example.resources">
+    <copy toDir="${werkflow.examples.dest.dir}">
+      <fileset dir="${werkflow.examples.src.dir}">
+        <include name="**/*.xml"/>
+        <include name="**/*.properties"/>
+      </fileset>
+    </copy>
+  </goal>
+
+  <goal name="werkflow:hanoi" prereqs="werkflow:compile-examples">
+    <j:set var="exPkg" value="hanoi"/>
+    <j:set var="exName" value="default"/>
+    <attainGoal name="werkflow:run-example"/>
+  </goal>
+
+  <goal name="werkflow:blog" prereqs="werkflow:compile-examples">
+    <j:set var="exPkg" value="blog"/>
+    <j:set var="exName" value="default"/>
+    <attainGoal name="werkflow:run-example"/>
+  </goal>
+
+  <goal name="quick:blog" prereqs="werkflow:example.resources">
+    <j:set var="exPkg" value="blog"/>
+    <j:set var="exName" value="default"/>
+    <attainGoal name="werkflow:run-example"/>
+  </goal>
+
+  <goal name="werkflow:run-example">
+    <echo>running ${exPkg} ${exName}</echo>
+    <java classname="com.werken.werkflow.example.Example" fork="true">
+      <arg value="${exPkg}"/>
+      <arg value="${exName}"/>
+      <classpath>
+        <path location="${werkflow.examples.dest.dir}"/>
+        <path location="target/${maven.final.name}.jar"/>
+        <path refid="maven.dependency.classpath"/>
+      </classpath>
+    </java>
+  </goal>
+
+<!--
+  <goal name="werkflow:example-po"
+        prereqs="werkflow:compile-examples">
+    <echo>running po example</echo>
+    <java classname="po.PurchaseOrderExample" fork="true"> 
+      <classpath>
+        <path location="${werkflow.examples.dest.dir}"/>
+        <path location="target/${maven.final.name}.jar"/>
+        <path refid="maven.dependency.classpath"/>
+      </classpath>
+    </java>
+  </goal>
+
+  <goal name="getting-started" prereqs="werkflow:example-po"/>
+-->
+
+  <goal name="foo">
+    <echo>---- ${context.getParent().getParent()}</echo>
+    <echo>---- ${context.getParent().getCurrentURL()}</echo>
+  </goal>
+
+</project>
