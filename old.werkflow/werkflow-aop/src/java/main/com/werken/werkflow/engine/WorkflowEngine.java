@@ -51,11 +51,9 @@ import com.werken.werkflow.Wfms;
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.WfmsRuntime;
-import com.werken.werkflow.SimpleAttributes;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.QueryException;
-import com.werken.werkflow.action.Action;
 import com.werken.werkflow.activity.Activity;
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.admin.ProcessException;
@@ -63,7 +61,6 @@ import com.werken.werkflow.admin.DuplicateProcessException;
 import com.werken.werkflow.admin.ProcessVerificationException;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
-import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.log.Log;
 import com.werken.werkflow.log.SimpleLog;
@@ -72,7 +69,6 @@ import com.werken.werkflow.service.caserepo.CaseState;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.Registration;
 import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
-import com.werken.werkflow.task.Task;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -270,6 +266,21 @@ public class WorkflowEngine
         return assumeCase( caseState );
     }
 
+    /** Select <code>ProcessCase</code>s by process-id and a place-id.
+     *
+     *  <p>
+     *  All process-cases of the specified process containing a mark
+     *  in the specified place are returned.
+     *  </p>
+     *
+     *  @param processId The process identifier.
+     *  @param placeId The place identifier.
+     *
+     *  @return The selected cases.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     ProcessCase[] selectCases(String processId,
                               String placeId)
         throws QueryException
@@ -298,6 +309,17 @@ public class WorkflowEngine
         return cases;
     }
 
+    /** Select <code>ProcessCase</code>s by process-id and
+     *  query-by-example case attributes.
+     *
+     *  @param processId The process identifier.
+     *  @param qbeAttrs The query-by-example attributes.
+     *
+     *  @return The selected cases.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     ProcessCase[] selectCases(String processId,
                               Map qbeAttrs)
         throws QueryException
@@ -367,6 +389,8 @@ public class WorkflowEngine
      *
      *  @param caseState The case-state to assume control of.
      *
+     *  @return The assumed process-case.
+     *
      *  @throws NoSuchProcessException If the case-state is associated with
      *          a process not currently deployed within the engine.
      */
@@ -432,9 +456,12 @@ public class WorkflowEngine
      *  of a particular <code>MessageType</code>.
      *
      *  @see com.werken.werkflow.service.messaging.MessagingManager
+     *  @see com.werken.werkflow.service.messaging.Registration
      *
      *  @param messageSink The message sink.
      *  @param messageType The message-type of interest.
+     *
+     *  @return The new registration.
      *
      *  @throws IncompatibleMessageSelectorException If the message-type
      *          contains a message-selector incompatible with the underlying
@@ -500,12 +527,31 @@ public class WorkflowEngine
         return this.activityManager;
     }
 
+    /** Retrieve all in-progress <code>Activity</code>s for
+     *  a process case.
+     *
+     *  @param caseId The case identifier.
+     *
+     *  @return The possibly empty array of in-progress activities.
+     *
+     *  @throws NoSuchCaseException If no case is associated with
+     *          the specified case identifier.
+     *  @throws NoSuchProcessException If the process case's process is not
+     *          deployed.
+     */
     Activity[] getActivitiesForProcessCase(String caseId)
         throws NoSuchCaseException, NoSuchProcessException
     {
         return getActivityManager().getActivitiesForProcessCase( caseId );
     }
 
+    /** Create a new <code>CaseState</code>.
+     *
+     *  @param processId The process identifier.
+     *  @param attributes The initial case attributes.
+     *
+     *  @return The new case state.
+     */
     CaseState newCaseState(String processId,
                            Attributes attributes)
     {
@@ -513,11 +559,30 @@ public class WorkflowEngine
                                                                attributes );
     }
 
+    /** Retrieve the <code>CaseState</code> for a process-case.
+     *
+     *  @param caseId The case identifier.
+     *
+     *  @return The case state or <code>null</code> if none is associated
+     *          with the specified identifier.
+     */
     CaseState getCaseState(String caseId)
     {
         return getServices().getCaseRepository().getCaseState( caseId );
     }
 
+    /** Consume a message.
+     *
+     *  @param processCase The case consuming the message.
+     *  @param transition The transition consuming the message.
+     *
+     *  @return The consumed message.  
+     *
+     *  @throws NoSuchCorrelationException If the message does not correlate
+     *          to the process case requesting the consumption.
+     *  @throws NoSuchProcessException If the process case's process is not
+     *          deployed.
+     */
     Object consumeMessage(WorkflowProcessCase processCase,
                           Transition transition)
         throws NoSuchCorrelationException, NoSuchProcessException
