@@ -114,6 +114,7 @@ public class JellyAction
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             invocation.completeWithError( e );
         }
     }

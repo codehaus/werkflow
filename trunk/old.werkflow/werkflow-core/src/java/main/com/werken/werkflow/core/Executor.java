@@ -19,14 +19,29 @@ import com.werken.werkflow.expr.AttributesExpressionContext;
 import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.persistence.PersistenceException;
 
+import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
+import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
+
 import java.util.Map;
 import java.util.HashMap;
 
 class Executor
     implements ActivityCompleter
 {
+
+    private PooledExecutor threadPool;
+    private LinkedQueue queue;
+
     Executor()
     {
+        this.queue = new LinkedQueue();
+
+        this.threadPool = new PooledExecutor( this.queue );
+        this.threadPool.setMinimumPoolSize( 1 );
+        this.threadPool.setMaximumPoolSize( 5 );
+        this.threadPool.setKeepAliveTime( 5000 );
+
+        this.threadPool.createThreads( 5 );
     }
 
     void initialize()
@@ -35,6 +50,7 @@ class Executor
     }
 
     void enqueueActivities(CoreActivity[] activities)
+        throws InterruptedException
     {
         for ( int i = 0 ; i < activities.length ; ++i )
         {
@@ -43,15 +59,17 @@ class Executor
     }
 
     void enqueueActivity(CoreActivity activity)
+        throws InterruptedException
     {
         System.err.println( "enqueue: " + activity );
         enqueue( new ExecutionEnqueuement( this,
                                            activity ) );
     }
 
-    void enqueue(ExecutionEnqueuement enquement)
+    void enqueue(ExecutionEnqueuement enqueuement)
+        throws InterruptedException
     {
-
+        this.queue.put( enqueuement );
     }
 
     void execute(CoreActivity activity)
@@ -76,7 +94,7 @@ class Executor
         CoreActionInvocation invocation = new CoreActionInvocation( activity,
                                                                     otherAttrs,
                                                                     completion );
-        // activity.perform();
+        activity.perform( invocation );
     }
 
     public void complete(CoreActivity activity,

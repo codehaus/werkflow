@@ -25,6 +25,7 @@ class ExecutionEnqueuement
 
     public void run()
     {
+        System.err.println( "RUNNING " + this );
         getExecutor().execute( getActivity() );
     }
 }

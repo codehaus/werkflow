@@ -21,7 +21,8 @@ class CoreActionInvocation
                          Map otherAttrsMap,
                          Completion completion)
     {
-        this.activity = activity;
+        this.activity   = activity;
+        this.completion = completion;
 
         CoreProcessCase processCase = getCase();
 
@@ -91,11 +92,14 @@ class CoreActionInvocation
 
     public void complete()
     {
+        System.err.println( "complete()" );
+        System.err.println( "completion -->" + this.completion );
         this.completion.complete( caseAttrs );
     }
 
     public void completeWithError(Throwable error)
     {
+        System.err.println( "completeWithError(" + error + ")" );
         this.completion.completeWithError( error );
     }
 }

@@ -20,6 +20,7 @@ class Scheduler
     }
 
     void schedule(CoreProcessCase[] processCases)
+        throws InterruptedException
     {
         for ( int i = 0 ; i < processCases.length ; ++i )
         {
@@ -28,6 +29,7 @@ class Scheduler
     }
 
     void schedule(CoreProcessCase processCase)
+        throws InterruptedException
     {
         System.err.println( "scheduling: " + processCase );
         ChangeSetSource changeSetSource = processCase.getChangeSetSource();
