@@ -1,0 +1,8 @@
+<message-types xmlns="werkflow:idiomatic"
+     xmlns:wfjava="werkflow:java">
+
+  <message-type id="number.msg">
+    <wfjava:selector type="java.lang.Number"/>
+  </message-type>
+
+</message-types>

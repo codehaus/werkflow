@@ -9,16 +9,29 @@ import com.werken.werkflow.action.Action;
 import com.werken.werkflow.task.DefaultTask;
 
 public class MessageConditionalSegment
-    extends AtomicSegment
+    extends ComplexSegment
 {
     private MessageWaiter messageWaiter;
     private Segment bodySegment;
 
-    public MessageConditionalSegment(MessageWaiter messageWaiter,
-                                     Segment bodySegment)
+    public MessageConditionalSegment(MessageWaiter messageWaiter)
     {
         this.messageWaiter = messageWaiter;
         this.bodySegment = bodySegment;
+    }
+
+
+    public void addSegment(Segment segment)
+        throws UnsupportedIdiomException
+    {
+        if ( segment instanceof AtomicSegment )
+        {
+            this.bodySegment = segment;
+        }
+        else
+        {
+            throw new UnsupportedIdiomException();
+        }
     }
 
     public DefaultPlace append(DefaultPlace in,

@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.syntax.idiomatic;
 
 /*
  $Id$
@@ -46,23 +46,34 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
+import com.werken.werkflow.action.ActionLibrary;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.MessageTypeLibrary;
-import com.werken.werkflow.jelly.MiscTagSupport;
+import com.werken.werkflow.semantics.java.JavaTagLibrary;
+import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
+import com.werken.werkflow.syntax.fundamental.Scope;
 
 import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
-import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.Script;
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.parser.XMLParser;
 
-/** Support for fundamental syntax tags.
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
+
+/** <code>ProcessDefinition</code> loader for the fundamenatal syntax.
+ *
+ *  @see IdiomaticTagLibrary
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public abstract class FundamentalTagSupport
-    extends MiscTagSupport
+public class IdiomaticDefinitionLoader
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -70,58 +81,49 @@ public abstract class FundamentalTagSupport
 
     /** Construct.
      */
-    public FundamentalTagSupport()
+    public IdiomaticDefinitionLoader()
     {
-        // intentionally left blank
+        // intentionally left blank.
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    protected Scope getCurrentScope()
+
+    public ProcessPackage load(URL url)
+        throws Exception
     {
-        return (Scope) getContext().getVariable( Scope.class.getName() );
-    }
+        XMLParser    parser  = new XMLParser();
+        JellyContext context = new JellyContext();
 
-    protected void setCurrentScope(Scope scope)
-    {
-        getContext().setVariable( Scope.class.getName(),
-                                  scope );
-    }
+        context.registerTagLibrary( IdiomaticTagLibrary.NS_URI,
+                                    new IdiomaticTagLibrary() );
 
-    protected void pushScope()
-    {
-        Scope curScope = getCurrentScope();
+        context.registerTagLibrary( JavaTagLibrary.NS_URI,
+                                    new JavaTagLibrary() );
 
-        setCurrentScope( new Scope( curScope ) );
-    }
+        context.registerTagLibrary( JellyTagLibrary.NS_URI,
+                                    new JellyTagLibrary() );
 
-    protected void popScope()
-    {
-        Scope curScope = getCurrentScope();
+        context.setVariable( Scope.class.getName(),
+                             new Scope() );
 
-        setCurrentScope( curScope.getParent() );
-    }
+        context.setCurrentURL( url );
 
-    protected void addProcessDefinition(ProcessDefinition processDef)
-        throws JellyTagException
-    {
-        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+        parser.setContext( context );
 
-        if ( pkgTag != null )
-        {
-            pkgTag.addProcessDefinition( processDef );
-        }
-        else
-        {
-            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
+        Script script = parser.parse( url.toExternalForm() );
 
-            pkg.addProcessDefinition( processDef );
+        /*
+        script.run( context,
+                    XMLOutput.createDummyXMLOutput() );
+        */
+        script.run( context,
+                    XMLOutput.createXMLOutput( System.err ) );
 
-            getContext().setVariable( ProcessPackage.class.getName(),
-                                      pkg );
-        }
+        ProcessPackage pkg = (ProcessPackage) context.getVariable( ProcessPackage.class.getName() );
+
+        return pkg;
     }
 }
-

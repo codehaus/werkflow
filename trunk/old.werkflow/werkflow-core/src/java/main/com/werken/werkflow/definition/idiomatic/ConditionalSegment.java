@@ -14,9 +14,14 @@ public class ConditionalSegment
     public ConditionalSegment(Expression condition,
                               Segment bodySegment)
     {
-        this.condition = condition;
-
+        this.condition   = condition;
         this.bodySegment = bodySegment;
+    }
+
+    public ConditionalSegment(Expression condition)
+    {
+        this.condition   = condition;
+        this.bodySegment = new SequenceSegment();
     }
 
     protected Segment getBodySegment()
