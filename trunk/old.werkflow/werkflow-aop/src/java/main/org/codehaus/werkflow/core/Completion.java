@@ -52,7 +52,5 @@ interface Completion
 {
     void complete(Attributes caseAttrs);
 
-    void completeWithError(Throwable erorr);
-
+    void completeWithError(Throwable error);
 }
-
