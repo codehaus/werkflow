@@ -188,7 +188,7 @@ class MessageWaiterCorrelator
      *
      *  @param message The message.
      */
-    public synchronized void acceptMessage(Message message)
+    public synchronized List acceptMessage(Message message)
     {
         addMessage( message.getId() );
 
@@ -224,6 +224,7 @@ class MessageWaiterCorrelator
             }
         }
 
+        /*
         Iterator            reevalIter = reevaluate.iterator();
         WorkflowProcessCase eachReeval = null;
 
@@ -241,6 +242,9 @@ class MessageWaiterCorrelator
                 e.printStackTrace();
             }
         }
+        */
+
+        return reevaluate;
     }
 
     /** Remove a message.
