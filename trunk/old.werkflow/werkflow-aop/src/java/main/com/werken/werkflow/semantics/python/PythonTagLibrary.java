@@ -77,6 +77,9 @@ public class PythonTagLibrary
 
         registerTag( "correlator",
                      PythonMessageCorrelatorTag.class );
+
+        registerTag( "action",
+                     PythonActionTag.class );
     }
 }
 

@@ -38,6 +38,10 @@
             </jelly:action>
         </receive>
         <jelly:log message="received: ${title} by ${author}"/>
+        <java:action>
+            import java.util.Date;
+            System.err.println( new Date() + " :: waiting for action for: " + title + " // " + author );
+        </java:action>
         <pick>
             <choice>
                 <sequence>

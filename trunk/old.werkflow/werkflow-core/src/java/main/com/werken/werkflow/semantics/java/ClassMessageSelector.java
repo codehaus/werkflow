@@ -153,6 +153,8 @@ public class ClassMessageSelector
         context.setValue( "message",
                           message );
 
-        return getExpression().evaluateAsBoolean( context );
+        boolean result = getExpression().evaluateAsBoolean( context );
+
+        return result;
     }
 }

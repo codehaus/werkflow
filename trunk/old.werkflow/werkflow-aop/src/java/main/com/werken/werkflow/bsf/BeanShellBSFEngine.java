@@ -31,6 +31,16 @@ import bsh.TargetError;
 */
 public class BeanShellBSFEngine extends BSFEngineImpl
 {
+    static
+    {
+        String [] extensions = { "bsh" };
+        
+        BSFManager.registerScriptingEngine(
+            "beanshell",
+            BeanShellBSFEngine.class.getName(),
+            extensions );
+    }
+
 	Interpreter interpreter;
 	boolean installedApplyMethod;
 
