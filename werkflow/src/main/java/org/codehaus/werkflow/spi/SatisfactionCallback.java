@@ -1,9 +1,9 @@
 package org.codehaus.werkflow.spi;
 
-import org.codehaus.werkflow.NoSuchInstanceException;
+import org.codehaus.werkflow.Transaction;
 
 public interface SatisfactionCallback
 {
-    void notifySatisfied(SatisfactionValues values)
+    void notifySatisfied(Transaction transaction)
         throws Exception;
 }
