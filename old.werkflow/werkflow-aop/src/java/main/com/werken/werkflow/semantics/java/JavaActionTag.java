@@ -120,7 +120,7 @@ public class JavaActionTag
      */
     public void setMethod(String method)
     {
-        this.methodName = methodName;
+        this.methodName = method;
     }
 
     /** Retrieve the bean execute method name.
