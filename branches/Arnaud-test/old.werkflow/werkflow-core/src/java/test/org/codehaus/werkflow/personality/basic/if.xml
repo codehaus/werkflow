@@ -1,0 +1,46 @@
+<process package="my.pkg" id="my.process2" initiation="call"
+         xmlns="werkflow:basic"
+         xmlns:jelly="jelly:org.codehaus.werkflow.semantics.jelly.JellyTagLibrary"
+         xmlns:java="werkflow:java"
+         xmlns:j="jelly:core">
+
+
+    <attributes>
+        <attribute id="anObjectId" in="true" out="true">
+            <java:attr-type type="java.lang.String"/>
+        </attribute>
+        <attribute id="result" out="true">
+            <java:attr-type type="java.lang.String"/>
+        </attribute>
+    </attributes>
+
+
+    <sequence>
+        <jelly:log message="started flow : ${anObjectId}"/>
+        <jelly:log message="being checked : ${result}"/>
+
+        <jelly:action>
+           <j:set var="result" value="cheese"/>
+        </jelly:action>
+
+        <jelly:log message="result set to : ${result}"/>
+
+        <parallel>
+            <jelly:log message="parallel activity 1"/>
+            <jelly:log message="parallel activity 2"/>
+            <jelly:log message="parallel activity 3"/>
+        </parallel>
+
+        <if condition='#result.equals("cheese")'>
+          <sequence>
+            <jelly:log message="condition evaluated successfully: ${result}"/>
+            <jelly:action>
+               <j:set var="result" value="2"/>
+            </jelly:action>
+          </sequence>
+        </if>
+
+        <jelly:log message="finished with result : ${result}"/>
+   </sequence>
+
+</process>

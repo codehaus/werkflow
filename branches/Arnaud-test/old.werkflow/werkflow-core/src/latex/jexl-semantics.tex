@@ -1,0 +1,34 @@
+\chapter{Jexl Semantic Module}
+
+\section{Overview}
+
+Jexl is an expression language the somewhat follows the JSTL
+expression language.  Jexl was originally written by Geir
+Magnusson and is a part of The Apache Software Foundation's 
+Jakarta project.  More information may be found at
+\emph{http://jakarta.apache.org/commons/jexl/}.
+The Jexl tag library is imported using an XML namespace
+declaration with the URI of \verb|werkflow:jexl|.
+
+\begin{codelisting}
+<process \hired{xmlns:jexl="werkflow:jexl"} \dots>
+    \dots
+\end{codelisting}
+
+
+
+\section{\tag{jexl:correlator}}
+
+The \tag{jexl:correlator} tag takes a single \verb|test| attribute
+that should contain a boolean Jexl expression determining if
+the message matches the process case.
+
+\begin{codelisting}
+<receive \dots>
+    \hired{<jexl:correlator test="message.poId == poId"/>}
+</receive>
+\end{codelisting}
+
+\begin{attrDefs}{jexl:correlator}
+test		&	required	&			& Jexl boolean correlation expression \\
+\end{attrDefs}
