@@ -25,7 +25,8 @@
         {\bigskip\begin{minipage}{250pt}\footnotesize\begin{alltt}}%
         {\end{alltt}\end{minipage}\bigskip}
 
-\newcommand{\drools}{{\textsf{drools}}}
+\newcommand{\werkflow}{{\textsf{werkflow}}}
+\newcommand{\hired}[1]{\textcolor{red}{#1}}
 
 \definecolor{light}{rgb}{0.4,0.4,0.4}
 
@@ -48,10 +49,25 @@
 
 \maketitle
 
-%\tableofcontents
+\tableofcontents
 %\listoffigures
 
 \mainmatter
+
+\part{User's Guide}
+
+\include{intro}
+\include{processes}
+\include{basic-personality}
+\include{bpel4ws-personality}
+\include{bpml-personality}
+
+\part{Developer's Guide}
+
+\include{messaging}
+\include{caserepo}
+\include{idioms}
+\include{personalities}
 
 
 \end{document}
