@@ -286,19 +286,17 @@ public class WorkflowEngine
                               String placeId)
         throws QueryException
     {
+        String[] caseIds = getServices().getCaseRepository().selectCases( processId,
+                                                                          placeId );
+        
+        ProcessCase[] cases = new ProcessCase[ caseIds.length ];
+        
         try
         {
-            String[] caseIds = getServices().getCaseRepository().selectCases( processId,
-                                                                              placeId );
-            
-            ProcessCase[] cases = new ProcessCase[ caseIds.length ];
-            
             for ( int i = 0 ; i < caseIds.length ; ++i )
             {
                 cases[i] = getProcessCase( caseIds[i] );
             }
-            
-            return cases;
         }
         catch (NoSuchCaseException e)
         {
@@ -308,6 +306,36 @@ public class WorkflowEngine
         {
             throw new QueryException( e );
         }
+        
+        return cases;
+    }
+
+    ProcessCase[] selectCases(String processId,
+                              Map qbeAttrs)
+        throws QueryException
+    {
+        String[] caseIds = getServices().getCaseRepository().selectCases( processId,
+                                                                          qbeAttrs );
+        
+        ProcessCase[] cases = new ProcessCase[ caseIds.length ];
+        
+        try
+        {
+            for ( int i = 0 ; i < caseIds.length ; ++i )
+            {
+                cases[i] = getProcessCase( caseIds[i] );
+            }
+        }
+        catch (NoSuchCaseException e)
+        {
+            throw new QueryException( e );
+        }
+        catch (NoSuchProcessException e)
+        {
+            throw new QueryException( e );
+        }
+            
+        return cases;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
