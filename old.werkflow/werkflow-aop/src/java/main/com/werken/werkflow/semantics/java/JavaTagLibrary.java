@@ -78,6 +78,9 @@ public class JavaTagLibrary
         registerTag( "selector",
                      ClassMessageSelectorTag.class );
 
+        registerTag( "correlator",
+                     JavaMessageCorrelatorTag.class );
+
         registerTag( "action",
                      JavaActionTag.class );
 

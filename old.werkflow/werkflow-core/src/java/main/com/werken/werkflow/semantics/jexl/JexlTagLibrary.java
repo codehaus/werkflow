@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.semantics.jexl;
 
 /*
  $Id$
@@ -46,30 +46,23 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
+import org.apache.commons.jelly.TagLibrary;
 
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.expression.Expression;
-
-/** Jelly <code>Tag</code> for <code>JellyMessageCorrelator</code>.
- *
- *  @see JellyMessageCorrelator
+/** Jelly tag library providing Python semantics.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class JellyMessageCorrelatorTag
-    extends AbstractMessageCorrelatorTag
+public class JexlTagLibrary
+    extends TagLibrary
 {
     // ----------------------------------------------------------------------
-    //     Instance members
+    //     Constants
     // ----------------------------------------------------------------------
 
-    /** Correelation test expression. */
-    private Expression test;
+    /** Tag library Namespace URI. */
+    public static final String NS_URI = "werkflow:jexl";
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -77,49 +70,10 @@ public class JellyMessageCorrelatorTag
 
     /** Construct.
      */
-    public JellyMessageCorrelatorTag()
+    public JexlTagLibrary()
     {
-        // intentionally left blank
-    }
-
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    /** Set the correlation test <code>Expression</code>.
-     *
-     *  @param test The correlation test expression.
-     */
-    public void setTest(Expression test)
-    {
-        this.test = test;
-    }
-
-    /** Retrieve the correlation test <code>Expression</code>.
-     *
-     *  @return The correlation test expression.
-     */
-    public Expression getTest()
-    {
-        return this.test;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
-    {
-        if ( getTest() == null )
-        {
-            throw new MissingAttributeException( "test" );
-        }
-
-        JellyMessageCorrelator correlator = new JellyMessageCorrelator( getMessageId(),
-                                                                        getTest() );
-
-        setMessageCorrelator( correlator );
+        registerTag( "correlator",
+                     JexlMessageCorrelatorTag.class );
     }
 }
+

@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.jelly;
+package com.werken.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,26 +46,23 @@ package com.werken.werkflow.semantics.jelly;
  
  */
 
-import org.apache.commons.jelly.TagLibrary;
+import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.expr.ExpressionMessageCorrelator;
+import com.werken.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
 
-/** Jelly tag library providing Jelly semantics.
- *
- *  @see JellyMessageCorrelatorTag
- *  @see JellyActionTag
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class JellyTagLibrary
-    extends TagLibrary
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.JellyTagException;
+
+public class JavaMessageCorrelatorTag
+    extends AbstractMessageCorrelatorTag
 {
     // ----------------------------------------------------------------------
-    //     Constants
+    //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Tag library Namespace URI. */
-    public static final String NS_URI = "werkflow:jelly";
+    /** Correelation test expression. */
+    private String test;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -73,13 +70,48 @@ public class JellyTagLibrary
 
     /** Construct.
      */
-    public JellyTagLibrary()
+    public JavaMessageCorrelatorTag()
     {
-        registerTag( "action",
-                     JellyActionTag.class );
+        // intentionally left blank
+    }
 
-        registerTag( "log",
-                     LogActionTag.class );
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    public void setTest(String test)
+    {
+        this.test = test;
+    }
+
+    public String getTest()
+    {
+        return this.test;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
+     */
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        requireStringAttribute( "test",
+                                getTest() );
+
+        try
+        {
+            Expression expr = JavaExpressionFactory.getInstance().newExpression( getTest() );
+            
+            ExpressionMessageCorrelator correlator = new ExpressionMessageCorrelator( getMessageId(),
+                                                                                      expr );
+            
+            setMessageCorrelator( correlator );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }
-
