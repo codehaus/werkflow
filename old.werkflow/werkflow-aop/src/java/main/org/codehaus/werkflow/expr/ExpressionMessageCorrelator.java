@@ -46,7 +46,6 @@ package org.codehaus.werkflow.expr;
 
  */
 
-import org.codehaus.werkflow.SimpleAttributes;
 import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.definition.MessageCorrelator;
 

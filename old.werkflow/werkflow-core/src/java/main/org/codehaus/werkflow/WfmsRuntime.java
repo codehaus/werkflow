@@ -46,8 +46,6 @@ package org.codehaus.werkflow;
 
  */
 
-import java.util.Map;
-
 /** Client runtime interface.
  *
  *  <p>

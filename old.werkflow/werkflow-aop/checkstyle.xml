@@ -23,6 +23,13 @@
     </module>
 
     <!--
+      Imports
+    -->
+    <module name="AvoidStarImport"/>
+    <module name="IllegalImport"/>
+    <module name="UnusedImports"/>
+
+    <!--
       Size Violations
     -->
     <module name="LineLength">

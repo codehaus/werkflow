@@ -47,7 +47,6 @@ package org.codehaus.werkflow.core;
  */
 
 import org.codehaus.werkflow.WerkflowTestCase;
-import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.service.messaging.MessagingManager;
 import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
 import org.codehaus.werkflow.service.persistence.PersistenceManager;

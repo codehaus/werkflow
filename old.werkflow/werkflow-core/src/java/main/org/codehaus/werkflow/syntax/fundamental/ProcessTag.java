@@ -53,9 +53,6 @@ import org.codehaus.werkflow.definition.petri.DefaultNet;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-import java.util.List;
-import java.util.ArrayList;
-
 /** Define a new process.
  *
  *  <p>

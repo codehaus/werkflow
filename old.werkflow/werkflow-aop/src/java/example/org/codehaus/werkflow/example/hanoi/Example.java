@@ -46,7 +46,6 @@ package org.codehaus.werkflow.example.hanoi;
 
  */
 
-import org.codehaus.werkflow.Wfms;
 import org.codehaus.werkflow.SimpleAttributes;
 import org.codehaus.werkflow.example.BaseExample;
 

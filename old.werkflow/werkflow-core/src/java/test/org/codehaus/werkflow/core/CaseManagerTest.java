@@ -47,8 +47,6 @@ package org.codehaus.werkflow.core;
  */
 
 import org.codehaus.werkflow.WerkflowTestCase;
-import org.codehaus.werkflow.MockProcessInfo;
-import org.codehaus.werkflow.NoSuchCaseException;
 
 public class CaseManagerTest
     extends WerkflowTestCase

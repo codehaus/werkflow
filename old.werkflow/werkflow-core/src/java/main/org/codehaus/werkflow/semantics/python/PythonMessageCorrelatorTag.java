@@ -51,7 +51,6 @@ import org.codehaus.werkflow.expr.ExpressionMessageCorrelator;
 import org.codehaus.werkflow.syntax.fundamental.AbstractMessageCorrelatorTag;
 
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.JellyTagException;
 
 public class PythonMessageCorrelatorTag

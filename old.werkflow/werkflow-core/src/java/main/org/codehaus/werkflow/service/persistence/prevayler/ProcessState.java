@@ -47,7 +47,6 @@ package org.codehaus.werkflow.service.persistence.prevayler;
  */
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;

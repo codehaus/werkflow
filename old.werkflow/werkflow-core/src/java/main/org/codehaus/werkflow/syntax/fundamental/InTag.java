@@ -46,12 +46,8 @@ package org.codehaus.werkflow.syntax.fundamental;
 
  */
 
-import org.codehaus.werkflow.work.Action;
-import org.codehaus.werkflow.task.DefaultTask;
-
-import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.expression.Expression;
+import org.apache.commons.jelly.XMLOutput;
 
 public class InTag
     extends FundamentalTagSupport

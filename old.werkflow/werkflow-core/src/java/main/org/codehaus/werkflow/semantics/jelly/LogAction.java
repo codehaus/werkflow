@@ -50,9 +50,6 @@ import org.codehaus.werkflow.work.Action;
 import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.expression.Expression;
-import org.apache.commons.jelly.XMLOutput;
-
-import java.util.Map;
 
 public class LogAction
     implements Action

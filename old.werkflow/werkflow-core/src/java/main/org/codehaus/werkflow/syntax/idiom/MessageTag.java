@@ -47,7 +47,6 @@ package org.codehaus.werkflow.syntax.idiom;
  */
 
 import org.codehaus.werkflow.definition.petri.IdiomDefinition;
-import org.codehaus.werkflow.definition.petri.TransitionDefinition;
 import org.codehaus.werkflow.definition.petri.MessageWaiterDefinition;
 
 import org.apache.commons.jelly.XMLOutput;

@@ -46,8 +46,6 @@ package org.codehaus.werkflow.service.messaging;
 
  */
 
-import org.codehaus.werkflow.definition.MessageType;
-
 public class MockMessageSink
     implements MessageSink
 {

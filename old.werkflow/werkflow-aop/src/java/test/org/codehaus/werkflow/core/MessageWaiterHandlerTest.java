@@ -46,17 +46,10 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.ProcessCase;
-import org.codehaus.werkflow.MockProcessCase;
 import org.codehaus.werkflow.definition.MessageType;
-import org.codehaus.werkflow.definition.MessageWaiter;
-import org.codehaus.werkflow.definition.MockMessageCorrelator;
 import org.codehaus.werkflow.definition.petri.DefaultNet;
 import org.codehaus.werkflow.definition.petri.DefaultTransition;
 import org.codehaus.werkflow.service.messaging.MockRegistration;
-import org.codehaus.werkflow.service.messaging.Message;
-import org.codehaus.werkflow.service.messaging.DefaultMessage;
-import org.codehaus.werkflow.service.messaging.NoSuchMessageException;
 
 import junit.framework.TestCase;
 

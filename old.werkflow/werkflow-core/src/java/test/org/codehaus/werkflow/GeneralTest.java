@@ -51,7 +51,6 @@ import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.SimpleAttributes;
 import org.codehaus.werkflow.admin.WfmsAdmin;
 import org.codehaus.werkflow.engine.WorkflowEngine;
-import org.codehaus.werkflow.service.WfmsServices;
 import org.codehaus.werkflow.service.SimpleWfmsServices;
 import org.codehaus.werkflow.service.messaging.simple.SimpleMessagingManager;
 import org.codehaus.werkflow.service.persistence.PersistenceManager;

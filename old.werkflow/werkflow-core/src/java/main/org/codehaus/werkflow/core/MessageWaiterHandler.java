@@ -46,7 +46,6 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.definition.MessageCorrelator;
 import org.codehaus.werkflow.definition.MessageWaiter;
 import org.codehaus.werkflow.definition.petri.Transition;

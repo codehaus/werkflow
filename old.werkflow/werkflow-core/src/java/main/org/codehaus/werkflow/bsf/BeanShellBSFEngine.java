@@ -47,11 +47,15 @@ package org.codehaus.werkflow.bsf;
  */
 
 import java.util.Vector;
-import org.apache.bsf.*;
-import org.apache.bsf.util.*;
+
+import org.apache.bsf.BSFDeclaredBean;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
+import org.apache.bsf.util.BSFEngineImpl;
+
+import bsh.EvalError;
 import bsh.Interpreter;
 import bsh.InterpreterError;
-import bsh.EvalError;
 import bsh.TargetError;
 
 /**

@@ -49,14 +49,7 @@ package org.codehaus.werkflow.semantics.java;
 import org.codehaus.werkflow.bsf.BsfExpression;
 import org.codehaus.werkflow.bsf.BeanShellBSFEngine;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.expression.Expression;
-
 import org.apache.bsf.BSFException;
-import org.apache.bsf.BSFManager;
-
-import org.python.core.PyInteger;
-import org.python.core.PyString;
 
 public class JavaExpression
     extends BsfExpression

@@ -48,9 +48,6 @@ package org.codehaus.werkflow.semantics.python;
 
 import org.codehaus.werkflow.bsf.BsfExpression;
 
-import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.expression.Expression;
-
 import org.apache.bsf.BSFException;
 
 import org.python.core.PyInteger;

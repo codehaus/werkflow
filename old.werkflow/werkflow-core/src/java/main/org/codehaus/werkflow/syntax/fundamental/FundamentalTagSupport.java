@@ -48,13 +48,11 @@ package org.codehaus.werkflow.syntax.fundamental;
 
 import org.codehaus.werkflow.definition.Scope;
 import org.codehaus.werkflow.definition.ProcessDefinition;
-import org.codehaus.werkflow.definition.MessageTypeLibrary;
 import org.codehaus.werkflow.expr.Expression;
 import org.codehaus.werkflow.expr.ExpressionFactory;
 import org.codehaus.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
-import org.apache.commons.jelly.JellyException;
 import org.apache.commons.jelly.JellyTagException;
 
 /** Support for fundamental syntax tags.

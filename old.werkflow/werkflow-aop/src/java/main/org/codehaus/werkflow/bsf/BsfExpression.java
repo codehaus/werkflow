@@ -46,7 +46,6 @@ package org.codehaus.werkflow.bsf;
 
  */
 
-import org.codehaus.werkflow.expr.Expression;
 import org.codehaus.werkflow.expr.AbstractExpression;
 import org.codehaus.werkflow.expr.ExpressionContext;
 

@@ -46,9 +46,6 @@ package org.codehaus.werkflow.syntax.fundamental;
 
  */
 
-import org.codehaus.werkflow.work.Action;
-import org.codehaus.werkflow.task.DefaultTask;
-
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 

@@ -46,10 +46,8 @@ package org.codehaus.werkflow.syntax.fundamental;
 
  */
 
-import org.codehaus.werkflow.work.ActionLibrary;
 import org.codehaus.werkflow.definition.Scope;
 import org.codehaus.werkflow.definition.ProcessDefinition;
-import org.codehaus.werkflow.definition.MessageTypeLibrary;
 import org.codehaus.werkflow.semantics.java.JavaTagLibrary;
 import org.codehaus.werkflow.semantics.jelly.JellyTagLibrary;
 import org.codehaus.werkflow.jelly.JellyUtil;
@@ -60,8 +58,6 @@ import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.parser.XMLParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;

@@ -51,8 +51,6 @@ import org.codehaus.werkflow.work.ActionInvocation;
 
 import org.apache.commons.jelly.JellyContext;
 
-import java.util.Map;
-
 /** <code>JellyContext</code> for <code>JellyAction</code>s.
  *
  *  @see JellyAction

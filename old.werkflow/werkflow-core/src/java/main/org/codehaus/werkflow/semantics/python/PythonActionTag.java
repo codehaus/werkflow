@@ -51,7 +51,6 @@ import org.codehaus.werkflow.syntax.fundamental.AbstractActionTag;
 import org.apache.bsf.BSFException;
 
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.JellyTagException;
 
 public class PythonActionTag

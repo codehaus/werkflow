@@ -51,7 +51,6 @@ import org.codehaus.werkflow.syntax.fundamental.AbstractAttributeTypeTag;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
 public class ClassAttributeTypeTag
     extends AbstractAttributeTypeTag

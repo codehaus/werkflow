@@ -50,15 +50,12 @@ import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.ProcessInfo;
 import org.codehaus.werkflow.Attributes;
 import org.codehaus.werkflow.RuntimeWerkflowException;
-import org.codehaus.werkflow.definition.petri.Transition;
-import org.codehaus.werkflow.service.messaging.Message;
 import org.codehaus.werkflow.service.persistence.CaseTransfer;
 import org.codehaus.werkflow.service.persistence.ProcessPersistenceManager;
 import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Iterator;
 
 class CoreProcessCase

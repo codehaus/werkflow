@@ -46,8 +46,6 @@ package org.codehaus.werkflow.core;
 
  */
 
-import org.codehaus.werkflow.NoSuchCaseException;
-import org.codehaus.werkflow.NoSuchProcessException;
 import org.codehaus.werkflow.ProcessInfo;
 import org.codehaus.werkflow.ProcessCase;
 import org.codehaus.werkflow.Attributes;
@@ -57,9 +55,6 @@ import org.codehaus.werkflow.definition.ProcessDefinition;
 import org.codehaus.werkflow.service.messaging.MessagingManager;
 import org.codehaus.werkflow.service.persistence.PersistenceManager;
 import org.codehaus.werkflow.service.persistence.PersistenceException;
-
-import java.util.Map;
-import java.util.HashMap;
 
 public class WorkflowCore
 {

@@ -48,7 +48,6 @@ package org.codehaus.werkflow.syntax.petri;
 
 import org.codehaus.werkflow.definition.petri.DefaultNet;
 import org.codehaus.werkflow.definition.petri.DefaultTransition;
-import org.codehaus.werkflow.jelly.MiscTagSupport;
 import org.codehaus.werkflow.syntax.fundamental.FundamentalTagSupport;
 
 import org.apache.commons.jelly.JellyTagException;

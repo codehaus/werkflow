@@ -53,7 +53,6 @@ import org.codehaus.werkflow.definition.petri.Arc;
 
 import java.util.Set;
 import java.util.HashSet;
-import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 

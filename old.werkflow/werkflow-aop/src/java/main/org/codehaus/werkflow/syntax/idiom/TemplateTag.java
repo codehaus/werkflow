@@ -46,8 +46,6 @@ package org.codehaus.werkflow.syntax.idiom;
 
  */
 
-import org.codehaus.werkflow.definition.petri.IdiomDefinition;
-
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
