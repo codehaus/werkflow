@@ -62,6 +62,9 @@ import java.util.Collection;
 public abstract class MiscTagSupport
     extends TagSupport
 {
+
+    public static final String COLLECTOR_SUFFIX = ".collector";
+
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
@@ -141,11 +144,28 @@ public abstract class MiscTagSupport
     public void addToCollector(Class objClass,
                                Object obj)
     {
-        Collection collector = (Collection) getContext().getVariable( objClass.getName() + ".colllector" );
+        Collection collector = getCollector( objClass );
 
         if ( collector != null )
         {
             collector.add( obj );
         }
+    }
+
+    public String getCollectorName(Class objClass)
+    {
+        return objClass.getName() + COLLECTOR_SUFFIX;
+    }
+
+    public Collection getCollector(Class objClass)
+    {
+        return (Collection) getContext().getVariable( getCollectorName( objClass ) );
+    }
+
+    public void installCollector(Class objClass,
+                                 Collection collector)
+    {
+        getContext().setVariable( getCollectorName( objClass ),
+                                  collector );
     }
 }
