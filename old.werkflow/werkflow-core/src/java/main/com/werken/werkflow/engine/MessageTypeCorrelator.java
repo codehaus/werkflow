@@ -47,6 +47,11 @@ public class MessageTypeCorrelator
         return this.registration;
     }
 
+    MessageWaiterCorrelator getMessageWaiterCorrelator(String transitionId)
+    {
+        return (MessageWaiterCorrelator) this.msgWaiterCorrelators.get( transitionId );
+    }
+
     Message getMessage(String msgId)
         throws NoSuchMessageException
     {
@@ -93,5 +98,13 @@ public class MessageTypeCorrelator
             eachCorrelator.evaluateCase( processCase,
                                          transitionIds );
         }
+    }
+
+    boolean isCorrelated(String processCaseId,
+                         String transitionId)
+    {
+        MessageWaiterCorrelator msgWaiterCorrelator = getMessageWaiterCorrelator( transitionId );
+
+        return msgWaiterCorrelator.isCorrelated( processCaseId );
     }
 }
