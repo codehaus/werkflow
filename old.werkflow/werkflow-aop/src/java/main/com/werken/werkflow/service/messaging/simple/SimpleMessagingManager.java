@@ -55,8 +55,6 @@ import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorExceptio
 
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Iterator;
 
 /** Simple <code>MessagingManager</code> implementation.
