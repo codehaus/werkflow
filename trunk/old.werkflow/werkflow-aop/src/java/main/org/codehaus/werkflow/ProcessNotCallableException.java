@@ -56,7 +56,7 @@ public class ProcessNotCallableException
     /** Construct.
      *
      *  @param packageId The offending process package identifier.
-     *  @param id The offending process identifier.
+     *  @param processId The offending process identifier.
      */
     public ProcessNotCallableException(String packageId,
                                        String processId)

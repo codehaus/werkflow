@@ -69,10 +69,10 @@ import org.apache.commons.jelly.JellyTagException;
  *    &lt;documentation&gt;
  *      This is my small message.
  *    &lt;/documentation&gt;
- *    &lt:java:selector type="com.myco.Message" filter="${messgae.size &lt; 100}"/>
+ *    &lt:java:selector type="com.myco.Message" filter="${message.size &lt; 100}"/>
  *  &lt;/message-type&gt;
  *
- *  @see MessageTag
+ *  @see org.codehaus.werkflow.syntax.petri.MessageTag
  *  @see MessageSelector
  *  @see DocumentationTag
  *

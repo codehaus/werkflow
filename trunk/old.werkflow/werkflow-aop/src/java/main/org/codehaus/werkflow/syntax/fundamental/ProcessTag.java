@@ -84,8 +84,8 @@ import org.apache.commons.jelly.JellyTagException;
  *  </pre>
  *  </p>
  *
- *  @see PlaceTag
- *  @see TransitionTag
+ *  @see org.codehaus.werkflow.syntax.petri.PlaceTag
+ *  @see org.codehaus.werkflow.syntax.petri.TransitionTag
  *  @see MessageTypeTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>

@@ -93,7 +93,7 @@ import java.util.Iterator;
  *  </p>
  *
  *  @see Action
- *  @see Task#getAction
+ *  @see org.codehaus.werkflow.task.Task#getAction
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

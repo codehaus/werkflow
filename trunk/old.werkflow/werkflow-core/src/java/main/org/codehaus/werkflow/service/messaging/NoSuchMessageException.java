@@ -48,8 +48,8 @@ package org.codehaus.werkflow.service.messaging;
 
 /** Indicates an attempt to retrieve or consume an invalid message.
  *
- *  @see MessageSink#getMessage
- *  @see MessageSink#consumeMessage
+ *  @see Registration#getMessage
+ *  @see Registration#consumeMessage
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

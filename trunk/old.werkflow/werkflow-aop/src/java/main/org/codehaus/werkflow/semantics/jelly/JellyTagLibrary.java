@@ -50,8 +50,8 @@ import org.apache.commons.jelly.TagLibrary;
 
 /** Jelly tag library providing Jelly semantics.
  *
- *  @see JellyMessageCorrelatorTag
  *  @see JellyActionTag
+ *  @see LogActionTag
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

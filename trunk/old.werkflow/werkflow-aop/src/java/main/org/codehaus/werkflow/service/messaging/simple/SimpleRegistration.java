@@ -59,7 +59,7 @@ import java.util.HashMap;
 /** <code>Registration</code> provided by a <code>SimpleMessagingManager</code>.
  *
  *  @see SimpleMessagingManager
- *  @see MessagingManager#register
+ *  @see org.codehaus.werkflow.service.messaging.MessagingManager#register
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *

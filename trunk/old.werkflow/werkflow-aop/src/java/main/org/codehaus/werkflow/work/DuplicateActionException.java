@@ -96,7 +96,7 @@ public class DuplicateActionException
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    /** @see jasva.lang.Throwable
+    /** @see java.lang.Throwable
      */
     public String getMessage()
     {

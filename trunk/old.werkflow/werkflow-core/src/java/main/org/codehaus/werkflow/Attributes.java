@@ -48,11 +48,11 @@ package org.codehaus.werkflow;
 
 /** Name/value pairs for initiating process cases.
  *
- *  @see WfmsRuntime#newProcessCase
+ *  @see WfmsRuntime#callProcess
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
- *  @version $Id; $
+ *  @version $Id$
  */
 public interface Attributes
 {

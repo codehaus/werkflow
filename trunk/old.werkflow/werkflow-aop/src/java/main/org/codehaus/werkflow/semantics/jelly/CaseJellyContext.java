@@ -52,7 +52,6 @@ import org.apache.commons.jelly.JellyContext;
 
 /** Read-only <code>JellyContext</code> wrapper for a <code>ProcessCase</code>.
  *
- *  @see JellyMessageCorrelator
  *  @see ProcessCase
  *  @see JellyContext
  *

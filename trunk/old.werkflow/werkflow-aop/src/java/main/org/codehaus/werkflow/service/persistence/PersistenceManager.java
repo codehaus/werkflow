@@ -62,7 +62,7 @@ public interface PersistenceManager
      * </p>
      *
      * <p>
-     * A call to {@link passivate} must be made before another call to activate is made
+     * A call to {@link #passivate} must be made before another call to activate is made
      * for the same process. Implementations should throw a {@link DeploymentException}
      * if this rule is violated.
      * </p>
