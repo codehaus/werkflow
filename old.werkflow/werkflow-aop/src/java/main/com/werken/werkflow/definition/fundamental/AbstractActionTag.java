@@ -49,7 +49,7 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.action.Action;
 
 import org.apache.commons.jelly.TagSupport;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>Action</code> tags.
  *
@@ -94,17 +94,17 @@ public abstract class AbstractActionTag
      *
      *  @param action The action.
      *
-     *  @throws JellyException If the tag is not used within the correct
+     *  @throws JellyTagException If the tag is not used within the correct
      *          context.
      */
     public void setAction(Action action)
-        throws JellyException
+        throws JellyTagException
     {
         ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
 
         if ( receptor == null )
         {
-            throw new JellyException( "invalid context for <action>" );
+            throw new JellyTagException( "invalid context for <action>" );
         }
 
         receptor.setAction( action );

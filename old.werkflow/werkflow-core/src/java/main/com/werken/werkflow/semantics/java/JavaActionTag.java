@@ -4,6 +4,7 @@ import com.werken.werkflow.definition.fundamental.AbstractActionTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.JellyTagException;
 
 public class JavaActionTag
     extends AbstractActionTag
@@ -49,7 +50,7 @@ public class JavaActionTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         ClassLoader cl = getContext().getClassLoader();
 
@@ -68,15 +69,22 @@ public class JavaActionTag
             throw new MissingAttributeException( "className" );
         }
 
-        Class beanClass = cl.loadClass( getClassName() );
-
-        Object bean = beanClass.newInstance();
-
-        JavaAction action = new JavaAction( bean,
-                                            getMethod() );
-
-        setAction( action );
-
-        setMethod( DEFAULT_METHOD_NAME );
+        try
+        {
+            Class beanClass = cl.loadClass( getClassName() );
+            
+            Object bean = beanClass.newInstance();
+            
+            JavaAction action = new JavaAction( bean,
+                                                getMethod() );
+            
+            setAction( action );
+            
+            setMethod( DEFAULT_METHOD_NAME );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

@@ -48,11 +48,13 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.action.ActionLibrary;
+import com.werken.werkflow.action.DuplicateActionException;
+import com.werken.werkflow.action.NoSuchActionException;
 import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 
 /** Define an action.
  *
@@ -169,7 +171,7 @@ public class ActionTag
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         TaskTag task = (TaskTag) findAncestorWithClass( TaskTag.class );
 
@@ -181,7 +183,7 @@ public class ActionTag
             
             if ( getAction() == null )
             {
-                throw new JellyException( "no action defined in body" );
+                throw new JellyTagException( "no action defined in body" );
             }
             
             JellyContext context = getContext();
@@ -190,11 +192,18 @@ public class ActionTag
             
             if ( actionLib == null )
             {
-                throw new JellyException( "no action library" );
+                throw new JellyTagException( "no action library" );
             }
             
-            actionLib.addAction( getId(),
-                                 getAction() );
+            try
+            {
+                actionLib.addAction( getId(),
+                                     getAction() );
+            }
+            catch (DuplicateActionException e)
+            {
+                throw new JellyTagException( e );
+            }
 
             if ( isDefault() )
             {
@@ -209,23 +218,30 @@ public class ActionTag
             
             if ( actionLib == null )
             {
-                throw new JellyException( "no action library" );
+                throw new JellyTagException( "no action library" );
             }
 
             Action action = null;
 
-            if ( getId() == null )
+            try
             {
-                action = actionLib.getDefaultAction();
-
-                if ( action == null )
+                if ( getId() == null )
                 {
-                    throw new JellyException( "no default action defined" );
+                    action = actionLib.getDefaultAction();
+                    
+                    if ( action == null )
+                    {
+                        throw new JellyTagException( "no default action defined" );
+                    }
+                }
+                else
+                {
+                    action = actionLib.getAction( getId() );
                 }
             }
-            else
+            catch (NoSuchActionException e)
             {
-                action = actionLib.getAction( getId() );
+                throw new JellyTagException( e );
             }
 
             task.setAction( new ModifiableAction( getBody(),

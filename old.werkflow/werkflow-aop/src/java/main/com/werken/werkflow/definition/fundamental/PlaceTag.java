@@ -4,6 +4,7 @@ import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class PlaceTag
     extends FundamentalTagSupport
@@ -38,23 +39,29 @@ public class PlaceTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         requireStringAttribute( "id",
                                 getId() );
 
-        ProcessTag process = (ProcessTag) requiredAncestor( "process",
-                                                            ProcessTag.class );
+        try
+        {
+            ProcessTag process = (ProcessTag) requiredAncestor( "process",
+                                                                ProcessTag.class );
+            
+            DefaultNet net = process.getNet();
 
-        DefaultNet net = process.getNet();
-
-        DefaultPlace place = net.addPlace( getId() );
-
-        setDocumentation( null );
-
-        invokeBody( output );
-
-        place.setDocumentation( getDocumentation() );
-
+            DefaultPlace place = net.addPlace( getId() );
+            
+            setDocumentation( null );
+            
+            invokeBody( output );
+            
+            place.setDocumentation( getDocumentation() );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

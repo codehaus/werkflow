@@ -1,11 +1,13 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.DuplicateMessageTypeException;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 import com.werken.werkflow.service.messaging.MessageSelector;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class MessageTypeTag
     extends FundamentalTagSupport
@@ -52,7 +54,7 @@ public class MessageTypeTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         requireStringAttribute( "id",
                                 getId() );
@@ -67,6 +69,13 @@ public class MessageTypeTag
         messageType.setDocumentation( getDocumentation() );
         messageType.setMessageSelector( getMessageSelector() );
 
-        getMessageTypeLibrary().addMessageType( messageType );
+        try
+        {
+            getMessageTypeLibrary().addMessageType( messageType );
+        }
+        catch (DuplicateMessageTypeException e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

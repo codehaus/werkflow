@@ -3,6 +3,7 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class InputTag
     extends FundamentalTagSupport
@@ -25,24 +26,30 @@ public class InputTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
-
-        ProcessTag process = (ProcessTag) requiredAncestor( "process",
-                                                            ProcessTag.class );
-        
-        TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
-                                                                     TransitionTag.class );
-        
-        requireStringAttribute( "from",
-                                getFrom() );
-
-        DefaultNet net = process.getNet();
-
-        net.connectPlaceToTransition( getFrom(),
-                                      transition.getId() );
-                                      
-
-        invokeBody( output );
+        try
+        {
+            ProcessTag process = (ProcessTag) requiredAncestor( "process",
+                                                                ProcessTag.class );
+            
+            TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
+                                                                         TransitionTag.class );
+            
+            requireStringAttribute( "from",
+                                    getFrom() );
+            
+            DefaultNet net = process.getNet();
+            
+            net.connectPlaceToTransition( getFrom(),
+                                          transition.getId() );
+            
+            
+            invokeBody( output );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

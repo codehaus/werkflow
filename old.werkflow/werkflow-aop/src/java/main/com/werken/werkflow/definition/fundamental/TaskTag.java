@@ -4,6 +4,7 @@ import com.werken.werkflow.action.Action;
 import com.werken.werkflow.task.DefaultTask;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class TaskTag
     extends FundamentalTagSupport
@@ -27,7 +28,7 @@ public class TaskTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
                                                                      TransitionTag.class );

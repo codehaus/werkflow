@@ -3,10 +3,12 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class MessageTag
     extends FundamentalTagSupport
@@ -51,7 +53,7 @@ public class MessageTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         requireStringAttribute( "id",
                                 getId() );
@@ -62,7 +64,16 @@ public class MessageTag
         TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
                                                                      TransitionTag.class );
 
-        MessageType msgType = getMessageTypeLibrary().getMessageType( getType() );
+        MessageType msgType = null;
+
+        try
+        {
+            msgType = getMessageTypeLibrary().getMessageType( getType() );
+        }
+        catch (NoSuchMessageTypeException e)
+        {
+            throw new JellyTagException( e );
+        }
 
         MessageWaiter waiter = new MessageWaiter( msgType,
                                                   getId() );

@@ -2,8 +2,10 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.NoSuchMessageTypeException;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class MessageInitiatorTag
     extends FundamentalTagSupport
@@ -49,7 +51,7 @@ public class MessageInitiatorTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         requireStringAttribute( "id",
                                 getId() );
@@ -64,7 +66,16 @@ public class MessageInitiatorTag
 
         invokeBody( output );
 
-        MessageType messageType = getMessageTypeLibrary().getMessageType( getType() );
+        MessageType messageType = null;
+
+        try
+        {
+            messageType = getMessageTypeLibrary().getMessageType( getType() );
+        }
+        catch (NoSuchMessageTypeException e)
+        {
+            throw new JellyTagException( e );
+        }
 
         MessageInitiator initiator = new MessageInitiator( messageType,
                                                            getId() );

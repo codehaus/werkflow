@@ -6,6 +6,7 @@ import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class ProcessTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         requireStringAttribute( "id",
                                 getId() );
