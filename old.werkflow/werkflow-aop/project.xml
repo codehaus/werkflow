@@ -49,7 +49,7 @@
 
   <repository>
     <connection>scm:cvs:pserver:anonymous@cvs.codehaus.org:/scm/cvspublic:werkflow/werkflow-core</connection>
-    <url>http://cvs.werkflow.codehaus.org/werkflow/</url>
+    <url>http://cvs.werkflow.codehaus.org/werkflow-core/</url>
   </repository>
 
   <developers>
