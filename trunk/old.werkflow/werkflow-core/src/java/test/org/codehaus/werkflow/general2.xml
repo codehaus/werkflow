@@ -38,6 +38,7 @@
 
         <transition id="transition two" type="and">
             <documentation>the 2nd transition</documentation>
+
             <input from="middle"/>
             <output to="out"/>
 
