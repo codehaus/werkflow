@@ -124,6 +124,8 @@ public class ActivityManager
                     {
                         Object message = getEngine().consumeMessage( processCase,
                                                                      transition );
+
+                        System.err.println( "msg: " + message );
                         
                         otherAttrs.put( waiter.getBindingVar(),
                                         message );

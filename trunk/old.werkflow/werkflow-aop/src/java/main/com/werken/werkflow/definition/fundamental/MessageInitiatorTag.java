@@ -1,5 +1,6 @@
 package com.werken.werkflow.definition.fundamental;
 
+import com.werken.werkflow.action.Action;
 import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.NoSuchMessageTypeException;
@@ -9,11 +10,13 @@ import org.apache.commons.jelly.JellyTagException;
 
 public class MessageInitiatorTag
     extends FundamentalTagSupport
-    implements DocumentableTag
+    implements DocumentableTag, ActionReceptor
 {
     private String id;
     private String type;
     private String documentation;
+
+    private Action action;
 
     public MessageInitiatorTag()
     {
@@ -50,6 +53,16 @@ public class MessageInitiatorTag
         return this.documentation;
     }
 
+    public void setAction(Action action)
+    {
+        this.action = action;
+    }
+
+    public Action getAction()
+    {
+        return this.action;
+    }
+
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
@@ -81,6 +94,11 @@ public class MessageInitiatorTag
                                                            getId() );
 
         initiator.setDocumentation( getDocumentation() );
+
+        if ( this.action != null )
+        {
+            initiator.setAction( this.action );
+        }
 
         process.addMessageInitiator( initiator );
     }

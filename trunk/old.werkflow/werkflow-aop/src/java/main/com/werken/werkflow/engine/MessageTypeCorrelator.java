@@ -95,6 +95,10 @@ public class MessageTypeCorrelator
      *
      *  @param engine The workflow engine.
      *  @param messageType The message-type.
+     *
+     *  @throws IncomaptibleMessageSelectorException If the message-type
+     *          uses a message-selector that is incompatible with the
+     *          messaging-manager.
      */
     public MessageTypeCorrelator(WorkflowEngine engine,
                                  MessageType messageType)
@@ -153,6 +157,8 @@ public class MessageTypeCorrelator
     /** Retrieve a <code>Message</code>.
      *
      *  @param msgId The message identifier.
+     *
+     *  @return The message.
      *
      *  @throws NoSuchMessageException If no message is associated with
      *          the specified identifier.
