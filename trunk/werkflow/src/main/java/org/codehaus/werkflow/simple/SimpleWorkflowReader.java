@@ -123,6 +123,10 @@ public class SimpleWorkflowReader
         {
             startWhile( attrs );
         }
+        else if ( localName.equals( "task" ) )
+        {
+            startTask( attrs );
+        }
         else if ( localName.equals( "satisfaction" ) )
         {
             startSatisfaction( attrs );
@@ -178,6 +182,10 @@ public class SimpleWorkflowReader
         else if ( localName.equals( "while" ) )
         {
             endWhile();
+        }
+        else if ( localName.equals( "task" ) )
+        {
+            endTask();
         }
         else if ( localName.equals( "satisfaction" ) )
         {
@@ -362,6 +370,30 @@ public class SimpleWorkflowReader
         throws SAXException
     {
         pop( "action" );
+    }
+
+    void startTask(Attributes attrs)
+        throws SAXException
+    {
+        String id = getRequiredAttribute( attrs,
+                                          "task",
+                                          "id" );
+
+        String taskDescription = getRequiredAttribute( attrs,
+                                          "task",
+                                          "taskDescription" );
+
+        String assignee = getRequiredAttribute( attrs,
+                                          "task",
+                                          "assignee" );
+
+        push( new Task( id, taskDescription, assignee) );
+    }
+
+    void endTask()
+        throws SAXException
+    {
+        pop( "task" );
     }
 
     void startChoice(Attributes attrs)
