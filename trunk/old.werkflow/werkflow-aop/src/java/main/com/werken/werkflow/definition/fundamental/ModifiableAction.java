@@ -1,13 +1,13 @@
 package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.MutableProcessCase;
 import com.werken.werkflow.activity.Activity;
 
 import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 
 import java.util.Map;
+import java.util.Collections;
 
 public class ModifiableAction
     implements Action
@@ -33,28 +33,28 @@ public class ModifiableAction
     }
 
     public void perform(Activity activity,
-                        MutableProcessCase processCase,
+                        Map caseAttrs,
                         Map otherAttrs)
         throws Exception
     {
-        Map modifiedOtherAttrs = getModifiedOtherAttributes( processCase,
+        Map modifiedOtherAttrs = getModifiedOtherAttributes( caseAttrs,
                                                              otherAttrs );
 
         getAction().perform( activity,
-                             processCase,
+                             Collections.unmodifiableMap( caseAttrs ),
                              modifiedOtherAttrs );
     }
 
-    public Map getModifiedOtherAttributes(MutableProcessCase processCase,
+    public Map getModifiedOtherAttributes(Map caseAttrs,
                                           Map otherAttrs)
         throws Exception
     {
-        OverlayJellyContext context = new OverlayJellyContext( processCase,
+        OverlayJellyContext context = new OverlayJellyContext( caseAttrs,
                                                                otherAttrs );
         
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
 
-        return context.getAttributes();
+        return context.getOtherAttributes();
     }
 }

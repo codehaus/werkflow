@@ -2,7 +2,6 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.ProcessInfo;
-import com.werken.werkflow.action.MutableProcessCase;
 import com.werken.werkflow.definition.petri.Parameters;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.caserepo.CaseState;
@@ -14,7 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class WorkflowProcessCase
-    implements MutableProcessCase, Parameters
+    implements ProcessCase, Parameters
 {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
@@ -110,5 +109,44 @@ public class WorkflowProcessCase
     public Transition[] getEnabledTransitions()
     {
         return this.enabledTransitions;
+    }
+
+    void setCaseAttributes(Map caseAttrs)
+    {
+        String[] origAttrNames = getAttributeNames();
+
+        for ( int i = 0 ; i < origAttrNames.length ; ++i )
+        {
+            if ( ! caseAttrs.containsKey( origAttrNames[i] ) )
+            {
+                clearAttribute( origAttrNames[i] );
+            }
+        }
+
+        Iterator attrNames   = caseAttrs.keySet().iterator();
+        String  eachAttrName = null;
+
+        while ( attrNames.hasNext() )
+        {
+            eachAttrName = (String) attrNames.next();
+
+            setAttribute( eachAttrName,
+                          caseAttrs.get( eachAttrName ) );
+        }
+    }
+
+    Map getCaseAttributes()
+    {
+        Map caseAttrs = new HashMap();
+
+        String[] attrNames = getAttributeNames();
+
+        for ( int i = 0 ; i < attrNames.length ; ++i )
+        {
+            caseAttrs.put( attrNames[i],
+                           getAttribute( attrNames[i] ) );
+        }
+
+        return caseAttrs;
     }
 }

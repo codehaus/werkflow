@@ -233,10 +233,13 @@ public class ActivityManager
                             String[] placeIds)
     {
         Task task = transition.getTask();
-        
+
+        Map caseAttrs = processCase.getCaseAttributes();
+
         WorkflowActivity activity = newActivity( processCase.getId(),
                                                  transition.getId(),
-                                                 placeIds );
+                                                 placeIds,
+                                                 caseAttrs );
         
         if ( task == null )
         {
@@ -279,7 +282,7 @@ public class ActivityManager
         try
         {
             action.perform( activity,
-                            processCase,
+                            activity.getCaseAttributes(),
                             otherAttrs );
 
             activity.complete();
@@ -300,6 +303,8 @@ public class ActivityManager
 
             synchronized ( processCase )
             {
+                processCase.setCaseAttributes( activity.getCaseAttributes() );
+
                 ProcessDeployment deployment = getEngine().getProcessDeployment( processCase.getProcessInfo().getId() );
                 
                 ProcessDefinition processDef = deployment.getProcessDefinition();
@@ -388,12 +393,14 @@ public class ActivityManager
 
     protected WorkflowActivity newActivity(String caseId,
                                            String transitionId,
-                                           String[] placeIds)
+                                           String[] placeIds,
+                                           Map caseAttrs)
     {
         WorkflowActivity activity = new WorkflowActivity( this,
                                                           caseId,
                                                           transitionId,
-                                                          placeIds );
+                                                          placeIds,
+                                                          caseAttrs );
 
         this.activities.add( activity );
 

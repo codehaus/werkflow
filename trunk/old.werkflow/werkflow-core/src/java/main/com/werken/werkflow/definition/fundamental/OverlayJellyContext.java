@@ -1,45 +1,39 @@
 package com.werken.werkflow.definition.fundamental;
 
-import com.werken.werkflow.ProcessCase;
-
 import org.apache.commons.jelly.JellyContext;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collections;
 
 public class OverlayJellyContext
     extends JellyContext
 {
-    private ProcessCase processCase;
-    private Map attrs;
+    private Map caseAttrs;
+    private Map otherAttrs;
 
-    public OverlayJellyContext(ProcessCase processCase,
+    public OverlayJellyContext(Map caseAttrs,
                                Map initialAttrs)
     {
-        this.processCase = processCase;
-        this.attrs       = new HashMap( initialAttrs );
-    }
-
-    public ProcessCase getProcessCase()
-    {
-        return this.processCase;
+        this.caseAttrs  = Collections.unmodifiableMap( caseAttrs );
+        this.otherAttrs = new HashMap( initialAttrs );
     }
 
     public void setVariable(String id,
                             Object value)
     {
-        this.attrs.put( id,
-                        value );
+        this.otherAttrs.put( id,
+                             value );
     }
 
     public Object getVariable(String id)
     {
-        if ( this.attrs.containsKey( id ) )
+        if ( this.otherAttrs.containsKey( id ) )
         {
-            return this.attrs.get( id );
+            return this.otherAttrs.get( id );
         }
 
-        return getProcessCase().getAttribute( id );
+        return this.caseAttrs.get( id );
     }
 
     public Object findVariable(String id)
@@ -47,8 +41,8 @@ public class OverlayJellyContext
         return getVariable( id );
     }
 
-    public Map getAttributes()
+    public Map getOtherAttributes()
     {
-        return this.attrs;
+        return this.otherAttrs;
     }
 }

@@ -1,7 +1,6 @@
 package com.werken.werkflow.semantics.jelly;
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.MutableProcessCase;
 import com.werken.werkflow.activity.Activity;
 
 import org.apache.commons.jelly.Script;
@@ -25,13 +24,23 @@ public class JellyAction
     }
 
     public void perform(Activity activity,
-                        MutableProcessCase processCase,
+                        Map caseAttrs,
                         Map otherAttrs)
         throws Exception
     {
-        MutableCaseJellyContext context = new MutableCaseJellyContext( processCase );
+        try
+        {
+            ActionJellyContext context = new ActionJellyContext( caseAttrs,
+                                                                 otherAttrs );
+            
+            getScript().run( context,
+                             XMLOutput.createXMLOutput( System.err ) );
 
-        getScript().run( context,
-                         XMLOutput.createXMLOutput( System.err ) );
+            activity.complete();
+        }
+        catch (Exception e)
+        {
+            activity.completeWithError( e );
+        }
     }
 }
