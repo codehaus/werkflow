@@ -5,7 +5,7 @@
       ||     EMPTY
       -->
 
-    <idiom id="empty">
+    <idiom id="empty" contains="none">
         <template> 
             <transition id="empty">
                 <input from="in"/>
@@ -133,7 +133,7 @@
       ||     SEQUENCE
       -->
 
-    <idiom id="sequence">
+    <idiom id="sequence" contains="components">
         <template>
             
             <place id="component:tail" stash="in"/>
@@ -168,12 +168,12 @@
       ||    RECEIVE
       -->
 
-    <idiom id="receive">
+    <idiom id="receive" contains="action">
         <parameter id="type"       type="string" required="true"/>
         <parameter id="correlator" type="correlator"/>
 
         <template>
-            <transition id="receive">
+            <transition id="action">
                 <input from="in"/>
                 <output  to="out"/>
                 <message type="parameter:type" correlator="parameter:correlator"/>

@@ -157,6 +157,13 @@ public class Idiom
         }
     }
 
+    public void addAction(Action action)
+        throws IdiomException
+    {
+        getIdiomDefinition().addAction( this,
+                                        action );
+    }
+
     public Idiom addComponent(IdiomDefinition idiomDef)
     {
         Idiom idiom = idiomDef.newIdiom( this,
@@ -329,7 +336,7 @@ public class Idiom
                                   String transitionId,
                                   Expression expression)
     {
-        // System.err.println( getId() + " p/t " + placeId + " > " + transitionId );
+        System.err.println( getId() + " p/t " + placeId + " > " + transitionId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -346,7 +353,7 @@ public class Idiom
                                   String placeId,
                                   Expression expression)
     {
-        // System.err.println( getId() + " t/p " + transitionId + " > " + placeId );
+        System.err.println( getId() + " t/p " + transitionId + " > " + placeId );
         DefaultPlace place = getMutablePlace( placeId );
         DefaultTransition transition = getMutableTransition( transitionId );
 
@@ -364,7 +371,7 @@ public class Idiom
                              Idiom component,
                              Expression expression)
     {
-        // System.err.println( getId() + " graft in  || " + placeId + " to " + component.getId() );
+        System.err.println( getId() + " graft in  || " + placeId + " to " + component.getId() );
         DefaultPlace place = getMutablePlace( placeId );
 
         DefaultPlace componentIn = component.getInPlace();
@@ -399,7 +406,7 @@ public class Idiom
                               String placeId,
                               Expression expression)
     {
-        // System.err.println( getId() + " graft out || " + component.getId() + " to " + placeId );
+        System.err.println( getId() + " graft out || " + component.getId() + " to " + placeId );
 
         DefaultPlace place = getMutablePlace( placeId );
 

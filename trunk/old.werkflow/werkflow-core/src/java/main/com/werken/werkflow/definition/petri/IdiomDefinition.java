@@ -21,8 +21,8 @@ public class IdiomDefinition
     public static final String IN_PLACE = "in";
     public static final String OUT_PLACE = "out";
 
+    public static final String ACTION = "action";
     public static final String COMPONENT = "component";
-    public static final String BODY = "body";
 
     public static final String COMPONENT_PREFIX = "component:";
     public static final String PARAMETER_PREFIX = "parameter:";
@@ -30,34 +30,41 @@ public class IdiomDefinition
     public static final String COMPLETE_PREFIX = "complete:";
     public static final String GLOBAL_OUT = "global:out";
 
-    public static final IdiomDefinition ACTION = new IdiomDefinition( "werkflow:internal-idioms",
-                                                                      "werkflow.action" );
+    public static final short CONTAINS_NONE = 0;
+    public static final short CONTAINS_MULTI_COMPONENTS = 1;
+    public static final short CONTAINS_ONE_COMPONENT = 2;
+    public static final short CONTAINS_ONE_ACTION = 3;
 
+    public static final IdiomDefinition ACTION_IDIOM = new IdiomDefinition( "werkflow:internal-idioms",
+                                                                            "werkflow.action",
+                                                                            CONTAINS_ONE_ACTION );
+    
     static
     {
+        /*
         try
         {
-            ACTION.addParameter( new IdiomParameter( "action",
-                                                     "action",
-                                                     true ) );
+            ACTION_IDIOM.addParameter( new IdiomParameter( "action",
+                                                           "action",
+                                                           true ) );
         }
         catch (Exception e)
         {
             e.printStackTrace();
             System.exit( 1 );
         }
-
-        ACTION.addTransition( new TransitionDefinition( "action",
-                                                        "action",
-                                                        PARAMETER_PREFIX + "action" ) );
-
-        ACTION.addArc( ArcDefinition.newArcFromPlaceToTransition( "in",
-                                                                  "action",
-                                                                  null ) );
-
-        ACTION.addArc( ArcDefinition.newArcFromTransitionToPlace( "action",
-                                                                  "out",
-                                                                  null ) );
+        */
+        
+        ACTION_IDIOM.addTransition( new TransitionDefinition( "action",
+                                                              "action" ) );
+        
+        ACTION_IDIOM.addArc( ArcDefinition.newArcFromPlaceToTransition( "in",
+                                                                        "action",
+                                                                        null ) );
+        
+        ACTION_IDIOM.addArc( ArcDefinition.newArcFromTransitionToPlace( "action",
+                                                                        "out",
+                                                                        null ) );
     }
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
@@ -68,18 +75,22 @@ public class IdiomDefinition
     private Map places;
     private Map transitions;
     private List arcs;
+    private short containsType;
 
     public IdiomDefinition(String uri,
-                           String id)
+                           String id,
+                           short containsType)
     {
         this( uri,
               id,
-              Collections.EMPTY_MAP );
+              Collections.EMPTY_MAP,
+              containsType );
     }
 
     public IdiomDefinition(String uri,
                            String id,
-                           Map parameters)
+                           Map parameters,
+                           short containsType)
     {
         this.uri         = uri;
         this.id          = id;
@@ -87,6 +98,7 @@ public class IdiomDefinition
         this.places      = new HashMap();
         this.transitions = new HashMap();
         this.arcs        = new ArrayList();
+        this.containsType = containsType;
     }
 
     public String toString()
@@ -97,6 +109,11 @@ public class IdiomDefinition
             + "; transitions=" + this.transitions.values()
             + "; arcs=" + this.arcs
             + "]";
+    }
+
+    public short getContainsType()
+    {
+        return this.containsType;
     }
 
     public String getUri()
@@ -234,7 +251,7 @@ public class IdiomDefinition
         
         for ( int i = 0 ; i < transitionDefs.length ; ++i )
         {
-            if ( ! ( transitionDefs[i].getId().startsWith( COMPONENT_PREFIX )
+            if ( ! ( transitionDefs[i].getId().equals( ACTION )
                      ||
                      transitionDefs[i].getId().equals( COMPONENT )
                      ||
@@ -261,11 +278,15 @@ public class IdiomDefinition
 
         for ( int i = 0 ; i < arcDefs.length ; ++i )
         {
+            System.err.println( "STATIC ARC: " + arcDefs[i] );
+
             if ( ! ( arcDefs[i].getPlaceId().startsWith( COMPONENT_PREFIX )
                      ||
                      arcDefs[i].getTransitionId().startsWith( COMPONENT_PREFIX )
                      ||
-                     arcDefs[i].getTransitionId().equals( COMPONENT ) 
+                     arcDefs[i].getTransitionId().equals( COMPONENT )
+                     ||
+                     arcDefs[i].getTransitionId().equals( ACTION )
                      ||
                      arcDefs[i].getTransitionId().startsWith( COMPLETE_PREFIX ) ) )
             {
@@ -355,6 +376,63 @@ public class IdiomDefinition
                     idiom.connectTransitionToPlace( qualifyId( useTransId,
                                                                idiom ),
                                                     usePlaceId,
+                                                    expr );
+                }
+            }
+        }
+    }
+
+    protected void addAction(Idiom idiom,
+                             Action action)
+        throws IdiomException
+    {
+        TransitionDefinition transDefs[] = getTransitions();
+
+        for ( int i = 0 ; i < transDefs.length ; ++i )
+        {
+            if ( transDefs[i].getId().equals( ACTION ) )
+            {
+                try
+                {
+                    idiom.addTransition( qualifyId( transDefs[i].getId(),
+                                                    idiom ),
+                                         transDefs[i].getDocumentation(),
+                                         action,
+                                         getWaiter( idiom,
+                                                    transDefs[i].getWaiter() ) );
+                }
+                catch (NoSuchMessageTypeException e)
+                {
+                    throw new IdiomException( e );
+                }
+            }
+        }
+
+        ArcDefinition[] arcDefs = getArcs();
+
+        for ( int i = 0 ; i < arcDefs.length ; ++i )
+        {
+            if ( arcDefs[i].getTransitionId().equals( ACTION ) )
+            {
+                String placeId = qualifyId( arcDefs[i].getPlaceId(),
+                                            idiom );
+
+                String transId = qualifyId( arcDefs[i].getTransitionId(),
+                                            idiom );
+
+                Expression expr = getExpression( idiom,
+                                                 arcDefs[i].getExpression() );
+
+                if ( arcDefs[i].getType() == ArcDefinition.PLACE_TO_TRANSITION_TYPE )
+                {
+                    idiom.connectPlaceToTransition( placeId,
+                                                    transId,
+                                                    expr );
+                }
+                else
+                {
+                    idiom.connectTransitionToPlace( transId,
+                                                    placeId,
                                                     expr );
                 }
             }
@@ -578,6 +656,8 @@ public class IdiomDefinition
                                              MessageWaiterDefinition waiterDef)
         throws NoSuchParameterException, NoSuchMessageTypeException
     {
+        System.err.println( "get waiter: " + idiom.getId() );
+
         String msgTypeStr = waiterDef.getMessageType();
 
         if ( msgTypeStr.startsWith( PARAMETER_PREFIX ) )
@@ -590,7 +670,7 @@ public class IdiomDefinition
         String corrStr = waiterDef.getCorrelator();
 
         MessageWaiter waiter = new MessageWaiter( msgType,
-                                                  "DEADBEEF" );
+                                                  waiterDef.getVar() );
 
         if ( corrStr != null )
         {
@@ -606,6 +686,7 @@ public class IdiomDefinition
             waiter.setMessageCorrelator( correlator );
         }
 
+        System.err.println( " ---> " + waiter );
         return waiter;
     }
 }

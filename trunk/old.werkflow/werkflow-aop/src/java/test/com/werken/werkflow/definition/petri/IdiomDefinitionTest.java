@@ -10,7 +10,8 @@ public class IdiomDefinitionTest
     public void testConstruct()
     {
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
-                                                        "empty" );
+                                                        "empty",
+                                                        IdiomDefinition.CONTAINS_NONE );
 
         assertEquals( "empty",
                       idiomDef.getId() );
@@ -32,7 +33,8 @@ public class IdiomDefinitionTest
         throws Exception
     {
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
-                                                        "idiom" );
+                                                        "idiom",
+                                                        IdiomDefinition.CONTAINS_NONE );
 
         TransitionDefinition transDef = new TransitionDefinition( "transition",
                                                                   "transition" );
@@ -50,7 +52,8 @@ public class IdiomDefinitionTest
         throws Exception
     {
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
-                                                        "idiom" );
+                                                        "idiom",
+                                                        IdiomDefinition.CONTAINS_NONE );
         
         PlaceDefinition placeDef = new PlaceDefinition( "place",
                                                         "place" );
@@ -68,7 +71,8 @@ public class IdiomDefinitionTest
         throws Exception
     {
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
-                                                        "idiom" );
+                                                        "idiom",
+                                                        IdiomDefinition.CONTAINS_NONE );
 
         ArcDefinition arcDef = ArcDefinition.newArcFromPlaceToTransition( "my.place",
                                                                           "my.transition",
@@ -87,7 +91,8 @@ public class IdiomDefinitionTest
         throws Exception
     {
         IdiomDefinition idiomDef = new IdiomDefinition( "uri",
-                                                        "idiom" );
+                                                        "idiom",
+                                                        IdiomDefinition.CONTAINS_NONE );
 
         PlaceDefinition placeDef = new PlaceDefinition( "my.place",
                                                         "place.docs" );
@@ -145,7 +150,8 @@ public class IdiomDefinitionTest
         throws Exception
     {
         IdiomDefinition parentDef = new IdiomDefinition( "uri",
-                                                        "parent" ); 
+                                                        "parent",
+                                                         IdiomDefinition.CONTAINS_MULTI_COMPONENTS ); 
 
         parentDef.addPlace( new PlaceDefinition( "head",
                                                  "head" ) );
@@ -165,7 +171,8 @@ public class IdiomDefinitionTest
                                                                      "" ) );
 
         IdiomDefinition childDef = new IdiomDefinition( "uri",
-                                                        "child" ); 
+                                                        "child",
+                                                        IdiomDefinition.CONTAINS_NONE ); 
 
         childDef.addTransition( new TransitionDefinition( "trans",
                                                           "trans" ) );

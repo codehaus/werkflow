@@ -9,6 +9,7 @@ public class IdiomTag
     extends IdiomTagSupport
 {
     private String id;
+    private String contains;
 
     public IdiomTag()
     {
@@ -25,6 +26,16 @@ public class IdiomTag
         return this.id;
     }
 
+    public void setContains(String contains)
+    {
+        this.contains = contains;
+    }
+
+    public String getContains()
+    {
+        return this.contains;
+    }
+
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
@@ -38,8 +49,40 @@ public class IdiomTag
             throw new JellyTagException( "invalid context for <idiom>" );
         }
 
+        short containsType;
+
+        if ( this.contains == null )
+        {
+            containsType = IdiomDefinition.CONTAINS_MULTI_COMPONENTS;
+        }
+        else if ( "none".equals( this.contains ) )
+        {
+            containsType = IdiomDefinition.CONTAINS_NONE;
+        }
+        else if ( "action".equals( this.contains ) )
+        {
+            containsType = IdiomDefinition.CONTAINS_ONE_ACTION;
+        }
+        else if ( "component".equals( this.contains ) )
+        {
+            containsType = IdiomDefinition.CONTAINS_ONE_COMPONENT;
+        }
+        else if ( this.contains == null
+                  ||
+                  "components".equals( this.contains )
+                  ||
+                  "".equals( this.contains ) )
+        {
+            containsType = IdiomDefinition.CONTAINS_MULTI_COMPONENTS;
+        }
+        else
+        {
+            throw new JellyTagException( "attribute 'contains' may only accept: action, component, components" );
+        }
+
         IdiomDefinition idiomDef = new IdiomDefinition( tag.getUri(),
-                                                        getId() );
+                                                        getId(),
+                                                        containsType );
 
         setCurrentIdiomDefinition( idiomDef );
 
