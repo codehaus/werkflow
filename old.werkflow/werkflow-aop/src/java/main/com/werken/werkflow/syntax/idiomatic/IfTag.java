@@ -2,6 +2,7 @@ package com.werken.werkflow.syntax.idiomatic;
 
 import com.werken.werkflow.definition.idiomatic.Segment;
 import com.werken.werkflow.definition.idiomatic.IfSegment;
+import com.werken.werkflow.definition.idiomatic.SequenceSegment;
 import com.werken.werkflow.semantics.jelly.JellyExpression;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -12,7 +13,6 @@ public class IfTag
     extends ComplexActionTagSupport
 {
     private Expression condition;
-    private Segment bodySegment;
 
     public IfTag()
     {
@@ -29,25 +29,17 @@ public class IfTag
         return this.condition;
     }
 
-    public void receiveSegment(Segment segment)
-        throws JellyTagException
-    {
-        if ( this.bodySegment != null )
-        {
-            throw new JellyTagException( "only action allowed as body" );
-        }
-
-        this.bodySegment = segment;
-    }
-
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
 
+        requireObjectAttribute( "condition",
+                                getCondition() );
+
+        pushSegment( new IfSegment( new JellyExpression( getCondition() ) ) );
+
         invokeBody( output );
 
-        pushSegment( new IfSegment( new JellyExpression( getCondition() ),
-                                    this.bodySegment ) );
         popSegment();
     }
 }
