@@ -2,7 +2,7 @@ package com.werken.werkflow.jelly;
 
 import org.apache.commons.jelly.Tag;
 import org.apache.commons.jelly.TagSupport;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 
 public abstract class MiscTagSupport
@@ -33,15 +33,15 @@ public abstract class MiscTagSupport
 
     public Tag requiredAncestor(String tagName,
                                 Class tagClass)
-        throws JellyException
+        throws JellyTagException
     {
         Tag ancestor = findAncestorWithClass( tagClass ); 
-
+        
         if ( ancestor == null )
         {
-            throw new JellyException( tagName + " ancestor not found" );
+            throw new JellyTagException( tagName + " ancestor not found" );
         }
-
+        
         return ancestor;
     }
 }

@@ -5,11 +5,12 @@ import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.petri.AndInputRule;
 import com.werken.werkflow.definition.petri.OrInputRule;
+import com.werken.werkflow.definition.petri.DuplicateIdException;
 import com.werken.werkflow.semantics.jelly.JellyExpression;
 import com.werken.werkflow.task.Task;
 
 import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.expression.Expression;
 
 public class TransitionTag
@@ -94,18 +95,27 @@ public class TransitionTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         ProcessTag process = (ProcessTag) requiredAncestor( "process",
                                                             ProcessTag.class );
-
+        
         requireStringAttribute( "id",
                                 getId() );
-
+        
         DefaultNet net = process.getNet();
+        
+        DefaultTransition transition = null;
 
-        DefaultTransition transition = net.addTransition( getId() );
-
+        try
+        {
+            transition = net.addTransition( getId() );
+        }
+        catch (DuplicateIdException e)
+        {
+            throw new JellyTagException( e );
+        }
+        
         if ( getType() == null
              ||
              getType().equals( "and" ) )
@@ -118,9 +128,9 @@ public class TransitionTag
         }
         else
         {
-            throw new JellyException( "invalid 'type' attribute; must be one of: 'and' 'or'" );
+            throw new JellyTagException( "invalid 'type' attribute; must be one of: 'and' 'or'" );
         }
-
+        
         setDocumentation( null );
 
         invokeBody( output );

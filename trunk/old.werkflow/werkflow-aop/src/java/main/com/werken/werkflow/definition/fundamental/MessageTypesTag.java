@@ -50,6 +50,7 @@ import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
 public class MessageTypesTag
      extends FundamentalTagSupport
@@ -59,7 +60,7 @@ public class MessageTypesTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         invokeBody( output );
     }

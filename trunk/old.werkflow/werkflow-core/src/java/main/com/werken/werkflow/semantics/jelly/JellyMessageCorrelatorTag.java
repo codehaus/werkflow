@@ -4,6 +4,7 @@ import com.werken.werkflow.definition.fundamental.AbstractMessageCorrelatorTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.expression.Expression;
 
 public class JellyMessageCorrelatorTag
@@ -27,7 +28,7 @@ public class JellyMessageCorrelatorTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         if ( getTest() == null )
         {

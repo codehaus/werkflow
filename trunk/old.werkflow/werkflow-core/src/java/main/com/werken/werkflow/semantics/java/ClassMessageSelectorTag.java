@@ -3,6 +3,7 @@ package com.werken.werkflow.semantics.java;
 import com.werken.werkflow.definition.fundamental.AbstractMessageSelectorTag;
 
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.expression.Expression;
 
@@ -37,7 +38,7 @@ public class ClassMessageSelectorTag
     }
 
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         if ( this.className == null
              ||
@@ -46,12 +47,19 @@ public class ClassMessageSelectorTag
             throw new MissingAttributeException( "class" );
         }
 
-        Class messageClass = Class.forName( this.className );
-
-        ClassMessageSelector selector = new ClassMessageSelector( messageClass,
-                                                                  getFilter() );
-
-
-        setMessageSelector( selector );
+        try
+        {
+            Class messageClass = Class.forName( this.className );
+            
+            ClassMessageSelector selector = new ClassMessageSelector( messageClass,
+                                                                      getFilter() );
+            
+            
+            setMessageSelector( selector );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

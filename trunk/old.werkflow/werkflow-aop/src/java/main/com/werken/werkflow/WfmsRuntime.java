@@ -121,13 +121,46 @@ public interface WfmsRuntime
                                Attributes attributes)
         throws NoSuchProcessException;
     
+    /** Retrieve the in-progress <code>Activity</code> handles
+     *  for a given case.
+     *
+     *  @param caseId The case id.
+     *
+     *  @throws NoSuchCaseException If the identifier does not
+     *          match any case known by the system.
+     *  @throws NoSuchProcessException If the identifier do match
+     *          a case known by the system, but the process associated
+     *          with the case is not currently deployed.
+     */
     Activity[] getActivitiesForProcessCase(String caseId)
         throws NoSuchCaseException, NoSuchProcessException;
 
+    /** Select <code>ProcessCase</code>s by process-id and a place-id.
+     *
+     *  <p>
+     *  All process-cases of the specified process containing a mark
+     *  in the specified place are returned.
+     *  </p>
+     *
+     *  @param processId The process identifier.
+     *  @param placeId The place identifier.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     ProcessCase[] selectCases(String processId,
                               String placeId)
         throws QueryException;
 
+    /** Select <code>ProcessCase</code>s by process-id and
+     *  query-by-example case attributes.
+     *
+     *  @param processId The process identifier.
+     *  @param qbeAttrs The query-by-example attributes.
+     *
+     *  @throws QueryException If an error occurs while attempting to
+     *          evaluate the selection query.
+     */
     ProcessCase[] selectCases(String processId,
                               Map qbeAttrs)
         throws QueryException;

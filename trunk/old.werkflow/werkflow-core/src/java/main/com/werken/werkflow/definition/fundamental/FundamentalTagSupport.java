@@ -51,6 +51,7 @@ import com.werken.werkflow.jelly.MiscTagSupport;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 
 /** Support for fundamental syntax tags.
  *
@@ -83,17 +84,24 @@ public abstract class FundamentalTagSupport
      *  @throws JellyException If the library cannot be located.
      */
     public MessageTypeLibrary getMessageTypeLibrary()
-        throws JellyException
+        throws JellyTagException
     {
-        JellyContext context = getContext();
-
-        MessageTypeLibrary msgTypeLib = (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
-        
-        if ( msgTypeLib == null )
+        try
         {
-            throw new JellyException( "no message-type library" );
+            JellyContext context = getContext();
+            
+            MessageTypeLibrary msgTypeLib = (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
+            
+            if ( msgTypeLib == null )
+            {
+                throw new JellyException( "no message-type library" );
+            }
+            
+            return msgTypeLib;
         }
-
-        return msgTypeLib;
+        catch (JellyException e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }

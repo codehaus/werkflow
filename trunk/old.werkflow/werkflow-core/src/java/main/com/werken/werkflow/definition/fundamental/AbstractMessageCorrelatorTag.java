@@ -49,7 +49,7 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.definition.MessageCorrelator;
 
 import org.apache.commons.jelly.TagSupport;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>MessageCorrelator</code> tags.
  *
@@ -94,17 +94,17 @@ public abstract class AbstractMessageCorrelatorTag
      *
      *  @param correlator The message correlator.
      *
-     *  @throws JellyException If the tag is not used within the correct
+     *  @throws JellyTagException If the tag is not used within the correct
      *          context of a &lt;message&gt; tag.
      */
     public void setMessageCorrelator(MessageCorrelator correlator)
-        throws JellyException
+        throws JellyTagException
     {
         MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
 
         if ( message == null )
         {
-            throw new JellyException( "not within <message>" );
+            throw new JellyTagException( "not within <message>" );
         }
 
         message.setMessageCorrelator( correlator );
@@ -114,17 +114,17 @@ public abstract class AbstractMessageCorrelatorTag
      *
      *  @return The message identifier.
      *
-     *  @throws JellyException If the tag is not used within the correct
+     *  @throws JellyTagException If the tag is not used within the correct
      *          context of a &lt;message&gt; tag.
      */
     public String getMessageId()
-        throws JellyException
+        throws JellyTagException
     {
         MessageTag message = (MessageTag) findAncestorWithClass( MessageTag.class );
 
         if ( message == null )
         {
-            throw new JellyException( "not within <message>" );
+            throw new JellyTagException( "not within <message>" );
         }
 
         return message.getId();

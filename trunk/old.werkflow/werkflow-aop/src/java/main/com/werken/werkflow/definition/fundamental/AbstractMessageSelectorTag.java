@@ -49,7 +49,7 @@ package com.werken.werkflow.definition.fundamental;
 import com.werken.werkflow.service.messaging.MessageSelector;
 
 import org.apache.commons.jelly.TagSupport;
-import org.apache.commons.jelly.JellyException;
+import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>MessageSelector</code> tags.
  *
@@ -94,7 +94,7 @@ public abstract class AbstractMessageSelectorTag
      *
      *  @param selector The message-selector.
      *
-     *  @throws JellyException If the tag is not used within the correct
+     *  @throws JellyTagException If the tag is not used within the correct
      *          context of a &lt;message-type&gt; tag.
      */
     public void setMessageSelector(MessageSelector selector)
@@ -104,7 +104,7 @@ public abstract class AbstractMessageSelectorTag
 
         if ( messageType == null )
         {
-            throw new JellyException( "not within <message-type>" );
+            throw new JellyTagException( "not within <message-type>" );
         }
 
         messageType.setMessageSelector( selector );

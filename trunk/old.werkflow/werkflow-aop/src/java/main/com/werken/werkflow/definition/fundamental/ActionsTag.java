@@ -46,20 +46,37 @@ package com.werken.werkflow.definition.fundamental;
  
  */
 
-import com.werken.werkflow.definition.petri.DefaultNet;
-import com.werken.werkflow.definition.petri.DefaultPlace;
-
 import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
 
+/** Simple aggregator of &lt;action&gt; tags.
+ *
+ *  @see ActionTag
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ */
 public class ActionsTag
      extends FundamentalTagSupport
 {
+    // ----------------------------------------------------------------------
+    //     Constructors
+    // ----------------------------------------------------------------------
+
+    /** Construct.
+     */
     public ActionsTag()
     {
+        // intentionally left blank
     }
 
+    // ----------------------------------------------------------------------
+    //     Instance methods
+    // ----------------------------------------------------------------------
+
+    /** @see org.apache.commons.jelly.Tag
+     */
     public void doTag(XMLOutput output)
-        throws Exception
+        throws JellyTagException
     {
         invokeBody( output );
     }
