@@ -5,6 +5,7 @@ import com.werken.werkflow.service.messaging.MessageSelector;
 public class MessageType
 {
     private String id;
+    private String documentation;
     private MessageSelector selector;
 
     public MessageType(String id)
@@ -15,6 +16,16 @@ public class MessageType
     public String getId()
     {
         return this.id;
+    }
+
+    public void setDocumentation(String documentation)
+    {
+        this.documentation = documentation;
+    }
+
+    public String getDocumentation()
+    {
+        return this.documentation;
     }
 
     public void setMessageSelector(MessageSelector selector)
