@@ -46,7 +46,7 @@ package com.werken.werkflow.admin;
  
  */
 
-import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.event.WfmsEventListener;
 
 /** The administrative interface to the workflow management system.
@@ -66,14 +66,14 @@ import com.werken.werkflow.event.WfmsEventListener;
  */
 public interface WfmsAdmin
 {
-    /** Deploy a <code>ProcessDefinition</code>.
+    /** Deploy a <code>ProcessPackage</code>.
      *
-     *  @param processDef The process definition to deploy.
+     *  @param pkg The process package to deploy.
      *
      *  @throws ProcessException If unable to completely successfully
-     *          deploy the process defintiion.
+     *          deploy the process package.
      */
-    void deployProcess(ProcessDefinition processDef)
+    void deployProcessPackage(ProcessPackage pkg)
         throws ProcessException;
 
     /** Attach a <code>WfmsEventListener</code>.

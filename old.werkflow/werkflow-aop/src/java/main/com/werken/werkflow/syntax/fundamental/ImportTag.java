@@ -1,4 +1,4 @@
-package com.werken.werkflow.definition;
+package com.werken.werkflow.syntax.fundamental;
 
 /*
  $Id$
@@ -46,34 +46,65 @@ package com.werken.werkflow.definition;
  
  */
 
+import com.werken.werkflow.definition.petri.DefaultNet;
+import com.werken.werkflow.definition.petri.DefaultArc;
+import com.werken.werkflow.semantics.jelly.JellyExpression;
+
+import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.JellyTagException;
+import org.apache.commons.jelly.expression.Expression;
+
 import java.net.URL;
 
-/** Loader of <code>ProcessDefinition</code>s.
- *
- *  <p>
- *  Different process definition syntaxes will have
- *  different <code>DefinitionLoader</code> implementations.
- *  </p>
- *
- *  @see ProcessDefinition
- * 
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public interface DefinitionLoader
+public class ImportTag
+    extends FundamentalTagSupport
 {
-    /** Load the <code>ProcessDefinition</code>s contained
-     *  within the URL, according to the syntax's rules.
-     *
-     *  @param url The URL to load.
-     *
-     *  @return The possibly empty array of process-definitions
-     *          loaded from the URL.
-     *
-     *  @throws Exception If an error occurs while attempting
-     *          to load the definitions.
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    private String url;
+
+    public ImportTag()
+    {
+        // intentionally left blank
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    public String getUrl()
+    {
+        return this.url;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see org.apache.commons.jelly.Tag
      */
-    ProcessDefinition[] load(URL url)
-        throws Exception;
+    public void doTag(XMLOutput output)
+        throws JellyTagException
+    {
+        requireStringAttribute( "url",
+                                getUrl() );
+
+        URL curUrl = getContext().getCurrentURL();
+
+
+        try
+        {
+            URL importUrl = new URL( curUrl,
+                                     getUrl() );
+
+            getContext().runScript( importUrl,
+                                    output );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
+    }
 }

@@ -77,32 +77,28 @@ public abstract class FundamentalTagSupport
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the <code>MessageTypeLibrary</code>.
-     *
-     *  @return The message-type library.
-     *
-     *  @throws JellyTagException If the library cannot be located.
-     */
-    public MessageTypeLibrary getMessageTypeLibrary()
-        throws JellyTagException
+    protected Scope getCurrentScope()
     {
-        try
-        {
-            JellyContext context = getContext();
-            
-            MessageTypeLibrary msgTypeLib =
-                (MessageTypeLibrary) context.getVariable( FundamentalDefinitionLoader.MESSAGE_TYPE_LIBRARY_KEY );
-            
-            if ( msgTypeLib == null )
-            {
-                throw new JellyException( "no message-type library" );
-            }
-            
-            return msgTypeLib;
-        }
-        catch (JellyException e)
-        {
-            throw new JellyTagException( e );
-        }
+        return (Scope) getContext().getVariable( Scope.class.getName() );
+    }
+
+    protected void setCurrentScope(Scope scope)
+    {
+        getContext().setVariable( Scope.class.getName(),
+                                  scope );
+    }
+
+    protected void pushScope()
+    {
+        Scope curScope = getCurrentScope();
+
+        setCurrentScope( new Scope( curScope ) );
+    }
+
+    protected void popScope()
+    {
+        Scope curScope = getCurrentScope();
+
+        setCurrentScope( curScope.getParent() );
     }
 }

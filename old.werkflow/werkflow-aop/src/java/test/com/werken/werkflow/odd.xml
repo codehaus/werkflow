@@ -7,6 +7,8 @@
          xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
+        <import url="message-types.xml"/>
+
 	<place id="in"/>
 	<place id="toSort"/>
 	<place id="out"/>

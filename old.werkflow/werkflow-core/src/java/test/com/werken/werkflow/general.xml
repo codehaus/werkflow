@@ -6,6 +6,8 @@
          xmlns:jelly="werkflow:jelly"
          xmlns:j="jelly:core">
 
+  <import url="message-types.xml"/>
+
 <!--
   <message-initiator id="bob" 
                      type="init.msg"/>

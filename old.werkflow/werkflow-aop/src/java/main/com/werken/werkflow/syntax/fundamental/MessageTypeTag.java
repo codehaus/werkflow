@@ -187,7 +187,7 @@ public class MessageTypeTag
 
         try
         {
-            getMessageTypeLibrary().addMessageType( messageType );
+            getCurrentScope().addMessageType( messageType );
         }
         catch (DuplicateMessageTypeException e)
         {

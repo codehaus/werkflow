@@ -57,7 +57,7 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
 public class ActionDefinitionTag
-    extends MiscTagSupport
+    extends FundamentalTagSupport
     implements ActionReceptor
 {
     // ----------------------------------------------------------------------
@@ -160,19 +160,11 @@ public class ActionDefinitionTag
             throw new JellyTagException( "no action defined in body" );
         }
         
-        JellyContext context = getContext();
-        
-        ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
-        
-        if ( actionLib == null )
-        {
-            throw new JellyTagException( "no action library" );
-        }
         
         try
         {
-            actionLib.addAction( getId(),
-                                 getAction() );
+            getCurrentScope().addAction( getId(),
+                                         getAction() );
         }
         catch (DuplicateActionException e)
         {
@@ -181,7 +173,7 @@ public class ActionDefinitionTag
         
         if ( isDefault() )
         {
-            actionLib.setDefaultAction( getAction() );
+            getCurrentScope().setDefaultAction( getAction() );
         }
     }
 }

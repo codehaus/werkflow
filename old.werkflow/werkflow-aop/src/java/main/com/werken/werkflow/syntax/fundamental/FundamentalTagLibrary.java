@@ -71,6 +71,9 @@ public class FundamentalTagLibrary
      */
     public FundamentalTagLibrary()
     {
+        registerTag( "package",
+                     PackageTag.class );
+
         registerTag( "process",
                      ProcessTag.class );
 
@@ -109,5 +112,8 @@ public class FundamentalTagLibrary
 
         registerTag( "action-definition",
                      ActionDefinitionTag.class );
+
+        registerTag( "import",
+                     ImportTag.class );
     }
 }

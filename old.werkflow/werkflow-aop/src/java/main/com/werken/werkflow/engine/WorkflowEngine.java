@@ -63,6 +63,7 @@ import com.werken.werkflow.admin.ProcessVerificationException;
 import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.petri.Net;
 import com.werken.werkflow.definition.petri.Place;
 import com.werken.werkflow.definition.petri.Transition;
@@ -419,6 +420,17 @@ public class WorkflowEngine
     public WfmsAdmin getAdmin()
     {
         return this.admin;
+    }
+
+    void deployProcessPackage(ProcessPackage pkg)
+        throws ProcessException
+    {
+        ProcessDefinition[] defs = pkg.getProcessDefinitions();
+
+        for ( int i = 0 ; i < defs.length ; ++i )
+        {
+            deployProcess( defs[i] );
+        }
     }
 
     /** Deploy a <code>ProcessDefinition</code> making it available
