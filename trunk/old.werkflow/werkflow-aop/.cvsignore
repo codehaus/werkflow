@@ -4,3 +4,4 @@ velocity.log
 cachedir
 .project
 .classpath
+.checkstyle
