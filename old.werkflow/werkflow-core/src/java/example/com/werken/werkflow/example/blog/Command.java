@@ -21,4 +21,9 @@ public class Command
     {
         return this.title;
     }
+
+    public String toString()
+    {
+        return "[Command: " + getType() + " // " + getTitle() + "]";
+    }
 }

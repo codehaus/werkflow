@@ -6,6 +6,7 @@ import com.werken.werkflow.expr.ExpressionContext;
 import org.apache.bsf.BSFManager;
 import org.apache.bsf.BSFEngine;
 import org.apache.bsf.BSFException;
+import org.apache.bsf.util.ObjectRegistry;
 
 public abstract class BsfExpression
     implements Expression
@@ -25,15 +26,7 @@ public abstract class BsfExpression
         this.text     = text;
 
         this.manager  = new BSFManager();
-
-        try
-        {
-            this.engine   = this.manager.loadScriptingEngine( language );
-        }
-        catch (BSFException e)
-        {
-            e.getTargetException().printStackTrace();
-        }
+        this.engine   = this.manager.loadScriptingEngine( language );
     }
 
     public String getLanguage()
@@ -59,25 +52,21 @@ public abstract class BsfExpression
     public boolean evaluateAsBoolean(ExpressionContext context)
         throws Exception
     {
-        ContextObjectRegistry registry = new ContextObjectRegistry( context );
+        ObjectRegistry registry = new ObjectRegistry();
 
         synchronized ( this.manager )
         {
             this.manager.setObjectRegistry( registry );
 
-            String[] names = context.getNames();
-            Object   value = null;
+            BsfUtil.populate( this.manager,
+                              context );
 
-            for ( int i = 0 ; i < names.length ; ++i )
-            {
-                value = context.getValue( names[i] );
+            boolean result = asBoolean( this.engine.eval( text, 0, 0, text ) );
 
-                this.manager.declareBean( names[i],
-                                          value,
-                                          value.getClass() );
-            }
+            BsfUtil.unpopulate( this.manager,
+                                context );
 
-            return asBoolean( this.engine.eval( text, 0, 0, text ) );
+            return result;
         }
     }
 
@@ -97,5 +86,10 @@ public abstract class BsfExpression
         }
 
         return false;
+    }
+
+    public String toString()
+    {
+        return getText();
     }
 }

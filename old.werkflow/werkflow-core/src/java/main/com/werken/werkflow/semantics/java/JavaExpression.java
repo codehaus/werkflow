@@ -1,6 +1,7 @@
 package com.werken.werkflow.semantics.java;
 
 import com.werken.werkflow.bsf.BsfExpression;
+import com.werken.werkflow.bsf.BeanShellBSFEngine;
 
 import org.apache.commons.jelly.JellyContext;
 import org.apache.commons.jelly.expression.Expression;
@@ -16,12 +17,7 @@ public class JavaExpression
 {
     static
     {
-        String [] extensions = { "bsh" };
-        
-        BSFManager.registerScriptingEngine(
-            "beanshell",
-            "com.werken.werkflow.bsf.BeanShellBSFEngine",
-            extensions );
+        Class junk = BeanShellBSFEngine.class;
     }
 
     public JavaExpression(String text)

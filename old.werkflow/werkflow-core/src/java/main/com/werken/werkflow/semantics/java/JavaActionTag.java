@@ -48,6 +48,8 @@ package com.werken.werkflow.semantics.java;
 
 import com.werken.werkflow.syntax.fundamental.AbstractActionTag;
 
+import org.apache.bsf.BSFException;
+
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.JellyTagException;
@@ -140,6 +142,36 @@ public class JavaActionTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
+        if ( this.className == null )
+        {
+            doScriptTag( output );
+        }
+        else
+        {
+            doClassTag( output );
+        }
+    }
+
+    public void doScriptTag(XMLOutput output)
+        throws JellyTagException
+    {
+        String text = getBodyText( false );
+
+        try
+        {
+            JavaBsfAction action = new JavaBsfAction( text );
+            
+            setAction( action );
+        }
+        catch (BSFException e)
+        {
+            throw new JellyTagException( e );
+        }
+    }
+
+    public void doClassTag(XMLOutput output)
+        throws JellyTagException
+    {
         ClassLoader cl = getContext().getClassLoader();
 
         if ( cl == null )
@@ -150,11 +182,6 @@ public class JavaActionTag
         if ( cl == null )
         {
             cl = getClass().getClassLoader();
-        }
-
-        if ( this.className == null )
-        {
-            throw new MissingAttributeException( "className" );
         }
 
         try
@@ -169,6 +196,7 @@ public class JavaActionTag
             setAction( action );
             
             setMethod( DEFAULT_METHOD_NAME );
+            setType( null );
         }
         catch (Exception e)
         {

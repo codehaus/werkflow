@@ -1,4 +1,4 @@
-package com.werken.werkflow.semantics.java;
+package com.werken.werkflow.semantics.python;
 
 /*
  $Id$
@@ -54,151 +54,37 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Jelly tag for &lt;java:action&gt;.
- *
- *  @see JavaAction
- *  @see com.werken.werkflow.action.Action
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class JavaActionTag
+public class PythonActionTag
     extends AbstractActionTag
 {
-    // ----------------------------------------------------------------------
-    //     Constants
-    // ----------------------------------------------------------------------
-
-    /** Default exeuction/functor method name. */
-    public static final String DEFAULT_METHOD_NAME = "execute";
-
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-
-    /** Bean class name. */
-    private String className;
-
-    /** Bean method name. */
-    private String methodName;
-
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
      */
-    public JavaActionTag()
+    public PythonActionTag()
     {
-        this.methodName = DEFAULT_METHOD_NAME;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the bean class type.
-     *
-     *  @param className The class-name type.
-     */
-    public void setType(String className)
-    {
-        this.className = className;
-    }
-
-    /** Retrieve the bean class type.
-     *
-     *  @return The class-name type.
-     */
-    public String getType()
-    {
-        return this.className;
-    }
-
-    /** Set the bean execute method name.
-     *
-     *  @param method The method name.
-     */
-    public void setMethod(String method)
-    {
-        this.methodName = method;
-    }
-
-    /** Retrieve the bean execute method name.
-     *
-     *  @return The method name.
-     */
-    public String getMethod()
-    {
-        return this.methodName;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( this.className == null )
-        {
-            doScriptTag( output );
-        }
-        else
-        {
-            doClassTag( output );
-        }
-    }
-
-    public void doScriptTag(XMLOutput output)
-        throws JellyTagException
-    {
         String text = getBodyText( false );
-
+        
         try
         {
-            JavaBsfAction action = new JavaBsfAction( text );
+            PythonBsfAction action = new PythonBsfAction( text );
             
             setAction( action );
         }
         catch (BSFException e)
-        {
-            throw new JellyTagException( e );
-        }
-    }
-
-    public void doClassTag(XMLOutput output)
-        throws JellyTagException
-    {
-        ClassLoader cl = getContext().getClassLoader();
-
-        if ( cl == null )
-        {
-            cl = Thread.currentThread().getContextClassLoader();
-        }
-
-        if ( cl == null )
-        {
-            cl = getClass().getClassLoader();
-        }
-
-        try
-        {
-            Class beanClass = cl.loadClass( getType() );
-            
-            Object bean = beanClass.newInstance();
-            
-            JavaAction action = new JavaAction( bean,
-                                                getMethod() );
-            
-            setAction( action );
-            
-            setMethod( DEFAULT_METHOD_NAME );
-            setType( null );
-        }
-        catch (Exception e)
         {
             throw new JellyTagException( e );
         }
