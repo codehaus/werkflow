@@ -92,6 +92,8 @@ public class NoSuchCaseException
         return this.id;
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** @see Throwable
      */
     public String getMessage()

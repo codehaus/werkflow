@@ -108,6 +108,8 @@ public class SimpleAttributes
                         value );
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** @see Attributes
      */
     public Object getAttribute(String name)

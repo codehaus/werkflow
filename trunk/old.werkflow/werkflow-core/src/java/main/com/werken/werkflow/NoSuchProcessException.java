@@ -92,6 +92,8 @@ public class NoSuchProcessException
         return this.id;
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
     /** @see java.lang.Throwable
      */
     public String getMessage()

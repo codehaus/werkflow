@@ -67,6 +67,7 @@ public class AdminException
      */
     public AdminException()
     {
+        // intentionally left blank
     }
 
     /** Construct with root cause.
