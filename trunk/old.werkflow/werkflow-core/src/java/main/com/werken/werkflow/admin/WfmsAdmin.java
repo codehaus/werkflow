@@ -76,5 +76,9 @@ public interface WfmsAdmin
     void deployProcess(ProcessDefinition processDef)
         throws ProcessException;
 
+    /** Attach a <code>WfmsEventListener</code>.
+     *
+     *  @param listener The listener
+     */
     void addEventListener(WfmsEventListener listener);
 }
