@@ -317,8 +317,18 @@ contexts to cause an already existing process to wait for a message,
 the body may also contain a \emph{correlator} such as 
 \tag{python:correlator}.
 
+\begin{codelisting}
+\hired{<receive type="some.message">}
+    <jexl:correlator test="\$\{message.someProp == someCaseAttr\}"
+    <jelly:action>
+        <j:set var="caseAttrOne" value="\$\{message.propOne\}"/>
+        <j:set var="caseAttrTwo" value="\$\{message.propTwo\}"/>
+    </jelly:action>
+\hired{</receive>}
+\end{codelisting}
+
 \begin{attrDefs}
-type	&	required	&			& Message type identifier \\
+type	&	required	&				& Message type identifier \\
 bind	&	optional	& ``message''	& Message binding variable \\
 \end{attrDefs}
 

@@ -19,7 +19,10 @@ oblivious to the actual form of messages used by the application.
 A \emph{message type} is a uniquely differentiable type
 of message expected by a process.  Differentiation is accomplished
 through collaboration between a \emph{message selector} and
-an compatible \emph{messaging manager}.  
+an compatible \emph{messaging manager}.   By using 
+message selectors, the semantic type of the message may be
+completely unrelated to the underlying Java type of the
+message objects.
 
 \section{Message Selectors}
 
@@ -32,9 +35,11 @@ is purely opaque to the WFMS and only intepreted by the messaging
 manager.  For example, a JMS-centric message selector could be
 used by a JMS-centric messaging manager to perform topic registration.
 The message-type would then identify messages from a particular
-subscription.
+subscription. 
 
-An example using the \verb|werkflow:basic| syntax:
+Here is an example using the \verb|werkflow:basic| syntax.  This
+scenarios assumes that the topic from which messages arrive is
+sufficient to differentiate them.
 
 \begin{codelisting}
 <message-type id="po">
@@ -42,8 +47,150 @@ An example using the \verb|werkflow:basic| syntax:
 </message-type>
 \end{codelisting}
 
+A process using the \tag{jms:selector} may only be deployed
+against a messaging manager capable of correctly interpreting
+the \verb|jms:selector| 
+
+An XML-centric message selector may inspect the the root
+element's name and namespace of each document to determine
+if it is selected.  Each message may be of the same underlying
+Java class, such as \verb|org.dom4j.Document|, but the
+semantic type is still differentiable.
+
+\begin{codelisting}
+<message-type id="po">
+    <xml:selector name="purchase-order" uri="http://myco.com/po.xsd"/>
+</message-type>
+\end{codelisting}
+
+The \tag{java:selector} allows for differentiating messages by
+their Java class and a filtering expression.  \emph{FIXME:}
+At this point in time, the filtering expression is a Jexl
+expression, which just isn't the right thing.  Subject to change.
+
+\begin{codelisting}
+package com.myco.messages;
+
+public class PoMessage
+\{
+    private String type;
+    private String poId;
+
+    public PoMessage(String type,
+                     String poId)
+    \{
+        this.type = type;
+        this.poId = poId;
+    \}
+
+    public String getType()
+    \{
+        return this.type;
+    \}
+
+    public String getPoId()
+    \{
+        return this.poId;
+    \}
+\}
+\end{codelisting}
+
+\begin{codelisting}
+<message-type id="accept.po">
+    <java:selector type="com.myco.messages.PoMessage"
+                   filter="\$\{message.type == 'accept'\}"/>
+</message-type>
+<message-type id="accept.po">
+    <java:selector type="com.myco.messages.PoMessage"
+                   filter="\$\{message.type == 'reject'\}"/>
+</message-type>
+\end{codelisting}
 
 \section{Messaging Manager}
 
+A \emph{messaging manager} is the conduit for injecting
+messages into the WFMS.  Each message type used by a deployed
+process is registered against the messaging manager.  The
+messaging manager uses the associated message selector to
+arrange for matching messages to the deployed process's
+\emph{message sink}.
+
+The message selector \emph{must} be of a type expected
+by the messaging manager, otherwise an exception noting the
+incompatibility may be thrown, preventing the deployment
+of the process.  {\werkflow} does not define how messages
+are generated or received external to it.  It only registers
+its interest with the messaging manager through the message
+type and message sink objects.  It is then the resposibility
+of the messaging manager to route messages appropriately.
+
 \section{Message Correlators}
+
+With the exception of \emph{initiation messages}, 
+any message sent to the WFMS by a messaging manager must
+be correlated with an existing in-progress case.  For example,
+a \emph{Results of Credit Check} message received
+by a process should be associated with the case that initiated
+the request.  The act of matching an incoming message with
+an existing case is \emph{message correlation} and is
+controlled through \emph{message correlators}.
+
+A message correlator is responsible for comparing a new
+inbound message with an existing case and determining if
+they match.  It is routine to maintain attributes in the
+case useful for correlation.  For example, the results of
+a credit-check may include the bank's loan application file 
+id as a reference.  
+
+\begin{codelisting}
+package com.myco.messages;
+
+public interface CreditCheckResults
+\{
+    String getLoanApplicationFileId();
+    int getCreditScore();
+\}
+\end{codelisting}
+
+\begin{codelisting}
+<process id="loan.app">
+    <attributes>
+        <attribute id="appFileId">
+            \dots
+        </attribute>
+    </attributes>
+    <message-types>
+        <message-type id="credit.results">
+            <java:selector tyep="com.myco.messages.CreditCheckResults"/>
+        </message-type>
+    </message-types>
+    \dots
+</process>
+\end{codelisting}
+
+Correlation can occur between the \verb|getLoanApplicationFileId()|
+results and the \verb|appFileId| attribute.  Correlation may also
+involve multiple attributes and complex logic.  Each message
+type may correlate differently.
+
+Here is an example, using the \verb|werkflow:basic| personality, of 
+receiving a correlated message:
+
+\emph{FIXME:} need to clean up the types of correlators and the
+expression languages used.  This is just plain confusing.
+
+\begin{codelisting}
+\dots
+<receive id="credit.results">
+    <jexl:correlator test="message.loanApplicationFileId == appFileId"/>
+    \dots
+</receive>
+\dots
+\end{codelisting}
+
+Using this, each case that is waiting to \tag{receive} a
+\emph{credit.results} message will continue to wait
+not just for a \emph{credit.results} message, but
+one whose result of the \verb|getApplicationFileId()|
+method is equal to the case attribute \verb|appFileId|.
 
