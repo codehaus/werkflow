@@ -7,6 +7,7 @@ import com.werken.werkflow.ProcessCase;
 import com.werken.werkflow.InvalidAttributesException;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.ProcessNotCallableException;
+import com.werken.werkflow.admin.DeploymentException;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageType;
@@ -17,6 +18,7 @@ import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.MessageSink;
 import com.werken.werkflow.service.messaging.MessagingManager;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
+import com.werken.werkflow.service.messaging.IncompatibleMessageSelectorException;
 import com.werken.werkflow.service.persistence.CaseTransfer;
 import com.werken.werkflow.service.persistence.ProcessPersistenceManager;
 import com.werken.werkflow.service.persistence.PersistenceException;
@@ -60,12 +62,14 @@ class ProcessDeployment
     }
 
     void initialize()
+        throws DeploymentException
     {
         initializeInitiators();
         initializeMessageWaiters();
     }
 
     private void initializeInitiators()
+        throws DeploymentException
     {
         if ( isCallable() )
         {
@@ -74,6 +78,7 @@ class ProcessDeployment
     }
 
     private void initializeMessageWaiters()
+        throws DeploymentException
     {
         Transition[] transitions = getProcessDefinition().getNet().getTransitions();
 
@@ -84,6 +89,7 @@ class ProcessDeployment
     }
 
     private void initializeMessageWaiter(Transition transition)
+        throws DeploymentException
     {
         Waiter waiter = transition.getWaiter();
 
@@ -103,9 +109,15 @@ class ProcessDeployment
             return;
         }
 
-        MessageWaiter msgWaiter = (MessageWaiter) waiter;
-
-        MessageType type = msgWaiter.getMessageType();
+        try
+        {
+            getMessageHandler().add( transition );
+        }
+        catch (IncompatibleMessageSelectorException e)
+        {
+            throw new DeploymentException( getProcessDefinition(),
+                                           e );
+        }
     }
 
     private boolean isAttachedToIn(Transition transition)
