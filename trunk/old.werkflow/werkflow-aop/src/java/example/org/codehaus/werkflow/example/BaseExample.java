@@ -104,10 +104,10 @@ public class BaseExample
         return this.persistenceManager;
     }
 
-	protected PersistenceManager createPersistenceManager()
-	{
-		return new FleetingPersistenceManager();
-	}
+    protected PersistenceManager createPersistenceManager()
+    {
+        return new FleetingPersistenceManager();
+    }
 
     public void deploy(String name)
         throws Exception

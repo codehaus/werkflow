@@ -74,14 +74,14 @@ public class PrevaylerPersistenceManager implements PersistenceManager
 
     public PrevaylerPersistenceManager()
     {
-	    this(DEFAULT_REPOSITORY_PATH, DEFAULT_SNAP_ON_STOP);
+        this( DEFAULT_REPOSITORY_PATH, DEFAULT_SNAP_ON_STOP );
     }
 
-	public PrevaylerPersistenceManager(String storePath, boolean snapOnStop)
-	{
-		_storePath = storePath;
-		_snapOnStop = snapOnStop;
-	}
+    public PrevaylerPersistenceManager(String storePath, boolean snapOnStop)
+    {
+        _storePath = storePath;
+        _snapOnStop = snapOnStop;
+    }
     // -- properties
 
     private String _storePath;

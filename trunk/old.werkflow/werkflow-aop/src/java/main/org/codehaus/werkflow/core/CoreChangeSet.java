@@ -52,7 +52,6 @@ import org.codehaus.werkflow.service.persistence.CaseTransfer;
 import org.codehaus.werkflow.service.persistence.PersistenceException;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -96,77 +95,83 @@ class CoreChangeSet
 
     public CaseTransfer[] getModifiedCases()
     {
-		CoreProcessCase[] cases = getCoreModifiedCases();
-		CaseTransfer[] transfers = new CaseTransfer[cases.length];
-		
-		for (int i = 0; i < cases.length; i++) {
-			transfers[i] = new CoreTransfer(cases[i]);			
-		}
-		
-		return transfers;
+        CoreProcessCase[] cases = getCoreModifiedCases();
+        CaseTransfer[] transfers = new CaseTransfer[cases.length];
+
+        for (int i = 0; i < cases.length; i++)
+        {
+            transfers[i] = new CoreTransfer(cases[i]);
+        }
+
+        return transfers;
     }
-    
+
     private static class CoreTransfer implements CaseTransfer, Serializable
     {
 
-		public CoreTransfer(CoreProcessCase processCase)
-		{
-			ProcessInfo info = processCase.getProcessInfo();
-			_packageId = info.getPackageId();
-			_processId = info.getId();
-			_caseId = processCase.getId();
+        public CoreTransfer(CoreProcessCase processCase)
+        {
+            ProcessInfo info = processCase.getProcessInfo();
+            _packageId = info.getPackageId();
+            _processId = info.getId();
+            _caseId = processCase.getId();
 
-			_tokens = processCase.getTokens();
-			
-			String[] attributes = processCase.getAttributeNames();
-			_attributes = new HashMap(attributes.length);
-			for (int i = 0; i < attributes.length; i++) {
-				final String attributeName = attributes[i];
-				_attributes.put(attributeName, processCase.getAttribute(attributeName));
-			}
-		}
-		
-		final String _packageId;
-		final String _processId;
-		final String _caseId;
-		
-		final Map _attributes;
-		final String[] _tokens;
-		
-		/* (non-Javadoc)
-		 * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getPackageId()
-		 */
-		public String getPackageId() {
-			return _packageId;
-		}
+            _tokens = processCase.getTokens();
 
-		/* (non-Javadoc)
-		 * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getProcessId()
-		 */
-		public String getProcessId() {
-			return _processId;
-		}
+            String[] attributes = processCase.getAttributeNames();
+            _attributes = new HashMap(attributes.length);
+            for (int i = 0; i < attributes.length; i++)
+            {
+                final String attributeName = attributes[i];
+                _attributes.put( attributeName, processCase.getAttribute( attributeName ) );
+            }
+        }
 
-		/* (non-Javadoc)
-		 * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getCaseId()
-		 */
-		public String getCaseId() {
-			return _caseId;
-		}
+        final String _packageId;
+        final String _processId;
+        final String _caseId;
 
-		/* (non-Javadoc)
-		 * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getAttributes()
-		 */
-		public Map getAttributes() {
-			return _attributes;
-		}
+        final Map _attributes;
+        final String[] _tokens;
 
-		/* (non-Javadoc)
-		 * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getTokens()
-		 */
-		public String[] getTokens() {
-			return _tokens;
-		}
-    	
+        /* (non-Javadoc)
+         * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getPackageId()
+         */
+        public String getPackageId()
+        {
+            return _packageId;
+        }
+
+        /* (non-Javadoc)
+         * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getProcessId()
+         */
+        public String getProcessId()
+        {
+            return _processId;
+        }
+
+        /* (non-Javadoc)
+         * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getCaseId()
+         */
+        public String getCaseId()
+        {
+            return _caseId;
+        }
+
+        /* (non-Javadoc)
+         * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getAttributes()
+         */
+        public Map getAttributes()
+        {
+            return _attributes;
+        }
+
+        /* (non-Javadoc)
+         * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getTokens()
+         */
+        public String[] getTokens()
+        {
+            return _tokens;
+        }
     }
 }
