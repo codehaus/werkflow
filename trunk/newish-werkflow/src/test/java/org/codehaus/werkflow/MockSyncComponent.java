@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.SyncComponent;
+
 public class MockSyncComponent
     implements SyncComponent
 {

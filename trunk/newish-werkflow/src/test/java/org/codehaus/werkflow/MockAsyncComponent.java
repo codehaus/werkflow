@@ -1,5 +1,9 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.Path;
+import org.codehaus.werkflow.spi.Component;
+import org.codehaus.werkflow.spi.AsyncComponent;
+
 import java.util.List;
 import java.util.ArrayList;
 

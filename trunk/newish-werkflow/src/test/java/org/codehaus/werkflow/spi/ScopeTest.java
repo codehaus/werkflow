@@ -1,7 +1,7 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
 
 public class ScopeTest
-    extends WerkflowTestBase
+    extends SpiTestBase
 {
     public void testNoParentConstructor()
         throws Exception

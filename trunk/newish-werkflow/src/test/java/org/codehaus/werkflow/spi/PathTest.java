@@ -1,7 +1,7 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
 
 public class PathTest
-    extends WerkflowTestBase
+    extends SpiTestBase
 {
     public void testDefaultConstructor()
         throws Exception

@@ -1,6 +1,6 @@
 package org.codehaus.werkflow.simple;
 
-import org.codehaus.werkflow.Expression;
+import org.codehaus.werkflow.spi.Expression;
 import org.codehaus.werkflow.False;
 
 public class MockExpressionFactory
