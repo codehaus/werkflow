@@ -113,6 +113,15 @@ public class TaskManagementTest extends TestCase
         assertEquals("request1", i.getId());
         assertEquals("Open source meals", i.get("subject"));
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         RobustInstance instance = engine.getInstanceManager().getInstance("request1");
         DefaultSatisfactionValues userInput;
 
@@ -123,6 +132,15 @@ public class TaskManagementTest extends TestCase
         userInput.setValue("author", "bart");
         finishTask(instance, "WriteArticle", userInput);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
@@ -130,6 +148,15 @@ public class TaskManagementTest extends TestCase
         userInput.setValue("comment", "need more information");
         userInput.setValue("reviewer", "bob");
         finishTask(instance, "ReviewArticle1", userInput);
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
 
         showWaitingTasks(instance);
 
@@ -139,12 +166,30 @@ public class TaskManagementTest extends TestCase
         userInput.setValue("reviewer", "klaas");
         finishTask(instance, "ReviewArticle2", userInput);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         showWaitingTasks(instance);
 
         userInput = new DefaultSatisfactionValues();
         userInput.setValue("approved", "false");
         userInput.setValue("approver", "piet");
         finishTask(i, "ApproveArticle", userInput);
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
 
         showWaitingTasks(instance);
 
