@@ -14,8 +14,8 @@ public class ActionManager
     public void executeAction( Map caseAttributes, Map otherAttributes )
         throws Exception
     {
-        System.out.println( "caseAttributes = " + caseAttributes );
-        System.out.println( "otherAttributes = " + otherAttributes );
+        System.out.println( "ACTION-MANAGER: caseAttributes = " + caseAttributes );
+        System.out.println( "ACTION-MANAGER: otherAttributes = " + otherAttributes );
 
         Entity entity = (Entity) otherAttributes.get( "message" );
     }

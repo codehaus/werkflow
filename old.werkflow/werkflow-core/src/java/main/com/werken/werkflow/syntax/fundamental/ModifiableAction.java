@@ -146,4 +146,9 @@ public class ModifiableAction
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );
     }
+
+    public String toString()
+    {
+        return "[ModifiableAction: " + this.action + "]";
+    }
 }

@@ -80,12 +80,19 @@ public class ProcessDefinition
 
     public static final class InitiationType
     {
-        public static final InitiationType MESSAGE = new InitiationType();
-        public static final InitiationType CALL    = new InitiationType();
+        public static final InitiationType MESSAGE = new InitiationType( "message" );
+        public static final InitiationType CALL    = new InitiationType( "call" );
 
-        private InitiationType()
+        private String desc;
+
+        private InitiationType(String desc)
         {
+            this.desc = desc;
+        }
 
+        public String toString()
+        {
+            return "[Initiation: " + this.desc + "]";
         }
     }
 

@@ -60,6 +60,6 @@ public class ActivityManagerTest
         Entity entity = new Entity();
         messagingManager.acceptMessage( entity );
 
-        //assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
+        // assertTrue( "The entity has not been touched!", entity.hasBeenTouched() );
     }
 }
