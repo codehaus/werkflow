@@ -137,7 +137,7 @@
     </syntax:tag>
 
     <syntax:tag name="action-definition">
-        <fund:action-definition id="${id}">
+        <fund:action-definition id="${id}" default="${default}">
             <syntax:invokeBody/>
         </fund:action-definition>
     </syntax:tag>
