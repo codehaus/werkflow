@@ -46,11 +46,14 @@ package org.codehaus.werkflow;
 
  */
 
+import EDU.oswego.cs.dl.util.concurrent.Rendezvous;
+
 public class SimpleMessage
 {
     private String type;
     private String payload;
     private boolean hasBeenTouched;
+    private Rendezvous rendezvous = new Rendezvous(2);
 
     public SimpleMessage(String type,
                          String payload)
@@ -72,6 +75,25 @@ public class SimpleMessage
     public void touch()
     {
         hasBeenTouched = true;
+
+        try {
+            rendezvous.rendezvous( null );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitUntilTouched()
+    {
+        try {
+            rendezvous.rendezvous( null );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public boolean hasBeenTouched()
