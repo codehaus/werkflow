@@ -5,6 +5,7 @@ import com.werken.werkflow.syntax.Syntax;
 import com.werken.werkflow.jelly.JellyUtil;
 
 import com.werken.werkflow.personality.AbstractPersonality;
+import com.werken.werkflow.personality.Personality;
 
 import org.apache.commons.jelly.JellyContext;
 
@@ -19,7 +20,7 @@ public class Bpel4wsPersonality
     private static Bpel4wsPersonality INSTANCE = null;
     private static JellyContext CONTEXT = null;
 
-    public static Bpel4wsPersonality getInstance()
+    public static Personality getInstance()
         throws Exception
     {
         synchronized ( Bpel4wsPersonality.class )
@@ -28,12 +29,9 @@ public class Bpel4wsPersonality
             {
                 URL syntaxUrl = Bpel4wsPersonality.class.getResource( SYNTAX_DEF );
 
-                System.err.println( "DEF: " + syntaxUrl );
-
-
                 CONTEXT = JellyUtil.newJellyContext();
 
-                Syntax[] syntaxes = loadSyntaxes( Bpel4wsPersonality.class.getResource( SYNTAX_DEF ),
+                Syntax[] syntaxes = loadSyntaxes( syntaxUrl,
                                                   CONTEXT );
 
                 INSTANCE = new Bpel4wsPersonality( syntaxes );
@@ -43,13 +41,18 @@ public class Bpel4wsPersonality
         return INSTANCE;
     }
 
-    protected JellyContext getBaseJellyContext()
+    protected JellyContext getSyntaxJellyContext()
     {
         return CONTEXT;
     }
 
-    protected Bpel4wsPersonality( Syntax[] syntaxes )
+    protected Bpel4wsPersonality(Syntax[] syntaxes)
     {
         super( syntaxes );
+    }
+
+    protected Bpel4wsPersonality(AbstractPersonality base)
+    {
+        super( base );
     }
 }

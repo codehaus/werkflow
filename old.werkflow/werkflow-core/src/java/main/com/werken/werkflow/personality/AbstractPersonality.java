@@ -23,20 +23,29 @@ public abstract class AbstractPersonality
 {
     private Syntax[] syntaxes;
 
-    public AbstractPersonality( Syntax[] syntaxes )
+    protected AbstractPersonality(Syntax[] syntaxes)
     {
         this.syntaxes = syntaxes;
     }
 
-    public Syntax[] getSyntaxes()
+    protected AbstractPersonality(AbstractPersonality base)
     {
-        return this.syntaxes;
+        this.syntaxes = base.getSyntaxes();
+    }
+
+    protected Syntax[] getSyntaxes()
+    {
+        Syntax[] copy;
+
+        copy = new Syntax[syntaxes.length];
+        System.arraycopy( syntaxes, 0, copy, 0, syntaxes.length );
+        return copy;
     }
 
     public ProcessDefinition[] load(URL url)
         throws IOException, Exception
     {
-        JellyContext context = newJellyContext( getBaseJellyContext() );
+        JellyContext context = newJellyContext( getSyntaxJellyContext() );
 
         return load( url,
                      context );
@@ -45,13 +54,13 @@ public abstract class AbstractPersonality
     public ProcessDefinition[] load(URL url, Map beans )
         throws IOException, Exception
     {
-        JellyContext context = newJellyContext( getBaseJellyContext(), beans );
+        JellyContext context = newJellyContext( getSyntaxJellyContext(), beans );
 
         return load( url,
                      context );
     }
 
-    protected abstract JellyContext getBaseJellyContext();
+    protected abstract JellyContext getSyntaxJellyContext();
 
     protected JellyContext newJellyContext( JellyContext parent )
     {
