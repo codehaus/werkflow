@@ -99,12 +99,14 @@ class Evaluator
                           CoreProcessCase processCase,
                           Transition transition)
     {
+        List workItems = new ArrayList();
+        
         ActivationRule rule = transition.getActivationRule();
 
         if ( rule == null )
         {
             rule = AndInputRule.getInstance();
-        }
+        }                
 
         String[] tokens = null;
 
@@ -118,17 +120,15 @@ class Evaluator
         {
             // INTERNAL ERROR
             e.printStackTrace();
-            return null;
+            return workItems;
         }
 
         if ( tokens.length == 0 )
         {
-            return null;
+            return workItems;
         }
 
-        Waiter waiter = transition.getWaiter();
-
-        List workItems = new ArrayList();
+        Waiter waiter = transition.getWaiter();        
 
         if ( waiter == null )
         {
