@@ -14,7 +14,7 @@ public class IfSegment
     extends ConditionalSegment
 {
     public IfSegment(Expression condition,
-                        Segment segment)
+                     Segment segment)
     {
         super( condition,
                segment );
