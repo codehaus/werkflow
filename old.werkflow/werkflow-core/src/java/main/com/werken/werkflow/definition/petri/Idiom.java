@@ -128,6 +128,8 @@ public class Idiom
     public void complete()
         throws IdiomException
     {
+        getIdiomDefinition().buildComplete( this );
+
         if ( getParent() != null )
         {
             getParent().addComponent( this );
@@ -433,6 +435,11 @@ public class Idiom
     {
         this.stashed.put( id,
                           value );
+    }
+
+    void stashAll(Map stashings)
+    {
+        this.stashed.putAll( stashings );
     }
 
     String getStashed(String id)

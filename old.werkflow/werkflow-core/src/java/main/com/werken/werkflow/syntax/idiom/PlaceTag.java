@@ -10,6 +10,7 @@ public class PlaceTag
     extends IdiomTagSupport
 {
     private String id;
+    private String stash;
     private String documentation;
 
     public PlaceTag()
@@ -25,6 +26,16 @@ public class PlaceTag
     public String getId()
     {
         return this.id;
+    }
+
+    public void setStash(String stash)
+    {
+        this.stash = stash;
+    }
+
+    public String getStash()
+    {
+        return this.stash;
     }
 
     public void setDocumentation(String documentation)
@@ -49,6 +60,13 @@ public class PlaceTag
 
         PlaceDefinition place = new PlaceDefinition( getId(),
                                                      getDocumentation() );
+
+        if ( getStash() != null
+             &&
+             ! getStash().equals( "" ) )
+        {
+            place.setStashId( getStash() );
+        }
 
         idiomDef.addPlace( place );
     }

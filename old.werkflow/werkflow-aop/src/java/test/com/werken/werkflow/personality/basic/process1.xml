@@ -5,7 +5,11 @@
          xmlns:jelly="jelly:com.werken.werkflow.semantics.jelly.JellyTagLibrary">
 
     <parallel>
-        <jelly:log message="I like cheese"/>
+        <sequence>
+            <jelly:log message="I like cheese #1"/>
+            <jelly:log message="I like cheese #2"/>
+            <jelly:log message="I like cheese #3"/>
+        </sequence>
         <if condition="true">
             <jelly:log message="I am full of foo"/>
         </if>
