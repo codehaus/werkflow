@@ -12,6 +12,7 @@ import org.apache.commons.jelly.Script;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.parser.XMLParser;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
@@ -60,9 +61,9 @@ public class FundamentalDefinitionLoader
             msgTypeLibScript.run( context,
                                   XMLOutput.createDummyXMLOutput() );
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            e.printStackTrace();
+            // swallow
         }
             
         Script script = parser.parse( url.toExternalForm() );
