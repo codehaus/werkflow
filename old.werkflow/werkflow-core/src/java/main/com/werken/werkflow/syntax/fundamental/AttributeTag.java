@@ -110,7 +110,12 @@ public class AttributeTag
         requireStringAttribute( "id",
                                 getId() );
 
+        pushObject( AttributeTypeReceptor.class,
+                    this );
+
         invokeBody( output );
+
+        popObject( AttributeTypeReceptor.class );
 
         if ( this.attrType == null )
         {

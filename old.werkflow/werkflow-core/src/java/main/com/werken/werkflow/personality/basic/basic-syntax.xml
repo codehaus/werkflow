@@ -1,4 +1,5 @@
 <syntax:syntax uri="werkflow:basic"
+               xmlns:j="jelly:core"
                xmlns:syntax="werkflow:syntax"
                xmlns:fund="werkflow:fundamental"
                xmlns:core="werkflow:core-idioms">
@@ -10,7 +11,10 @@
     </syntax:tag>
 
     <syntax:tag name="process">
+        <syntax:expr-factory type="com.werken.werkflow.semantics.python.PythonExpressionFactory"/>
+<!--
         <syntax:expr-factory type="com.werken.werkflow.semantics.jexl.JexlExpressionFactory"/>
+-->
         <fund:process id="${id}"
                       initiation="${initiation}">
             <syntax:invokeBody/>
@@ -133,7 +137,13 @@
     </syntax:tag>
 
     <syntax:tag name="attribute">
-        <fund:attribute>
+       <j:if test="${empty(outAttr)}">
+         <j:set var="outAttr" value="false"/>
+       </j:if>
+       <j:if test="${empty(intAttr)}">
+         <j:set var="intAttr" value="false"/>
+       </j:if>
+        <fund:attribute id="${idAttr}" in="${inAttr}" out="${outAttr}">
             <syntax:invokeBody/>
         </fund:attribute>
     </syntax:tag>

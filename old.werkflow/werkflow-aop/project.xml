@@ -105,6 +105,12 @@
     </dependency>
 
     <dependency>
+      <id>bsf</id>
+      <version>2.3.0-rc1</version>
+      <url>http://jakarta.apache.org/bsf</url>
+    </dependency>
+
+    <dependency>
       <id>commons-beanutils</id>
       <version>1.4-dev</version>
       <url>http://jakarta.apache.org/commons/beanutils/</url>
@@ -125,6 +131,13 @@
     <dependency>
       <groupId>commons-jelly</groupId>
       <artifactId>commons-jelly-tags-define</artifactId>
+      <version>SNAPSHOT</version>
+      <url>http://jakarta.apache.org/commons/sandbox/jelly/</url>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-jelly</groupId>
+      <artifactId>commons-jelly-tags-bsf</artifactId>
       <version>SNAPSHOT</version>
       <url>http://jakarta.apache.org/commons/sandbox/jelly/</url>
     </dependency>
@@ -153,9 +166,8 @@
     </dependency>
 
     <dependency>
-      <id>drools</id>
-      <version>2.0-beta-9</version>
-      <url>http://drools.org</url>
+      <id>jython</id>
+      <version>2.1</version>
     </dependency>
 
     <dependency>
