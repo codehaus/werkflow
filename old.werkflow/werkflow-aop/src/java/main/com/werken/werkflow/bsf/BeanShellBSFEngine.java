@@ -52,22 +52,25 @@ public class BeanShellBSFEngine extends BSFEngineImpl
         interpreter = new Interpreter();
 
         // declare the bsf manager for callbacks, etc.
-        try {
+        try
+        {
             interpreter.set( "bsf", mgr );
-        } catch ( EvalError e ) {
-            throw new BSFException("bsh internal error: "+e.toString());
+        }
+        catch ( EvalError e )
+        {
+            throw new BSFException( "bsh internal error: "+e.toString() );
         }
 
         for(int i=0; i<declaredBeans.size(); i++)
         {
-            BSFDeclaredBean bean = (BSFDeclaredBean)declaredBeans.get(i);
+            BSFDeclaredBean bean = (BSFDeclaredBean) declaredBeans.get( i );
             declareBean( bean );
         }
     }
 
     public void setDebug (boolean debug)
     {
-        interpreter.DEBUG=debug;
+        Interpreter.DEBUG=debug;
     }
 
     /**
@@ -80,33 +83,45 @@ public class BeanShellBSFEngine extends BSFEngineImpl
         throws BSFException
     {
         if ( object == null )
-            try {
-                object = interpreter.get("global");
-            } catch ( EvalError e ) {
-                throw new BSFException("bsh internal error: "+e.toString());
+        {
+            try
+            {
+                object = interpreter.get( "global" );
             }
+            catch ( EvalError e )
+            {
+                throw new BSFException( "bsh internal error: "+e.toString() );
+            }
+        }
 
         if ( object instanceof bsh.This )
+        {
             try
             {
                 return ((bsh.This)object).invokeMethod( name, args );
-            } catch ( InterpreterError e )
+            }
+            catch ( InterpreterError e )
             {
                 throw new BSFException(
                     "BeanShell interpreter internal error: "+e );
-            } catch ( TargetError e2 )
+            }
+            catch ( TargetError e2 )
             {
                 throw new BSFException(
                     "The application script threw an exception: "
                     + e2.getTarget() );
-            } catch ( EvalError e3 )
+            }
+            catch ( EvalError e3 )
             {
                 throw new BSFException( "BeanShell script error: "+e3 );
             }
+        }
         else
+        {
             throw new BSFException(
                 "Cannot invoke method: "+name
-                +". Object: "+object +" is not a BeanShell scripted object.");
+                +". Object: "+object +" is not a BeanShell scripted object." );
+        }
     }
 
 
@@ -139,9 +154,9 @@ public class BeanShellBSFEngine extends BSFEngineImpl
             throw new BSFException("apply: functino body must be a string");
 
         String [] names = new String [ namesVec.size() ];
-        namesVec.copyInto(names);
+        namesVec.copyInto( names );
         Object [] args = new String [ argsVec.size() ];
-        argsVec.copyInto(args);
+        argsVec.copyInto( args );
 
         try
         {
@@ -151,26 +166,29 @@ public class BeanShellBSFEngine extends BSFEngineImpl
                 installedApplyMethod = true;
             }
 
-            bsh.This global = (bsh.This)interpreter.get("global");
+            bsh.This global = (bsh.This)interpreter.get( "global" );
             return global.invokeMethod(
                 "_bsfApply", new Object [] { names, args, (String)funcBody } );
 
-        } catch ( InterpreterError e )
+        }
+        catch ( InterpreterError e )
         {
             throw new BSFException(
                 "BeanShell interpreter internal error: "+e
-                + sourceInfo(source,lineNo,columnNo) );
-        } catch ( TargetError e2 )
+                + sourceInfo( source, lineNo, columnNo ) );
+        }
+        catch ( TargetError e2 )
         {
             throw new BSFException(
                 "The application script threw an exception: "
                 + e2.getTarget()
-                + sourceInfo(source,lineNo,columnNo) );
-        } catch ( EvalError e3 )
+                + sourceInfo( source, lineNo, columnNo ) );
+        }
+        catch ( EvalError e3 )
         {
             throw new BSFException(
                 "BeanShell script error: "+e3
-                + sourceInfo(source,lineNo,columnNo) );
+                + sourceInfo( source, lineNo, columnNo ) );
         }
     }
 
@@ -181,24 +199,28 @@ public class BeanShellBSFEngine extends BSFEngineImpl
         if ( ! (expr instanceof String) )
             throw new BSFException("BeanShell expression must be a string");
 
-        try {
+        try
+        {
             return interpreter.eval( ((String)expr) );
-        } catch ( InterpreterError e )
+        }
+        catch ( InterpreterError e )
         {
             throw new BSFException(
                 "BeanShell interpreter internal error: "+e
-                + sourceInfo(source,lineNo,columnNo) );
-        } catch ( TargetError e2 )
+                + sourceInfo( source, lineNo, columnNo ) );
+        }
+        catch ( TargetError e2 )
         {
             throw new BSFException(
                 "The application script threw an exception: "
                 + e2.getTarget()
-                + sourceInfo(source,lineNo,columnNo) );
-        } catch ( EvalError e3 )
+                + sourceInfo( source, lineNo, columnNo ) );
+        }
+        catch ( EvalError e3 )
         {
             throw new BSFException(
                 "BeanShell script error: "+e3
-                + sourceInfo(source,lineNo,columnNo) );
+                + sourceInfo( source, lineNo, columnNo ) );
         }
     }
 
@@ -214,11 +236,11 @@ public class BeanShellBSFEngine extends BSFEngineImpl
     I don't quite understand these compile methods.  The default impl
     will use the CodeBuffer utility to produce an example (Test) class that
     turns around and invokes the BSF Manager to call the script again.
-    
+
     I assume a truly compileable language would return a real implementation
     class adapter here?  But in source code form?  Would't it be more likely
     to generate bytecode?
-    
+
     And shouldn't a non-compileable language simply return a standard
     precompiled adapter to itself?  The indirection of building a source
     class to call the scripting engine (possibly through the interpreter)
@@ -239,9 +261,12 @@ public class BeanShellBSFEngine extends BSFEngineImpl
     public void declareBean (BSFDeclaredBean bean)
         throws BSFException
     {
-        try {
+        try
+        {
             interpreter.set( bean.name, bean.bean);
-        } catch ( EvalError e ) {
+        }
+        catch ( EvalError e )
+        {
             throw new BSFException( "error declaring bean: "+bean.name
             +" : "+e.toString() );
         }
@@ -250,19 +275,22 @@ public class BeanShellBSFEngine extends BSFEngineImpl
     public void undeclareBean (BSFDeclaredBean bean)
         throws BSFException
     {
-        try {
+        try
+        {
             interpreter.unset( bean.name );
-        } catch ( EvalError e ) {
-            throw new BSFException("bsh internal error: "+e.toString());
+        }
+        catch ( EvalError e )
+        {
+            throw new BSFException( "bsh internal error: "+e.toString() );
         }
     }
 
-    public void terminate () { }
-
+    public void terminate ()
+    {
+    }
 
     private String sourceInfo( String source, int lineNo, int columnNo )
     {
         return  " BSF info: "+source+" at line: "+lineNo +" column: columnNo";
     }
-
 }
