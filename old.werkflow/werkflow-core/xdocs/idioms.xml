@@ -58,7 +58,7 @@
 </transition>
 
 <transition id="handle.valid">
-  <input from="validation.performed" test="${isValid}"/>
+  <input from="validation.performed" filter="${isValid}"/>
   <output  to="wherever"/>
   <task>
     ..
@@ -66,7 +66,7 @@
 </transition>
 
 <transition id="handle.invalid">
-  <input from="validation.performed test="${not(isValid)}"/>
+  <input from="validation.performed filter="${not(isValid)}"/>
   <output  to="wherever"/>
   <task>
     ..
@@ -97,7 +97,7 @@
 <transition id="receive.response">
   <input from="validation.required"/>
   <output  to="wherever"/>
-  <message-trigger type="ResponseMsg"/>
+  <message type="ResponseMsg"/>
   <task>
     ...
   </task>
@@ -106,7 +106,7 @@
 <transition id="receive.timeout">
   <input from="requires.response">
   <output  to="wherever"/>
-  <time-trigger interval="2d"/>
+  <elapse interval="2d"/>
   <task>
     ..
   </task>

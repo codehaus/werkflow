@@ -45,18 +45,12 @@
         of the workflow space.  They also tend to be <i>block-based</i> workflow
         descriptions where <code>werkflow</code> is based upon <i>states and transitions</i>.
         </p>
-      </subsection>
-
-    </section>
-
-    <section name="Technology">
-
-      <subsection name="What is petridish?">
         <p>
-        <a href="http://petridish.werken.com/">petridish</a> is the generic 
-        <b>petri net</b> framework that <code>werkflow</code> uses to
-        model and execute processes.  It was also created by The Werken
-        Company.
+        Our intention is to support many, if not all, of the various syntaxes
+        and semantics for describing workflow.  Due to the theoretical
+        underpinnings of the core, most any current specification can be
+        modelled.  The syntax modules are seperate from the core and are
+        easily extended and customized.
         </p>
       </subsection>
 
