@@ -69,13 +69,51 @@ public class BsfUtil
     public static void populate(BSFManager manager,
                                 Attributes attributes)
     {
+        String[] names = attributes.getAttributeNames();
+        Object   value = null;
 
+        for ( int i = 0 ; i < names.length ; ++i )
+        {
+            value = attributes.getAttribute( names[i] );
+
+            try
+            {
+                if ( value != null )
+                {
+                    manager.declareBean( names[i],
+                                         value,
+                                         value.getClass() );
+                }
+                else
+                {
+                    manager.declareBean( names[i],
+                                         null,
+                                         Object.class );
+                }
+            }
+            catch (BSFException e)
+            {
+                // swallow
+            }
+        }
     }
 
     public static void unpopulate(BSFManager manager,
                                   Attributes attributes)
     {
+        String[] names = attributes.getAttributeNames();
 
+        for ( int i = 0 ; i < names.length ; ++i )
+        {
+            try
+            {
+                manager.undeclareBean( names[i] );
+            }
+            catch (BSFException e)
+            {
+                // swallow
+            }
+        }
     }
 
     public static void populate(BSFManager manager,
