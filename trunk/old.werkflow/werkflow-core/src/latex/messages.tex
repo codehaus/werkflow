@@ -1,0 +1,49 @@
+\chapter{Messages}
+
+\section{Overview}
+
+\emph{Messages} represent the primary way that a
+WFMS gains knowledge about the environment so that it
+may react appropriately.  Some messages may cause new
+procces cases to be initiated, while others may apply
+to a particular existing case.  
+
+{\werkflow} maintains a deliberately abstract concept
+of messages internally.  Through the extension components
+of \emph{message selectors}, \emph{message correlators},
+and \emph{messaging managers}, the WFMS can remain
+oblivious to the actual form of messages used by the application.
+
+\section{Message Types}
+
+A \emph{message type} is a uniquely differentiable type
+of message expected by a process.  Differentiation is accomplished
+through collaboration between a \emph{message selector} and
+an compatible \emph{messaging manager}.  
+
+\section{Message Selectors}
+
+A \emph{message selector}, held by a \emph{message type}, 
+collaborates with a \emph{messaging manager} to differentiate
+messages and route them to the appropriate point in the process.
+
+A selector is intimately tied to the messaging manager in that it
+is purely opaque to the WFMS and only intepreted by the messaging
+manager.  For example, a JMS-centric message selector could be
+used by a JMS-centric messaging manager to perform topic registration.
+The message-type would then identify messages from a particular
+subscription.
+
+An example using the \verb|werkflow:basic| syntax:
+
+\begin{codelisting}
+<message-type id="po">
+    <jms:selector topic="topic://purchase-orders"/>
+</message-type>
+\end{codelisting}
+
+
+\section{Messaging Manager}
+
+\section{Message Correlators}
+
