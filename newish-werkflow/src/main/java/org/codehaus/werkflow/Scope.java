@@ -4,7 +4,10 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Arrays;
 
+import java.io.Serializable;
+
 class Scope
+    implements Serializable
 {
     private static final Scope[] EMPTY_SCOPE_ARRAY = new Scope[ 0 ];
 

@@ -9,21 +9,24 @@ import java.util.TimerTask;
 
 public abstract class Engine
 {
+    private static ThreadLocal threadEngine = new ThreadLocal();
+
     private Timer timer;
     private Map workflows;
-    private Map instances;
     private SatisfactionManager satisfactionManager;
+    private InstanceManager instanceManager;
 
     public Engine()
     {
         this.workflows = new HashMap();
-        this.instances = new HashMap();
         this.timer     = new Timer();
     }
 
-    public Engine(SatisfactionManager satisfactionManager)
+    public Engine(InstanceManager instanceManager,
+                  SatisfactionManager satisfactionManager)
     {
         this();
+        setInstanceManager( instanceManager );
         setSatisfactionManager( satisfactionManager );
     }
 
@@ -51,28 +54,21 @@ public abstract class Engine
     }
 
     public Instance getInstance(String id)
-        throws NoSuchInstanceException
+        throws NoSuchInstanceException, Exception
     {
-        if ( ! this.instances.containsKey( id ) )
-        {
-            throw new NoSuchInstanceException( id );
-        }
-
-        return (Instance) this.instances.get( id );
+        return getInstanceManager().getInstance( id );
     }
 
     public Instance newInstance(String workflowId,
-                                String id)
-        throws NoSuchWorkflowException, InterruptedException
+                                String id,
+                                InitialContext context)
+        throws NoSuchWorkflowException, DuplicateInstanceException, Exception
     {
         Workflow workflow = getWorkflow( workflowId );
 
-        DefaultInstance instance = new DefaultInstance( this,
-                                                        workflow,
-                                                        id );
-
-        this.instances.put( id,
-                            instance );
+        RobustInstance instance = getInstanceManager().newInstance( workflow,
+                                                                    id,
+                                                                    context );
 
         start( instance,
                new Path() );
@@ -86,90 +82,120 @@ public abstract class Engine
 
     protected void run(RobustInstance instance,
                        Path path)
-        throws InterruptedException
+        throws Exception
     {
+        //System.err.println( "run(" + path + ")" );
+
         synchronized ( instance )
         {
-            //System.err.println( "run(" + path + ")" );
-            Workflow workflow = instance.getWorkflow();
-            
-            Component component = workflow.getComponent( path );
-            
-            if ( component instanceof Satisfaction )
+            setThreadEngine( this );
+            boolean threw = false;
+
+            try
             {
-                Satisfaction satisfaction = (Satisfaction) component;
-                //System.err.println( "## Satisfaction " + satisfaction.getId() );
+                getInstanceManager().startTransaction( instance );
+
+                Workflow workflow = instance.getWorkflow();
                 
-                if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
-                                                           instance ) ) 
+                Component component = workflow.getComponent( path );
+                
+                if ( component instanceof Satisfaction )
                 {
-                    try
+                    Satisfaction satisfaction = (Satisfaction) component;
+                    //System.err.println( "## Satisfaction " + satisfaction.getId() );
+                    
+                    if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
+                                                               instance ) ) 
                     {
-                        satisfy( satisfaction.getId(),
-                                 instance.getId() );
+                        try
+                        {
+                            satisfy( satisfaction.getId(),
+                                     instance.getId() );
+                        }
+                        catch (NoSuchInstanceException e)
+                        {
+                            throw new AssumptionViolationError( "instance does not have its own id" );
+                        }
                     }
-                    catch (NoSuchInstanceException e)
+                    else
                     {
-                        throw new AssumptionViolationError( "instance does not have its own id" );
-                    }
-                }
-                else
-                {
-                    if ( component instanceof PolledSatisfaction )
-                    {
-                        PolledSatisfaction polledSatisfaction = (PolledSatisfaction) satisfaction;
-                        
-                        
+                        if ( component instanceof PolledSatisfaction )
+                        {
+                            PolledSatisfaction polledSatisfaction = (PolledSatisfaction) satisfaction;
+                            
+                            
                         setupSatisfactionPoll( polledSatisfaction,
                                                instance.getId() );
+                        }
                     }
                 }
-            }
-            else if ( component instanceof AsyncComponent )
-            {
-                //System.err.println( "## AsyncComponent" );
-                
-                AsyncComponent asyncComponent = (AsyncComponent) component;
-                
-                Path[] nextPaths = asyncComponent.begin( instance,
-                                                         path );
-                
-                if ( nextPaths != null
-                     &&
-                     nextPaths.length > 0 )
+                else if ( component instanceof AsyncComponent )
                 {
-                    start( instance,
-                           nextPaths );
+                    //System.err.println( "## AsyncComponent" );
+                    
+                    AsyncComponent asyncComponent = (AsyncComponent) component;
+                    
+                    Path[] nextPaths = asyncComponent.begin( instance,
+                                                             path );
+                    
+                    if ( nextPaths != null
+                         &&
+                         nextPaths.length > 0 )
+                    {
+                        start( instance,
+                               nextPaths );
+                    }
+                    else 
+                    {
+                        end( instance,
+                             path );
+                    }
                 }
-                else 
+                else if ( component instanceof SyncComponent )
                 {
+                    //System.err.println( "## SyncComponent" );
+                    SyncComponent syncComponent = (SyncComponent) component;
+                    
+                    try
+                    {
+                        syncComponent.perform( instance );
+                    }
+                    catch (Exception e)
+                    {
+                        // handle error;
+                    }
+                    
                     end( instance,
                          path );
                 }
-            }
-            else if ( component instanceof SyncComponent )
-            {
-                //System.err.println( "## SyncComponent" );
-                SyncComponent syncComponent = (SyncComponent) component;
-                
-                try
+                else
                 {
-                    syncComponent.perform( instance );
-                }
-                catch (Exception e)
-                {
-                    // handle error;
+                    throw new RuntimeException( "Unknown component type <" + component.getClass().getName() + ">" );
                 }
                 
-                end( instance,
-                     path );
+                //System.err.println( "end run(" + path + ")" );
             }
-            else
+            catch (Error e)
             {
-                throw new RuntimeException( "Unknown component type <" + component.getClass().getName() + ">" );
+                threw = true;
+                throw e;
             }
-            
-            //System.err.println( "end run(" + path + ")" );
+            catch (Exception e)
+            {
+                threw = true;
+                throw e;
+            }
+            finally
+            {
+                if ( threw )
+                {
+                    getInstanceManager().abortTransaction( instance );
+                }
+                else
+                {
+                    getInstanceManager().commitTransaction( instance );
+                }
+            }
         }
     }
 
@@ -284,7 +310,7 @@ public abstract class Engine
 
     public void satisfy(String satisfactionId,
                         String instanceId)
-        throws NoSuchInstanceException, InterruptedException
+        throws NoSuchInstanceException, InterruptedException, Exception
     {
         RobustInstance instance = (RobustInstance) getInstance( instanceId );
 
@@ -317,6 +343,16 @@ public abstract class Engine
     protected abstract void setupSatisfactionPoll(final PolledSatisfaction satisfaction,
                                                   final String instanceId);
 
+    public void setInstanceManager(InstanceManager instanceManager)
+    {
+        this.instanceManager = instanceManager;
+    }
+
+    public InstanceManager getInstanceManager()
+    {
+        return this.instanceManager;
+    }
+
     public void setSatisfactionManager(SatisfactionManager satisfactionManager)
     {
         this.satisfactionManager = satisfactionManager;
@@ -326,5 +362,14 @@ public abstract class Engine
     {
         return this.satisfactionManager;
     }
-    
+
+    public static void setThreadEngine(Engine engine)
+    {
+        threadEngine.set( engine );
+    }
+
+    public static Engine getThreadEngine()
+    {
+        return (Engine) threadEngine.get();
+    }
 }

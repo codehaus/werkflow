@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.nonpersistent.*;
+
 import java.util.Arrays;
 
 public class ManualEngineTest
@@ -10,7 +12,7 @@ public class ManualEngineTest
     {
         Workflow workflow = new Workflow( "ted" );
 
-        Engine engine = new ManualEngine();
+        Engine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
@@ -60,12 +62,13 @@ public class ManualEngineTest
                                           sequence );
 
 
-        ManualEngine engine = new ManualEngine();
+        ManualEngine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext() );
         
         assertEquals( "sequence enqueued",
                       new Path(),
@@ -112,12 +115,13 @@ public class ManualEngineTest
                                           parallel );
 
 
-        ManualEngine engine = new ManualEngine();
+        ManualEngine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext()  );
         
         assertEquals( "parallel enqueued",
                       new Path(),
@@ -184,12 +188,13 @@ public class ManualEngineTest
                                           sequence );
 
 
-        ManualEngine engine = new ManualEngine();
+        ManualEngine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext()  );
         
         assertEquals( "sequence enqueued",
                       new Path(),
@@ -262,12 +267,13 @@ public class ManualEngineTest
         Workflow workflow = new Workflow( "ted",
                                           sequence );
 
-        ManualEngine engine = new ManualEngine();
+        ManualEngine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext()  );
 
         assertEquals( "sequence.enqueued",
                       new Path(),
@@ -318,12 +324,13 @@ public class ManualEngineTest
         Workflow workflow = new Workflow( "ted",
                                           sequence );
 
-        ManualEngine engine = new ManualEngine();
+        ManualEngine engine = new ManualEngine( new NonPersistentInstanceManager() );
 
         engine.addWorkflow( workflow );
 
         Instance instance = engine.newInstance( "ted",
-                                                "larry" );
+                                                "larry",
+                                                new InitialContext()  );
 
         assertEquals( "sequence.enqueued",
                       new Path(),

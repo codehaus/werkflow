@@ -6,8 +6,7 @@ public class DefaultInstanceTest
     public void testConstructor()
         throws Exception
     {
-        DefaultInstance instance = new DefaultInstance( null,
-                                                        null,
+        DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
                                                         "ted" );
 
         assertEquals( "instance name is 'ted'",
@@ -18,8 +17,7 @@ public class DefaultInstanceTest
     public void testPushPop()
         throws Exception
     {
-        DefaultInstance instance = new DefaultInstance( null,
-                                                        null,
+        DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
                                                         "ted" );
 
         Path path_0 = new Path();
@@ -62,8 +60,7 @@ public class DefaultInstanceTest
     public void testPushPopAssumptionViolation()
         throws Exception
     {
-        DefaultInstance instance = new DefaultInstance( null,
-                                                        null,
+        DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
                                                         "ted" );
 
         Path path = new Path();

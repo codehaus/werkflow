@@ -6,8 +6,7 @@ public class SequenceTest
     public void testBeginEnd()
         throws Exception
     {
-        DefaultInstance instance = new DefaultInstance( null,
-                                                        null,
+        DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
                                                         "ted" );
 
         Sequence sequence = new Sequence();

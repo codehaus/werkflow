@@ -5,7 +5,7 @@ import org.codehaus.werkflow.*;
 import java.util.Map;
 import java.util.HashMap;
 
-public abstract class NonPersistentInstanceManager
+public class NonPersistentInstanceManager
     implements InstanceManager
 {
     private Map instances;
@@ -15,8 +15,7 @@ public abstract class NonPersistentInstanceManager
         this.instances = new HashMap();
     }
 
-    public synchronized RobustInstance newInstance(Engine engine,
-                                                   Workflow workflow,
+    public synchronized RobustInstance newInstance(Workflow workflow,
                                                    String id,
                                                    Context initialContext)
         throws DuplicateInstanceException
@@ -28,9 +27,8 @@ public abstract class NonPersistentInstanceManager
             throw new DuplicateInstanceException( instance );
         }
 
-        instance = new NonPersistentInstance( engine,
-                                              workflow,
-                                              id );
+        instance = new NonPersistentInstance( new DefaultInstance( workflow,
+                                                                   id ) );
 
         this.instances.put( id,
                             instance );
@@ -54,7 +52,7 @@ public abstract class NonPersistentInstanceManager
     {
         NonPersistentInstance nonPersistentInstance = (NonPersistentInstance) instance;
 
-        //nonPersistentInstance.checkpointTransaction();
+        nonPersistentInstance.startTransaction();
     }
 
     public void commitTransaction(RobustInstance instance)
@@ -62,7 +60,7 @@ public abstract class NonPersistentInstanceManager
     {
         NonPersistentInstance nonPersistentInstance = (NonPersistentInstance) instance;
 
-        //nonPersistentInstance.commitTransaction();
+        nonPersistentInstance.commitTransaction();
     }
 
     public void abortTransaction(RobustInstance instance)
@@ -70,6 +68,6 @@ public abstract class NonPersistentInstanceManager
     {
         NonPersistentInstance nonPersistentInstance = (NonPersistentInstance) instance;
 
-        //nonPersistentInstance.abortTransaction();
+        nonPersistentInstance.abortTransaction();
     }
 }

@@ -1,18 +1,40 @@
 package org.codehaus.werkflow.nonpersistent;
 
-import org.codehaus.werkflow.DefaultInstance;
-import org.codehaus.werkflow.Workflow;
-import org.codehaus.werkflow.Engine;
+import org.codehaus.werkflow.*;
 
 public class NonPersistentInstance
-    extends DefaultInstance
+    extends RobustInstanceRef
 {
-    protected NonPersistentInstance(Engine engine,
-                                    Workflow workflow,
-                                    String id)
+    private DefaultInstance backup;
+
+    NonPersistentInstance(DefaultInstance instance)
     {
-        super( engine,
-               workflow,
-               id );
+        super( instance );
     }
+
+    void startTransaction()
+        throws Exception
+    {
+        if ( this.backup != null )
+        {
+            throw new AssumptionViolationError( "concurrent transactions not allowed" );
+        }
+
+        this.backup = (DefaultInstance) getInstance();
+        setInstance( this.backup.duplicate() );
+    }
+
+    void commitTransaction()
+        throws Exception
+    {
+        this.backup = null;
+    }
+
+    void abortTransaction()
+        throws Exception
+    {
+        setInstance( this.backup );
+        this.backup = null;
+    }
+    
 }
