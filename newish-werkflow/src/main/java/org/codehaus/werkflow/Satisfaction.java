@@ -30,10 +30,15 @@ public class Satisfaction
     public Path[] begin(Instance instance,
                         Path thisPath)
     {
-        return new Path[]
-            {
-                thisPath.childPath( 0 )
-            };
+        if ( getSatisfier() != null )
+        {
+            return new Path[]
+                {
+                    thisPath.childPath( 0 )
+                };
+        }
+
+        return null;
     }
 
     public Path endChild(Instance instance,
@@ -44,9 +49,14 @@ public class Satisfaction
 
     public Component[] getChildren()
     {
-        return new Component[]
-            {
-                getSatisfier()
-            };
+        if ( getSatisfier() != null )
+        {
+            return new Component[]
+                {
+                    getSatisfier()
+                };
+        }
+
+        return new Component[0];
     }
 }

@@ -24,6 +24,12 @@ public class AutomaticEngine
         this.pool.createThreads(5);
     }
 
+    public AutomaticEngine(SatisfactionManager satisfactionManager)
+    {
+        this();
+        setSatisfactionManager( satisfactionManager );
+    }
+
     protected void enqueue(final Instance instance,
                            final Path path)
         throws InterruptedException

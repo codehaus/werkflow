@@ -4,7 +4,23 @@ import java.util.List;
 
 public class AutomaticEngineTest
     extends WerkflowTestBase
+    implements SatisfactionManager
 {
+    private long start;
+
+    public void setUp()
+        throws Exception
+    {
+        super.setUp();
+        this.start = System.currentTimeMillis();
+    }
+
+    public void tearDown()
+        throws Exception
+    {
+        super.tearDown();
+    }
+
     public void testComplex()
         throws Exception
     {
@@ -118,5 +134,55 @@ public class AutomaticEngineTest
         assertEquals( "touches[15]: step 8",
                       "step 8",
                       touches.get( 15 ) );
+    }
+
+    public void testSatisfaction()
+        throws Exception
+    {
+        Sequence root = new Sequence()
+            .addStep( new Touch( "step 1" ) )
+            .addStep( new PolledSatisfaction( "4000",
+                                              500 ) )
+            .addStep( new Touch( "step 2" ) );
+
+        Workflow workflow = new Workflow( "ted",
+                                          root );
+
+        AutomaticEngine engine = new AutomaticEngine( this );
+
+        engine.addWorkflow( workflow );
+
+        Instance instance = engine.newInstance( "ted",
+                                                "larry" );
+
+        Thread.sleep( 1000 );
+
+        List touches = (List) instance.get( "touches" );
+
+        assertNotNull( touches );
+
+        assertLength( "1 touch",
+                      1,
+                      touches );
+
+        Thread.sleep( 4000 );
+
+        assertLength( "2 touches",
+                      2,
+                      touches );
+    }
+
+    //  --
+
+    public boolean isSatisfied(String satisfactionId,
+                               Context context)
+    {
+        long delay = Long.parseLong( satisfactionId );
+
+        long now = System.currentTimeMillis();
+
+        boolean result = ( this.start + delay <= now );
+
+        return result;
     }
 }
