@@ -32,7 +32,7 @@ with the message bound to the \verb|message| variable.
 </message-type>
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{java:selector}
 type		&	required	&			& Java message class name. \\
 filter		&	optional	&			& Filtering Java expression. \\
 \end{attrDefs}
@@ -55,7 +55,7 @@ bound to the \verb|message| variable.
 </receive>
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{java:correlator}
 test		&	required	&			& Java boolean correlation expression. \\
 \end{attrDefs}
 
@@ -134,7 +134,7 @@ This \tag{java:action} invoked the
              method="doIt"/>}
 \end{codelisting}
 
-\begin{attrDefs}
+\begin{attrDefs}{java:action}
 type		&	required	&			& Java class name. \\
 method		&	optional	& ``execute'' & Method name to invoke. \\
 \end{attrDefs}
