@@ -40,7 +40,6 @@ public class ActivityManager
     public ActivityManager(WorkflowEngine engine)
     {
         this.engine     = engine;
-        // this.cases      = new LinkedList();
         this.activities = new HashSet();
 
         this.queue = new LinkedQueue();
@@ -132,35 +131,7 @@ public class ActivityManager
         {
             // swallow
         }
-
-        /*
-        synchronized ( this.cases )
-        {
-            this.cases.addLast( processCase );
-            notifyAll();
-        }
-        */
     }
-
-    /*
-    public void caseExecutorLoop()
-        throws InterruptedException
-    {
-        WorkflowProcessCase processCase = getNextCase();
-
-        Transition[] enabledTrans = processCase.getEnabledTransitions();
-
-        if ( enabledTrans.length == 0 )
-        {
-            return;
-        }
-
-        Transition nextTrans = enabledTrans[0];
-
-        fire( processCase,
-              nextTrans );
-    }
-    */
 
     protected void verify(WorkflowProcessCase processCase,
                           Transition transition)
