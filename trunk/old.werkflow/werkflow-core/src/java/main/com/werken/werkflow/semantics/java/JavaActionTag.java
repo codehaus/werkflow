@@ -83,6 +83,9 @@ public class JavaActionTag
     /** Bean method name. */
     private String methodName;
 
+    /** Live Bean to use as the action. */
+    private Object bean;
+
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
@@ -97,6 +100,16 @@ public class JavaActionTag
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
+
+    public Object getBean()
+    {
+        return bean;
+    }
+
+    public void setBean( Object bean )
+    {
+        this.bean = bean;
+    }
 
     /** Set the bean class type.
      *
@@ -139,16 +152,23 @@ public class JavaActionTag
 
     /** @see org.apache.commons.jelly.Tag
      */
-    public void doTag(XMLOutput output)
+    public void doTag( XMLOutput output )
         throws JellyTagException
     {
-        if ( this.className == null )
+        if ( this.bean != null )
         {
-            doScriptTag( output );
+            setupBean( bean );
         }
         else
         {
-            doClassTag( output );
+            if ( this.className == null )
+            {
+                doScriptTag( output );
+            }
+            else
+            {
+                doClassTag( output );
+            }
         }
     }
 
@@ -189,18 +209,21 @@ public class JavaActionTag
             Class beanClass = cl.loadClass( getType() );
             
             Object bean = beanClass.newInstance();
-            
-            JavaAction action = new JavaAction( bean,
-                                                getMethod() );
-            
-            setAction( action );
-            
-            setMethod( DEFAULT_METHOD_NAME );
-            setType( null );
+
+            setupBean( bean );
         }
         catch (Exception e)
         {
             throw new JellyTagException( e );
         }
+    }
+
+    private void setupBean( Object bean )
+        throws JellyTagException
+    {
+        JavaAction action = new JavaAction( bean,
+                                            getMethod() );
+
+        setAction( action );
     }
 }

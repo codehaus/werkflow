@@ -47,9 +47,6 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.work.Action;
-
-import com.werken.werkflow.jelly.MiscTagSupport;
-
 import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>Action</code> tags.
@@ -74,7 +71,7 @@ import org.apache.commons.jelly.JellyTagException;
  *  @version $Id$
  */
 public abstract class AbstractActionTag
-    extends MiscTagSupport
+    extends FundamentalTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors

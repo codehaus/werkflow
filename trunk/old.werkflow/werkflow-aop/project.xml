@@ -245,7 +245,7 @@
       </resources>
 
       <includes>
-        <include>**/*Test.java</include>
+        <include>**/*TestX.java</include>
       </includes>
 <!--
       <excludes>

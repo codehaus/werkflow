@@ -144,7 +144,9 @@
 
     <syntax:tag name="action">
         <fund:action id="${id}">
+            <!--
             <syntax:invokeBody/>
+            -->
         </fund:action>
     </syntax:tag>
 
