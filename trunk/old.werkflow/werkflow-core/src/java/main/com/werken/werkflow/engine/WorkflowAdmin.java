@@ -49,6 +49,7 @@ package com.werken.werkflow.engine;
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.admin.ProcessException;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.event.WfmsEventListener;
 
 /** Internal <code>WfmsAdmin</code> implementation.
@@ -99,10 +100,10 @@ class WorkflowAdmin
 
     /** @see WfmsAdmin
      */
-    public void deployProcess(ProcessDefinition processDef)
+    public void deployProcessPackage(ProcessPackage pkg)
         throws ProcessException
     {
-        getEngine().deployProcess( processDef );
+        getEngine().deployProcessPackage( pkg );
     }
 
     /** Attach a <code>WfmsEventListener</code>.

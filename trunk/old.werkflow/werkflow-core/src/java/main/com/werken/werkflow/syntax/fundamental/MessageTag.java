@@ -185,7 +185,7 @@ public class MessageTag
 
         try
         {
-            msgType = getMessageTypeLibrary().getMessageType( getType() );
+            msgType = getCurrentScope().getMessageType( getType() );
         }
         catch (NoSuchMessageTypeException e)
         {

@@ -47,6 +47,7 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
 import org.apache.commons.jelly.XMLOutput;
@@ -214,17 +215,39 @@ public class ProcessTag
 
         setDocumentation( null );
 
+        pushScope();
+
         invokeBody( output );
 
-        ProcessDefinition def = new ProcessDefinition( getId(),
-                                                       this.net,
-                                                       initiationType );
+        popScope();
 
-        def.setDocumentation( getDocumentation() );
+        ProcessDefinition processDef = new ProcessDefinition( getId(),
+                                                              this.net,
+                                                              initiationType );
 
+        processDef.setDocumentation( getDocumentation() );
+
+        PackageTag pkgTag = (PackageTag) findAncestorWithClass( PackageTag.class );
+
+        if ( pkgTag != null )
+        {
+            pkgTag.addProcessDefinition( processDef );
+        }
+        else
+        {
+            ProcessPackage pkg = new ProcessPackage( processDef.getId() );
+
+            pkg.addProcessDefinition( processDef );
+
+            getContext().setVariable( ProcessPackage.class.getName(),
+                                      pkg );
+        }
+
+        /*
         List defList = (List) getContext().getVariable( FundamentalDefinitionLoader.FUNDAMENTAL_DEFINITION_LIST );
 
         defList.add( def );
+        */
 
         this.net = null;
     }

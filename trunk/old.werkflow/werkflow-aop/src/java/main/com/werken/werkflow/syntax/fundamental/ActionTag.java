@@ -57,7 +57,7 @@ import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
 public class ActionTag
-    extends MiscTagSupport
+    extends FundamentalTagSupport
 {
     // ----------------------------------------------------------------------
     //     Instance members
@@ -65,12 +65,6 @@ public class ActionTag
 
     /** Identifier. */
     private String id;
-
-    /** Action definition, possibly null. */
-    private Action action;
-
-    /** Is the default action? */
-    private boolean isDefault;
 
     // ----------------------------------------------------------------------
     //      Constructors
@@ -105,55 +99,16 @@ public class ActionTag
         return this.id;
     }
 
-    /** @see ActionReceptor
-     */
-    public void setAction(Action action)
-    {
-        this.action = action;
-    }
-
-    /** Retrieve the <code>Action</code>.
-     *
-     *  @return The action.
-     */
-    public Action getAction()
-    {
-        return this.action;
-    }
-
-    /** Set the default flag.
-     *
-     *  @param isDefault Flag indicating if this is the default action.
-     */
-    public void setDefault(boolean isDefault)
-    {
-        this.isDefault = isDefault;
-    }
-
-    /** Get the default flag.
-     *
-     *  @return <code>true</code> if this is the default action,
-     *          otherwise <code>false</code>.
-     */
-    public boolean isDefault()
-    {
-        return this.isDefault;
-    }
-
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
         ActionReceptor receptor = (ActionReceptor) findAncestorWithClass( ActionReceptor.class );
-        
-        JellyContext context = getContext();
-        
-        ActionLibrary actionLib = (ActionLibrary) context.getVariable( FundamentalDefinitionLoader.ACTION_LIBRARY_KEY );
-        
-        if ( actionLib == null )
+
+        if ( receptor == null )
         {
-            throw new JellyTagException( "no action library" );
+            throw new JellyTagException( "action not allowed in this context" );
         }
 
         Action action = null;
@@ -162,7 +117,7 @@ public class ActionTag
         {
             if ( getId() == null )
             {
-                action = actionLib.getDefaultAction();
+                action = getCurrentScope().getDefaultAction();
                 
                 if ( action == null )
                 {
@@ -171,7 +126,7 @@ public class ActionTag
             }
             else
             {
-                action = actionLib.getAction( getId() );
+                action = getCurrentScope().getAction( getId() );
             }
         }
         catch (NoSuchActionException e)

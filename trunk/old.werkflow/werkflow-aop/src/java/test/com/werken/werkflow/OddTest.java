@@ -1,7 +1,7 @@
 package com.werken.werkflow;
 
 import com.werken.werkflow.admin.WfmsAdmin;
-import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
@@ -32,14 +32,11 @@ public class OddTest
 
         URL url = getClass().getResource( "odd.xml" );
 
-        ProcessDefinition[] defs = loader.load( url );
+        ProcessPackage pkg = loader.load( url );
 
         WfmsAdmin admin = wfms.getAdmin();
 
-        for ( int i = 0 ; i < defs.length ; ++i )
-        {
-            admin.deployProcess( defs[i] );
-        }
+        admin.deployProcessPackage( pkg );
 
         messagingManager.acceptMessage( new Integer( 42 ) );
 

@@ -46,54 +46,28 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.definition.MessageCorrelator;
-import com.werken.werkflow.definition.MessageWaiter;
-import com.werken.werkflow.definition.MessageType;
-import com.werken.werkflow.definition.NoSuchMessageTypeException;
+import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.ProcessPackage;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 
-/** Create a message-trigger on a <code>Transition</code>.
- *
- *  <p>
- *  A &lt;message&gt may be nested inside of a &lt;transition&gt;
- *  to designate the transition as requiring a message in order
- *  to be fired.  The message specifies a type and may optionally
- *  contain an arbitrary correlator as the body.
- *  </p>
- *
- *  <p>
- *  <pre>
- *  &lt;message type="some.msg.type" id="myMsg"&gt;
- *    &lt;jelly:correlator test="${myMsg.foo = bar}"/&gt;
- *  &lt;/message&gt;
- *  </pre>
- *  </p>
- *
- *  @see TransitionTag
- *  @see MessageTypeTag
- *  @see com.werken.werkflow.semantics.jelly.JellyMessageCorrelatorTag
- *
- *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
- *
- *  @version $Id$
- */
-public class MessageTag
+public class PackageTag
     extends FundamentalTagSupport
+    implements DocumentableTag
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Message-type identifier. */
-    private String messageTypeId;
-
-    /** Binding attr. */
+    /** Unique identifier. */
     private String id;
 
-    /** Correlator, possibly null. */
-    private MessageCorrelator correlator;
+    /** Documentation, possibly null. */
+    private String documentation;
+
+    /** Process package. */
+    private ProcessPackage pkg;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -101,7 +75,7 @@ public class MessageTag
 
     /** Construct.
      */
-    public MessageTag()
+    public PackageTag()
     {
         // intentionally left blank
     }
@@ -110,25 +84,7 @@ public class MessageTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Set the <code>MessageType</code> identifier.
-     *
-     *  @param messageTypeId The identifier.
-     */
-    public void setType(String messageTypeId)
-    {
-        this.messageTypeId = messageTypeId;
-    }
-
-    /** Retrieve the <code>MessageType</code> identifier.
-     *
-     *  @return The identifier.
-     */
-    public String getType()
-    {
-        return this.messageTypeId;
-    }
-
-    /** Set the message identifier.
+    /** Set the identifier.
      *
      *  @param id The identifier.
      */
@@ -137,7 +93,7 @@ public class MessageTag
         this.id = id;
     }
 
-    /** Retrieve the message identifier.
+    /** Retrieve the identifier.
      *
      *  @return The identifier.
      */
@@ -146,22 +102,25 @@ public class MessageTag
         return this.id;
     }
 
-    /** Set the <code>MessageCorrelator</code>.
-     *
-     *  @param correlator The message-correlator.
+    /** @see DocumentableTag
      */
-    public void setMessageCorrelator(MessageCorrelator correlator)
+    public void setDocumentation(String documentation)
     {
-        this.correlator = correlator;
+        this.documentation = documentation;
     }
 
-    /** Retrieve the <code>MessageCorrelator</code>.
+    /** Retrieve the documentation.
      *
-     *  @return The message-correlator.
+     *  @return The documentation.
      */
-    public MessageCorrelator getMessageCorrelator()
+    public String getDocumentation()
     {
-        return this.correlator;
+        return this.documentation;
+    }
+
+    public void addProcessDefinition(ProcessDefinition processDef)
+    {
+        this.pkg.addProcessDefinition( processDef );
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -175,33 +134,17 @@ public class MessageTag
         requireStringAttribute( "id",
                                 getId() );
 
-        requireStringAttribute( "type",
-                                getType() );
+        this.pkg = new ProcessPackage( getId() );
 
-        TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
-                                                                     TransitionTag.class );
-
-        MessageType msgType = null;
-
-        try
-        {
-            msgType = getCurrentScope().getMessageType( getType() );
-        }
-        catch (NoSuchMessageTypeException e)
-        {
-            throw new JellyTagException( e );
-        }
-
-        MessageWaiter waiter = new MessageWaiter( msgType,
-                                                  getId() );
-
-        transition.setWaiter( waiter );
+        pushScope();
 
         invokeBody( output );
 
-        if ( getMessageCorrelator() != null )
-        {
-            waiter.setMessageCorrelator( getMessageCorrelator() );
-        }
+        popScope();
+
+        getContext().setVariable( ProcessPackage.class.getName(),
+                                  this.pkg );
+
+        this.pkg = null;
     }
 }
