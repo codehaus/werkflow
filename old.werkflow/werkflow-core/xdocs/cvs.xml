@@ -9,7 +9,7 @@
   <body>
     <section name="Web Access">
       <p>
-        <a href="http://cvs.werkflow.codehaus.org/werkflow/">http://cvs.werkflow.codehaus.org/werkflow/</a>
+        <a href="http://cvs.werkflow.codehaus.org/werkflow-core/">http://cvs.werkflow.codehaus.org/werkflow-core/</a>
       </p>
     </section>
 
@@ -21,8 +21,8 @@
       </p>
 
 <source>
-cvs -d :pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow login
-cvs -z3 -d :pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow co werkflow
+cvs -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic login
+cvs -z3 -d :pserver:anonymous@cvs.codehaus.org:/scm/cvspublic co werkflow/werkflow-core
 </source>
 
     <p>
@@ -40,7 +40,7 @@ cvs -z3 -d :pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow co werkflow
 
 <source>
 export CVS_RSH=ssh
-cvs -z3 -d :ext:name@cvs.codehaus.org:/cvsroot/werkflow co werkflow
+cvs -z3 -d :ext:name@cvs.codehaus.org:/scm/cvs co werkflow/werkflow-core
 </source>
 
     </section>
