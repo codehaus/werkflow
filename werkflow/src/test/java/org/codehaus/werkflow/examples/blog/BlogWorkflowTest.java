@@ -113,6 +113,15 @@ public class BlogWorkflowTest extends TestCase
 
         showInstance(instance);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         RobustInstance i = engine.getInstanceManager().getInstance("een");
 
         // new user action
@@ -126,6 +135,15 @@ public class BlogWorkflowTest extends TestCase
 
         showInstance(i);
 
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }
+
         // new user action
         tx = engine.beginTransaction(i.getId());
         // provide more user choices
@@ -134,6 +152,15 @@ public class BlogWorkflowTest extends TestCase
         sv.setValue("input", "more information");
         tx.satisfy("approval", sv);
         tx.commit();
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ie)
+        {
+
+        }        
 
         showInstance(i);
 
