@@ -85,10 +85,11 @@ public class TransitionTerminatedEvent
                                      String caseId,
                                      String transitionId)
     {
-        super( wfms,
-               processId,
-               caseId,
-               transitionId );
+        this( wfms,
+              processId,
+              caseId,
+              transitionId,
+              null );
     }
 
     /** Construct.

@@ -67,6 +67,11 @@ import com.werken.werkflow.event.ProcessDeployedEvent;
 import com.werken.werkflow.event.ProcessUndeployedEvent;
 import com.werken.werkflow.event.CaseInitiatedEvent;
 import com.werken.werkflow.event.CaseTerminatedEvent;
+import com.werken.werkflow.event.TransitionInitiatedEvent;
+import com.werken.werkflow.event.TransitionTerminatedEvent;
+import com.werken.werkflow.event.TokensProducedEvent;
+import com.werken.werkflow.event.TokensConsumedEvent;
+import com.werken.werkflow.event.TokensRolledBackEvent;
 import com.werken.werkflow.log.Log;
 import com.werken.werkflow.log.SimpleLog;
 import com.werken.werkflow.service.WfmsServices;
@@ -679,6 +684,197 @@ public class WorkflowEngine
             eachListener = (WfmsEventListener) listenerIter.next();
 
             eachListener.caseInitiated( event );
+        }
+    }
+
+    /** Notify listeners of a terminated process case.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     */
+    void notifyCaseTerminated(String processId,
+                              String caseId)
+    {
+        CaseTerminatedEvent event = new CaseTerminatedEvent( this,
+                                                             processId,
+                                                             caseId );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.caseTerminated( event );
+        }
+    }
+
+    /** Notify listeners of an initiated transition.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     */
+    void notifyTransitionInitiated(String processId,
+                                   String caseId,
+                                   String transitionId)
+    {
+        TransitionInitiatedEvent event = new TransitionInitiatedEvent( this,
+                                                                       processId,
+                                                                       caseId,
+                                                                       transitionId );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.transitionInitiated( event );
+        }
+    }
+
+    /** Notify listeners of a terminated transition.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     */
+    void notifyTransitionTerminated(String processId,
+                                    String caseId,
+                                    String transitionId)
+    {
+        TransitionTerminatedEvent event = new TransitionTerminatedEvent( this,
+                                                                         processId,
+                                                                         caseId,
+                                                                         transitionId );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.transitionTerminated( event );
+        }
+    }
+
+    /** Notify listeners of a erroneously terminated transition.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *  @param error The error.
+     */
+    void notifyTransitionTerminated(String processId,
+                                    String caseId,
+                                    String transitionId,
+                                    Exception error)
+    {
+        TransitionTerminatedEvent event = new TransitionTerminatedEvent( this,
+                                                                         processId,
+                                                                         caseId,
+                                                                         transitionId,
+                                                                         error );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.transitionTerminated( event );
+        }
+    }
+
+    /** Notify listeners of tokens produced.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *  @param placeIds The identifiers of the places with affect tokens.
+     */
+    public void notifyTokensProduced(String processId,
+                                     String caseId,
+                                     String transitionId,
+                                     String[] placeIds)
+    {
+        TokensProducedEvent event = new TokensProducedEvent( this,
+                                                             processId,
+                                                             caseId,
+                                                             transitionId,
+                                                             placeIds );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.tokensProduced( event );
+        }
+    }
+
+    /** Notify listeners of tokens consumed.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *  @param placeIds The identifiers of the places with affect tokens.
+     */
+    public void notifyTokensConsumed(String processId,
+                                     String caseId,
+                                     String transitionId,
+                                     String[] placeIds)
+    {
+        TokensConsumedEvent event = new TokensConsumedEvent( this,
+                                                             processId,
+                                                             caseId,
+                                                             transitionId,
+                                                             placeIds );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.tokensConsumed( event );
+        }
+    }
+    
+    /** Notify listeners of tokens rolled back.
+     *
+     *  @param processId The process identifier.
+     *  @param caseId The case identifier.
+     *  @param transitionId The transition identifier.
+     *  @param placeIds The identifiers of the places with affect tokens.
+     */
+    public void notifyTokensRolledBackd(String processId,
+                                        String caseId,
+                                        String transitionId,
+                                        String[] placeIds)
+    {
+        TokensRolledBackEvent event = new TokensRolledBackEvent( this,
+                                                                 processId,
+                                                                 caseId,
+                                                                 transitionId,
+                                                                 placeIds );
+        
+        Iterator          listenerIter = this.listeners.iterator();
+        WfmsEventListener eachListener = null;
+
+        while ( listenerIter.hasNext() )
+        {
+            eachListener = (WfmsEventListener) listenerIter.next();
+
+            eachListener.tokensRolledBack( event );
         }
     }
 }
