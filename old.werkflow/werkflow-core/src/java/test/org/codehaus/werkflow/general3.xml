@@ -28,7 +28,7 @@
 
             <input from="in"/>
             <output to="middle"/>
-    
+
             <task>
                 <jelly:action>
                     <j:set var="bob" value="mcwhirter"/>
@@ -54,10 +54,10 @@
                     case ${caseId}
                     action 2
                     bob == ${bob}
-                    message == ${message.type} : ${message.payload} 
+                    message == ${message.type} : ${message.payload}
                 </jelly:action>
             </task>
-        </transition> 
+        </transition>
     </net>
 
 </fund:process>
