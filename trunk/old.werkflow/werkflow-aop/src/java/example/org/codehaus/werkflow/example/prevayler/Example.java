@@ -101,13 +101,9 @@ public class Example
 
     private String tempBase()
     {
-        File tmpDir;
-        String dirName;
-        File prevaylerDir;
+		final File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
+        final String dirName = "werkflow-prevayler-" + System.currentTimeMillis();
 
-        tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
-        dirName = "werkflow-prevayler-" + System.currentTimeMillis();
-        prevaylerDir = new File( tmpDir, dirName );
-        return prevaylerDir.getAbsolutePath();
+        return new File( tmpDir, dirName ).getAbsolutePath();
     }
 }
