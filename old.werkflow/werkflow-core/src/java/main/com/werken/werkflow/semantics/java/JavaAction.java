@@ -166,26 +166,51 @@ public class JavaAction
                          processCase.getAttribute( attrNames[i] ) );
         }
 
+        Map otherAttrs = new HashMap();
+
+        otherAttrs.put( "caseId",
+                        activity.getCaseId() );
+
+        otherAttrs.put( "transitionId",
+                        activity.getTransitionId() );
+
+        
+        
         try
         {
             MethodUtils.invokeMethod( getJavaBean(),
                                       getMethodName(),
-                                      caseMap );
-
-            for ( Iterator nameIter = caseMap.keySet().iterator() ; nameIter.hasNext() ; )
+                                      new Object[] { caseMap,
+                                                     otherAttrs } );
+        }
+        catch (NoSuchMethodException e)
+        {
+            try
             {
-                String attrName = (String) nameIter.next();
-
-                processCase.setAttribute( attrName,
-                                          caseMap.get( attrName ) );
+                MethodUtils.invokeMethod( getJavaBean(),
+                                          getMethodName(),
+                                          caseMap );
             }
-
-            activity.complete();
+            catch (Exception e2)
+            {
+                activity.completeWithError( e2 );
+                return;
+            }
         }
         catch (Exception e)
         {
             activity.completeWithError( e );
+            return;
         }
+        
+        for ( Iterator nameIter = caseMap.keySet().iterator() ; nameIter.hasNext() ; )
+        {
+            String attrName = (String) nameIter.next();
+            
+            processCase.setAttribute( attrName,
+                                      caseMap.get( attrName ) );
+        }
+        
+        activity.complete();
     }
-
 }

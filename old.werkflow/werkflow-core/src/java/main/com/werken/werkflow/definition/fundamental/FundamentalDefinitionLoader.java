@@ -96,8 +96,17 @@ public class FundamentalDefinitionLoader
     public ProcessDefinition[] load(URL url)
         throws Exception
     {
-        MessageTypeLibrary msgTypeLib = loadMessageTypeLibrary( new URL( url,
-                                                                         MESSAGE_TYPES_FILENAME ) );
+        MessageTypeLibrary msgTypeLib = null;
+
+        try
+        {
+            msgTypeLib = loadMessageTypeLibrary( new URL( url,
+                                                          MESSAGE_TYPES_FILENAME ) );
+        }
+        catch (FileNotFoundException e)
+        {
+            msgTypeLib = new MessageTypeLibrary();
+        }
         
         return load( url,
                      msgTypeLib );
