@@ -1,6 +1,7 @@
 package com.werken.werkflow.engine;
 
 import com.werken.werkflow.SimpleAttributes;
+import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.Net;
@@ -51,7 +52,8 @@ public class ProcessDeploymentTest
 
         this.def = new ProcessDefinition( "the process",
                                           net,
-                                          MessageType.EMPTY_ARRAY );
+                                          MessageType.EMPTY_ARRAY,
+                                          MessageInitiator.EMPTY_ARRAY );
 
         this.def.setDocumentation( "the docs" );
 

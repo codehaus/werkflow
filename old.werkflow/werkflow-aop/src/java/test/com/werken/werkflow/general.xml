@@ -9,6 +9,9 @@
     <wfjava:selector type="java.lang.String"/>
   </message-type>
 
+  <message-initiator id="initMsg" 
+                     type="string.msg"/>
+
   <place id="in">
     <documentation>the in place</documentation>
   </place>
