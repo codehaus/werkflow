@@ -3,6 +3,7 @@ package com.werken.werkflow.engine.rules;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.MessageSelector;
+import com.werken.werkflow.engine.MessageBlocker;
 
 import org.drools.rule.Rule;
 import org.drools.rule.Declaration;
@@ -11,17 +12,21 @@ public class CorrelatingRule
     extends Rule
 {
     public static final String MESSAGE_DECL_ID = "werkflow.message";
+    public static final String BLOCKER_DECL_ID = "werkflow.blocker";
 
+    private Transition transition;
     private MessageType messageType;
 
     private Declaration messageDecl;
+    private Declaration blockerDecl;
 
-    public CorrelatingRule(MessageType messageType,
-                           Transition transition)
+    public CorrelatingRule(Transition transition,
+                           MessageType messageType)
     {
         super( "correlating." + transition.getId() + "." + messageType.getId() );
 
         this.messageType = messageType;
+        this.transition  = transition;
 
         addDecls();
     }
@@ -32,11 +37,21 @@ public class CorrelatingRule
                                             MESSAGE_DECL_ID );
 
         addParameterDeclaration( this.messageDecl );
+
+        this.blockerDecl = new Declaration( new MessageBlockerObjectType( getMessageType() ),
+                                            BLOCKER_DECL_ID );
+
+        addParameterDeclaration( this.blockerDecl );
     }
 
     public MessageType getMessageType()
     {
         return this.messageType;
+    }
+
+    public Transition getTransition()
+    {
+        return this.transition;
     }
 
     protected Declaration getMessageDeclaration()
