@@ -66,8 +66,12 @@ public class BasicPersonalityTest
 
         // Thread.sleep( 2000 );
 
-        msgManager.acceptMessage( "my message" );
-        msgManager.acceptMessage( Boolean.TRUE );
+        msgManager.acceptMessage( "strachan" );
+        msgManager.acceptMessage( "mcwhirter" );
+
+        msgManager.acceptMessage( new Integer( 10 ) );
+        msgManager.acceptMessage( new Integer( 9 ) );
+        msgManager.acceptMessage( new Integer( 8 ) );
 
         Thread.sleep( 2000 );
     }

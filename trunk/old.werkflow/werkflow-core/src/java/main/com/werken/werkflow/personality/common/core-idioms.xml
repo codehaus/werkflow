@@ -178,15 +178,17 @@
       ||    RECEIVE
       -->
 
-    <idiom id="receive" contains="action">
+    <idiom id="receive" contains="none">
         <parameter id="type"       type="string" required="true"/>
         <parameter id="correlator" type="correlator"/>
+        <parameter id="action"     type="action"/>
+        <parameter id="bind"       type="string"/>
 
         <template>
-            <transition id="action">
+            <transition id="the.action" action="parameter:action">
                 <input from="in"/>
                 <output  to="out"/>
-                <message type="parameter:type" correlator="parameter:correlator"/>
+                <message type="parameter:type" correlator="parameter:correlator" bind="parameter:bind"/>
             </transition>
         </template>
     </idiom>

@@ -47,8 +47,8 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.definition.MessageCorrelator;
+import com.werken.werkflow.jelly.MiscTagSupport;
 
-import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
 
 /** Base for custom <code>MessageCorrelator</code> tags.
@@ -73,7 +73,7 @@ import org.apache.commons.jelly.JellyTagException;
  *  @version $Id$
  */
 public abstract class AbstractMessageCorrelatorTag
-    extends TagSupport
+    extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
     //     Constructors
@@ -104,6 +104,18 @@ public abstract class AbstractMessageCorrelatorTag
 
         if ( receptor == null )
         {
+            try
+            {
+                receptor = (MessageCorrelatorReceptor) peekObject( MessageCorrelatorReceptor.class );
+            }
+            catch (JellyTagException e)
+            {
+                // swallow
+            }
+        }
+
+        if ( receptor == null )
+        {
             throw new JellyTagException( "message correlator not allowed in this context" );
         }
 
@@ -121,6 +133,18 @@ public abstract class AbstractMessageCorrelatorTag
         throws JellyTagException
     {
         MessageCorrelatorReceptor receptor = (MessageCorrelatorReceptor) findAncestorWithClass( MessageCorrelatorReceptor.class );
+
+        if ( receptor == null )
+        {
+            try
+            {
+                receptor = (MessageCorrelatorReceptor) peekObject( MessageCorrelatorReceptor.class );
+            }
+            catch (JellyTagException e)
+            {
+                // swallow
+            }
+        }
 
         if ( receptor == null )
         {

@@ -51,6 +51,7 @@ import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.petri.DefaultTransition;
 import com.werken.werkflow.definition.NoSuchMessageTypeException;
+import com.werken.werkflow.syntax.fundamental.MessageCorrelatorReceptor;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
@@ -82,7 +83,7 @@ import org.apache.commons.jelly.JellyTagException;
  */
 public class MessageTag
     extends PetriTagSupport
-      // implements MessageCorrelatorReceptor
+    implements MessageCorrelatorReceptor
 {
     // ----------------------------------------------------------------------
     //     Instance members

@@ -12,7 +12,7 @@ public class MessageTag
 {
     private String type;
     private String correlator;
-    private String var;
+    private String bind;
 
     public MessageTag()
     {
@@ -39,14 +39,14 @@ public class MessageTag
         return this.correlator;
     }
 
-    public void setVar(String var)
+    public void setBind(String bind)
     {
-        this.var = var;
+        this.bind = bind;
     }
 
-    public String getVar()
+    public String getBind()
     {
-        return this.var;
+        return this.bind;
     }
 
     public void doTag(XMLOutput output)
@@ -68,7 +68,7 @@ public class MessageTag
 
         MessageWaiterDefinition msgWaiter = new MessageWaiterDefinition( getType(),
                                                                          getCorrelator(),
-                                                                         getVar() );
+                                                                         getBind() );
         tag.setWaiter( msgWaiter );
     }
 }
