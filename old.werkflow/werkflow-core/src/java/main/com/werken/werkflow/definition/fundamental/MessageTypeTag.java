@@ -70,5 +70,6 @@ public class MessageTypeTag
 
         messageType.setMessageSelector( getMessageSelector() );
 
+        process.addMessageType( messageType );
     }
 }

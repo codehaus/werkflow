@@ -1,11 +1,13 @@
 package com.werken.werkflow.definition.fundamental;
 
+import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.petri.DefaultNet;
 
 import org.apache.commons.jelly.XMLOutput;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class ProcessTag
     extends FundamentalTagSupport
@@ -14,10 +16,11 @@ public class ProcessTag
     private String id;
     private String documentation;
     private DefaultNet net;
+    private List messageTypes;
 
     public ProcessTag()
     {
-
+        this.messageTypes = new ArrayList();
     }
 
     public void setId(String id)
@@ -45,6 +48,16 @@ public class ProcessTag
         return this.documentation;
     }
 
+    public void addMessageType(MessageType messageType)
+    {
+        this.messageTypes.add( messageType );
+    }
+
+    public MessageType[] getMessageTypes()
+    {
+        return (MessageType[]) this.messageTypes.toArray( MessageType.EMPTY_ARRAY );
+    }
+
     public void doTag(XMLOutput output)
         throws Exception
     {
@@ -58,7 +71,8 @@ public class ProcessTag
         invokeBody( output );
 
         ProcessDefinition def = new ProcessDefinition( getId(),
-                                                       this.net );
+                                                       this.net,
+                                                       getMessageTypes() );
 
         def.setDocumentation( getDocumentation() );
 
@@ -67,5 +81,7 @@ public class ProcessTag
         defList.add( def );
 
         this.net = null;
+
+        this.messageTypes.clear();
     }
 }

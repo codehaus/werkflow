@@ -1,8 +1,10 @@
 package com.werken.werkflow.service.messaging;
 
+import com.werken.werkflow.definition.MessageType;
+
 public interface MessagingManager
 {
     Registration register(MessageSink sink,
-                          MessageSelector selector)
+                          MessageType messageType)
         throws IncompatibleMessageSelectorException;
 }
