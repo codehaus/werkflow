@@ -62,32 +62,31 @@ import com.werken.werkflow.service.caserepo.CaseState;
 
 /** 
  * A <code>CaseRepository</code> backed by the <a href="http://www.prevayler.org/">Prevayler</a>
- * persistance manager. 
+ * persistance manager. It is the only class exported from the package.
+ * 
+ * It is an <b>Avalon</b> aware component and relies on the lifecycle methods from the 
+ * <code>Parameterizable</code> and <code>Startable</code> interfaces.
+ * 
+ * @see org.apache.avalon.framework.parameters.Parameterizable
+ * @see org.apache.avalon.framework.activity.Startable
  *
- *  @author <a href="mailto:kevin@rocketred.com.au">Kevin O'Neill</a>
- *
- *  @version $Revision$ - $Date$
+ * @author <a href="mailto:kevin@rocketred.com.au">Kevin O'Neill</a>
+ * @version $Revision$ - $Date$
  */
 public class PrevaylerCaseRepository implements CaseRepository, Parameterizable, Startable
 {
+	/** Name of the parameter used to specify the repository directory */
 	public final static String PARAM_NAME_REPOSITORY_PATH = "repository-path";
+	/** Name of the parameter used to specify the snap on stop behaviour */
 	public final static String PARAM_NAME_SNAP_ON_STOP = "snap-on-stop";
 	
+	/** Default repository path: <code>{working directory}/prevayler-repository</code>*/
 	public final static String DEFAULT_REPOSITORY_PATH = "prevayler-repository";
+	/** Default snap on stop behaviour: <code>true</code>*/
 	public final static boolean DEFAULT_SNAP_ON_STOP = true;
 	
 	private final static String[] IN_ARRAY = {"in"};
 	
-	/**
-	 * Create a new <code>PrevaylerCaseRepository</code> that snapshots it's
-	 * contents and maintains it's transaction log in the directory name passed.
-	 * 
-	 * @param storeDirectory 
-	 */
-	public PrevaylerCaseRepository()
-	{
-	}
-
 	private SnapshotPrevayler _store;
 	private boolean _snapOnStop = true;
 	private String _storePath = null;
@@ -109,9 +108,6 @@ public class PrevaylerCaseRepository implements CaseRepository, Parameterizable,
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.werken.werkflow.service.caserepo.CaseRepository#getCaseState(java.lang.String)
-	 */
 	public CaseState getCaseState(String caseId)
 	{
 		PrevaylerCaseState result = null;
@@ -125,36 +121,29 @@ public class PrevaylerCaseRepository implements CaseRepository, Parameterizable,
 		return result; 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.werken.werkflow.service.caserepo.CaseRepository#selectCases(java.lang.String, java.lang.String)
-	 */
 	public String[] selectCases(String processId, String placeId) throws QueryException
 	{
 		return getStore().selectCases(processId, placeId);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.werken.werkflow.service.caserepo.CaseRepository#selectCases(java.lang.String, java.util.Map)
-	 */
 	public String[] selectCases(String processId, Map qbeAttrs) throws QueryException
 	{
 		return getStore().selectCases(processId, qbeAttrs);
 	}
-	
-	void persist(CaseState state) throws Exception
+
+	/**
+	 * Persist the state using the <code>StoreCase</code> command
+	 * 
+	 * @param state the <code>PrevaylerCaseState</code> to store
+	 * 
+	 * @throws Exception when storage fails
+	 */	
+	void persist(PrevaylerCaseState state) throws Exception
 	{
-		if (state instanceof PrevaylerCaseState)
-		{
-			StoreCase action = new StoreCase((PrevaylerCaseState) state);
-			_store.executeCommand(action);
-		}
-		else
-		{
-			// convert it?
-			throw new IllegalArgumentException("The PrevaylerCaseRepository does not support this type of CaseState");
-		}
+		StoreCase action = new StoreCase();
+		action.setState(state);
+		_store.executeCommand(action);
 	}
-	
 	
 	private String nextId() throws Exception
 	{
@@ -163,7 +152,12 @@ public class PrevaylerCaseRepository implements CaseRepository, Parameterizable,
 		
 		return action.getId();
 	}
-	
+
+	/**
+	 * Force the underlying <b>prevayler</b> instance to flush it's state to disk.
+	 * 
+	 * @throws IOException if the flush fails
+	 */	
 	public void snap() throws IOException
 	{
 		_store.takeSnapshot();
@@ -215,6 +209,11 @@ public class PrevaylerCaseRepository implements CaseRepository, Parameterizable,
 		_snapOnStop = snapOnStop;
 	}
 
+	/**
+	 * Does the respoistory take a snapshot of the state when it's stopped.
+	 * 
+	 * @return true if the a snaphot is taken
+	 */
 	public boolean snapOnStop()
 	{
 		return _snapOnStop;
@@ -225,6 +224,11 @@ public class PrevaylerCaseRepository implements CaseRepository, Parameterizable,
 		_storePath = storePath;
 	}
 
+	/**
+	 * Get the path of the directory used to store the persistant information.
+	 * 
+	 * @return the path
+	 */
 	public String storePath()
 	{
 		return _storePath;

@@ -57,10 +57,16 @@ import com.werken.werkflow.QueryException;
 import com.werken.werkflow.service.caserepo.CaseState;
 
 /**
- * CaseStateStore provides the storage for the CaseState objects. This implementation is
- * based on the InMemoryCaseRepository and has not been optimised. I envisage converting this to
- * and interface in the future and having different implementations optimised for different access
- * methods.
+ * CaseStateStore is a <b>prevayler</b> aware store for the <code>PrevaylerCaseRepository</code>.
+ * 
+ * This implementation is based on the InMemoryCaseRepository and no attempt has been made
+ * to optimise it's preformance.
+ * 
+ * I envisage converting this to and interface in the future and having different implementations
+ * optimised for different access methods.
+ * 
+ * @author <a href="mailto:kevin@rocketred.com.au">Kevin O'Neill</a>
+ * @version $Revision$ - $Date$
  */
 class CaseStateStore extends AbstractPrevalentSystem
 {
@@ -81,7 +87,7 @@ class CaseStateStore extends AbstractPrevalentSystem
 		return (ImmutableCaseState) _cases.get(caseId);
 	}
 
-	public String[] selectCases(String processId, String placeId) throws QueryException
+	String[] selectCases(String processId, String placeId) throws QueryException
 	{
 		ArrayList ids = new ArrayList();
 		Iterator cases = _cases.values().iterator();
@@ -102,7 +108,7 @@ class CaseStateStore extends AbstractPrevalentSystem
 		return (String[]) ids.toArray(EMPTY_STRING_ARRAY);
 	}
 
-	public String[] selectCases(String processId, Map attributes)
+	String[] selectCases(String processId, Map attributes)
 	{
 		ArrayList ids = new ArrayList();
 
@@ -151,7 +157,7 @@ class CaseStateStore extends AbstractPrevalentSystem
 	private Map _cases;
 	private int _counter;
 
-	protected synchronized String nextId()
+	synchronized String nextId()
 	{
 		return String.valueOf(_counter++);
 	}
