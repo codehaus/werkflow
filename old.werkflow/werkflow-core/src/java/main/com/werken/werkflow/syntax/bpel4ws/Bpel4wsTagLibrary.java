@@ -15,5 +15,11 @@ public class Bpel4wsTagLibrary
 
         registerTag( "flow",
                      FlowTag.class );
+
+        registerTag( "empty",
+                     EmptyTag.class );
+
+        registerTag( "while",
+                     WhileTag.class );
     }
 }
