@@ -1,0 +1,16 @@
+<rule-set xmlns="http://drools.org/rules"
+          xmlns:java="http://drools.org/semantics/java"
+          xmlns:satisfaction="http://werkflow.codehaus.org/satisfaction"
+          name="MessagingSatisfactionManagerTest-rules">
+
+  <satisfaction:rule name="receive message">
+    <parameter identifier="message">
+      <java:class>java.lang.String</java:class>
+    </parameter>
+<!--
+    <java:condition>true</java:condition>
+-->
+    <java:condition>context.getId().equals( message )</java:condition>
+  </satisfaction:rule>
+
+</rule-set>
