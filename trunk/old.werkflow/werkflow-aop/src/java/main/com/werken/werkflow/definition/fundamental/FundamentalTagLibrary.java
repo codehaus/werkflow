@@ -30,5 +30,8 @@ public class FundamentalTagLibrary
 
         registerTag( "action",
                      ActionTag.class );
+
+        registerTag( "message-type",
+                     MessageTypeTag.class );
     }
 }
