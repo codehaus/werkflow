@@ -125,6 +125,11 @@ public class AndInputRule
             {
                 return false;
             }
+
+            if ( arcs[i].getExpression() != null )
+            {
+                return arcs[i].getExpression().evaluate( processCase );
+            }
         }
         
         return true;
