@@ -1,5 +1,8 @@
 package com.werken.werkflow.definition.petri;
 
+import com.werken.werkflow.definition.Expression;
+import com.werken.werkflow.definition.MockExpression;
+
 import junit.framework.TestCase;
 
 public class DefaultTransitionTest

@@ -47,6 +47,7 @@ package com.werken.werkflow.definition.petri;
  */
 
 import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.Expression;
 import com.werken.werkflow.task.Task;
 
 /** Transition within a Petri net.

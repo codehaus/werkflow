@@ -61,7 +61,7 @@ import org.apache.commons.jelly.expression.Expression;
  *  @version $Id$
  */
 public class JellyExpression
-    implements com.werken.werkflow.definition.petri.Expression
+    implements com.werken.werkflow.definition.Expression
 {
     // ----------------------------------------------------------------------
     //     Instance members
