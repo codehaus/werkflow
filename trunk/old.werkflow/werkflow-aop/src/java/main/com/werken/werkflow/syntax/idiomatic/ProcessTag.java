@@ -71,6 +71,11 @@ public class ProcessTag
                                 
         this.segment = new SequenceSegment();
 
+        ProcessDefinition processDef = new ProcessDefinition( getId(),
+                                                              initiationType );
+
+        setCurrentProcess( processDef );
+
         pushSegment( this.segment );
 
         invokeBody( output );
@@ -83,9 +88,7 @@ public class ProcessTag
 
             Net net = builder.build( this.segment );
 
-            ProcessDefinition processDef = new ProcessDefinition( getId(),
-                                                                  net,
-                                                                  initiationType );
+            processDef.setNet( net );
 
             addProcessDefinition( processDef );
         }

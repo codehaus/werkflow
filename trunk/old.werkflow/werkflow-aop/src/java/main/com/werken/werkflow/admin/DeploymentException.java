@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.admin;
 
 /*
  $Id$
@@ -46,84 +46,70 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.definition.ProcessDefinition;
 
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
-
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+/** Base administrative process-deployment exception.
+ *
+ *  @see WfmsAdmin
+ *
+ *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
+ *
+ *  @version $Id$
+ */
+public class DeploymentException
+    extends AdminException
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
-
+    /** Offending process definition. */
+    private ProcessDefinition processDef;
+    
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
+     *
+     *  @param processDef The offending process-defintiion.
      */
-    public CallTag()
+    public DeploymentException(ProcessDefinition processDef)
     {
-        // intentionally left blank
+        this.processDef = processDef;
+    }
+
+    /** Construct with root cause..
+     *
+     *  @param processDef The offending process-defintiion.
+     *  @param rootCause The root cause.
+     */
+    public DeploymentException(ProcessDefinition processDef,
+                               Throwable rootCause)
+    {
+        super( rootCause );
+        this.processDef = processDef;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    public void setProcess(String processId)
-    {
-        this.processId = processId;
-    }
-
-    public String getProcess()
-    {
-        return this.processId;
-    }
-
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
+    /** Retrieve the offending <code>ProcessDefinition</code>.
+     *
+     *  @return The offending process-definition.
      */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
+    public ProcessDefinition getProcess()
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
-        {
-            throw new MissingAttributeException( "process" );
-        }
+        return this.processDef;
+    }
 
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+    /** @see java.lang.Throwable
+     */
+    public String getMessage()
+    {
+        return "process exception: " + getProcess().getId();
     }
 }

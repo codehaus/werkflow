@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow;
 
 /*
  $Id$
@@ -46,84 +46,48 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
-
-import org.apache.commons.jelly.XMLOutput;
-import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
-
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public class ProcessException
+    extends WerkflowException
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
+    /** Offending process identifier. */
+    private String id;
 
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
+     *
+     *  @param id The offending process identifier.
      */
-    public CallTag()
+    public ProcessException(String id)
     {
-        // intentionally left blank
+        this.id = id;
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    public void setProcess(String processId)
-    {
-        this.processId = processId;
-    }
-
-    public String getProcess()
-    {
-        return this.processId;
-    }
-
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
+    /** Retrieve the offending process identifier.
+     *
+     *  @return The offending process identifier.
      */
-    public void doTag(XMLOutput output)
-        throws JellyTagException
+    public String getId()
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
-        {
-            throw new MissingAttributeException( "process" );
-        }
-
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+        return this.id;
     }
-}
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    /** @see java.lang.Throwable
+     */
+    public String getMessage()
+    {
+        return "Process error: " + getId();
+    }
+} 

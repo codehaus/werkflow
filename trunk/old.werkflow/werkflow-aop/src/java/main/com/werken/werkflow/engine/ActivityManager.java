@@ -49,6 +49,7 @@ package com.werken.werkflow.engine;
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
+import com.werken.werkflow.ProcessException;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.action.CallAction;
 import com.werken.werkflow.activity.Activity;
@@ -511,15 +512,19 @@ class ActivityManager
             
             String processId = action.getProcessId();
 
-            Attributes attrs = action.getAttributes();
+            Attributes attrs = action.getAttributes( processCase );
 
             try
             {
-                getEngine().newChildProcessCase( activity,
-                                                 processId,
-                                                 attrs );
+                getEngine().callChildProcess( activity,
+                                              processId,
+                                              attrs );
             }
             catch (NoSuchProcessException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ProcessException e)
             {
                 e.printStackTrace();
             }

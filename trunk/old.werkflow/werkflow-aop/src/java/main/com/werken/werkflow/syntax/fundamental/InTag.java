@@ -47,83 +47,59 @@ package com.werken.werkflow.syntax.fundamental;
  */
 
 import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.task.DefaultTask;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.expression.Expression;
 
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public class InTag
+    extends FundamentalTagSupport
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
+    private String id;
+    private Expression value;
 
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
-
-    // ----------------------------------------------------------------------
-    //     Constructors
-    // ----------------------------------------------------------------------
-
-    /** Construct.
-     */
-    public CallTag()
+    public InTag()
     {
         // intentionally left blank
     }
 
-    // ----------------------------------------------------------------------
-    //     Instance methods
-    // ----------------------------------------------------------------------
-
-    public void setProcess(String processId)
+    public void setId(String id)
     {
-        this.processId = processId;
+        this.id = id;
     }
 
-    public String getProcess()
+    public String getId()
     {
-        return this.processId;
+        return this.id;
     }
 
-
-    public void setAttribute(String id,
-                             Expression expr)
+    public void setValue(Expression value)
     {
-        this.attrs.put( id,
-                        expr );
+        this.value = value;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+    public Expression getValue()
+    {
+        return this.value;
+    }
 
     /** @see org.apache.commons.jelly.Tag
      */
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
+        requireStringAttribute( "id",
+                                getId() );
+
+        CallTag tag = (CallTag) findAncestorWithClass( CallTag.class );
+
+        if ( tag == null )
         {
-            throw new MissingAttributeException( "process" );
+            throw new JellyTagException( "invalid context for <in>" );
         }
 
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+        tag.setAttribute( getId(),
+                          getValue() );
     }
 }

@@ -46,84 +46,39 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.AttributeType;
 
-import org.apache.commons.jelly.XMLOutput;
+import org.apache.commons.jelly.TagSupport;
 import org.apache.commons.jelly.JellyTagException;
-import org.apache.commons.jelly.MissingAttributeException;
-import org.apache.commons.jelly.expression.Expression;
 
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public abstract class AbstractAttributeTypeTag
+    extends TagSupport
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
-
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
     /** Construct.
      */
-    public CallTag()
+    public AbstractAttributeTypeTag()
     {
-        // intentionally left blank
+        // intentionally left blank.
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    public void setProcess(String processId)
-    {
-        this.processId = processId;
-    }
-
-    public String getProcess()
-    {
-        return this.processId;
-    }
-
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-    /** @see org.apache.commons.jelly.Tag
-     */
-    public void doTag(XMLOutput output)
+    public void setAttributeType(AttributeType attrType)
         throws JellyTagException
     {
-        if ( getProcess() == null
-             ||
-             getProcess().equals( "" ) )
+        AttributeTypeReceptor receptor = (AttributeTypeReceptor) findAncestorWithClass( AttributeTypeReceptor.class );
+
+        if ( receptor == null )
         {
-            throw new MissingAttributeException( "process" );
+            throw new JellyTagException( "invalid context for attribute-type" );
         }
 
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+        receptor.receiveAttributeType( attrType );
     }
 }

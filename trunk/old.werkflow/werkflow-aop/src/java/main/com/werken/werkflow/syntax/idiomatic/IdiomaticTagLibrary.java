@@ -33,8 +33,17 @@ public class IdiomaticTagLibrary
         registerTag( "call",
                      com.werken.werkflow.syntax.fundamental.CallTag.class );
 
+        registerTag( "in",
+                     com.werken.werkflow.syntax.fundamental.InTag.class );
+
         registerTag( "import",
                      com.werken.werkflow.syntax.fundamental.ImportTag.class );
+
+        registerTag( "attributes",
+                     com.werken.werkflow.syntax.fundamental.AttributesTag.class );
+
+        registerTag( "attribute",
+                     com.werken.werkflow.syntax.fundamental.AttributeTag.class );
 
         registerTag( "process",
                      ProcessTag.class );

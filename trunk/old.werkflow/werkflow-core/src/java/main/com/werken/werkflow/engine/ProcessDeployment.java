@@ -46,7 +46,11 @@ package com.werken.werkflow.engine;
  
  */
 
+import com.werken.werkflow.Attributes;
+import com.werken.werkflow.AttributeDeclaration;
 import com.werken.werkflow.ProcessInfo;
+import com.werken.werkflow.InvalidAttributesException;
+import com.werken.werkflow.MissingAttributesException;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.Waiter;
 import com.werken.werkflow.definition.MessageWaiter;
@@ -439,5 +443,33 @@ class ProcessDeployment
     public String getDocumentation()
     {
         return getProcessDefinition().getDocumentation();
+    }
+
+    boolean isCallable()
+    {
+        return getProcessDefinition().isCallable();
+    }
+
+    void verifyCallParameters(Attributes attrs)
+        throws InvalidAttributesException
+    {
+        List missing = new ArrayList();
+
+        AttributeDeclaration[] inParams = getProcessDefinition().getInParameters();
+
+        for ( int i = 0 ; i < inParams.length ; ++i )
+        {
+            if ( ! attrs.hasAttribute( inParams[i].getId() ) )
+            {
+                missing.add( inParams[i].getId() );
+            }
+        }
+
+        if ( ! missing.isEmpty() )
+        {
+            throw new MissingAttributesException( getId(),
+                                                  attrs,
+                                                  (String[]) missing.toArray( EMPTY_STRING_ARRAY ) );
+        }
     }
 }

@@ -65,6 +65,20 @@ public abstract class FundamentalTagSupport
     extends MiscTagSupport
 {
     // ----------------------------------------------------------------------
+    //     Constants
+    // ----------------------------------------------------------------------
+
+    private static final String CURRENT_PROCESS_KEY = "werkflow.current.process";
+
+    // ----------------------------------------------------------------------
+    //     Instance members
+    // ----------------------------------------------------------------------
+
+    /** Current <code>ProcessDefinition</code>.
+     */
+    private ProcessDefinition processDef;
+
+    // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
 
@@ -122,6 +136,17 @@ public abstract class FundamentalTagSupport
             getContext().setVariable( ProcessPackage.class.getName(),
                                       pkg );
         }
+    }
+
+    protected ProcessDefinition getCurrentProcess()
+    {
+        return (ProcessDefinition) getContext().getVariable( CURRENT_PROCESS_KEY );
+    }
+
+    protected void setCurrentProcess(ProcessDefinition processDef)
+    {
+        getContext().setVariable( CURRENT_PROCESS_KEY,
+                                  processDef );
     }
 }
 

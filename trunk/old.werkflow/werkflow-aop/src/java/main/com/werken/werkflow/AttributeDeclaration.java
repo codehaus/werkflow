@@ -6,4 +6,6 @@ public interface AttributeDeclaration
 
     String getId();
     AttributeType getType();
+    boolean isIn();
+    boolean isOut();
 }

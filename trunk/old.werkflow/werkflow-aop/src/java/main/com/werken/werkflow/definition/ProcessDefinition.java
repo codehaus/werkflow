@@ -53,6 +53,9 @@ import com.werken.werkflow.AttributeDeclaration;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /** Definition of a process.
  *
@@ -112,6 +115,14 @@ public class ProcessDefinition
     // ----------------------------------------------------------------------
 
     public ProcessDefinition(String id,
+                             InitiationType initiationType)
+    {
+        this( id,
+              null,
+              initiationType );
+    }
+
+    public ProcessDefinition(String id,
                              Net net,
                              InitiationType initiationType)
     {
@@ -129,9 +140,19 @@ public class ProcessDefinition
     //     Instance methods
     // ----------------------------------------------------------------------
 
+    public void setNet(Net net)
+    {
+        this.net = net;
+    }
+
     public InitiationType getInitiationType()
     {
         return this.initiationType;
+    }
+
+    public boolean isCallable()
+    {
+        return this.initiationType == InitiationType.CALL;
     }
 
     /** @see ProcessInfo
@@ -182,6 +203,7 @@ public class ProcessDefinition
         return (AttributeDeclaration) this.attrDecls.get( id );
     }
 
+    /*
     public void setInParameterNames(String[] inParameters)
     {
         if ( inParameters == null )
@@ -205,7 +227,9 @@ public class ProcessDefinition
             this.outParameters = outParameters;
         }
     }
+    */
 
+    /*
     public String[] getInParameterNames()
     {
         return this.inParameters;
@@ -214,5 +238,46 @@ public class ProcessDefinition
     public String[] getOutParameterNames()
     {
         return this.outParameters;
+    }
+    */
+
+    public AttributeDeclaration[] getInParameters()
+    {
+        Set decls = new HashSet();
+
+        Iterator declIter = this.attrDecls.values().iterator();
+        AttributeDeclaration eachDecl = null;
+
+        while ( declIter.hasNext() )
+        {
+            eachDecl = (AttributeDeclaration) declIter.next();
+
+            if ( eachDecl.isIn() )
+            {
+                decls.add( eachDecl );
+            }
+        }
+                
+        return (AttributeDeclaration[]) decls.toArray( AttributeDeclaration.EMPTY_ARRAY );
+    }
+
+    public AttributeDeclaration[] getOutParameters()
+    {
+        Set decls = new HashSet();
+
+        Iterator declIter = this.attrDecls.values().iterator();
+        AttributeDeclaration eachDecl = null;
+
+        while ( declIter.hasNext() )
+        {
+            eachDecl = (AttributeDeclaration) declIter.next();
+
+            if ( eachDecl.isOut() )
+            {
+                decls.add( eachDecl );
+            }
+        }
+                
+        return (AttributeDeclaration[]) decls.toArray( AttributeDeclaration.EMPTY_ARRAY );
     }
 }

@@ -64,7 +64,7 @@ import com.werken.werkflow.definition.ProcessDefinition;
  *  @version $Id$
  */
 public class DuplicateProcessException
-    extends ProcessException
+    extends DeploymentException
 {
     // ----------------------------------------------------------------------
     //     Constructors

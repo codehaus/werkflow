@@ -52,6 +52,10 @@ import com.werken.werkflow.action.DefaultCallAction;
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
+import org.apache.commons.jelly.expression.Expression;
+
+import java.util.Map;
+import java.util.HashMap;
 
 public class CallTag
     extends AbstractActionTag
@@ -62,6 +66,8 @@ public class CallTag
 
     /** Process identifier. */
     private String processId;
+
+    private Map attrs;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -89,6 +95,12 @@ public class CallTag
     }
 
 
+    public void setAttribute(String id,
+                             Expression expr)
+    {
+        this.attrs.put( id,
+                        expr );
+    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -104,7 +116,13 @@ public class CallTag
             throw new MissingAttributeException( "process" );
         }
 
-        Action action = new DefaultCallAction( getProcess() );
+        DefaultCallAction action = new DefaultCallAction( getProcess() );
+
+        this.attrs = new HashMap();
+
+        invokeBody( output );
+
+        action.setAttributeExpressions( this.attrs );
 
         setAction( action );
     }

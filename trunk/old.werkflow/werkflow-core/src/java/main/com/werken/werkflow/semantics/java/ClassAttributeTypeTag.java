@@ -1,4 +1,4 @@
-package com.werken.werkflow.syntax.fundamental;
+package com.werken.werkflow.semantics.java;
 
 /*
  $Id$
@@ -46,28 +46,22 @@ package com.werken.werkflow.syntax.fundamental;
  
  */
 
-import com.werken.werkflow.action.Action;
-import com.werken.werkflow.action.DefaultCallAction;
+import com.werken.werkflow.syntax.fundamental.AbstractAttributeTypeTag;
 
 import org.apache.commons.jelly.XMLOutput;
 import org.apache.commons.jelly.JellyTagException;
 import org.apache.commons.jelly.MissingAttributeException;
 import org.apache.commons.jelly.expression.Expression;
 
-import java.util.Map;
-import java.util.HashMap;
-
-public class CallTag
-    extends AbstractActionTag
+public class ClassAttributeTypeTag
+    extends AbstractAttributeTypeTag
 {
     // ----------------------------------------------------------------------
     //     Instance members
     // ----------------------------------------------------------------------
 
-    /** Process identifier. */
-    private String processId;
-
-    private Map attrs;
+    /** Message class name. */
+    private String className;
 
     // ----------------------------------------------------------------------
     //     Constructors
@@ -75,7 +69,7 @@ public class CallTag
 
     /** Construct.
      */
-    public CallTag()
+    public ClassAttributeTypeTag()
     {
         // intentionally left blank
     }
@@ -84,23 +78,24 @@ public class CallTag
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    public void setProcess(String processId)
+    /** Set the message type class.
+     *
+     *  @param className The message-type class.
+     */
+    public void setType(String className)
     {
-        this.processId = processId;
+        this.className = className;
     }
 
-    public String getProcess()
+    /** Retrieve the message type class.
+     *
+     *  @return The message-type class.
+     */
+    public String getType()
     {
-        return this.processId;
+        return this.className;
     }
 
-
-    public void setAttribute(String id,
-                             Expression expr)
-    {
-        this.attrs.put( id,
-                        expr );
-    }
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -109,21 +104,25 @@ public class CallTag
     public void doTag(XMLOutput output)
         throws JellyTagException
     {
-        if ( getProcess() == null
+        if ( this.className == null
              ||
-             getProcess().equals( "" ) )
+             "".equals( this.className ) )
         {
-            throw new MissingAttributeException( "process" );
+            throw new MissingAttributeException( "class" );
         }
 
-        DefaultCallAction action = new DefaultCallAction( getProcess() );
-
-        this.attrs = new HashMap();
-
-        invokeBody( output );
-
-        action.setAttributeExpressions( this.attrs );
-
-        setAction( action );
+        try
+        {
+            Class messageClass = Class.forName( this.className );
+            
+            ClassAttributeType attrType = new ClassAttributeType( messageClass );
+            
+            
+            setAttributeType( attrType );
+        }
+        catch (Exception e)
+        {
+            throw new JellyTagException( e );
+        }
     }
 }
