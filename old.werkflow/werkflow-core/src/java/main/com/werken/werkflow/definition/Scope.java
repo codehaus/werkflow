@@ -14,10 +14,10 @@ public class Scope
     public Scope()
     {
         this.messageTypeLibrary = new MessageTypeLibrary();
-        this.actionLibrary      = new ActionLibrary();
+        this.actionLibrary = new ActionLibrary();
     }
 
-    public Scope(Scope parent)
+    public Scope( Scope parent )
     {
         this.parent = parent;
 
@@ -40,7 +40,7 @@ public class Scope
         return this.actionLibrary;
     }
 
-    public Action getAction(String id)
+    public Action getAction( String id )
         throws NoSuchActionException
     {
         return getActionLibrary().getAction( id );
@@ -51,26 +51,26 @@ public class Scope
         return getActionLibrary().getDefaultAction();
     }
 
-    public void setDefaultAction(Action action)
+    public void setDefaultAction( Action action )
     {
         getActionLibrary().setDefaultAction( action );
     }
 
-    public void addAction(String id,
-                          Action action)
+    public void addAction( String id,
+                           Action action )
         throws DuplicateActionException
     {
         getActionLibrary().addAction( id,
                                       action );
     }
 
-    public MessageType getMessageType(String id)
+    public MessageType getMessageType( String id )
         throws NoSuchMessageTypeException
     {
         return getMessageTypeLibrary().getMessageType( id );
     }
 
-    public void addMessageType(MessageType messageType)
+    public void addMessageType( MessageType messageType )
         throws DuplicateMessageTypeException
     {
         getMessageTypeLibrary().addMessageType( messageType );
