@@ -55,27 +55,35 @@ public class DefaultCaseTransfer
 {
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    private String caseId;
+    private String packageId;
+    private String processId;
+	 private String caseId;
     private Map attributes;
     private String[] tokens;
 
-    public DefaultCaseTransfer(String caseId)
+    public DefaultCaseTransfer(String packageId, String processId, String caseId)
     {
-        this( caseId,
+        this( packageId,
+              processId,
+              caseId,
               Collections.EMPTY_MAP,
               EMPTY_STRING_ARRAY );
     }
 
-    public DefaultCaseTransfer(String caseId,
+    public DefaultCaseTransfer(String packageId,
+                               String processId,
+                               String caseId,
                                Map attributes,
                                String[] tokens)
     {
-        this.caseId     = caseId;
+        this.packageId  = packageId;
+	     this.processId  = processId;
+	     this.caseId     = caseId;
         this.attributes = new HashMap( attributes );
         this.tokens     = tokens;
     }
 
-    public String getCaseId()
+	public String getCaseId()
     {
         return this.caseId;
     }
@@ -89,4 +97,14 @@ public class DefaultCaseTransfer
     {
         return this.tokens;
     }
+
+	public String getProcessId()
+	{
+		return processId;
+	}
+
+	public String getPackageId()
+	{
+		return packageId;
+	}
 }

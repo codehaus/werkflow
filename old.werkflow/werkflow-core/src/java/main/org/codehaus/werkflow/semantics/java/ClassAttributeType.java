@@ -48,8 +48,10 @@ package org.codehaus.werkflow.semantics.java;
 
 import org.codehaus.werkflow.AttributeType;
 
+import java.io.Serializable;
+
 public class ClassAttributeType
-    implements AttributeType
+    implements AttributeType, Serializable
 {
     private Class type;
 

@@ -94,7 +94,9 @@ public class FleetingProcessPersistenceManager
                           initialAttrs.getAttribute( attrNames[i] ) );
         }
 
-        DefaultCaseTransfer caseTransfer = new DefaultCaseTransfer( "case." + (++counter),
+        DefaultCaseTransfer caseTransfer = new DefaultCaseTransfer( packageId,
+                                                                    processId,
+                                                                    "case." + (++counter),
                                                                     attrsMap,
                                                                     EMPTY_STRING_ARRAY );
 

@@ -1,5 +1,7 @@
 package org.codehaus.werkflow.service.persistence;
 
+import java.io.Serializable;
+
 /*
  $Id$
 
@@ -46,7 +48,7 @@ package org.codehaus.werkflow.service.persistence;
 
  */
 
-public interface ChangeSet
+public interface ChangeSet extends Serializable
 {
     CaseTransfer[] getModifiedCases();
 }

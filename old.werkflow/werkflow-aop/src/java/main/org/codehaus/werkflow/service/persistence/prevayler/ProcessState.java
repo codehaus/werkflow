@@ -61,7 +61,7 @@ import org.codehaus.werkflow.AttributeDeclaration;
  */
 class ProcessState implements Serializable
 {
-    public ProcessState(String packageId, String processId, AttributeDeclaration[] attributes)
+    public ProcessState( String packageId, String processId, AttributeDeclaration[] attributes )
     {
         _key = new ManagerKey( packageId, processId );
         _cases = new ConcurrentHashMap();
@@ -76,21 +76,21 @@ class ProcessState implements Serializable
         return _key;
     }
 
-    public boolean hasCase(String caseId)
+    public boolean hasCase( String caseId )
     {
         return _cases.containsKey( caseId );
     }
 
-    public CaseState loadCase(String caseId)
+    public CaseState loadCase( String caseId )
     {
         return (CaseState) _cases.get( caseId );
     }
 
-    public CaseState addCase(Map attributes)
+    public CaseState addCase( Map attributes )
     {
         String id = String.valueOf( nextId() );
 
-        CaseState state = new CaseState( id, attributes );
+        CaseState state = new CaseState( _key.getPackageId(), _key.getProcessId(), id, attributes );
         _cases.put( id, state );
 
         return state;

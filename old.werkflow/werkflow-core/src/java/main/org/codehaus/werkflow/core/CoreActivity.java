@@ -88,6 +88,7 @@ class CoreActivity
         System.err.println( "WorkItem.Transition.Task: " + getWorkItem().getTransition().getTask() );
         System.err.println( "WorkItem.Transition.Task.Action: " + getWorkItem().getTransition().getTask().getAction() );
         System.err.println( "action to perform: " + getWorkItem().getTransition().getTask().getAction() );
+
         getWorkItem().getTransition().getTask().getAction().perform( invocation );
     }
 }

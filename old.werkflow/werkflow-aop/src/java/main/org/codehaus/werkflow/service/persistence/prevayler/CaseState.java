@@ -46,18 +46,17 @@ package org.codehaus.werkflow.service.persistence.prevayler;
 
  */
 
+import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
+import EDU.oswego.cs.dl.util.concurrent.SyncSet;
+import EDU.oswego.cs.dl.util.concurrent.WriterPreferenceReadWriteLock;
+import org.codehaus.werkflow.service.persistence.CaseTransfer;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import EDU.oswego.cs.dl.util.concurrent.ConcurrentHashMap;
-import EDU.oswego.cs.dl.util.concurrent.SyncSet;
-import EDU.oswego.cs.dl.util.concurrent.WriterPreferenceReadWriteLock;
-
-import org.codehaus.werkflow.service.persistence.CaseTransfer;
 
 /**
  * @author kevin
@@ -67,26 +66,35 @@ import org.codehaus.werkflow.service.persistence.CaseTransfer;
  */
 class CaseState implements CaseTransfer
 {
-    CaseState(String caseId, Map attributes) throws ClassCastException
+    CaseState( String packageId, String processId, String caseId, Map attributes ) throws ClassCastException
     {
+        _packageId = packageId;
+        _processId = processId;
         _id = caseId;
         _tokens = new SyncSet( new HashSet(), new WriterPreferenceReadWriteLock() );
         _attributes = new ConcurrentHashMap();
 
-        Iterator attributeIterator = attributes.entrySet().iterator();
-        while (attributeIterator.hasNext())
-        {
-            Map.Entry entry = (Map.Entry) attributeIterator.next();
-            _attributes.put( (String) entry.getKey(), (Serializable) entry.getValue() );
-        }
+        setAttributes(attributes);
     }
 
     private final static String[] EMPTY_STRING_ARRAY = {
     };
 
+    private String _packageId;
+    private String _processId;
     private String _id;
     private Set _tokens;
     private Map _attributes;
+
+    public String getPackageId()
+    {
+        return _packageId;
+    }
+
+    public String getProcessId()
+    {
+        return _processId;
+    }
 
     /**
      * @see org.codehaus.werkflow.service.persistence.CaseTransfer#getCaseId()
@@ -112,24 +120,44 @@ class CaseState implements CaseTransfer
         return (String[]) _tokens.toArray( EMPTY_STRING_ARRAY );
     }
 
-    void addToken(String token)
+    public void setTokens( String[] tokens )
+    {
+        _tokens.clear();
+        for ( int i = 0; i < tokens.length; i++ )
+        {
+            _tokens.add( tokens[i] );
+        }
+    }
+
+    void addToken( String token )
     {
         _tokens.add( token );
     }
 
-    void setAttribute(String name, Serializable value)
+    void setAttribute( String name, Serializable value )
     {
         _attributes.put( name, value );
     }
 
-    Serializable getAttribute(String name)
+    Serializable getAttribute( String name )
     {
         return (Serializable) _attributes.get( name );
     }
 
-    boolean hasAttribute(String name)
+    boolean hasAttribute( String name )
     {
         return _attributes.containsKey( name );
     }
 
+    void setAttributes( Map attributes )
+    {
+        _attributes.clear();
+
+        Iterator attributeIterator = attributes.entrySet().iterator();
+        while ( attributeIterator.hasNext() )
+        {
+            Map.Entry entry = (Map.Entry) attributeIterator.next();
+            _attributes.put( (String) entry.getKey(), (Serializable) entry.getValue() );
+        }
+    }
 }

@@ -149,8 +149,6 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         }
     }
 
-
-
     private class SimpleInfo implements ProcessInfo
     {
 
