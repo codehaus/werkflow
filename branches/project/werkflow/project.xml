@@ -1,0 +1,61 @@
+<project>
+    <pomVersion>3</pomVersion>
+    <name>Werkflow</name>
+    <groupId>werkflow</groupId>
+    <artifactId>werkflow</artifactId>
+    <currentVersion>2.0-alpha-1</currentVersion>
+    <organization>
+        <name>The Codehaus</name>
+        <url>http://www.codehaus.org</url>
+        <logo>http://www.codehaus.org/codehaus-small.png</logo>
+    </organization>
+
+    <inceptionYear>2001</inceptionYear>
+
+    <package>org.codehaus.werkflow</package>
+
+    <dependencies>
+      <dependency>
+        <groupId>jdo</groupId>
+        <artifactId>jdo</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>ognl</groupId>
+        <artifactId>ognl</artifactId>
+        <version>2.6.5</version>
+      </dependency>
+    </dependencies>
+
+    <build>
+        <nagEmailAddress>scm@drools.codehaus.org</nagEmailAddress>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <unitTestSourceDirectory>src/test/java</unitTestSourceDirectory>
+
+        <!-- Unit test classes -->
+
+        <unitTest>
+            <includes>
+                <include>**/*Test.java</include>
+            </includes>
+            <resources>
+                <resource>
+                    <directory>src/test/resources</directory>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                </resource>
+            </resources>
+        </unitTest>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>
