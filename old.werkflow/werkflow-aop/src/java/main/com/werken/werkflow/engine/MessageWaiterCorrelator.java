@@ -3,6 +3,7 @@ package com.werken.werkflow.engine;
 import com.werken.werkflow.NoSuchCaseException;
 import com.werken.werkflow.NoSuchProcessException;
 import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.petri.Transition;
 import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
@@ -215,12 +216,21 @@ public class MessageWaiterCorrelator
     {
         try
         {
-            if ( getMessageWaiter().getMessageCorrelator().correlates( message.getMessage(),
-                                                                       processCase ) )
+            MessageCorrelator msgCorrelator = getMessageWaiter().getMessageCorrelator();
+
+            boolean doesCorrelate = true;
+
+            if ( msgCorrelator != null )
+            {
+                doesCorrelate = msgCorrelator.correlates( message.getMessage(),
+                                                   processCase );
+            }
+            
+            if ( doesCorrelate )
             {
                 notifyCorrelation( message,
                                    processCase );
-
+                
                 return true;
             }
         }
