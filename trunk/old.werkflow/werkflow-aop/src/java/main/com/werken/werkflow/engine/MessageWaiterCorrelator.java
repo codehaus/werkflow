@@ -7,6 +7,7 @@ import com.werken.werkflow.service.messaging.Message;
 import com.werken.werkflow.service.messaging.NoSuchMessageException;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
 
@@ -66,6 +67,8 @@ public class MessageWaiterCorrelator
     {
         addMessage( message.getId() );
 
+        List reevaluate = new ArrayList();
+
         Iterator caseIdIter = this.caseIds.iterator();
         String   eachCaseId = null;
         WorkflowProcessCase eachCase = null;
@@ -78,13 +81,34 @@ public class MessageWaiterCorrelator
             {
                 eachCase = getEngine().getProcessCase( eachCaseId );
 
-                attemptCorrelation( message,
-                                    eachCase );
+                if ( attemptCorrelation( message,
+                                         eachCase ) )
+                {
+                    reevaluate.add( eachCase );
+                }
             }
             catch (NoSuchCaseException e)
             {
                 // FIXME
                 e.printStackTrace();
+            }
+            catch (NoSuchProcessException e)
+            {
+                // FIXME
+                e.printStackTrace();
+            }
+        }
+
+        Iterator            reevalIter = reevaluate.iterator();
+        WorkflowProcessCase eachReeval = null;
+
+        while ( reevalIter.hasNext() )
+        {
+            eachReeval = (WorkflowProcessCase) reevalIter.next();
+
+            try
+            {
+                getEngine().evaluateCase( eachReeval );
             }
             catch (NoSuchProcessException e)
             {
@@ -184,16 +208,18 @@ public class MessageWaiterCorrelator
         return this.caseIds.contains( processCaseId );
     }
 
-    void attemptCorrelation(Message message,
-                            WorkflowProcessCase processCase)
+    boolean attemptCorrelation(Message message,
+                               WorkflowProcessCase processCase)
     {
         try
         {
-            if ( getMessageWaiter().getMessageCorrelator().correlates( message,
+            if ( getMessageWaiter().getMessageCorrelator().correlates( message.getMessage(),
                                                                        processCase ) )
             {
                 notifyCorrelation( message,
                                    processCase );
+
+                return true;
             }
         }
         catch (Exception e)
@@ -201,6 +227,8 @@ public class MessageWaiterCorrelator
             // FIXME
             e.printStackTrace();
         }
+
+        return false;
     }
 
     void notifyCorrelation(Message message,

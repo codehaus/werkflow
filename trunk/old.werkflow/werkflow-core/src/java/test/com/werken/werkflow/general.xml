@@ -1,7 +1,13 @@
 
 <process id="general"
          xmlns="werkflow:fundamental"
+         xmlns:wfjava="werkflow:java"
+         xmlns:wfjelly="werkflow:jelly"
          xmlns:j="jelly:core">
+
+  <message-type id="string.msg">
+    <wfjava:selector type="java.lang.String"/>
+  </message-type>
 
   <place id="in">
     <documentation>the in place</documentation>
@@ -19,6 +25,7 @@
     <documentation>the 1st transition</documentation>
     <input from="in"/>
     <output to="middle"/>
+    
     <task>
       <action>
         action 1
@@ -32,6 +39,11 @@
     <documentation>the 2nd transition</documentation>
     <input from="middle"/>
     <output to="out"/>
+
+    <message id="myMsg" type="string.msg">
+      <wfjelly:correlator test="${myMsg == bob}"/>
+    </message>>
+
     <task>
       <action>
         action 2

@@ -12,15 +12,14 @@ public class ClassMessageSelectorTag
 
     public ClassMessageSelectorTag()
     {
-
     }
 
-    public void setClass(String className)
+    public void setType(String className)
     {
         this.className = className;
     }
 
-    public String getClassName()
+    public String getType()
     {
         return this.className;
     }

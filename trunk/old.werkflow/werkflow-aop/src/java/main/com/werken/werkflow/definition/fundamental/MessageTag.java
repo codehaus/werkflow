@@ -64,10 +64,13 @@ public class MessageTag
         MessageWaiter waiter = new MessageWaiter( getType(),
                                                   getId() );
 
-        waiter.setMessageCorrelator( getMessageCorrelator() );
-
         transition.setMessageWaiter( waiter );
 
         invokeBody( output );
+
+        if ( getMessageCorrelator() != null )
+        {
+            waiter.setMessageCorrelator( getMessageCorrelator() );
+        }
     }
 }

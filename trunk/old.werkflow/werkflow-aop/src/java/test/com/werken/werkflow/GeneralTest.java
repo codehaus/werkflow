@@ -7,6 +7,7 @@ import com.werken.werkflow.engine.WorkflowEngine;
 import com.werken.werkflow.service.WfmsServices;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.caserepo.InMemoryCaseRepository;
+import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
 
 import junit.framework.TestCase;
 
@@ -20,7 +21,10 @@ public class GeneralTest
     {
         SimpleWfmsServices services = new SimpleWfmsServices();
 
+        SimpleMessagingManager messagingManager = new SimpleMessagingManager();
+
         services.setCaseRepository( new InMemoryCaseRepository() );
+        services.setMessagingManager( messagingManager );
 
         Wfms wfms = new WorkflowEngine( services );
 
@@ -47,7 +51,24 @@ public class GeneralTest
         ProcessCase processCase = runtime.newProcessCase( "general",
                                                           attrs );
 
-        // Thread.sleep( 2000 );
+        System.err.println( "sleep #1" );
 
+        Thread.sleep( 1000 );
+
+        System.err.println( "sending msg 'mcwhirter'" );
+
+        messagingManager.acceptMessage( "mcwhirter" );
+
+        System.err.println( "sleep #2" );
+
+        Thread.sleep( 1000 );
+
+        System.err.println( "sending msg 'mcstrachan'" );
+
+        messagingManager.acceptMessage( "mcstrachan" );
+
+        System.err.println( "sleep #3" );
+
+        Thread.sleep( 1000 );
     }
 }
