@@ -6,6 +6,8 @@
  */
 package com.werken.werkflow.service.persistence.prevayler;
 
+import org.prevayler.implementation.TransientPublisher;
+
 import junit.framework.TestCase;
 
 import com.werken.werkflow.AttributeDeclaration;
@@ -42,6 +44,8 @@ public class PrevaylerPersistenceManagerTest extends TestCase
         
         ProcessInfo info = createInfo("activate-passivate");        
         PrevaylerPersistenceManager manager =  new PrevaylerPersistenceManager();
+        manager.setTransactionPublisher(new TransientPublisher());
+        manager.setSnapOnStop(false);
         
         assertNotNull(manager);
         
