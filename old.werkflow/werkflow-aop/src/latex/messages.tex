@@ -64,9 +64,7 @@ semantic type is still differentiable.
 \end{codelisting}
 
 The \tag{java:selector} allows for differentiating messages by
-their Java class and a filtering expression.  \emph{FIXME:}
-At this point in time, the filtering expression is a Jexl
-expression, which just isn't the right thing.  Subject to change.
+their Java class and a filtering expression.  
 
 \begin{codelisting}
 package com.myco.messages;
@@ -98,11 +96,11 @@ public class PoMessage
 \begin{codelisting}
 <message-type id="accept.po">
     <java:selector type="com.myco.messages.PoMessage"
-                   filter="\$\{message.type == 'accept'\}"/>
+                   filter="message.getType().equals( &quot;accept&quot; )"/>
 </message-type>
 <message-type id="accept.po">
     <java:selector type="com.myco.messages.PoMessage"
-                   filter="\$\{message.type == 'reject'\}"/>
+                   filter="message.getType().equals( &quot;reject&quot; )"/>
 </message-type>
 \end{codelisting}
 
@@ -175,9 +173,6 @@ type may correlate differently.
 
 Here is an example, using the \verb|werkflow:basic| personality, of 
 receiving a correlated message:
-
-\emph{FIXME:} need to clean up the types of correlators and the
-expression languages used.  This is just plain confusing.
 
 \begin{codelisting}
 \dots
