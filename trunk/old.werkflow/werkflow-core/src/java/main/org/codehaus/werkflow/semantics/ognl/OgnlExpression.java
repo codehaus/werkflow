@@ -82,6 +82,8 @@ public class OgnlExpression
 
         for ( int i = 0 ; i < names.length ; ++i )
         {
+            System.out.println( "-------------------------------> names[i] = " + names[i] );
+
             exprContext.put( names[i],
                              context.getValue( names[i] ) );
         }
