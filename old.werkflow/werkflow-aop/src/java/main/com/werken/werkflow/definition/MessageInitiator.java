@@ -4,15 +4,15 @@ public class MessageInitiator
 {
     public static final MessageInitiator[] EMPTY_ARRAY = new MessageInitiator[0];
 
-    private String messageTypeId;
+    private MessageType messageType;
     private String bindingVar;
     private String documentation;
 
-    public MessageInitiator(String messageTypeId,
+    public MessageInitiator(MessageType messageType,
                             String bindingVar)
     {
-        this.messageTypeId = messageTypeId;
-        this.bindingVar = bindingVar;
+        this.messageType = messageType;
+        this.bindingVar  = bindingVar;
     }
 
     public void setDocumentation(String documentation)
@@ -25,9 +25,9 @@ public class MessageInitiator
         return this.documentation;
     }
 
-    public String getMessageTypeId()
+    public MessageType getMessageType()
     {
-        return this.messageTypeId;
+        return this.messageType;
     }
 
     public String getBindingVar()

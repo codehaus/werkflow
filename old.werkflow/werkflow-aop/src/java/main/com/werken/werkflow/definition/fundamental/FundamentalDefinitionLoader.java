@@ -2,6 +2,8 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.DefinitionLoader;
 import com.werken.werkflow.definition.ProcessDefinition;
+import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.MessageTypeLibrary;
 import com.werken.werkflow.semantics.java.JavaTagLibrary;
 import com.werken.werkflow.semantics.jelly.JellyTagLibrary;
 
@@ -21,6 +23,7 @@ public class FundamentalDefinitionLoader
     public static final String JAVA_TAGLIB_NS_URI = "werkflow:java";
     public static final String JELLY_TAGLIB_NS_URI = "werkflow:jelly";
 
+    static final String MESSAGE_TYPE_LIBRARY_KEY = "werkflow.msg.type.lib";
     static final String FUNDAMENTAL_DEFINITION_LIST = "werkflow.fundamental.definition-list";
 
     public FundamentalDefinitionLoader()
@@ -51,6 +54,9 @@ public class FundamentalDefinitionLoader
 
         context.setVariable( FUNDAMENTAL_DEFINITION_LIST,
                              defs );
+
+        context.setVariable( MESSAGE_TYPE_LIBRARY_KEY,
+                             new MessageTypeLibrary() );
 
         script.run( context,
                     XMLOutput.createDummyXMLOutput() );

@@ -17,12 +17,10 @@ public class ProcessTag
     private String id;
     private String documentation;
     private DefaultNet net;
-    private List messageTypes;
     private List messageInitiators;
 
     public ProcessTag()
     {
-        this.messageTypes      = new ArrayList();
         this.messageInitiators = new ArrayList();
     }
 
@@ -51,16 +49,6 @@ public class ProcessTag
         return this.documentation;
     }
 
-    public void addMessageType(MessageType messageType)
-    {
-        this.messageTypes.add( messageType );
-    }
-
-    public MessageType[] getMessageTypes()
-    {
-        return (MessageType[]) this.messageTypes.toArray( MessageType.EMPTY_ARRAY );
-    }
-
     public void addMessageInitiator(MessageInitiator initiator)
     {
         this.messageInitiators.add( initiator );
@@ -85,7 +73,6 @@ public class ProcessTag
 
         ProcessDefinition def = new ProcessDefinition( getId(),
                                                        this.net,
-                                                       getMessageTypes(),
                                                        getMessageInitiators() );
 
         def.setDocumentation( getDocumentation() );
@@ -95,7 +82,5 @@ public class ProcessTag
         defList.add( def );
 
         this.net = null;
-
-        this.messageTypes.clear();
     }
 }

@@ -2,6 +2,7 @@ package com.werken.werkflow.definition.fundamental;
 
 import com.werken.werkflow.definition.MessageCorrelator;
 import com.werken.werkflow.definition.MessageWaiter;
+import com.werken.werkflow.definition.MessageType;
 import com.werken.werkflow.definition.petri.DefaultNet;
 import com.werken.werkflow.definition.petri.DefaultPlace;
 
@@ -61,7 +62,9 @@ public class MessageTag
         TransitionTag transition = (TransitionTag) requiredAncestor( "transition",
                                                                      TransitionTag.class );
 
-        MessageWaiter waiter = new MessageWaiter( getType(),
+        MessageType msgType = getMessageTypeLibrary().getMessageType( getType() );
+
+        MessageWaiter waiter = new MessageWaiter( msgType,
                                                   getId() );
 
         transition.setMessageWaiter( waiter );

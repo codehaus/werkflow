@@ -52,7 +52,6 @@ public class ProcessDeploymentTest
 
         this.def = new ProcessDefinition( "the process",
                                           net,
-                                          MessageType.EMPTY_ARRAY,
                                           MessageInitiator.EMPTY_ARRAY );
 
         this.def.setDocumentation( "the docs" );

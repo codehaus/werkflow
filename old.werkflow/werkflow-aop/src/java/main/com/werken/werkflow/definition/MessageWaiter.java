@@ -2,20 +2,20 @@ package com.werken.werkflow.definition;
 
 public class MessageWaiter
 {
-    private String messageTypeId;
+    private MessageType messageType;
     private String bindingVar;
     private MessageCorrelator messageCorrelator;
 
-    public MessageWaiter(String messageTypeId,
+    public MessageWaiter(MessageType messageType,
                          String bindingVar)
     {
-        this.messageTypeId = messageTypeId;
+        this.messageType = messageType;
         this.bindingVar    = bindingVar;
     }
 
-    public String getMessageTypeId()
+    public MessageType getMessageType()
     {
-        return this.messageTypeId;
+        return this.messageType;
     }
 
     public String getBindingVar()
