@@ -7,21 +7,23 @@
   </properties>
 
   <body>
-    <section name="Anonymous CVS Access">
+    <section name="Web Access">
+      <p>
+        <a href="http://cvs.werkflow.codehaus.org/werkflow/">http://cvs.werkflow.codehaus.org/werkflow/</a>
+      </p>
+    </section>
 
+    <section name="Anonymous CVS Access">
       <p>
       This project's CVS repository can be checked out through anonymous (pserver) 
       CVS with the following instruction set. 
       When prompted for a password for anonymous, simply press the Enter key.
       </p>
 
-<p>
-<tt>cvs -d:pserver:anonymous@cvs.werken.com:/cvsroot/werkflow login</tt>
-</p>
- 
-<p>
-<tt>cvs -z3 -d:pserver:anonymous@cvs.werken.com:/cvsroot/werkflow co werkflow</tt>
-</p>
+<source>
+cvs -d :pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow login
+cvs -z3 -d :pserver:anonymous@cvs.codehaus.org:/cvsroot/werkflow co werkflow
+</source>
 
     <p>
     Updates from within the module's directory do not need the -d parameter.
@@ -36,13 +38,10 @@
     with the proper value. Enter your site password when prompted.
     </p>
 
-<p>
-<tt>export CVS_RSH=ssh</tt>
-</p>
- 
-<p>
-<tt>cvs -z3 -d:ext:name@cvs.werken.com:/cvsroot/werkflow co werkflow</tt>
-</p>
+<source>
+export CVS_RSH=ssh
+cvs -z3 -d :ext:name@cvs.codehaus.org:/cvsroot/werkflow co werkflow
+</source>
 
     </section>
   </body>
