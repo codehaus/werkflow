@@ -62,7 +62,7 @@ public class ProcessTag
         {
             Net net = builder.build( this.segment );
 
-            ProcessDefinition processDef = new ProcessDefinition( getTargetNamespace() + "/" + getName(),
+            ProcessDefinition processDef = new ProcessDefinition( getTargetNamespace() + "#" + getName(),
                                                                   net,
                                                                   MessageInitiator.EMPTY_ARRAY );
         }
