@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="bob@eng.werken.com">bob mcwhirter</author>
+    <title>FAQ</title>
+  </properties>
+
+  <body>
+    <section name="General">
+
+      <subsection name="Why do we need another workflow project?">
+     
+        <p>
+        The implementor and organization funding the
+        development of <code>werkflow</code> felt that existing open-source
+        solutions were insufficient for their needs in another project.
+        </p>
+
+      </subsection>
+
+      <subsection name="How are other projects insufficient?">
+        <p>
+        Most of the other workflow projects deal directly with
+        user-interface flows or otherwise interactive processes.
+        While this is useful, we needed a workflow system that
+        could also coordinate large-scale and long-term business
+        process flows.  Ideally, a single engine could address both
+        user-interface flows and enterprise business processes.
+        </p>
+      </subsection>
+
+      <subsection name="Who develops werkflow?">
+        <p>
+        <code>werkflow</code> is developed by the The Werken Company
+        under contract with <a href="http://www.zenplex.com/">Zenplex</a>.
+        The project lead is 
+        <a href="http://blogs.werken.com/people/bob/">Bob McWhirter</a>.
+        </p>
+      </subsection>
+
+      <subsection name="Does werkflow conform to any standards (BPEL4WS, BPML, etc)">
+        <p>
+        At this time, no.  These standards tend to address a very small portion
+        of the workflow space.  They also tend to be <i>block-based</i> workflow
+        descriptions where <code>werkflow</code> is based upon <i>states and transitions</i>.
+        </p>
+      </subsection>
+
+    </section>
+
+    <section name="Technology">
+
+      <subsection name="What is petridish?">
+        <p>
+        <a href="http://petridish.werken.com/">petridish</a> is the generic 
+        <b>petri net</b> framework that <code>werkflow</code> uses to
+        model and execute processes.  It was also created by The Werken
+        Company.
+        </p>
+      </subsection>
+
+    </section>
+
+  </body>
+
+</document>
+

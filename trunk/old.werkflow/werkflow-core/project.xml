@@ -52,7 +52,7 @@
 
   <repository>
     <connection>scm:cvs::pserver:anonymous@cvs.werken.com:/cvsroot/werkflow:werkflow</connection>
-    <url>http://cvs.werken.com/viewcvs.cgi/?cvsroot=werkflow/</url>
+    <url>http://cvs.werken.com/viewcvs.cgi/?cvsroot=werkflow</url>
   </repository>
 
   <developers>
@@ -170,10 +170,12 @@
       <url>http://jakarta.apache.org/log4j/</url>
     </dependency>
 
+<!--
     <dependency>
       <id>plexus</id>
       <version>0.1</version>
     </dependency>
+-->
 
 
   </dependencies>
