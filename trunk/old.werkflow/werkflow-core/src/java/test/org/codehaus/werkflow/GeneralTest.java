@@ -49,6 +49,36 @@ package org.codehaus.werkflow;
 public class GeneralTest
     extends WerkflowTestCase
 {
+    /**
+     * Test message-initiated process creation and message correlation.
+     */
+    public void testGeneral()
+        throws Exception
+    {
+        deployFundamentalProcess( "general.xml", 1 );
+        
+        SimpleMessage initMessage = new SimpleMessage( "init",
+                                                       "mcwhirter" );
+
+        messagingManager.acceptMessage( initMessage );
+
+        Thread.sleep( 1000 );
+
+        assertTrue( "init message not touched", initMessage.hasBeenTouched() );
+
+        SimpleMessage normalMessage = new SimpleMessage( "normal",
+                                                         "mr mcwhirter" );
+
+        messagingManager.acceptMessage( normalMessage );
+
+        Thread.sleep( 1000 );
+
+        assertTrue( "normal message not touched", normalMessage.hasBeenTouched() );
+    }
+
+    /**
+     * Test call-initiated process creation and execution.
+     */
     public void testGeneral2()
         throws Exception
     {
@@ -58,13 +88,22 @@ public class GeneralTest
 
         SimpleAttributes attrs = new SimpleAttributes();
 
+        attrs.setAttribute( "bob", "mcwhirter" );
+
         ProcessCase processCase = runtime.callProcess( "",
                                                        "general",
                                                        attrs );
 
         assertNotNull( processCase );
+
+        Thread.sleep( 1000 );
+
+        assertEquals( "mr mcwhirter", processCase.getAttribute( "bob" ) );
     }
 
+    /**
+     * Test call-initiated process creation and message correlation.
+     */
     public void testGeneral3()
         throws Exception
     {
@@ -80,9 +119,13 @@ public class GeneralTest
 
         assertNotNull( processCase );
 
-        messagingManager.acceptMessage( new SimpleMessage( "normal",
-                                                           "mr mcwhirter" ) );
+        SimpleMessage normalMessage = new SimpleMessage( "normal",
+                                                         "mr mcwhirter" );
+
+        messagingManager.acceptMessage( normalMessage );
 
         Thread.sleep( 1000 );
+
+        assertTrue( "normal message not touched", normalMessage.hasBeenTouched() );
     }
 }
