@@ -46,94 +46,90 @@ package com.werken.werkflow.event;
  
  */
 
-import com.werken.werkflow.Wfms;
-
-/** Indicates a <code>Transition</code> terminated for a <code>ProcessCase</code>.
- *
- *  @see com.werken.werkflow.ProcessCase
- *  @see com.werken.werkflow.definition.ProcessDefinition
- *  @see com.werken.werkflow.definition.petri.Net
- *  @see com.werken.werkflow.definition.petri.Transition
+/** Default no-op <code>WfmsEventListener</code> implementation.
  *
  *  @author <a href="mailto:bob@eng.werken.com">bob mcwhirter</a>
  *
  *  @version $Id$
  */
-public class TransitionTerminatedEvent
-    extends TransitionEvent
+public class DefaultWfmsEventListener
+    implements WfmsEventListener
 {
-    // ----------------------------------------------------------------------
-    //     Instance members
-    // ----------------------------------------------------------------------
-
-    /** Error, if erroneous termination. */
-    private Exception error;
-
     // ----------------------------------------------------------------------
     //     Constructors
     // ----------------------------------------------------------------------
-
+    
     /** Construct.
-     *
-     *  @param wfms The originating WFMS.
-     *  @param processId The process identifier.
-     *  @param caseId The initiated case identifier.
-     *  @param transitionId The transition identifier.
      */
-    public TransitionTerminatedEvent(Wfms wfms,
-                                     String processId,
-                                     String caseId,
-                                     String transitionId)
+    public DefaultWfmsEventListener()
     {
-        this( wfms,
-              processId,
-              caseId,
-              transitionId,
-              null );
-    }
-
-    /** Construct.
-     *
-     *  @param wfms The originating WFMS.
-     *  @param processId The process identifier.
-     *  @param caseId The initiated case identifier.
-     *  @param transitionId The transition identifier.
-     *  @param error Error if erroneously terminated.
-     */
-    public TransitionTerminatedEvent(Wfms wfms,
-                                     String processId,
-                                     String caseId,
-                                     String transitionId,
-                                     Exception error)
-    {
-        super( wfms,
-               processId,
-               caseId,
-               transitionId );
-
-        this.error = error;
+        // intentionally left blank
     }
 
     // ----------------------------------------------------------------------
     //     Instance methods
     // ----------------------------------------------------------------------
 
-    /** Retrieve the error <code>Exception</code> if any.
-     *
-     *  @return The exception if erroneously terminated.
+    /** @see WfmsEventListener
      */
-    public Exception getError()
+    public void processDeployed(ProcessDeployedEvent event)
     {
-        return this.error;
+        // intentionally left blank
     }
 
-    /** Determine if the transition terminated with an error.
-     *
-     *  @return <code>true</code> if terminated erroneously,
-     *          otherwise <code>true</code>.
+    /** @see WfmsEventListener
      */
-    public boolean terminatedWithError()
+    public void processUndeployed(ProcessUndeployedEvent event)
     {
-        return ( this.error != null );
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void caseInitiated(CaseInitiatedEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void caseTerminated(CaseTerminatedEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void tokensProduced(TokensProducedEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void tokensConsumed(TokensConsumedEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void tokensRolledBack(TokensRolledBackEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void transitionInitiated(TransitionInitiatedEvent event)
+    {
+        // intentionally left blank
+    }
+
+    /** @see WfmsEventListener
+     */
+    public void transitionTerminated(TransitionTerminatedEvent event)
+    {
+        // intentionally left blank
     }
 }
