@@ -1,7 +1,5 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.Expression;
-
 public class Counter
     implements Expression
 {

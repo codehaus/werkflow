@@ -1,10 +1,5 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.Component;
-import org.codehaus.werkflow.spi.AsyncComponent;
-import org.codehaus.werkflow.spi.Satisfaction;
-import org.codehaus.werkflow.spi.Path;
-
 import java.util.LinkedList;
 
 public class Workflow

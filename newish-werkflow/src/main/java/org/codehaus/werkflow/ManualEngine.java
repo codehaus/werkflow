@@ -1,7 +1,5 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.*;
-
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
@@ -18,25 +16,15 @@ public class ManualEngine
     private Map queues;
     private Set polls;
 
-    public ManualEngine(InstanceManager instanceManager)
+    public ManualEngine()
     {
         this.queues = new HashMap();
         this.polls  = new HashSet();
-
-        setInstanceManager( instanceManager );
     }
 
-    public ManualEngine(InstanceManager instanceManager,
-                        SatisfactionManager satisfactionManager)
-    {
-        this( instanceManager );
-        setSatisfactionManager( satisfactionManager );
-    }
-
-    protected void enqueue(final RobustInstance instance,
+    protected void enqueue(final Instance instance,
                            final Path path)
     {
-        instance.enqueue( path );
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
 
         if ( list == null )
@@ -47,11 +35,6 @@ public class ManualEngine
         }
 
         list.addLast( path );
-    }
-
-    protected boolean isActive(RobustInstance instance)
-    {
-        return ( getEnqueued( instance ).length > 0 );
     }
 
     Path[] getEnqueued(Instance instance)
@@ -67,7 +50,7 @@ public class ManualEngine
     }
 
     public boolean step(Instance instance)
-        throws Exception
+        throws InterruptedException
     {
         LinkedList list = (LinkedList) this.queues.get( instance.getId() );
 
@@ -80,7 +63,7 @@ public class ManualEngine
 
         Path path = (Path) list.removeFirst();
 
-        run( (RobustInstance) instance,
+        run( instance,
              path );
 
         return true;
@@ -118,7 +101,7 @@ public class ManualEngine
                     {
                         cancelSatisfactionPoll( this );
                     }
-                    catch (Exception e)
+                    catch (NoSuchInstanceException e)
                     {
                         e.printStackTrace();
                         cancelSatisfactionPoll( this );

@@ -1,8 +1,5 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.*;
-import org.codehaus.werkflow.idioms.*;
-
 public class WorkflowTest
     extends WerkflowTestBase
 {

@@ -1,6 +1,7 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.*;
+import EDU.oswego.cs.dl.util.concurrent.PooledExecutor;
+import EDU.oswego.cs.dl.util.concurrent.LinkedQueue;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -13,44 +14,37 @@ public class AutomaticEngine
     extends Engine
 {
     private Timer timer;
-    private ThreadPool pool;
+    private PooledExecutor pool;
 
     public AutomaticEngine()
     {
         this.timer = new Timer();
-        this.pool = new ThreadPool( this,
-                                    1 );
-
-        this.pool.start();
+        this.pool  = new PooledExecutor( new LinkedQueue() );
+        this.pool.setKeepAliveTime(-1); 
+        this.pool.createThreads(5);
     }
 
-    public AutomaticEngine(InstanceManager instanceManager)
-    {
-        this();
-        setInstanceManager( instanceManager );
-    }
-
-    public AutomaticEngine(InstanceManager instanceManager,
-                           SatisfactionManager satisfactionManager)
-    {
-        this();
-        setInstanceManager( instanceManager );
-        setSatisfactionManager( satisfactionManager );
-    }
-
-    protected boolean isActive(RobustInstance instance)
-    {
-        return this.pool.isActive( instance );
-    }
-
-    protected void enqueue(RobustInstance instance,
-                           Path path)
+    protected void enqueue(final Instance instance,
+                           final Path path)
         throws InterruptedException
     {
-        instance.enqueue( path );
-        InstanceTask task = new InstanceTask( instance,
-                                              path );
-        this.pool.enqueue( task );
+        Runnable task = new Runnable()
+            {
+                public void run()
+                {
+                    try
+                    {
+                        AutomaticEngine.this.run( instance,
+                                                  path );
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+        this.pool.execute( task );
     }
 
     protected void setupSatisfactionPoll(final PolledSatisfaction satisfaction,
@@ -65,7 +59,7 @@ public class AutomaticEngine
                     try
                     {
                         if ( getSatisfactionManager().isSatisfied( satisfaction.getId(),
-                                                                  (RobustInstance) getInstance( instanceId ) ) )
+                                                                  getInstance( instanceId ) ) )
                         {
                             cancel();
                             
@@ -77,7 +71,7 @@ public class AutomaticEngine
                     {
                         cancel();
                     }
-                    catch (Exception e)
+                    catch (NoSuchInstanceException e)
                     {
                         e.printStackTrace();
                         cancel();

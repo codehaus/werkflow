@@ -1,17 +1,14 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.InstanceRef;
-
 public class SingleStateInstance
-    extends InstanceRef
+    extends Instance
 {
-    public SingleStateInstance(Instance instance)
+    protected SingleStateInstance(Engine engine,
+                                  Workflow workflow,
+                                  String id)
     {
-        super( instance );
-    }
-
-    public String getState()
-    {
-        return (String) get( "org.codehaus.werkflow.SingleStateInstance|state" );
+        super( engine,
+               workflow,
+               id );
     }
 }
