@@ -594,6 +594,10 @@ public class WorkflowEngine
                                           transition );
     }
 
+    /** Attach a <code>WfmsEventListener</code>.
+     *
+     *  @param listener The listener
+     */
     void addEventListener(WfmsEventListener listener)
     {
 

@@ -47,4 +47,14 @@
   </goal>
 
   <goal name="getting-started" prereqs="werkflow:example-po"/>
+
+  <goal name="rhill">
+
+    <j:set var="wp" value="${org.apache.commons.jelly.werkz.Project}"/>
+
+    <j:forEach var="goal" items="${wp.goals}">
+      <echo>  goal ${goal.name}</echo>
+    </j:forEach>
+   
+  </goal>
 </project>

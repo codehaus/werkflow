@@ -105,6 +105,10 @@ public class WorkflowAdmin
         getEngine().deployProcess( processDef );
     }
 
+    /** Attach a <code>WfmsEventListener</code>.
+     *
+     *  @param listener The listener
+     */
     public void addEventListener(WfmsEventListener listener)
     {
         getEngine().addEventListener( listener );
