@@ -11,6 +11,7 @@ public class TransitionTag
 {
     private String id;
     private String action;
+    private String waiter;
     private String documentation;
 
     public TransitionTag()
@@ -38,6 +39,16 @@ public class TransitionTag
         return this.action;
     }
 
+    public void setWaiter(String waiter)
+    {
+        this.waiter = waiter;
+    }
+
+    public String getWaiter()
+    {
+        return this.waiter;
+    }
+
     public void setDocumentation(String documentation)
     {
         this.documentation = documentation;
@@ -61,6 +72,7 @@ public class TransitionTag
         TransitionDefinition transition = new TransitionDefinition( getId(),
                                                                     getDocumentation() );
 
+        transition.setWaiter( getWaiter() );
         transition.setAction( getAction() );
 
         idiomDef.addTransition( transition );

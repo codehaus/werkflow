@@ -3,6 +3,7 @@ package com.werken.werkflow.definition.petri;
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
 import com.werken.werkflow.task.DefaultTask;
+import com.werken.werkflow.definition.Waiter;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -247,7 +248,8 @@ public class Idiom
 
     void addTransition(String id,
                        String documentation,
-                       Action action)
+                       Action action,
+                       Waiter waiter)
     {
         // System.err.println( getId() + " addTransition(" + id + ")" );
         DefaultTransition transition = new DefaultTransition( id );

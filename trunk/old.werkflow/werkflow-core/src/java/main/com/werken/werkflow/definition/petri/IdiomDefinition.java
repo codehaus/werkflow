@@ -2,6 +2,7 @@ package com.werken.werkflow.definition.petri;
 
 import com.werken.werkflow.action.Action;
 import com.werken.werkflow.expr.Expression;
+import com.werken.werkflow.definition.Waiter;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -239,7 +240,9 @@ public class IdiomDefinition
                                                 idiom ),
                                      transitionDefs[i].getDocumentation(),
                                      getAction( idiom,
-                                                transitionDefs[i].getAction() ) );
+                                                transitionDefs[i].getAction() ),
+                                     getWaiter( idiom,
+                                                transitionDefs[i].getWaiter() ) );
             }
         }
 
@@ -293,7 +296,9 @@ public class IdiomDefinition
                                                 idiom ),
                                      transitionDefs[i].getDocumentation(),
                                      getAction( idiom,
-                                                transitionDefs[i].getAction() ) );
+                                                transitionDefs[i].getAction() ),
+                                     getWaiter( idiom,
+                                                transitionDefs[i].getWaiter() ) );
             }
         }
 
@@ -376,7 +381,9 @@ public class IdiomDefinition
                 idiom.addTransition( id,
                                      transitionDefs[i].getDocumentation(),
                                      getAction( idiom,
-                                                transitionDefs[i].getAction() ));
+                                                transitionDefs[i].getAction() ),
+                                     getWaiter( idiom,
+                                                transitionDefs[i].getWaiter() ) );
             }
         }
 
@@ -439,17 +446,17 @@ public class IdiomDefinition
         idiom.stashAll( stashings );
         
         /*
-        for ( int i = 0 ; i < placeDefs.length ; ++i )
-        {
-            if ( placeDefs[i].getId().startsWith( COMPONENT_PREFIX ) )
-            {
-                if ( placeDefs[i].getStashId() != null )
-                {
-                    idiom.stash( placeDefs[i].getStashId(),
-                                 placeDefs[i].getId() );
-                }
-            }
-        }
+          for ( int i = 0 ; i < placeDefs.length ; ++i )
+          {
+          if ( placeDefs[i].getId().startsWith( COMPONENT_PREFIX ) )
+          {
+          if ( placeDefs[i].getStashId() != null )
+          {
+          idiom.stash( placeDefs[i].getStashId(),
+          placeDefs[i].getId() );
+          }
+          }
+          }
         */
     }
 
@@ -524,6 +531,25 @@ public class IdiomDefinition
         if ( actionStr.startsWith( PARAMETER_PREFIX ) )
         {
             return (Action) idiom.getParameter( actionStr.substring( PARAMETER_PREFIX.length() ) );
+        }
+
+        return null;
+    }
+
+    protected Waiter getWaiter(Idiom idiom,
+                               String waiterStr)
+        throws NoSuchParameterException
+    {
+        if ( waiterStr == null
+             ||
+             waiterStr.equals( "" ) )
+        {
+            return null;
+        }
+
+        if ( waiterStr.startsWith( PARAMETER_PREFIX ) )
+        {
+            return (Waiter) idiom.getParameter( waiterStr.substring( PARAMETER_PREFIX.length() ) );
         }
 
         return null;

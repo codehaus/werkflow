@@ -163,5 +163,21 @@
             </transition>
         </template>
     </idiom>
+
+    <!--
+      ||    RECEIVE
+      -->
+
+    <idiom id="receive">
+        <template>
+            <transition id="receive">
+                <input from="in"/>
+                <output  to="out"/>
+                <message type="${type}" correlator="${correlator}"/>
+            </transition>
+        </template>
+    </idiom>
 </idioms>
+
+
 
