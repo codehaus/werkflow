@@ -63,4 +63,48 @@ public class InMemoryCaseRepository
 
         return (String[]) caseIds.toArray( EMPTY_STRING_ARRAY );
     }
+
+    public String[] selectCases(String processId,
+                                Map qbeAttrs)
+    {
+        List caseIds = new ArrayList();
+        
+        Iterator  caseIter = this.cases.values().iterator();
+        CaseState eachCase = null;
+
+        while ( caseIter.hasNext() )
+        {
+            eachCase = (CaseState) caseIter.next();
+
+            if ( eachCase.getProcessId().equals( processId ) )
+            {
+            }
+        }
+
+        return (String[]) caseIds.toArray( EMPTY_STRING_ARRAY );
+    }
+
+    protected boolean evalQueryByExample(CaseState caseState,
+                                         Map qbeAttrs)
+    {
+        Iterator attrNameIter = qbeAttrs.keySet().iterator();
+        String   eachAttrName = null;
+
+        while ( attrNameIter.hasNext() )
+        {
+            eachAttrName = (String) attrNameIter.next();
+
+            if ( ! caseState.hasAttribute( eachAttrName ) )
+            {
+                return false;
+            }
+
+            if ( ! caseState.getAttribute( eachAttrName ).equals( qbeAttrs.get( eachAttrName ) ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -49,6 +49,8 @@ package com.werken.werkflow.service.caserepo;
 import com.werken.werkflow.Attributes;
 import com.werken.werkflow.QueryException;
 
+import java.util.Map;
+
 /** Service to provide persistence for process cases.
  *
  *  <p>
@@ -98,5 +100,9 @@ public interface CaseRepository
 
     String[] selectCases(String processId,
                          String placeId)
+        throws QueryException;
+
+    String[] selectCases(String processId,
+                         Map qbeAttrs)
         throws QueryException;
 }
