@@ -4,6 +4,7 @@ import com.werken.werkflow.WerkflowTestCase;
 import com.werken.werkflow.admin.WfmsAdmin;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.engine.WorkflowEngine;
+import com.werken.werkflow.personality.Personality;
 import com.werken.werkflow.personality.basic.BasicPersonality;
 import com.werken.werkflow.service.SimpleWfmsServices;
 import com.werken.werkflow.service.messaging.simple.SimpleMessagingManager;
@@ -46,7 +47,7 @@ public class ActivityManagerTest
         Map beans = new HashMap();
         beans.put( "actionManager", new ActionManager() );
 
-        BasicPersonality bp = BasicPersonality.getInstance();
+        Personality bp = BasicPersonality.getInstance();
 
         ProcessDefinition[] processDefs = bp.load( url, beans );
         WfmsAdmin admin = engine.getAdmin();
