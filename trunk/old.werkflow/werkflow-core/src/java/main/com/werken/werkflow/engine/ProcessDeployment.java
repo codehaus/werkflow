@@ -161,7 +161,8 @@ public class ProcessDeployment
                 }
                 else
                 {
-                    if ( processCase.isCorrelated( eachTrans.getId() ) )
+                    if ( getCorrelator().isCorrelated( processCase.getId(),
+                                                       eachTrans ) )
                     {
                         enabledTrans.add( eachTrans );
                     }

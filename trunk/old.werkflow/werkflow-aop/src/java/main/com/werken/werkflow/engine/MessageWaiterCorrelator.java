@@ -178,8 +178,6 @@ public class MessageWaiterCorrelator
     void notifyCorrelation(Message message,
                            WorkflowProcessCase processCase)
     {
-        processCase.addCorrelation( getTransitionId(),
-                                    message.getId() );
     }
 
     void evaluateCase(WorkflowProcessCase processCase,
@@ -193,5 +191,10 @@ public class MessageWaiterCorrelator
                 return;
             }
         }
+    }
+
+    boolean isCorrelated(String processCaseId)
+    {
+        return false;
     }
 }
