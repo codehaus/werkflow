@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.SyncComponent;
+
 import java.util.List;
 import java.util.ArrayList;
 

@@ -1,6 +1,8 @@
 package org.codehaus.werkflow.persistent;
 
 import org.codehaus.werkflow.*;
+import org.codehaus.werkflow.spi.*;
+import org.codehaus.werkflow.idioms.*;
 
 import java.io.File;
 import java.util.List;

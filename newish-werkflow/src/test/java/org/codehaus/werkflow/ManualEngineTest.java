@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.*;
+import org.codehaus.werkflow.idioms.*;
 import org.codehaus.werkflow.nonpersistent.*;
 
 import java.util.Arrays;

@@ -1,7 +1,9 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.*;
 
 public class DefaultInstanceTest
-    extends WerkflowTestBase
+    extends SpiTestBase
 {
     public void testConstructor()
         throws Exception

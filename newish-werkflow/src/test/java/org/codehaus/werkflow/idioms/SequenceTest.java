@@ -1,4 +1,8 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.idioms;
+
+import org.codehaus.werkflow.*;
+import org.codehaus.werkflow.spi.*;
+import org.codehaus.werkflow.idioms.*;
 
 public class SequenceTest
     extends WerkflowTestBase
