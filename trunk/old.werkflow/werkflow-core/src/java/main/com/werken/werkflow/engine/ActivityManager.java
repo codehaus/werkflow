@@ -276,7 +276,7 @@ class ActivityManager
                             }
                             catch (NoSuchCorrelationException e)
                             {
-                                e.printStackTrace();
+                                // e.printStackTrace();
                                 throw new VerificationException( processCase );
                             }
                             catch (NoSuchProcessException e)

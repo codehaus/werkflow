@@ -55,6 +55,9 @@ public class RestaurantTest
         messagingManager.acceptMessage( new SimpleMessage( "table.available",
                                                            "mcwhirter" ) );
 
+        messagingManager.acceptMessage( new SimpleMessage( "table.available",
+                                                           "strachan" ) );
+
 
         Thread.sleep( 1000 );
     }
