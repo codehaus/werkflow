@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.Path;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -16,6 +18,8 @@ public interface Instance
     Object get(String id);
 
     Path[] getActiveChildren(Path path);
+
+    boolean isComplete();
 
     void waitFor()
         throws InterruptedException;

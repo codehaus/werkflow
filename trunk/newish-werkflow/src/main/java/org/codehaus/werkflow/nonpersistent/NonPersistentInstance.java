@@ -1,18 +1,19 @@
 package org.codehaus.werkflow.nonpersistent;
 
 import org.codehaus.werkflow.*;
+import org.codehaus.werkflow.spi.*;
 
 public class NonPersistentInstance
     extends RobustInstanceRef
 {
     private DefaultInstance backup;
 
-    protected NonPersistentInstance(DefaultInstance instance)
+    public NonPersistentInstance(DefaultInstance instance)
     {
         super( instance );
     }
 
-    protected void startTransaction()
+    public void startTransaction()
         throws Exception
     {
         if ( this.backup != null )
@@ -24,13 +25,13 @@ public class NonPersistentInstance
         setInstance( this.backup.duplicate() );
     }
 
-    protected void commitTransaction()
+    public void commitTransaction()
         throws Exception
     {
         this.backup = null;
     }
 
-    protected void abortTransaction()
+    public void abortTransaction()
         throws Exception
     {
         setInstance( this.backup );

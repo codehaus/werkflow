@@ -7,7 +7,8 @@ public class DefaultInstanceTest
         throws Exception
     {
         DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
-                                                        "ted" );
+                                                        "ted",
+                                                        new InitialContext() );
 
         assertEquals( "instance name is 'ted'",
                       "ted",
@@ -18,7 +19,8 @@ public class DefaultInstanceTest
         throws Exception
     {
         DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
-                                                        "ted" );
+                                                        "ted",
+                                                        new InitialContext()  );
 
         Path path_0 = new Path();
 
@@ -61,7 +63,8 @@ public class DefaultInstanceTest
         throws Exception
     {
         DefaultInstance instance = new DefaultInstance( new Workflow( "larry" ),
-                                                        "ted" );
+                                                        "ted",
+                                                        new InitialContext()  );
 
         Path path = new Path();
 

@@ -1,4 +1,10 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.idioms;
+
+import org.codehaus.werkflow.Instance;
+import org.codehaus.werkflow.spi.Expression;
+import org.codehaus.werkflow.spi.Component;
+import org.codehaus.werkflow.spi.AsyncComponent;
+import org.codehaus.werkflow.spi.Path;
 
 public class While
     implements AsyncComponent

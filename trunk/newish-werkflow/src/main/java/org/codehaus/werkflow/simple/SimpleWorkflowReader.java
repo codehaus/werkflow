@@ -1,6 +1,8 @@
 package org.codehaus.werkflow.simple;
 
-import org.codehaus.werkflow.*;
+import org.codehaus.werkflow.Workflow;
+import org.codehaus.werkflow.idioms.*;
+import org.codehaus.werkflow.spi.*;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;

@@ -1,4 +1,4 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
 
 import java.io.Serializable;
 

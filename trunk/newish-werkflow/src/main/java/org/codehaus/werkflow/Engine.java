@@ -1,5 +1,7 @@
 package org.codehaus.werkflow;
 
+import org.codehaus.werkflow.spi.*;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;

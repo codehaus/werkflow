@@ -42,5 +42,10 @@ public class InitialContext
         return this.context.get( name );
     }
 
+    public Map getContextMap()
+    {
+        return this.context;
+    }
+
         
 }

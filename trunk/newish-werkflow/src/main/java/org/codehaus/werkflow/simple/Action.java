@@ -1,6 +1,6 @@
 package org.codehaus.werkflow.simple;
 
-import org.codehaus.werkflow.SyncComponent;
+import org.codehaus.werkflow.spi.SyncComponent;
 import org.codehaus.werkflow.Instance;
 
 class Action

@@ -1,6 +1,7 @@
 package org.codehaus.werkflow.nonpersistent;
 
 import org.codehaus.werkflow.*;
+import org.codehaus.werkflow.spi.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class NonPersistentInstanceManager
 
     public synchronized RobustInstance newInstance(Workflow workflow,
                                                    String id,
-                                                   Context initialContext)
+                                                   InitialContext initialContext)
         throws DuplicateInstanceException, Exception
     {
         RobustInstance instance = (RobustInstance) this.instances.get( id );
@@ -40,11 +41,12 @@ public class NonPersistentInstanceManager
 
     protected RobustInstance makeInstance(Workflow workflow,
                                           String id,
-                                          Context initialCOntext)
+                                          InitialContext initialContext)
         throws Exception
     {
         return new NonPersistentInstance( new DefaultInstance( workflow,
-                                                               id ) );
+                                                               id,
+                                                               initialContext ) );
     }
 
     public RobustInstance getInstance(String id)

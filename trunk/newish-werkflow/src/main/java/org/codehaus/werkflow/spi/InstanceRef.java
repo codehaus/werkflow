@@ -1,4 +1,7 @@
-package org.codehaus.werkflow;
+package org.codehaus.werkflow.spi;
+
+import org.codehaus.werkflow.Instance;
+import org.codehaus.werkflow.Workflow;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -54,5 +57,10 @@ public class InstanceRef
         throws InterruptedException
     {
         getInstance().waitFor();
+    }
+
+    public boolean isComplete()
+    {
+        return getInstance().isComplete();
     }
 }
