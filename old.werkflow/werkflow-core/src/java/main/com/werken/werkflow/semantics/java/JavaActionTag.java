@@ -8,11 +8,14 @@ import org.apache.commons.jelly.MissingAttributeException;
 public class JavaActionTag
     extends AbstractActionTag
 {
+    public static final String DEFAULT_METHOD_NAME = "execute";
+
     private String className;
+    private String methodName;
 
     public JavaActionTag()
     {
-
+        this.methodName = DEFAULT_METHOD_NAME;
     }
 
     public void setClass(String className)
@@ -23,6 +26,26 @@ public class JavaActionTag
     public String getClassName()
     {
         return this.className;
+    }
+
+    public void setType(String className)
+    {
+        this.className = className;
+    }
+
+    public String getType()
+    {
+        return this.className;
+    }
+
+    public void setMethod(String method)
+    {
+        this.methodName = methodName;
+    }
+
+    public String getMethod()
+    {
+        return this.methodName;
     }
 
     public void doTag(XMLOutput output)
@@ -50,8 +73,10 @@ public class JavaActionTag
         Object bean = beanClass.newInstance();
 
         JavaAction action = new JavaAction( bean,
-                                            "execute" );
+                                            getMethod() );
 
         setAction( action );
+
+        setMethod( DEFAULT_METHOD_NAME );
     }
 }
