@@ -57,7 +57,8 @@ public class GeneralTest
 
         System.err.println( "sending msg 'mcwhirter'" );
 
-        messagingManager.acceptMessage( "mcwhirter" );
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mcwhirter" ) );
 
         System.err.println( "sleep #2" );
 
@@ -65,7 +66,9 @@ public class GeneralTest
 
         System.err.println( "sending msg 'mcstrachan'" );
 
-        messagingManager.acceptMessage( "mcstrachan" );
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mcstrachan" ) );
+
 
         System.err.println( "sleep #3" );
 
@@ -85,11 +88,16 @@ public class GeneralTest
         
         System.err.println( "sending msg 'mcstrachan'" );
 
-        messagingManager.acceptMessage( "mcstrachan" );
+        messagingManager.acceptMessage( new SimpleMessage( "normal",
+                                                           "mcstrachan" ) );
 
         System.err.println( "sleep #5" );
 
         Thread.sleep( 1000 );
-        
+
+        messagingManager.acceptMessage( new SimpleMessage( "init",
+                                                           "larry" ) );
+
+        Thread.sleep( 1000 );
     }
 }

@@ -2,6 +2,7 @@ package com.werken.werkflow.engine;
 
 import com.werken.werkflow.ProcessInfo;
 import com.werken.werkflow.definition.MessageType;
+import com.werken.werkflow.definition.MessageInitiator;
 import com.werken.werkflow.definition.ProcessDefinition;
 import com.werken.werkflow.definition.MessageWaiter;
 import com.werken.werkflow.definition.petri.Net;
@@ -34,9 +35,12 @@ public class ProcessDeployment
     private ProcessDefinition processDef;
 
     private Map rules;
+
     private Map messageTypes;
 
     private Correlator correlator;
+
+    private Initiator initiator;
     
     public ProcessDeployment(WorkflowEngine engine,
                              ProcessDefinition processDef)
@@ -47,6 +51,9 @@ public class ProcessDeployment
 
         this.correlator   = new Correlator( engine,
                                             this );
+
+        this.initiator    = new Initiator( engine,
+                                           this );
 
         this.messageTypes = new HashMap();
 
@@ -90,7 +97,10 @@ public class ProcessDeployment
     private void initializeMessagingRules()
         throws ProcessDeploymentException
     {
-        
+        MessageInitiator[] msgInitiators = getProcessDefinition().getMessageInitiators();
+
+        getInitiator().addMessageInitiators( msgInitiators );
+
         try
         {
             Net net = getProcessDefinition().getNet();
@@ -125,6 +135,11 @@ public class ProcessDeployment
     private Correlator getCorrelator()
     {
         return this.correlator;
+    }
+
+    private Initiator getInitiator()
+    {
+        return this.initiator;
     }
 
     protected MessageType getMessageType(String id)
