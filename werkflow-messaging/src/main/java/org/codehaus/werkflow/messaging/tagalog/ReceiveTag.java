@@ -6,6 +6,7 @@ package org.codehaus.werkflow.messaging.tagalog;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
 
@@ -35,7 +36,8 @@ public class ReceiveTag
                      attributes );
     }
 
-    public void child(Object child)
+    public void child(TagBinding childType,
+                      Object child)
         throws TagException, TagalogParseException
     {
         if ( child instanceof Component )

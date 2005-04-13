@@ -6,7 +6,9 @@ package org.codehaus.werkflow.tagalog;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
+
 import org.codehaus.werkflow.idioms.Parallel;
 import org.codehaus.werkflow.spi.Component;
 
@@ -26,7 +28,8 @@ public class ParallelTag
         parallel = new Parallel();
     }
 
-    public void child(Object child)
+    public void child(TagBinding childType,
+                      Object child)
         throws TagException
     {
         if ( child instanceof Component )
