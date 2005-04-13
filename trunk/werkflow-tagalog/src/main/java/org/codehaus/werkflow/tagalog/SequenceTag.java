@@ -7,8 +7,10 @@ package org.codehaus.werkflow.tagalog;
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
 import org.codehaus.tagalog.Tag;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
 import org.codehaus.tagalog.TagalogParseException;
+
 import org.codehaus.werkflow.idioms.Sequence;
 import org.codehaus.werkflow.spi.Component;
 
@@ -29,7 +31,8 @@ public class SequenceTag
         sequence = new Sequence();
     }
 
-    public void child(Object child)
+    public void child(TagBinding childType,
+                      Object child)
         throws TagException, TagalogParseException
     {
         if ( child instanceof Component )
