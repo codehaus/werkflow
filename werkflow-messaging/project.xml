@@ -2,7 +2,7 @@
     <pomVersion>3</pomVersion>
     <name>Werkflow Drools</name>
     <groupId>werkflow</groupId>
-    <artifactId>werkflow-drools</artifactId>
+    <artifactId>werkflow-messaging</artifactId>
     <currentVersion>2.0-alpha-1</currentVersion>
     <organization>
         <name>The Codehaus</name>
