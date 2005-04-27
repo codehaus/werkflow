@@ -7,12 +7,20 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.codehaus.tagalog.ParseError;
 import org.codehaus.tagalog.ParserConfiguration;
 import org.codehaus.tagalog.TagalogParser;
+import org.codehaus.tagalog.el.ParseController;
+import org.codehaus.tagalog.el.ognl.OgnlExpressionParser;
 import org.codehaus.tagalog.sax.TagalogSAXParserFactory;
+import org.codehaus.tagalog.script.core.tags.CoreTagLibrary;
+import org.codehaus.tagalog.script.tags.PITagLibrary;
+import org.codehaus.tagalog.script.tags.ScriptTagLibrary;
+
 import org.codehaus.werkflow.Workflow;
 import org.codehaus.werkflow.simple.ActionManager;
 import org.codehaus.werkflow.spi.Instance;
+import org.codehaus.werkflow.tagalog.script.TagalogTagLibrary;
 
 public class TagalogTestBase
     extends TestCase
@@ -29,6 +37,12 @@ public class TagalogTestBase
 
         config.addTagLibrary( SimpleWerkflowTagLibrary.NS_URI,
                               new SimpleWerkflowTagLibrary() );
+        config.addTagLibrary( TagalogTagLibrary.NS_URI,
+                              new TagalogTagLibrary() );
+        config.addTagLibrary( CoreTagLibrary.NS_URI,
+                              new CoreTagLibrary() );
+
+        config.setProcessingInstructionTagLibrary( new PITagLibrary() );
 
         factory = new TagalogSAXParserFactory(config);
     }
@@ -49,9 +63,27 @@ public class TagalogTestBase
         context.put( "actionManager",
                      this );
 
+        ParseController expressionParser = (ParseController) ParseController.DEFAULT.clone();
+
+        expressionParser.replaceExpressionLanguage( ParseController.STANDARD,
+                                                    new OgnlExpressionParser() );
+
+        context.put( ScriptTagLibrary.TAGALOG_EL_PARSER,
+                     expressionParser );
+
         Object o = parser.parse( context );
 
         assertNotNull( o );
+
+        ParseError[] errors = parser.parseErrors();
+
+        if ( errors.length != 0 )
+        {
+            for ( int i = 0 ; i < errors.length ; i++ )
+            {
+                System.err.println( errors[i] );
+            }
+        }
 
         assertEquals( 0,
                       parser.parseErrors().length );
