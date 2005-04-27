@@ -1,0 +1,44 @@
+<workflow id="hanoi-solver"
+         xmlns="http://werkflow.codehaus.org/simple"
+         xmlns:c="tagalog:core"
+         xmlns:tagalog="http://werkflow.codehaus.org/tagalog">
+
+    <tagalog:action>
+        <c:out value="height ${height}"/>
+
+        <c:set var="n" value="${1}"/>
+    </tagalog:action>
+    <while test="n lt @@pow(2, height)">
+        <sequence>
+            <tagalog:action>
+                <c:set var="diskNum" value="${1}"/>
+                <c:set var="m" value="${n}"/>
+            </tagalog:action>
+            <while test="(m % 2) == 0">
+                <tagalog:action>
+                    <c:set var="diskNum" value="${diskNum+1}"/>
+                    <c:set var="m" value="${m/2}"/>
+                </tagalog:action>
+            </while>
+            <choose>
+                <when test="(diskNum % 2) == 1">
+                    <tagalog:action>
+                        <c:out value="move disk ${diskNum} clockwise"/>
+                    </tagalog:action>
+                </when>
+                <otherwise>
+                    <tagalog:action>
+                        <c:out value="move disk ${diskNum} counter-clockwise"/>
+                    </tagalog:action>
+                </otherwise>
+            </choose>
+            <tagalog:action>
+                <c:set var="n" value="${n+1}"/>
+            </tagalog:action>
+        </sequence>
+    </while>
+    <tagalog:action>
+      <c:out value="done"/>
+    </tagalog:action>
+
+</workflow>
