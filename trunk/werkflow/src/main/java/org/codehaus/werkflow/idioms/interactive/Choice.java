@@ -11,7 +11,6 @@ public class Choice
     public Choice(String id)
     {
         this.id   = id;
-        this.body = body;
     }
 
     public String getId()
