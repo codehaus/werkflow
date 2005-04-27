@@ -1,25 +1,15 @@
 package org.codehaus.werkflow.spi;
 
-import org.codehaus.werkflow.Engine;
-import org.codehaus.werkflow.Workflow;
-import org.codehaus.werkflow.ReadOnlyInstance;
-import org.codehaus.werkflow.InitialContext;
-import org.codehaus.werkflow.NoSuchWorkflowException;
-import org.codehaus.werkflow.AssumptionViolationError;
-import org.codehaus.werkflow.spi.SatisfactionSpec;
-
 import java.io.Serializable;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.Collections;
-import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+
+import org.codehaus.werkflow.AssumptionViolationError;
+import org.codehaus.werkflow.InitialContext;
+import org.codehaus.werkflow.ReadOnlyInstance;
+import org.codehaus.werkflow.Workflow;
 
 public class RobustInstance
     implements ReadOnlyInstance, Instance, Serializable
@@ -82,7 +72,7 @@ public class RobustInstance
 
     public Map getContextMap()
     {
-        return Collections.unmodifiableMap( this.state.getContext() );
+        return this.state.getContext();
     }
 
     public synchronized Path[] getActiveChildren(Path path)
