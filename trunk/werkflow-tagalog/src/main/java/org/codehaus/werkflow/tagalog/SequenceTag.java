@@ -37,7 +37,10 @@ public class SequenceTag
     {
         if ( child instanceof Component )
         {
-            sequence.addStep( (Component) child );
+            if ( sequence != null )
+            {
+                sequence.addStep( (Component) child );
+            }
         }
         else
         {

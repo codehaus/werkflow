@@ -52,7 +52,10 @@ public class WhileTag
     {
         Sequence sequence = (Sequence) super.end( elementName );
 
-        whileComponent.setBody( sequence );
+        if ( whileComponent != null )
+        {
+            whileComponent.setBody( sequence );
+        }
 
         return whileComponent;
     }
