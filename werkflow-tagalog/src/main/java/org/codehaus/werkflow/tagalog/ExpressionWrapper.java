@@ -7,8 +7,9 @@ package org.codehaus.werkflow.tagalog;
 import org.codehaus.tagalog.el.Expression;
 import org.codehaus.tagalog.el.ExpressionEvaluationException;
 import org.codehaus.tagalog.el.ExpressionParseException;
-import org.codehaus.tagalog.el.ExpressionParser;
+import org.codehaus.tagalog.el.SimpleExpressionParser;
 import org.codehaus.tagalog.el.ognl.OgnlExpressionParser;
+
 import org.codehaus.werkflow.Context;
 
 /**
@@ -49,7 +50,7 @@ public class ExpressionWrapper
         return false;
     }
 
-    private static ExpressionParser parser = new OgnlExpressionParser();
+    private static SimpleExpressionParser parser = new OgnlExpressionParser();
 
     public static ExpressionWrapper newExpression(String text)
         throws ExpressionParseException
