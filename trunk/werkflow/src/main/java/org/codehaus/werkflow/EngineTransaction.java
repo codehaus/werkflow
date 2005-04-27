@@ -5,7 +5,6 @@ import org.codehaus.werkflow.DuplicateInstanceException;
 import org.codehaus.werkflow.NoSuchWorkflowException;
 import org.codehaus.werkflow.AssumptionViolationError;
 import org.codehaus.werkflow.spi.Path;
-import org.codehaus.werkflow.spi.RobustInstance;
 import org.codehaus.werkflow.spi.RobustTransaction;
 import org.codehaus.werkflow.spi.SatisfactionValues;
 
@@ -148,10 +147,10 @@ public class EngineTransaction
     {
         try
         {
-            getEngine().satisfy(this,
-                                getInstanceId(),
-                                satisfactionId,
-                                values );
+            getEngine().satisfy( this,
+                                 getInstanceId(),
+                                 satisfactionId,
+                                 values );
         }
         catch (Exception e)
         {
