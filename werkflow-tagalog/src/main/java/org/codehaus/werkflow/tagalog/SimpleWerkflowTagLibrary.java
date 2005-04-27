@@ -20,8 +20,8 @@ public class SimpleWerkflowTagLibrary
     public static final TagBinding SEQUENCE     = new TagBinding( "sequence",     SequenceTag.class );
     public static final TagBinding PARALLEL     = new TagBinding( "parallel",     ParallelTag.class );
     public static final TagBinding IF           = new TagBinding( "if",           IfTag.class );
-    public static final TagBinding THEN         = new TagBinding( "then",         ThenTag.class );
-    public static final TagBinding ELSE         = new TagBinding( "else",         ElseTag.class );
+    public static final TagBinding THEN         = new TagBinding( "then",         ThenElseTag.class );
+    public static final TagBinding ELSE         = new TagBinding( "else",         ThenElseTag.class );
     public static final TagBinding WHILE        = new TagBinding( "while",        WhileTag.class );
     public static final TagBinding SATISFACTION = new TagBinding( "satisfaction", SatisfactionTag.class );
     public static final TagBinding ACTION       = new TagBinding( "action",       ActionTag.class );
