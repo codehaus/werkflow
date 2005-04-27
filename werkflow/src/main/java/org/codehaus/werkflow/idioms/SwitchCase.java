@@ -120,26 +120,3 @@ public class SwitchCase
         return children;
     }
 }
-
-class CaseEntry
-{
-    private Expression caseExpr;
-    private Component branch;
-
-    CaseEntry(Expression caseExpr,
-              Component branch)
-    {
-        this.caseExpr = caseExpr;
-        this.branch = branch;
-    }
-
-    Expression getCaseExpression()
-    {
-        return this.caseExpr;
-    }
-
-    Component getBranch()
-    {
-        return this.branch;
-    }
-}
