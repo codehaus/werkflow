@@ -6,7 +6,9 @@ package org.codehaus.werkflow.tagalog;
 
 import org.codehaus.tagalog.AbstractTag;
 import org.codehaus.tagalog.Attributes;
+import org.codehaus.tagalog.TagBinding;
 import org.codehaus.tagalog.TagException;
+import org.codehaus.tagalog.TagalogParseException;
 import org.codehaus.tagalog.el.ExpressionParseException;
 import org.codehaus.werkflow.idioms.IfElse;
 import org.codehaus.werkflow.spi.Component;
@@ -42,31 +44,32 @@ public class IfTag
         }
     }
 
-    public void setTrueBody(Component trueBody)
-        throws TagException
+    public void child(TagBinding childType, Object child)
+        throws TagException, TagalogParseException
     {
-        if ( ifElse.getTrueBody() != null )
+        if ( childType == SimpleWerkflowTagLibrary.THEN )
         {
-            throw new TagException( "<then> may be specified at most once" );
+            if ( ifElse.getTrueBody() != null )
+            {
+                throw new TagException( "<then> may be specified at most once" );
+            }
+
+            ifElse.setTrueBody( (Component) child );
         }
-
-        ifElse.setTrueBody( trueBody );
-    }
-
-    public void setFalseBody(Component falseBody)
-        throws TagException
-    {
-        if ( ifElse.getTrueBody() == null )
+        else if ( childType == SimpleWerkflowTagLibrary.ELSE )
         {
-            throw new TagException( "<then> must come before <else>" );
-        }
+            if ( ifElse.getTrueBody() == null )
+            {
+                throw new TagException( "<then> must come before <else>" );
+            }
 
-        if ( ifElse.getFalseBody() != null )
-        {
-            throw new TagException( "<else> may be specified at most once" );
-        }
+            if ( ifElse.getFalseBody() != null )
+            {
+                throw new TagException( "<else> may be specified at most once" );
+            }
 
-        ifElse.setFalseBody( falseBody );
+            ifElse.setFalseBody( (Component) child );
+        }
     }
 
     public Object end(String elementName)
