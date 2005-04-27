@@ -7,10 +7,10 @@ public class Engine
 {
     private static final ThreadLocal threadEngine = new ThreadLocal();
 
+    private PersistenceManager persistenceManager;
     private WorkflowManager workflowManager;
     private SatisfactionManager satisfactionManager;
     private InstanceManager instanceManager;
-    private PersistenceManager persistenceManager;
 
     private Locker locker;
 
@@ -22,14 +22,21 @@ public class Engine
 
     public Engine()
     {
-        this.workflowManager = new SimpleWorkflowManager();
-        this.instanceManager = new SimpleInstanceManager();
-
         this.locker = new Locker();
+    }
+
+    private void assertNotStarted()
+    {
+        if ( isStarted() )
+        {
+            throw new IllegalStateException( "engine started" );
+        }
     }
 
     public void setPersistenceManager(PersistenceManager persistenceManager)
     {
+        assertNotStarted();
+
         this.persistenceManager = persistenceManager;
     }
 
@@ -40,6 +47,8 @@ public class Engine
 
     public void setWorkflowManager(WorkflowManager workflowManager)
     {
+        assertNotStarted();
+
         this.workflowManager = workflowManager;
     }
 
@@ -50,6 +59,8 @@ public class Engine
 
     public void setSatisfactionManager(SatisfactionManager satisfactionManager)
     {
+        assertNotStarted();
+
         this.satisfactionManager = satisfactionManager;
     }
 
@@ -60,6 +71,8 @@ public class Engine
 
     public void setInstanceManager(InstanceManager instanceManager)
     {
+        assertNotStarted();
+
         this.instanceManager = instanceManager;
     }
 
@@ -75,24 +88,44 @@ public class Engine
 
     public void setScheduler(Scheduler scheduler)
     {
-        if ( isStarted() )
-        {
-            throw new IllegalStateException( "engine started" );
-        }
+        assertNotStarted();
 
         this.scheduler = scheduler;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    public Scheduler getScheduler()
+    {
+        return this.scheduler;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public void start()
     {
-        System.out.println("Starting engine");
-
-        if ( scheduler == null )
+        if ( this.persistenceManager == null )
         {
-            scheduler = new ThreadPoolScheduler( 4 );
+            this.persistenceManager = new SimplePersistenceManager();
+        }
+
+        if ( this.workflowManager == null )
+        {
+            this.workflowManager = new SimpleWorkflowManager();
+        }
+
+        if ( this.satisfactionManager == null )
+        {
+            this.satisfactionManager = new SimpleSatisfactionManager();
+        }
+
+        if ( this.instanceManager == null )
+        {
+            this.instanceManager = new SimpleInstanceManager();
+        }
+
+        if ( this.scheduler == null )
+        {
+            this.scheduler = new ThreadPoolScheduler( 4 );
         }
 
         this.scheduler.start( this );
@@ -107,15 +140,13 @@ public class Engine
 
     public void stop()
     {
-        System.out.println("Stopping engine");
-
         this.scheduler.stop( this );
 
         started = false;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     void newInstance(RobustTransaction transaction,
                      String workflowId,
@@ -127,9 +158,9 @@ public class Engine
         {
             throw new DuplicateInstanceException( instanceId );
         }
-        
+
         Workflow workflow = getWorkflowManager().getWorkflow( workflowId );
-        
+
         RobustInstance instance = getInstanceManager().newInstance( workflow,
                                                                     instanceId,
                                                                     initialContext );
@@ -146,12 +177,12 @@ public class Engine
         {
             throw new NoSuchInstanceException( id );
         }
-        
+
         // This is okay to be non-transactional
         //
         // We're only inspecting recently-added instances to
         // see if we can't get'em into the quee to do some work.
-        
+
         RobustInstance instance = getInstanceManager().getInstance( id );
 
         Path nextPath = instance.getNextPath();
@@ -161,14 +192,14 @@ public class Engine
             enqueue( instance.getId(),
                      nextPath );
         }
-        
+
         /*
         Path[] leaves = instance.getLeaves();
-        
+
         for ( int i = 0 ; i < leaves.length ; ++i )
         {
             Component component = instance.getWorkflow().getComponent( leaves[ i ] );
-            
+
             if ( component instanceof Satisfaction )
             {
                 enqueue( instance,
@@ -227,11 +258,11 @@ public class Engine
         throws Exception
     {
         RobustInstance instance = getInstanceManager().getInstance( instanceId );
-        
+
         Workflow workflow = instance.getWorkflow();
-        
+
         Component component = workflow.getComponent( path );
-        
+
         if ( component instanceof Workflow )
         {
             runWorkflow( transaction,
@@ -260,7 +291,7 @@ public class Engine
         }
         else if ( component instanceof SyncComponent )
         {
-            
+
             runSyncComponent( transaction,
                               instance,
                               path,
@@ -276,7 +307,7 @@ public class Engine
     {
         start( instance,
                path.childPath( 0 ) );
-               
+
     }
 
     void runSatisfaction(RobustTransaction transaction,
@@ -304,7 +335,7 @@ public class Engine
         throws NoSuchInstanceException, Exception
     {
         Workflow workflow = instance.getWorkflow();
-        
+
         Satisfaction satisfaction = (Satisfaction) workflow.getComponent( path.parentPath() );
 
         SatisfactionValues values = getSatisfactionManager().getSatisfactionValues( satisfaction.getId(),
@@ -330,7 +361,7 @@ public class Engine
     {
         Path[] nextPaths = asyncComponent.begin( instance,
                                                  path );
-        
+
         if ( nextPaths != null
              &&
              nextPaths.length > 0 )
@@ -338,7 +369,7 @@ public class Engine
             start( instance,
                    nextPaths );
         }
-        else 
+        else
         {
             end( instance,
                  path );
@@ -358,7 +389,7 @@ public class Engine
         {
             // handle error;
         }
-        
+
         end( instance,
              path );
     }
@@ -389,16 +420,16 @@ public class Engine
 
         //System.err.println( "added pending: " + satisfactionId );
         instance.addPendingSatisfactionId( satisfactionId );
-        
+
         Workflow workflow = instance.getWorkflow();
-        
+
         Path satisfactionPath = workflow.getSatisfactionPath( satisfactionId );
-        
+
         Satisfaction satisfaction = (Satisfaction) workflow.getComponent( satisfactionPath );
-        
+
         Path[] nextPaths = satisfaction.begin( instance,
                                                satisfactionPath );
-        
+
         if ( nextPaths != null
              &&
              nextPaths.length > 0 )
@@ -418,8 +449,8 @@ public class Engine
         transaction.addSatisfiedInstanceId( instanceId );
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     void start(RobustInstance instance)
     {
@@ -468,16 +499,16 @@ public class Engine
         }
 
         Component parent = (AsyncComponent) workflow.getComponent( parentPath );
-        
+
         if ( parent instanceof AsyncComponent )
         {
             Path nextPath = ((AsyncComponent)parent).endChild( instance,
                                                                path );
-            
+
             while ( nextPath.equals( AsyncComponent.NONE ) )
             {
                 instance.pop( path );
-                
+
                 path = path.parentPath();
 
                 if ( path == null )
@@ -492,9 +523,9 @@ public class Engine
                     instance.setComplete( true );
                     break;
                 }
-                
+
                 parent = workflow.getComponent( parentPath );
-                
+
                 if ( parent instanceof AsyncComponent )
                 {
                     nextPath = ((AsyncComponent)parent).endChild( instance,
@@ -536,8 +567,8 @@ public class Engine
         }
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public synchronized Transaction beginTransaction(String workflowId,
                                                      String instanceId,
@@ -638,7 +669,7 @@ public class Engine
                     e.printStackTrace();
                 }
             }
-            
+
             String[] satisfiedInstanceIds = transaction.getSatisfiedInstanceIds();
 
             for ( int i = 0 ; i < satisfiedInstanceIds.length ; ++i )
@@ -697,8 +728,8 @@ public class Engine
         setThreadEngine( this );
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public static Engine getThreadEngine()
     {
