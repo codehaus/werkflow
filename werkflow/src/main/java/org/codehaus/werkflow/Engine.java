@@ -20,18 +20,18 @@ public class Engine
 
     private int transactionCounter;
 
+    // ----------------------------------------------------------------------
+    // Constructor
+    // ----------------------------------------------------------------------
+
     public Engine()
     {
         this.locker = new Locker();
     }
 
-    private void assertNotStarted()
-    {
-        if ( isStarted() )
-        {
-            throw new IllegalStateException( "engine started" );
-        }
-    }
+    // ----------------------------------------------------------------------
+    // Public interface for wiring up components
+    // ----------------------------------------------------------------------
 
     public void setPersistenceManager(PersistenceManager persistenceManager)
     {
@@ -147,6 +147,14 @@ public class Engine
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    private void assertNotStarted()
+    {
+        if ( isStarted() )
+        {
+            throw new IllegalStateException( "engine started" );
+        }
+    }
 
     void newInstance(RobustTransaction transaction,
                      String workflowId,

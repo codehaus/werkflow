@@ -6,6 +6,8 @@ import org.codehaus.werkflow.spi.Expression;
 import ognl.Ognl;
 import ognl.OgnlException;
 
+import java.io.File;
+
 class OgnlExpression
     implements Expression
 {
@@ -49,6 +51,6 @@ class OgnlExpression
 
     public String toString()
     {
-        return this.expression.toString();
+        return this.expression.toString();        
     }
 }

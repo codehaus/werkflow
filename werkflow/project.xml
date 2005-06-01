@@ -3,7 +3,7 @@
     <name>Werkflow</name>
     <groupId>werkflow</groupId>
     <artifactId>werkflow</artifactId>
-    <currentVersion>2.0-alpha-1</currentVersion>
+    <currentVersion>2.0-alpha-2-SNAPSHOT</currentVersion>
     <organization>
         <name>The Codehaus</name>
         <url>http://www.codehaus.org</url>

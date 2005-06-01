@@ -15,19 +15,9 @@ public class InitialContext
         this.context = new HashMap();
     }
 
-    public final String getWorkflowId()
+    public InitialContext( Map context )
     {
-        return "";
-    }
-
-    public final String getId()
-    {
-        return "";
-    }
-
-    public final boolean isComplete()
-    {
-        return false;
+        this.context = context;
     }
 
     public InitialContext(Properties props)
@@ -44,6 +34,22 @@ public class InitialContext
                  value );
         }
     }
+
+    public final String getWorkflowId()
+    {
+        return "";
+    }
+
+    public final String getId()
+    {
+        return "";
+    }
+
+    public final boolean isComplete()
+    {
+        return false;
+    }
+
 
     public void set(String name,
                     Object value)
