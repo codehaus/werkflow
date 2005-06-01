@@ -277,10 +277,7 @@ public class Engine
         }
         catch (Exception e)
         {
-            if ( errorHandler != null )
-            {
-                errorHandler.handle( e );
-            }
+            handleError( e );
         }
         finally
         {
@@ -293,6 +290,22 @@ public class Engine
             {
                 transaction.rollback();
             }
+        }
+    }
+
+    void handleError( Throwable throwable )
+    {
+        if ( errorHandler != null )
+        {
+            errorHandler.handle( throwable );
+        }
+        else
+        {
+            // ----------------------------------------------------------------------
+            // At least throw the error out on the console
+            // ----------------------------------------------------------------------
+
+            throwable.printStackTrace();
         }
     }
 
@@ -391,7 +404,7 @@ public class Engine
         }
         catch (Exception e)
         {
-            // handle error;
+            handleError( e );
         }
 
         end( instance,
@@ -424,15 +437,9 @@ public class Engine
                           RobustInstance instance,
                           Path path,
                           SyncComponent syncComponent)
+        throws Exception
     {
-        try
-        {
             syncComponent.perform( instance );
-        }
-        catch (Exception e)
-        {
-            // handle error;
-        }
 
         end( instance,
              path );
@@ -710,7 +717,7 @@ public class Engine
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    handleError( e );
                 }
             }
 
@@ -728,13 +735,13 @@ public class Engine
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                    handleError( e );
                 }
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            handleError( e );
         }
         finally
         {

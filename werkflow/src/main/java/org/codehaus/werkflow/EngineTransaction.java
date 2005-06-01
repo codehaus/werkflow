@@ -154,7 +154,7 @@ public class EngineTransaction
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            getEngine().getErrorHandler().handle( e );
         }
     }
 }
