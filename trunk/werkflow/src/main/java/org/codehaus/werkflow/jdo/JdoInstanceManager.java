@@ -22,7 +22,6 @@ public class JdoInstanceManager
 {
     public JdoInstanceManager()
     {
-
     }
 
     public RobustInstance newInstance(Workflow workflow,
