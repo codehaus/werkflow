@@ -13,4 +13,10 @@ public interface Instance
     Path[] getActiveChildren(Path path);
 
     public SatisfactionSpec[] getBlockedSatisfactions();
+
+    void setError( Throwable error );
+
+    Throwable getError();
+
+    boolean hasError();
 }
