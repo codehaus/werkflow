@@ -7,6 +7,7 @@ import org.codehaus.werkflow.helpers.SimpleWorkflowManager;
 import org.codehaus.werkflow.helpers.ThreadPoolScheduler;
 import org.codehaus.werkflow.spi.AsyncComponent;
 import org.codehaus.werkflow.spi.Component;
+import org.codehaus.werkflow.spi.ErrorHandler;
 import org.codehaus.werkflow.spi.InstanceManager;
 import org.codehaus.werkflow.spi.Path;
 import org.codehaus.werkflow.spi.PersistenceManager;
@@ -19,7 +20,7 @@ import org.codehaus.werkflow.spi.Satisfier;
 import org.codehaus.werkflow.spi.Scheduler;
 import org.codehaus.werkflow.spi.SyncComponent;
 import org.codehaus.werkflow.spi.WorkflowManager;
-import org.codehaus.werkflow.spi.ErrorHandler;
+import org.codehaus.werkflow.spi.Instance;
 
 public class Engine
 {
@@ -277,7 +278,7 @@ public class Engine
         }
         catch (Exception e)
         {
-            handleError( e );
+            handleError( e, task.getInstanceId() );
         }
         finally
         {
@@ -293,11 +294,26 @@ public class Engine
         }
     }
 
-    void handleError( Throwable throwable )
+    void handleError( Throwable error, String instanceId  )
     {
+        try
+        {
+            handleError( error, instanceManager.getInstance( instanceId ) );
+        }
+        catch ( Exception e )
+        {
+            // this should not happen as we got the instance id from a valid source.
+        }
+
+    }
+
+    void handleError( Throwable error, Instance instance  )
+    {
+        instance.setError( error );
+
         if ( errorHandler != null )
         {
-            errorHandler.handle( throwable );
+            errorHandler.handle( error );
         }
         else
         {
@@ -305,7 +321,7 @@ public class Engine
             // At least throw the error out on the console
             // ----------------------------------------------------------------------
 
-            throwable.printStackTrace();
+            error.printStackTrace();
         }
     }
 
@@ -404,7 +420,7 @@ public class Engine
         }
         catch (Exception e)
         {
-            handleError( e );
+            handleError( e, instance );
         }
 
         end( instance,
@@ -717,7 +733,7 @@ public class Engine
                 }
                 catch (Exception e)
                 {
-                    handleError( e );
+                    handleError( e, transaction.getInstanceId() );
                 }
             }
 
@@ -735,13 +751,13 @@ public class Engine
                 }
                 catch (Exception e)
                 {
-                    handleError( e );
+                    handleError( e, transaction.getInstanceId() );
                 }
             }
         }
         catch (Exception e)
         {
-            handleError( e );
+            handleError( e, transaction.getInstanceId() );
         }
         finally
         {

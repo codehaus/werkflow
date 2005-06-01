@@ -14,6 +14,8 @@ import org.codehaus.werkflow.Workflow;
 public class RobustInstance
     implements ReadOnlyInstance, Instance, Serializable
 {
+    private Throwable error;
+
     private RobustInstanceState state;
 
     public RobustInstance(RobustInstanceState state)
@@ -31,6 +33,21 @@ public class RobustInstance
         this.state.setWorkflowId( workflow.getId() );
         this.state.setId( id );
         this.state.setContext( new HashMap( context.getContextMap()  ) );
+    }
+
+    public boolean hasError()
+    {
+        return ( error != null );
+    }
+
+    public void setError( Throwable error )
+    {
+        this.error = error;
+    }
+
+    public Throwable getError()
+    {
+        return error;
     }
 
     public RobustInstanceState getState()
