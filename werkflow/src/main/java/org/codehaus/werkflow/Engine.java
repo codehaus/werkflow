@@ -1,20 +1,43 @@
 package org.codehaus.werkflow;
 
-import org.codehaus.werkflow.spi.*;
-import org.codehaus.werkflow.helpers.*;
+import org.codehaus.werkflow.helpers.SimpleInstanceManager;
+import org.codehaus.werkflow.helpers.SimplePersistenceManager;
+import org.codehaus.werkflow.helpers.SimpleSatisfactionManager;
+import org.codehaus.werkflow.helpers.SimpleWorkflowManager;
+import org.codehaus.werkflow.helpers.ThreadPoolScheduler;
+import org.codehaus.werkflow.spi.AsyncComponent;
+import org.codehaus.werkflow.spi.Component;
+import org.codehaus.werkflow.spi.InstanceManager;
+import org.codehaus.werkflow.spi.Path;
+import org.codehaus.werkflow.spi.PersistenceManager;
+import org.codehaus.werkflow.spi.RobustInstance;
+import org.codehaus.werkflow.spi.RobustTransaction;
+import org.codehaus.werkflow.spi.Satisfaction;
+import org.codehaus.werkflow.spi.SatisfactionManager;
+import org.codehaus.werkflow.spi.SatisfactionValues;
+import org.codehaus.werkflow.spi.Satisfier;
+import org.codehaus.werkflow.spi.Scheduler;
+import org.codehaus.werkflow.spi.SyncComponent;
+import org.codehaus.werkflow.spi.WorkflowManager;
+import org.codehaus.werkflow.spi.ErrorHandler;
 
 public class Engine
 {
     private static final ThreadLocal threadEngine = new ThreadLocal();
 
     private PersistenceManager persistenceManager;
+
     private WorkflowManager workflowManager;
+
     private SatisfactionManager satisfactionManager;
+
     private InstanceManager instanceManager;
 
     private Locker locker;
 
     private Scheduler scheduler;
+
+    private ErrorHandler errorHandler;
 
     private boolean started = false;
 
@@ -96,6 +119,16 @@ public class Engine
     public Scheduler getScheduler()
     {
         return this.scheduler;
+    }
+
+    public ErrorHandler getErrorHandler()
+    {
+        return errorHandler;
+    }
+
+    public void setErrorHandler( ErrorHandler errorHandler )
+    {
+        this.errorHandler = errorHandler;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -244,7 +277,10 @@ public class Engine
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            if ( errorHandler != null )
+            {
+                errorHandler.handle( e );
+            }
         }
         finally
         {
