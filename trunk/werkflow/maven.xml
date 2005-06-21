@@ -11,7 +11,6 @@
     </j:if>
   </postGoal>
 
-
   <goal name="werkflow:objectdb_enhance">
     <java classname="com.objectdb.Enhancer" fork="true">
       <classpath>
