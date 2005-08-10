@@ -1,40 +1,46 @@
 package org.codehaus.werkflow.simple;
 
-import org.codehaus.werkflow.Workflow;
-import org.codehaus.werkflow.idioms.*;
-import org.codehaus.werkflow.idioms.interactive.*;
-import org.codehaus.werkflow.spi.*;
-import org.codehaus.werkflow.helpers.*;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import java.io.InputStream;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Properties;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import org.codehaus.werkflow.Workflow;
+import org.codehaus.werkflow.helpers.SimpleSatisfaction;
+import org.codehaus.werkflow.idioms.IfElse;
+import org.codehaus.werkflow.idioms.Parallel;
+import org.codehaus.werkflow.idioms.Sequence;
+import org.codehaus.werkflow.idioms.While;
+import org.codehaus.werkflow.idioms.interactive.Choice;
+import org.codehaus.werkflow.idioms.interactive.MultipleChoice;
+import org.codehaus.werkflow.idioms.interactive.Task;
+import org.codehaus.werkflow.spi.Component;
+import org.codehaus.werkflow.spi.Expression;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
+/*
+ * $Id$
+ */
 public class SimpleWorkflowReader
     extends DefaultHandler
 {
     private ActionManager actionManager;
     private ExpressionFactory exprFactory;
-    private Workflow workflow;
     private Locator locator;
     private LinkedList stack;
 
-    public SimpleWorkflowReader(ActionManager actionManager,
+    private SimpleWorkflowReader(ActionManager actionManager,
                                 ExpressionFactory exprFactory)
     {
         this.actionManager = actionManager;
@@ -88,7 +94,6 @@ public class SimpleWorkflowReader
                              Attributes attrs)
         throws SAXException
     {
-        //System.err.println( "startElement(" + localName + ")" );
         if ( ! uri.equals( "http://werkflow.codehaus.org/simple" ) )
         {
             throw new SAXParseException( "unsupported namespace: " + uri,
