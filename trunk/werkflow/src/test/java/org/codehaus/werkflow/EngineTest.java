@@ -33,6 +33,8 @@ public class EngineTest
         assertNotNull( engine.getSatisfactionManager() );
         assertNotNull( engine.getInstanceManager() );
         assertNotNull( engine.getScheduler() );
+        assertTrue( engine.isStarted() );
+
     }
 
     public void testConfiguredEngineStart()
@@ -63,6 +65,7 @@ public class EngineTest
                       engine.getInstanceManager() );
         assertEquals( scheduler,
                       engine.getScheduler() );
+        assertTrue( engine.isStarted() );
     }
 
     public void testPostStartConfiguration()
