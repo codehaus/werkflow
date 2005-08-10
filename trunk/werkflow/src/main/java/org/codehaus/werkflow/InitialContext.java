@@ -50,7 +50,6 @@ public class InitialContext
         return false;
     }
 
-
     public void set(String name,
                     Object value)
     {
@@ -68,5 +67,4 @@ public class InitialContext
         return this.context;
     }
 
-        
 }
